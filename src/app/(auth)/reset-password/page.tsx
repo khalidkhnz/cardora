@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
-import { authClient } from "@/server/better-auth/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,7 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Suspense } from "react";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -24,6 +22,25 @@ function ResetPasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [validating, setValidating] = useState(true);
+  const [tokenValid, setTokenValid] = useState(false);
+
+  useEffect(() => {
+    if (!token) {
+      setValidating(false);
+      return;
+    }
+
+    fetch(`/api/auth/verify-reset-token?token=${token}`)
+      .then((res) => res.json() as Promise<{ valid: boolean }>)
+      .then((data) => {
+        setTokenValid(data.valid);
+        setValidating(false);
+      })
+      .catch(() => {
+        setValidating(false);
+      });
+  }, [token]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -33,28 +50,49 @@ function ResetPasswordForm() {
       return;
     }
 
-    if (!token) {
-      toast.error("Invalid reset link");
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters");
       return;
     }
 
     setLoading(true);
 
     try {
-      await authClient.resetPassword({
-        newPassword: password,
-        token,
+      const res = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, newPassword: password }),
       });
+
+      const data = (await res.json()) as { error?: string; message?: string };
+
+      if (!res.ok) {
+        toast.error(data.error ?? "Failed to reset password");
+        return;
+      }
+
       toast.success("Password reset successfully");
       router.push("/login");
     } catch {
-      toast.error("Failed to reset password. The link may have expired.");
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
   }
 
-  if (!token) {
+  if (validating) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6 text-center">
+            <p className="text-muted-foreground">Validating reset link...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!token || !tokenValid) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
         <Card className="w-full max-w-md">

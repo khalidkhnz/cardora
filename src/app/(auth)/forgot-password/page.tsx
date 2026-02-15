@@ -24,14 +24,15 @@ export default function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/forget-password", {
+      const res = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, redirectTo: "/reset-password" }),
+        body: JSON.stringify({ email }),
       });
 
       if (!res.ok) {
-        toast.error("Failed to send reset email");
+        const data = (await res.json()) as { error?: string };
+        toast.error(data.error ?? "Something went wrong");
         return;
       }
 
