@@ -19,10 +19,13 @@ export const env = createEnv({
       .optional(),
     SMTP_USER: z.string().optional(),
     SMTP_PASS: z.string().optional(),
+    STRIPE_SECRET_KEY: z.string().optional(),
+    STRIPE_WEBHOOK_SECRET: z.string().optional(),
   },
 
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url().optional(),
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().optional(),
   },
 
   runtimeEnv: {
@@ -35,6 +38,10 @@ export const env = createEnv({
     SMTP_SECURE: process.env.SMTP_SECURE,
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   },
 
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

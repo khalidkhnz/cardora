@@ -1,0 +1,111 @@
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api-client";
+import { userKeys } from "./use-user";
+
+interface Payment {
+  id: string;
+  userId: string;
+  amount: number;
+  currency: string;
+  paymentMethod: string;
+  stripeSessionId: string | null;
+  status: string;
+  purpose: string;
+  payerEmail: string | null;
+  itemData: Record<string, unknown> | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface CreateSessionResponse {
+  url: string;
+}
+
+interface VerifyResponse {
+  status: string;
+  amount?: number;
+  currency?: string;
+}
+
+export const paymentKeys = {
+  all: ["payment"] as const,
+  history: () => [...paymentKeys.all, "history"] as const,
+};
+
+export function usePaymentHistory() {
+  return useQuery({
+    queryKey: paymentKeys.history(),
+    queryFn: () => apiClient<Payment[]>("/api/payment/history"),
+  });
+}
+
+export function useCreateStripeSession() {
+  return useMutation({
+    mutationFn: (data: {
+      amount: number;
+      currency: string;
+      purpose: string;
+      payerEmail?: string;
+    }) =>
+      apiClient<CreateSessionResponse>("/api/payment/create-stripe-session", {
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    onSuccess: (data) => {
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    },
+  });
+}
+
+export function useCreateCartSession() {
+  return useMutation({
+    mutationFn: (data: {
+      items: { name: string; quantity: number; unitPrice: number }[];
+      currency: string;
+    }) =>
+      apiClient<CreateSessionResponse>("/api/payment/create-cart-session", {
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    onSuccess: (data) => {
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    },
+  });
+}
+
+export function useVerifyPayment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (sessionId: string) =>
+      apiClient<VerifyResponse>("/api/payment/verify", {
+        method: "POST",
+        body: JSON.stringify({ sessionId }),
+      }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: paymentKeys.history() });
+      void queryClient.invalidateQueries({ queryKey: userKeys.profile() });
+    },
+  });
+}
+
+export function useVerifyAndUnlockPayment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { sessionId: string; type: "card" | "invite" }) =>
+      apiClient<{ success: boolean; status: string }>(
+        "/api/unlock/verify-payment",
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+        },
+      ),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: paymentKeys.history() });
+      void queryClient.invalidateQueries({ queryKey: userKeys.profile() });
+    },
+  });
+}

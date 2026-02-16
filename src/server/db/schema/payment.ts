@@ -19,7 +19,16 @@ export const payment = createTable("payment", {
     .$type<"pending" | "completed" | "failed" | "refunded">()
     .default("pending")
     .notNull(),
-  purpose: text("purpose").$type<"card" | "invite" | "payment">().notNull(),
+  purpose: text("purpose")
+    .$type<
+      | "card_unlock"
+      | "business_card"
+      | "invite_unlock"
+      | "animated_invite"
+      | "cart_checkout"
+      | "payment"
+    >()
+    .notNull(),
   payerEmail: text("payer_email"),
   itemData: jsonb("item_data").$type<Record<string, unknown>>(),
   createdAt: timestamp("created_at")

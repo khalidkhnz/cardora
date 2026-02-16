@@ -12,7 +12,16 @@ export const analyticsEvent = createTable("analytics_event", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   type: text("type")
-    .$type<"profile_view" | "qr_scan" | "nfc_tap" | "link_click">()
+    .$type<
+      | "profile_view"
+      | "payment_view"
+      | "payment_success"
+      | "qr_scan"
+      | "nfc_tap"
+      | "link_click"
+      | "cart_payment_view"
+      | "cart_payment_success"
+    >()
     .notNull(),
   deviceType: text("device_type").$type<"mobile" | "tablet" | "desktop">(),
   userAgent: text("user_agent"),

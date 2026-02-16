@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ShareSection } from "@/components/dashboard/share-section";
 
 export const metadata = {
   title: "Dashboard — Cardora",
@@ -112,6 +113,24 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Share section */}
+      {hasProfile && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Share Your Card</CardTitle>
+            <CardDescription>
+              Share your digital card via QR code, NFC, or link
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ShareSection
+              username={profile?.username ?? ""}
+              baseUrl={process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}
+            />
+          </CardContent>
+        </Card>
+      )}
 
       {/* Getting started */}
       {!hasProfile && (

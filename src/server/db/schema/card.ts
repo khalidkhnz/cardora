@@ -12,7 +12,9 @@ export const cardSettings = createTable("card_settings", {
     .notNull()
     .unique()
     .references(() => user.id, { onDelete: "cascade" }),
-  cardType: text("card_type").$type<"business" | "wedding">().default("business"),
+  cardType: text("card_type")
+    .$type<"business" | "wedding" | "engagement" | "anniversary">()
+    .default("business"),
   collection: text("collection"),
   selectedTemplateId: text("selected_template_id"),
   weddingDate: text("wedding_date"),

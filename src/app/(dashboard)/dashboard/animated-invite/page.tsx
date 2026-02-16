@@ -1,14 +1,6 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+"use client";
 
-export const metadata = {
-  title: "Animated Invite — Cardora",
-};
+import { AnimatedInviteEditor } from "@/components/animated-invite/animated-invite-editor";
 
 export default function AnimatedInvitePage() {
   return (
@@ -19,20 +11,8 @@ export default function AnimatedInvitePage() {
           Create beautiful animated wedding invitations
         </p>
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Coming Soon</CardTitle>
-          <CardDescription>
-            The animated invite editor with cinematic templates is being built.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            You&apos;ll be able to choose from 17+ animated templates with custom
-            music, galleries, and RSVP integration.
-          </p>
-        </CardContent>
-      </Card>
+
+      <AnimatedInviteEditor />
     </div>
   );
 }

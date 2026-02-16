@@ -26,7 +26,7 @@ export const updateProfileSchema = z.object({
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
 
 export const updateCardSettingsSchema = z.object({
-  cardType: z.enum(["business", "wedding"]).optional(),
+  cardType: z.enum(["business", "wedding", "engagement", "anniversary"]).optional(),
   collection: z.string().optional().nullable(),
   selectedTemplateId: z.string().optional().nullable(),
   weddingDate: z.string().optional().nullable(),

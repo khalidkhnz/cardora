@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DashboardSidebar } from "./dashboard-sidebar";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { APP_NAME } from "@/lib/constants";
 
 interface DashboardLayoutProps {
@@ -78,6 +79,8 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
             <span className="text-xl font-bold lg:hidden">{APP_NAME}</span>
           </div>
 
+          <div className="flex items-center gap-2">
+          <ThemeToggle />
           {/* User menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -108,6 +111,7 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         </header>
 
         {/* Page content */}
