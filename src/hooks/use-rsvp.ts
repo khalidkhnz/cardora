@@ -67,7 +67,7 @@ export function useDeleteRSVP() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (rsvpId: string) =>
-      apiClient(`/api/rsvp/${rsvpId}/delete`, { method: "DELETE" }),
+      apiClient(`/api/rsvp/delete/${rsvpId}`, { method: "DELETE" }),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: rsvpKeys.dashboard() });
     },
