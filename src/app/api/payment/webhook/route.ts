@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { eq } from "drizzle-orm";
 import { stripe } from "@/lib/stripe";
 import {
   getPaymentByStripeSession,
@@ -6,6 +7,9 @@ import {
   unlockCard,
   unlockInvite,
 } from "@/server/db/queries/payment";
+import { sendPaymentSuccessEmail } from "@/server/utils/email";
+import { db } from "@/server/db";
+import { user } from "@/server/db/schema/auth";
 import type Stripe from "stripe";
 
 export async function POST(request: NextRequest) {
@@ -62,6 +66,34 @@ export async function POST(request: NextRequest) {
         await unlockCard(dbPayment.userId);
         await unlockInvite(dbPayment.userId);
       }
+
+      // Send payment success email (fire-and-forget)
+      void (async () => {
+        try {
+          const owner = await db
+            .select({ name: user.name, email: user.email })
+            .from(user)
+            .where(eq(user.id, dbPayment.userId))
+            .limit(1);
+
+          const ownerData = owner[0];
+          if (!ownerData) return;
+
+          await sendPaymentSuccessEmail(
+            dbPayment.payerEmail ?? ownerData.email,
+            ownerData.name,
+            {
+              id: dbPayment.id,
+              amount: dbPayment.amount,
+              currency: dbPayment.currency,
+              purpose: dbPayment.purpose,
+              createdAt: dbPayment.createdAt,
+            },
+          );
+        } catch (emailErr) {
+          console.error("[Webhook] Email notification error:", emailErr);
+        }
+      })();
     }
   }
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
-import { Share2, MapPin, Calendar, Heart, Volume2, VolumeX } from "lucide-react";
+import { Share2, MapPin, Calendar, Heart, Volume2, VolumeX, Download } from "lucide-react";
 import { toast } from "sonner";
 import { useRef, useEffect } from "react";
 
@@ -223,15 +223,30 @@ export function PublicWeddingView({ invite, isDemo }: PublicWeddingViewProps) {
             RSVP Now
           </Button>
 
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full max-w-xs"
-            onClick={() => void handleShare()}
-          >
-            <Share2 className="mr-2 h-4 w-4" />
-            Share Invite
-          </Button>
+          <div className="flex w-full max-w-xs gap-3">
+            <Button
+              variant="outline"
+              size="lg"
+              className="flex-1"
+              onClick={() => void handleShare()}
+            >
+              <Share2 className="mr-2 h-4 w-4" />
+              Share
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => {
+                void fetch("/api/download/invite", { method: "POST" })
+                  .then((r) => {
+                    if (r.ok) toast.success("Invite saved to gallery");
+                    else toast.error("Unlock your invite to download");
+                  });
+              }}
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+          </div>
         </motion.div>
 
         {/* Footer */}

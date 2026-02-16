@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import confetti from "canvas-confetti";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,16 +16,53 @@ import {
 import { useVerifyPayment } from "@/hooks/use-payment";
 import { formatCurrency } from "@/lib/pricing";
 
+function fireConfetti() {
+  const duration = 2000;
+  const end = Date.now() + duration;
+
+  const frame = () => {
+    void confetti({
+      particleCount: 3,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0, y: 0.6 },
+    });
+    void confetti({
+      particleCount: 3,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1, y: 0.6 },
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  };
+
+  frame();
+}
+
 export default function SuccessPage() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const verify = useVerifyPayment();
   const [verified, setVerified] = useState(false);
+  const [confettiFired, setConfettiFired] = useState(false);
+
+  const triggerConfetti = useCallback(() => {
+    if (!confettiFired) {
+      setConfettiFired(true);
+      fireConfetti();
+    }
+  }, [confettiFired]);
 
   useEffect(() => {
     if (sessionId && !verified && !verify.isPending) {
       verify.mutate(sessionId, {
-        onSuccess: () => setVerified(true),
+        onSuccess: () => {
+          setVerified(true);
+          triggerConfetti();
+        },
       });
     }
   }, [sessionId]); // eslint-disable-line react-hooks/exhaustive-deps

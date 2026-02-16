@@ -15,6 +15,7 @@ import {
   MessageCircle,
   Share2,
   CreditCard,
+  Download,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -244,6 +245,20 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
           >
             <Share2 className="mr-2 h-4 w-4" />
             Share
+          </Button>
+
+          <Button
+            variant="outline"
+            className="border-white/20 bg-white/5 text-white hover:bg-white/10"
+            onClick={() => {
+              void fetch("/api/download/card", { method: "POST" })
+                .then((r) => {
+                  if (r.ok) toast.success("Card saved to gallery");
+                  else toast.error("Unlock your card to download");
+                });
+            }}
+          >
+            <Download className="h-4 w-4" />
           </Button>
 
           {user.paymentEnabled && (
