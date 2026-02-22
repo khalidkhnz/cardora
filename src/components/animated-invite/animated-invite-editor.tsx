@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { createPortal } from "react-dom";
 import {
   Card,
   CardContent,
@@ -16,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   animatedTemplates,
   animatedTemplateCategories,
+  getAnimatedTemplate,
 } from "@/lib/templates/animated-templates";
 import { getTemplateCategory } from "@/components/animated-invite/template-registry";
 import { ImageUpload } from "@/components/shared/image-upload";
@@ -23,9 +25,10 @@ import { MusicUpload } from "@/components/shared/music-upload";
 import { useCurrentInvite, useCreateInvite } from "@/hooks/use-wedding";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { Plus, Trash2, Eye } from "lucide-react";
-import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Trash2, Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { PublicWeddingView } from "@/components/animated-invite/public-wedding-view";
+import { getDemoInviteData } from "@/lib/demo-invite-data";
 
 interface EventRow {
   name: string;
@@ -34,9 +37,150 @@ interface EventRow {
   time: string;
 }
 
+function TemplatePreviewOverlay({
+  templateId,
+  filtered,
+  onClose,
+  onNavigate,
+  onSelect,
+}: {
+  templateId: string;
+  filtered: { id: string; name: string; preview: string }[];
+  onClose: () => void;
+  onNavigate: (id: string) => void;
+  onSelect: (id: string) => void;
+}) {
+  const currentIndex = filtered.findIndex((t) => t.id === templateId);
+  const template = getAnimatedTemplate(templateId);
+  const hasPrev = currentIndex > 0;
+  const hasNext = currentIndex < filtered.length - 1;
+
+  const goPrev = useCallback(() => {
+    if (hasPrev) onNavigate(filtered[currentIndex - 1]!.id);
+  }, [hasPrev, currentIndex, filtered, onNavigate]);
+
+  const goNext = useCallback(() => {
+    if (hasNext) onNavigate(filtered[currentIndex + 1]!.id);
+  }, [hasNext, currentIndex, filtered, onNavigate]);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
+    }
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onClose, goPrev, goNext]);
+
+  const demoData = useMemo(() => getDemoInviteData(templateId), [templateId]);
+
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex flex-col bg-black">
+      {/* Top bar */}
+      <div className="relative z-10 flex shrink-0 items-center justify-between border-b border-white/10 bg-black/80 px-4 py-2.5 backdrop-blur-sm">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <X className="h-4 w-4" />
+          </button>
+          <div className="flex items-center gap-2">
+            <span className="text-lg">{template?.preview}</span>
+            <span className="text-sm font-medium text-white">
+              {template?.name}
+            </span>
+            <span className="text-xs text-white/50">
+              {currentIndex + 1} / {filtered.length}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              onSelect(templateId);
+              onClose();
+            }}
+            className="rounded-lg bg-white px-4 py-1.5 text-xs font-semibold text-black transition-colors hover:bg-white/90"
+          >
+            Use This Template
+          </button>
+        </div>
+      </div>
+
+      {/* Template content — scrollable */}
+      <div className="relative min-h-0 flex-1">
+        <div className="absolute inset-0 overflow-y-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={templateId}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <PublicWeddingView invite={demoData} isDemo={true} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Prev / Next buttons */}
+        {hasPrev && (
+          <button
+            onClick={goPrev}
+            className="absolute top-1/2 left-3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/80"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+        )}
+        {hasNext && (
+          <button
+            onClick={goNext}
+            className="absolute top-1/2 right-3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/80"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        )}
+      </div>
+
+      {/* Bottom bar — template strip */}
+      <div className="relative z-10 shrink-0 border-t border-white/10 bg-black/80 backdrop-blur-sm">
+        <div className="flex gap-1 overflow-x-auto px-3 py-2">
+          {filtered.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => onNavigate(t.id)}
+              className={cn(
+                "flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
+                t.id === templateId
+                  ? "bg-white text-black"
+                  : "text-white/60 hover:bg-white/10 hover:text-white",
+              )}
+            >
+              <span>{t.preview}</span>
+              <span className="hidden sm:inline">{t.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 export function AnimatedInviteEditor() {
   const { data: currentInvite, isLoading } = useCurrentInvite();
   const createInvite = useCreateInvite();
+
+  const [previewTemplateId, setPreviewTemplateId] = useState<string | null>(
+    null,
+  );
 
   const [selectedTemplateId, setSelectedTemplateId] = useState("motion-video");
   const [category, setCategory] = useState("All");
@@ -100,7 +244,8 @@ export function AnimatedInviteEditor() {
 
   const templateCategory = getTemplateCategory(selectedTemplateId);
   const showMultiEventFields = templateCategory === "multi-event";
-  const showCinematicFields = templateCategory === "cinematic" || templateCategory === "interactive";
+  const showCinematicFields =
+    templateCategory === "cinematic" || templateCategory === "interactive";
   const showExtraDataFields = showMultiEventFields;
 
   const filtered =
@@ -109,7 +254,10 @@ export function AnimatedInviteEditor() {
       : animatedTemplates.filter((t) => t.category === category);
 
   function addEvent() {
-    setEvents([...events, { name: "", date: "", venue: venue, time: weddingTime || "6 PM" }]);
+    setEvents([
+      ...events,
+      { name: "", date: "", venue: venue, time: weddingTime || "6 PM" },
+    ]);
   }
 
   function removeEvent(index: number) {
@@ -117,7 +265,9 @@ export function AnimatedInviteEditor() {
   }
 
   function updateEvent(index: number, field: keyof EventRow, value: string) {
-    setEvents(events.map((e, i) => (i === index ? { ...e, [field]: value } : e)));
+    setEvents(
+      events.map((e, i) => (i === index ? { ...e, [field]: value } : e)),
+    );
   }
 
   async function handleSave() {
@@ -160,17 +310,31 @@ export function AnimatedInviteEditor() {
   }
 
   if (isLoading) {
-    return <div className="text-muted-foreground py-8 text-center">Loading...</div>;
+    return (
+      <div className="text-muted-foreground py-8 text-center">Loading...</div>
+    );
   }
 
   return (
     <div className="space-y-6">
+      {/* Fullscreen Preview Overlay */}
+      {previewTemplateId && (
+        <TemplatePreviewOverlay
+          templateId={previewTemplateId}
+          filtered={filtered}
+          onClose={() => setPreviewTemplateId(null)}
+          onNavigate={setPreviewTemplateId}
+          onSelect={setSelectedTemplateId}
+        />
+      )}
+
       {/* Template Selection */}
       <Card>
         <CardHeader>
           <CardTitle>Choose Template</CardTitle>
           <CardDescription>
-            Select from {animatedTemplates.length} animated wedding invite templates
+            Select from {animatedTemplates.length} animated wedding invite
+            templates
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -234,15 +398,17 @@ export function AnimatedInviteEditor() {
                     </Badge>
                   ))}
                 </div>
-                <Link
-                  href={`/preview/${template.id}`}
-                  target="_blank"
-                  onClick={(e) => e.stopPropagation()}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setPreviewTemplateId(template.id);
+                  }}
                   className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-muted/80 px-2 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                 >
                   <Eye className="h-3 w-3" />
                   Preview Demo
-                </Link>
+                </button>
                 {selectedTemplateId === template.id && (
                   <div className="bg-primary text-primary-foreground absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs">
                     ✓
@@ -410,14 +576,17 @@ export function AnimatedInviteEditor() {
           <CardHeader>
             <CardTitle>Wedding Events</CardTitle>
             <CardDescription>
-              Add multiple events (Mehendi, Haldi, Sangeet, Wedding, Reception, etc.)
+              Add multiple events (Mehendi, Haldi, Sangeet, Wedding, Reception,
+              etc.)
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {events.map((event, index) => (
               <div key={index} className="rounded-lg border p-4">
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="text-sm font-medium">Event {index + 1}</span>
+                  <span className="text-sm font-medium">
+                    Event {index + 1}
+                  </span>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -432,7 +601,9 @@ export function AnimatedInviteEditor() {
                     <Label className="text-xs">Event Name</Label>
                     <Input
                       value={event.name}
-                      onChange={(e) => updateEvent(index, "name", e.target.value)}
+                      onChange={(e) =>
+                        updateEvent(index, "name", e.target.value)
+                      }
                       placeholder="e.g. Mehendi"
                     />
                   </div>
@@ -440,7 +611,9 @@ export function AnimatedInviteEditor() {
                     <Label className="text-xs">Date</Label>
                     <Input
                       value={event.date}
-                      onChange={(e) => updateEvent(index, "date", e.target.value)}
+                      onChange={(e) =>
+                        updateEvent(index, "date", e.target.value)
+                      }
                       placeholder="e.g. Friday, March 7th 2026"
                     />
                   </div>
@@ -448,7 +621,9 @@ export function AnimatedInviteEditor() {
                     <Label className="text-xs">Venue</Label>
                     <Input
                       value={event.venue}
-                      onChange={(e) => updateEvent(index, "venue", e.target.value)}
+                      onChange={(e) =>
+                        updateEvent(index, "venue", e.target.value)
+                      }
                       placeholder="Venue name"
                     />
                   </div>
@@ -456,7 +631,9 @@ export function AnimatedInviteEditor() {
                     <Label className="text-xs">Time</Label>
                     <Input
                       value={event.time}
-                      onChange={(e) => updateEvent(index, "time", e.target.value)}
+                      onChange={(e) =>
+                        updateEvent(index, "time", e.target.value)
+                      }
                       placeholder="e.g. 6 PM Onwards"
                     />
                   </div>
@@ -524,7 +701,9 @@ export function AnimatedInviteEditor() {
       <Card>
         <CardHeader>
           <CardTitle>Media</CardTitle>
-          <CardDescription>Upload photos and music for your invite</CardDescription>
+          <CardDescription>
+            Upload photos and music for your invite
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
