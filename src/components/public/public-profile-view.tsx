@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { BusinessCardPreview } from "@/components/card/business-card-preview";
 import { WeddingCardPreview } from "@/components/card/wedding-card-preview";
 import { BusinessCardBack } from "@/components/card/business-card-back";
@@ -23,6 +23,8 @@ import {
   Share2,
   CreditCard,
   Download,
+  X,
+  Maximize2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -110,7 +112,267 @@ function darkenHex(hex: string, factor: number): string {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+// ─── Dimension helpers ──────────────────────────────────────────────────────
+
+function getBusinessDims(orientation: "horizontal" | "vertical", size: "standard" | "large") {
+  if (size === "large") return orientation === "horizontal" ? { w: 320, h: 208 } : { w: 208, h: 320 };
+  return orientation === "horizontal" ? { w: 256, h: 160 } : { w: 160, h: 256 };
+}
+
+function getWeddingDims(orientation: "horizontal" | "vertical", size: "standard" | "large") {
+  if (size === "large") return orientation === "horizontal" ? { w: 320, h: 208 } : { w: 240, h: 352 };
+  return orientation === "horizontal" ? { w: 256, h: 160 } : { w: 192, h: 288 };
+}
+
+// ─── Viewport-responsive scaling ─────────────────────────────────────────────
+
+function useWindowSize() {
+  const [size, setSize] = useState({ w: 0, h: 0 });
+  useEffect(() => {
+    function update() {
+      setSize({ w: window.innerWidth, h: window.innerHeight });
+    }
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return size;
+}
+
+/** Wraps FlippableCard in a CSS-scaled container that fills available width. */
+function ScaledCard({
+  cardW,
+  cardH,
+  maxAvailableWidth,
+  maxAvailableHeight,
+  children,
+}: {
+  cardW: number;
+  cardH: number;
+  maxAvailableWidth: number;
+  maxAvailableHeight?: number;
+  children: React.ReactNode;
+}) {
+  let scale = maxAvailableWidth > 0 ? maxAvailableWidth / cardW : 1;
+  if (maxAvailableHeight && maxAvailableHeight > 0) {
+    scale = Math.min(scale, maxAvailableHeight / cardH);
+  }
+  // Clamp between 1 and 4
+  scale = Math.max(1, Math.min(scale, 4));
+
+  return (
+    <div
+      style={{
+        width: cardW * scale,
+        height: cardH * scale,
+      }}
+    >
+      <div
+        style={{
+          width: cardW,
+          height: cardH,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─── Fullscreen overlay ─────────────────────────────────────────────────────
+
+function FullscreenCardOverlay({
+  onClose,
+  bgGradient,
+  accentColor,
+  user,
+  cardSettings,
+  viewport,
+}: {
+  onClose: () => void;
+  bgGradient: string;
+  accentColor: string;
+  user: PublicProfileData;
+  cardSettings: PublicProfileViewProps["cardSettings"];
+  viewport: { w: number; h: number };
+}) {
+  const isWedding =
+    cardSettings.cardType === "wedding" ||
+    cardSettings.cardType === "engagement" ||
+    cardSettings.cardType === "anniversary";
+
+  // Use "large" base size for fullscreen
+  const dims = isWedding
+    ? getWeddingDims(cardSettings.orientation, "large")
+    : getBusinessDims(cardSettings.orientation, "large");
+
+  // Available space: viewport minus padding for header/footer content
+  const availW = Math.max(0, viewport.w - 80); // 40px padding each side
+  const availH = Math.max(0, viewport.h - 260); // room for name, hints, button
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35 }}
+      style={{ background: bgGradient }}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+    >
+      {/* Close button */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.3 }}
+        onClick={onClose}
+        className="absolute top-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
+        aria-label="Close fullscreen"
+      >
+        <X className="h-5 w-5" />
+      </motion.button>
+
+      {/* User name + profession above card */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="mb-6 text-center"
+      >
+        <h2 className="text-lg font-semibold text-white">{user.name}</h2>
+        {user.profession && (
+          <p className="text-sm text-white/60">
+            {user.profession}
+            {user.company && <span> at {user.company}</span>}
+          </p>
+        )}
+      </motion.div>
+
+      {/* Card — scales to fit viewport */}
+      <motion.div
+        initial={{ scale: 0.7, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.7, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 200, damping: 24, delay: 0.1 }}
+      >
+        <ScaledCard
+          cardW={dims.w}
+          cardH={dims.h}
+          maxAvailableWidth={availW}
+          maxAvailableHeight={availH}
+        >
+          {!isWedding ? (
+            <FlippableCard
+              width={dims.w}
+              height={dims.h}
+              front={
+                <BusinessCardPreview
+                  user={{
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    company: user.company,
+                    profession: user.profession,
+                    address: user.address,
+                    profileImage: user.profileImage,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  size="large"
+                  bare
+                />
+              }
+              back={
+                <BusinessCardBack
+                  user={{
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    company: user.company,
+                    profession: user.profession,
+                    address: user.address,
+                    profileImage: user.profileImage,
+                  }}
+                  username={user.username}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  size="large"
+                />
+              }
+            />
+          ) : (
+            <FlippableCard
+              width={dims.w}
+              height={dims.h}
+              front={
+                <WeddingCardPreview
+                  data={{
+                    groomName: cardSettings.groomName,
+                    brideName: cardSettings.brideName,
+                    weddingDate: cardSettings.weddingDate,
+                    venue: cardSettings.venue,
+                    groomParentNames: cardSettings.groomParentNames,
+                    brideParentNames: cardSettings.brideParentNames,
+                    deceasedElders: cardSettings.deceasedElders,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  size="large"
+                  bare
+                />
+              }
+              back={
+                <WeddingCardBack
+                  data={{
+                    groomName: cardSettings.groomName,
+                    brideName: cardSettings.brideName,
+                    weddingDate: cardSettings.weddingDate,
+                    venue: cardSettings.venue,
+                    groomParentNames: cardSettings.groomParentNames,
+                    brideParentNames: cardSettings.brideParentNames,
+                    deceasedElders: cardSettings.deceasedElders,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  size="large"
+                />
+              }
+            />
+          )}
+        </ScaledCard>
+      </motion.div>
+
+      {/* Hint text below card */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        className="mt-6 text-xs text-white/40"
+      >
+        Click card to flip &middot; Hover to tilt
+      </motion.p>
+
+      {/* Dismiss prompt */}
+      <motion.button
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+        onClick={onClose}
+        className="mt-4 rounded-full border border-white/15 bg-white/5 px-6 py-2 text-sm text-white/70 backdrop-blur-sm transition-colors hover:bg-white/10 hover:text-white"
+      >
+        View full profile
+      </motion.button>
+    </motion.div>
+  );
+}
+
+// ─── Main component ─────────────────────────────────────────────────────────
+
 export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps) {
+  const [fullscreen, setFullscreen] = useState(true);
+  const viewport = useWindowSize();
+
   const socialEntries = Object.entries(user.socialLinks ?? {}).filter(
     ([, v]) => v && v.trim() !== "",
   );
@@ -127,13 +389,13 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
     { icon: MapPin, label: "Address", value: user.address, href: undefined },
   ].filter((item) => item.value);
 
+  const isWedding =
+    cardSettings.cardType === "wedding" ||
+    cardSettings.cardType === "engagement" ||
+    cardSettings.cardType === "anniversary";
+
   // Derive background colors from the selected template
   const { bgGradient, accentColor } = useMemo(() => {
-    const isWedding =
-      cardSettings.cardType === "wedding" ||
-      cardSettings.cardType === "engagement" ||
-      cardSettings.cardType === "anniversary";
-
     if (isWedding) {
       const t = getWeddingCardTemplate(cardSettings.selectedTemplateId ?? "") ?? weddingCardTemplates[0]!;
       const from = darkenHex(t.colors.primary, 0.25);
@@ -153,10 +415,33 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
       bgGradient: `linear-gradient(135deg, ${from}, ${via}, ${to})`,
       accentColor: t.colors.accent,
     };
-  }, [cardSettings.cardType, cardSettings.selectedTemplateId]);
+  }, [cardSettings.cardType, cardSettings.selectedTemplateId, isWedding]);
+
+  const openFullscreen = useCallback(() => setFullscreen(true), []);
+  const closeFullscreen = useCallback(() => setFullscreen(false), []);
+
+  const businessDims = getBusinessDims(cardSettings.orientation, cardSettings.cardSize);
+  const weddingDims = getWeddingDims(cardSettings.orientation, cardSettings.cardSize);
+
+  // Available width for the inline card: container is max-w-lg (512px) with px-4 (16px each side)
+  const inlineAvailW = Math.max(0, Math.min(viewport.w - 32, 480));
 
   return (
     <div className="min-h-screen" style={{ background: bgGradient }}>
+      {/* Fullscreen card overlay */}
+      <AnimatePresence>
+        {fullscreen && (
+          <FullscreenCardOverlay
+            onClose={closeFullscreen}
+            bgGradient={bgGradient}
+            accentColor={accentColor}
+            user={user}
+            cardSettings={cardSettings}
+            viewport={viewport}
+          />
+        )}
+      </AnimatePresence>
+
       <div className="mx-auto max-w-lg px-4 py-8">
         {/* Profile Header */}
         <motion.div
@@ -192,104 +477,106 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
           )}
         </motion.div>
 
-        {/* Card Preview — Business */}
-        {cardSettings.cardType === "business" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-6 flex justify-center"
-          >
-            <FlippableCard
-              width={cardSettings.cardSize === "standard" ? (cardSettings.orientation === "horizontal" ? 256 : 160) : (cardSettings.orientation === "horizontal" ? 320 : 208)}
-              height={cardSettings.cardSize === "standard" ? (cardSettings.orientation === "horizontal" ? 160 : 256) : (cardSettings.orientation === "horizontal" ? 208 : 320)}
-              front={
-                <BusinessCardPreview
-                  user={{
-                    name: user.name,
-                    email: user.email,
-                    phone: user.phone,
-                    company: user.company,
-                    profession: user.profession,
-                    address: user.address,
-                    profileImage: user.profileImage,
-                  }}
-                  templateId={cardSettings.selectedTemplateId}
-                  orientation={cardSettings.orientation}
-                  size={cardSettings.cardSize}
-                  bare
-                />
-              }
-              back={
-                <BusinessCardBack
-                  user={{
-                    name: user.name,
-                    email: user.email,
-                    phone: user.phone,
-                    company: user.company,
-                    profession: user.profession,
-                    address: user.address,
-                    profileImage: user.profileImage,
-                  }}
-                  username={user.username}
-                  templateId={cardSettings.selectedTemplateId}
-                  orientation={cardSettings.orientation}
-                  size={cardSettings.cardSize}
-                />
-              }
-            />
-          </motion.div>
-        )}
+        {/* Card Preview — with "View fullscreen" button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="relative mb-6 flex flex-col items-center gap-3"
+        >
+          {/* Inline card — scales to fill container width */}
+          {!isWedding ? (
+            <ScaledCard cardW={businessDims.w} cardH={businessDims.h} maxAvailableWidth={inlineAvailW}>
+              <FlippableCard
+                width={businessDims.w}
+                height={businessDims.h}
+                front={
+                  <BusinessCardPreview
+                    user={{
+                      name: user.name,
+                      email: user.email,
+                      phone: user.phone,
+                      company: user.company,
+                      profession: user.profession,
+                      address: user.address,
+                      profileImage: user.profileImage,
+                    }}
+                    templateId={cardSettings.selectedTemplateId}
+                    orientation={cardSettings.orientation}
+                    size={cardSettings.cardSize}
+                    bare
+                  />
+                }
+                back={
+                  <BusinessCardBack
+                    user={{
+                      name: user.name,
+                      email: user.email,
+                      phone: user.phone,
+                      company: user.company,
+                      profession: user.profession,
+                      address: user.address,
+                      profileImage: user.profileImage,
+                    }}
+                    username={user.username}
+                    templateId={cardSettings.selectedTemplateId}
+                    orientation={cardSettings.orientation}
+                    size={cardSettings.cardSize}
+                  />
+                }
+              />
+            </ScaledCard>
+          ) : (
+            <ScaledCard cardW={weddingDims.w} cardH={weddingDims.h} maxAvailableWidth={inlineAvailW}>
+              <FlippableCard
+                width={weddingDims.w}
+                height={weddingDims.h}
+                front={
+                  <WeddingCardPreview
+                    data={{
+                      groomName: cardSettings.groomName,
+                      brideName: cardSettings.brideName,
+                      weddingDate: cardSettings.weddingDate,
+                      venue: cardSettings.venue,
+                      groomParentNames: cardSettings.groomParentNames,
+                      brideParentNames: cardSettings.brideParentNames,
+                      deceasedElders: cardSettings.deceasedElders,
+                    }}
+                    templateId={cardSettings.selectedTemplateId}
+                    orientation={cardSettings.orientation}
+                    size={cardSettings.cardSize}
+                    bare
+                  />
+                }
+                back={
+                  <WeddingCardBack
+                    data={{
+                      groomName: cardSettings.groomName,
+                      brideName: cardSettings.brideName,
+                      weddingDate: cardSettings.weddingDate,
+                      venue: cardSettings.venue,
+                      groomParentNames: cardSettings.groomParentNames,
+                      brideParentNames: cardSettings.brideParentNames,
+                      deceasedElders: cardSettings.deceasedElders,
+                    }}
+                    templateId={cardSettings.selectedTemplateId}
+                    orientation={cardSettings.orientation}
+                    size={cardSettings.cardSize}
+                  />
+                }
+              />
+            </ScaledCard>
+          )}
 
-        {/* Card Preview — Wedding / Engagement / Anniversary */}
-        {(cardSettings.cardType === "wedding" ||
-          cardSettings.cardType === "engagement" ||
-          cardSettings.cardType === "anniversary") && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-6 flex justify-center"
+          {/* Expand button */}
+          <button
+            onClick={openFullscreen}
+            className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs text-white/60 backdrop-blur-sm transition-colors hover:bg-white/10 hover:text-white"
           >
-            <FlippableCard
-              width={cardSettings.cardSize === "standard" ? (cardSettings.orientation === "horizontal" ? 256 : 192) : (cardSettings.orientation === "horizontal" ? 320 : 240)}
-              height={cardSettings.cardSize === "standard" ? (cardSettings.orientation === "horizontal" ? 160 : 288) : (cardSettings.orientation === "horizontal" ? 208 : 352)}
-              front={
-                <WeddingCardPreview
-                  data={{
-                    groomName: cardSettings.groomName,
-                    brideName: cardSettings.brideName,
-                    weddingDate: cardSettings.weddingDate,
-                    venue: cardSettings.venue,
-                    groomParentNames: cardSettings.groomParentNames,
-                    brideParentNames: cardSettings.brideParentNames,
-                    deceasedElders: cardSettings.deceasedElders,
-                  }}
-                  templateId={cardSettings.selectedTemplateId}
-                  orientation={cardSettings.orientation}
-                  size={cardSettings.cardSize}
-                  bare
-                />
-              }
-              back={
-                <WeddingCardBack
-                  data={{
-                    groomName: cardSettings.groomName,
-                    brideName: cardSettings.brideName,
-                    weddingDate: cardSettings.weddingDate,
-                    venue: cardSettings.venue,
-                    groomParentNames: cardSettings.groomParentNames,
-                    brideParentNames: cardSettings.brideParentNames,
-                    deceasedElders: cardSettings.deceasedElders,
-                  }}
-                  templateId={cardSettings.selectedTemplateId}
-                  orientation={cardSettings.orientation}
-                  size={cardSettings.cardSize}
-                />
-              }
-            />
-          </motion.div>
-        )}
+            <Maximize2 className="h-3 w-3" />
+            View fullscreen
+          </button>
+        </motion.div>
 
         {/* Contact Info */}
         {contactItems.length > 0 && (

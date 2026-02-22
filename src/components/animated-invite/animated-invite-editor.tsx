@@ -24,7 +24,8 @@ import { useCurrentInvite, useCreateInvite } from "@/hooks/use-wedding";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Eye } from "lucide-react";
+import Link from "next/link";
 
 interface EventRow {
   name: string;
@@ -207,20 +208,19 @@ export function AnimatedInviteEditor() {
           {/* Template grid */}
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {filtered.map((template, i) => (
-              <motion.button
+              <motion.div
                 key={template.id}
-                type="button"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
                 whileHover={{ scale: 1.02 }}
-                onClick={() => setSelectedTemplateId(template.id)}
                 className={cn(
-                  "relative rounded-xl border-2 p-4 text-left transition-all",
+                  "relative cursor-pointer rounded-xl border-2 p-4 text-left transition-all",
                   selectedTemplateId === template.id
                     ? "border-primary ring-primary/20 ring-2"
                     : "border-muted hover:border-muted-foreground/30",
                 )}
+                onClick={() => setSelectedTemplateId(template.id)}
               >
                 <span className="text-3xl">{template.preview}</span>
                 <p className="mt-2 text-sm font-semibold">{template.name}</p>
@@ -234,12 +234,21 @@ export function AnimatedInviteEditor() {
                     </Badge>
                   ))}
                 </div>
+                <Link
+                  href={`/preview/${template.id}`}
+                  target="_blank"
+                  onClick={(e) => e.stopPropagation()}
+                  className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-muted/80 px-2 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                >
+                  <Eye className="h-3 w-3" />
+                  Preview Demo
+                </Link>
                 {selectedTemplateId === template.id && (
                   <div className="bg-primary text-primary-foreground absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs">
                     ✓
                   </div>
                 )}
-              </motion.button>
+              </motion.div>
             ))}
           </div>
         </CardContent>
