@@ -206,3 +206,74 @@ export async function sendRSVPNotificationEmail(
     return { success: false, error: String(error) };
   }
 }
+
+export async function sendRSVPConfirmationEmail(
+  guestEmail: string,
+  guest: {
+    name: string;
+    numberOfGuests: number;
+  },
+  wedding: {
+    coupleName: string;
+    date?: string | null;
+    venue?: string | null;
+    slug: string;
+  },
+) {
+  if (!isEmailConfigured()) {
+    console.log("[Email] SMTP not configured. RSVP confirmation for:", guestEmail);
+    return { success: false, emailConfigured: false };
+  }
+
+  const frontendUrl = env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const inviteUrl = `${frontendUrl}/wedding/${wedding.slug}`;
+  const weddingDate = wedding.date
+    ? new Date(wedding.date).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
+
+  try {
+    const transporter = createTransporter();
+
+    await transporter.sendMail({
+      from: `"Cardora" <${env.SMTP_USER}>`,
+      to: guestEmail,
+      subject: `RSVP Confirmed — ${wedding.coupleName}'s Wedding`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+            <h1 style="color: white; margin: 0; font-size: 28px;">You're In!</h1>
+          </div>
+          <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+            <h2 style="margin-top: 0;">Hi ${guest.name},</h2>
+            <p>Thank you for confirming your attendance at <strong>${wedding.coupleName}'s</strong> wedding! We're so excited to celebrate with you.</p>
+            <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin: 20px 0;">
+              <p style="margin: 8px 0;"><strong>Guests:</strong> ${guest.numberOfGuests}</p>
+              ${weddingDate ? `<p style="margin: 8px 0;"><strong>Date:</strong> ${weddingDate}</p>` : ""}
+              ${wedding.venue ? `<p style="margin: 8px 0;"><strong>Venue:</strong> ${wedding.venue}</p>` : ""}
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+              <a href="${inviteUrl}" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">View Invitation</a>
+            </div>
+            <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px;">
+              Powered by Cardora
+            </p>
+          </div>
+        </body>
+        </html>
+      `,
+      text: `Hi ${guest.name},\n\nThank you for confirming your attendance at ${wedding.coupleName}'s wedding!\n\nGuests: ${guest.numberOfGuests}${weddingDate ? `\nDate: ${weddingDate}` : ""}${wedding.venue ? `\nVenue: ${wedding.venue}` : ""}\n\nView invitation: ${inviteUrl}`,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("[Email] Failed to send RSVP confirmation:", error);
+    return { success: false, error: String(error) };
+  }
+}

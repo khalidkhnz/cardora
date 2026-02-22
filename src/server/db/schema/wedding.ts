@@ -23,6 +23,16 @@ export const weddingInvite = createTable("wedding_invite", {
   heroImage: text("hero_image"),
   galleryImages: jsonb("gallery_images").$type<string[]>().default([]),
   musicUrl: text("music_url"),
+  couplePhoto: text("couple_photo"),
+  backgroundImage: text("background_image"),
+  weddingTime: text("wedding_time"),
+  groomFatherName: text("groom_father_name"),
+  groomMotherName: text("groom_mother_name"),
+  brideFatherName: text("bride_father_name"),
+  brideMotherName: text("bride_mother_name"),
+  coupleMessage: text("couple_message"),
+  events: jsonb("events").$type<{ name: string; date: string; venue: string; time: string }[]>(),
+  extraData: jsonb("extra_data").$type<Record<string, unknown>>(),
   isPaid: boolean("is_paid").default(false).notNull(),
   createdAt: timestamp("created_at")
     .$defaultFn(() => new Date())

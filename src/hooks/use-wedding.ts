@@ -2,6 +2,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
 import type { CreateWeddingInviteInput } from "@/lib/validators";
 
+interface WeddingEvent {
+  name: string;
+  date: string;
+  venue: string;
+  time: string;
+}
+
 interface WeddingInvite {
   id: string;
   userId: string;
@@ -17,6 +24,16 @@ interface WeddingInvite {
   heroImage: string | null;
   galleryImages: string[];
   musicUrl: string | null;
+  couplePhoto: string | null;
+  backgroundImage: string | null;
+  weddingTime: string | null;
+  groomFatherName: string | null;
+  groomMotherName: string | null;
+  brideFatherName: string | null;
+  brideMotherName: string | null;
+  coupleMessage: string | null;
+  events: WeddingEvent[] | null;
+  extraData: Record<string, unknown> | null;
   isPaid: boolean;
   isDemo?: boolean;
   createdAt: string;

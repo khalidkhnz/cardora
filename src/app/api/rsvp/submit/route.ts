@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
 import { submitRsvp } from "@/server/db/queries/rsvp";
 import { submitRsvpSchema } from "@/lib/validators";
-import { sendRSVPNotificationEmail } from "@/server/utils/email";
+import { sendRSVPNotificationEmail, sendRSVPConfirmationEmail } from "@/server/utils/email";
 import { db } from "@/server/db";
 import { weddingInvite } from "@/server/db/schema/wedding";
 import { user } from "@/server/db/schema/auth";
@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
             userId: weddingInvite.userId,
             groomName: weddingInvite.groomName,
             brideName: weddingInvite.brideName,
+            weddingDate: weddingInvite.weddingDate,
+            venue: weddingInvite.venue,
           })
           .from(weddingInvite)
           .where(eq(weddingInvite.slug, parsed.data.inviteSlug))
@@ -59,6 +61,19 @@ export async function POST(request: NextRequest) {
           message: parsed.data.message ?? undefined,
           phone: parsed.data.phone ?? undefined,
         }, coupleName || "the couple");
+
+        // Send confirmation email to guest if attending and email provided
+        if (parsed.data.attending === "yes" && parsed.data.guestEmail) {
+          await sendRSVPConfirmationEmail(parsed.data.guestEmail, {
+            name: parsed.data.guestName,
+            numberOfGuests: parsed.data.numberOfGuests ?? 1,
+          }, {
+            coupleName: coupleName || "the couple",
+            date: inviteData.weddingDate ?? null,
+            venue: inviteData.venue ?? null,
+            slug: parsed.data.inviteSlug,
+          });
+        }
       } catch (emailErr) {
         console.error("[RSVP] Email notification error:", emailErr);
       }

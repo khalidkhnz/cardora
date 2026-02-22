@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Card,
   CardContent,
@@ -25,7 +25,9 @@ import { COUNTRIES } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import { Download } from "lucide-react";
 import type { BusinessCardTemplate } from "@/lib/templates/business-card-templates";
+import { downloadCardAsPDF } from "@/lib/download-card-pdf";
 
 export default function CardPage() {
   const { data: profile, isLoading: profileLoading } = useUserProfile();
@@ -39,6 +41,21 @@ export default function CardPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [orientation, setOrientation] = useState<"horizontal" | "vertical">("horizontal");
   const [cardSize, setCardSize] = useState<"standard" | "large">("standard");
+  const [downloading, setDownloading] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadPDF = useCallback(async () => {
+    if (!cardRef.current) return;
+    setDownloading(true);
+    try {
+      await downloadCardAsPDF(cardRef.current, `business-card-${profile?.username ?? "card"}`);
+      toast.success("PDF downloaded!");
+    } catch {
+      toast.error("Failed to download PDF");
+    } finally {
+      setDownloading(false);
+    }
+  }, [profile?.username]);
 
   // Sync from server
   useEffect(() => {
@@ -147,6 +164,7 @@ export default function CardPage() {
                 {/* Preview */}
                 <div className="flex flex-1 items-center justify-center rounded-lg border bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
                   <BusinessCardPreview
+                    ref={cardRef}
                     user={userData}
                     templateId={selectedTemplateId}
                     orientation={orientation}
@@ -203,6 +221,16 @@ export default function CardPage() {
                     onClick={() => setModalOpen(true)}
                   >
                     Change Template
+                  </Button>
+
+                  <Button
+                    className="w-full"
+                    variant="outline"
+                    onClick={handleDownloadPDF}
+                    disabled={downloading}
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    {downloading ? "Generating..." : "Download PDF"}
                   </Button>
                 </div>
               </div>

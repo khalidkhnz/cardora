@@ -1,5 +1,6 @@
 "use client";
 
+import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import {
   type BusinessCardTemplate,
@@ -8,7 +9,7 @@ import {
 } from "@/lib/templates/business-card-templates";
 import { cn } from "@/lib/utils";
 
-interface UserCardData {
+export interface UserCardData {
   name?: string | null;
   email?: string | null;
   phone?: string | null;
@@ -363,62 +364,60 @@ function CardLayout({
   }
 }
 
-export function BusinessCardPreview({
-  user,
-  templateId,
-  orientation = "horizontal",
-  size = "standard",
-}: BusinessCardPreviewProps) {
-  const template =
-    getBusinessCardTemplate(templateId ?? "") ?? businessCardTemplates[0]!;
-  const { primary, secondary } = template.colors;
-  const textColor = getTextColor(secondary);
+export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPreviewProps>(
+  function BusinessCardPreview({ user, templateId, orientation = "horizontal", size = "standard" }, ref) {
+    const template =
+      getBusinessCardTemplate(templateId ?? "") ?? businessCardTemplates[0]!;
+    const { primary, secondary } = template.colors;
+    const textColor = getTextColor(secondary);
 
-  const sizeClasses = {
-    horizontal: {
-      standard: "w-64 h-40",
-      large: "w-80 h-52",
-    },
-    vertical: {
-      standard: "w-40 h-64",
-      large: "w-52 h-80",
-    },
-  };
+    const sizeClasses = {
+      horizontal: {
+        standard: "w-64 h-40",
+        large: "w-80 h-52",
+      },
+      vertical: {
+        standard: "w-40 h-64",
+        large: "w-52 h-80",
+      },
+    };
 
-  return (
-    <div className="flex items-center justify-center p-4">
-      <div className="relative">
-        {/* Shadow card behind */}
-        <div
-          className={cn(
-            "absolute top-2 left-2 rounded-xl opacity-30",
-            sizeClasses[orientation][size],
-          )}
-          style={{ backgroundColor: primary }}
-        />
+    return (
+      <div className="flex items-center justify-center p-4">
+        <div className="relative">
+          {/* Shadow card behind */}
+          <div
+            className={cn(
+              "absolute top-2 left-2 rounded-xl opacity-30",
+              sizeClasses[orientation][size],
+            )}
+            style={{ backgroundColor: primary }}
+          />
 
-        {/* Main card */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className={cn(
-            "relative overflow-hidden rounded-xl shadow-lg",
-            sizeClasses[orientation][size],
-          )}
-          style={{ backgroundColor: secondary }}
-        >
-          <CardLayout template={template} user={user} textColor={textColor} />
-
-          {/* Watermark */}
-          <p
-            className="absolute right-2 bottom-1 text-[6px] opacity-30"
-            style={{ color: textColor }}
+          {/* Main card */}
+          <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className={cn(
+              "relative overflow-hidden rounded-xl shadow-lg",
+              sizeClasses[orientation][size],
+            )}
+            style={{ backgroundColor: secondary }}
           >
-            cardora
-          </p>
-        </motion.div>
+            <CardLayout template={template} user={user} textColor={textColor} />
+
+            {/* Watermark */}
+            <p
+              className="absolute right-2 bottom-1 text-[6px] opacity-30"
+              style={{ color: textColor }}
+            >
+              cardora
+            </p>
+          </motion.div>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  },
+);

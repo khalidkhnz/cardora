@@ -80,8 +80,8 @@ Features to port from the original Cardora app (`Cardora/`) into the remake (`ca
 - [x] Public page `/wedding/[slug]` with demo mode, RSVP, share, music controls, download button
 - [x] API routes: create, [slug], current
 - [x] Hooks: `useWeddingInvite(slug)`, `useCurrentInvite()`, `useCreateInvite()`
-- [ ] Individual animated template rendering (GSAP, Lenis for each of 17 templates) — future enhancement
-- [ ] Template-specific components: envelope opening, parallax scrolling, cinematic scroll — future enhancement
+- [x] Individual animated template rendering (GSAP, Lenis for each of 17 templates)
+- [x] Template-specific components: envelope opening, parallax scrolling, cinematic scroll
 
 ---
 
@@ -127,14 +127,14 @@ Features to port from the original Cardora app (`Cardora/`) into the remake (`ca
 ## Future Enhancements
 
 ### Individual Animated Template Components
-- [ ] Install `gsap`, `lenis` for smooth scrolling and advanced animations
-- [ ] Port 17 individual animated template components from original Cardora:
+- [x] Install `gsap`, `lenis` for smooth scrolling and advanced animations
+- [x] Port 17 individual animated template components from original Cardora:
   - Motion Video, Cinematic Film, Mountain Peak, Theater Luxury, Mediterranean Elegance, Raabta, Mountains, Beach, City, Laavan, Floral Elegance, Indian Heritage, Minimal Modern, Romantic Garden, Royal Palace, Cinematic Scroll, Golden Night
-- [ ] Template features: envelope opening, parallax scrolling, GSAP ScrollTrigger, Lenis smooth scroll
-- [ ] Event sections: Mehendi, Haldi, Sangeet, Nikah, Walima, Shaadi, Reception
-- [ ] Decorative elements: particle effects, ornamental borders
+- [x] Template features: envelope opening, parallax scrolling, GSAP ScrollTrigger, Lenis smooth scroll
+- [x] Event sections: Mehendi, Haldi, Sangeet, Nikah, Walima, Shaadi, Reception
+- [x] Decorative elements: particle effects, ornamental borders
 
 ### Other
-- [ ] Guest confirmation email on RSVP (when attending = yes)
-- [ ] PDF export for business cards
-- [ ] NFC tag programming instructions page
+- [x] Guest confirmation email on RSVP (when attending = yes)
+- [x] PDF export for business cards
+- [x] NFC tag programming instructions page

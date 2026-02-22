@@ -43,14 +43,26 @@ export default async function PublicWeddingPage({ params }: Props) {
         groomName: isDemo ? "John" : (invite.groomName ?? "Groom"),
         brideName: isDemo ? "Jane" : (invite.brideName ?? "Bride"),
         weddingDate: isDemo ? "2025-06-15" : invite.weddingDate,
+        receptionDate: invite.receptionDate,
         venue: isDemo ? "Grand Ballroom" : invite.venue,
         venueAddress: isDemo ? "123 Celebration Ave" : invite.venueAddress,
         story: isDemo
           ? "We met at a coffee shop and knew it was meant to be..."
           : invite.story,
         heroImage: invite.heroImage,
+        galleryImages: invite.galleryImages ?? [],
         musicUrl: invite.musicUrl,
         isPaid: invite.isPaid,
+        couplePhoto: invite.couplePhoto,
+        backgroundImage: invite.backgroundImage,
+        weddingTime: invite.weddingTime,
+        groomFatherName: invite.groomFatherName,
+        groomMotherName: invite.groomMotherName,
+        brideFatherName: invite.brideFatherName,
+        brideMotherName: invite.brideMotherName,
+        events: invite.events ?? null,
+        coupleMessage: invite.coupleMessage,
+        extraData: invite.extraData ?? null,
       }}
       isDemo={isDemo}
     />

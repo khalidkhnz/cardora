@@ -54,6 +54,25 @@ export const createWeddingInviteSchema = z.object({
   venue: z.string().optional(),
   venueAddress: z.string().optional(),
   story: z.string().max(2000).optional(),
+  couplePhoto: z.string().optional(),
+  backgroundImage: z.string().optional(),
+  weddingTime: z.string().optional(),
+  groomFatherName: z.string().max(100).optional(),
+  groomMotherName: z.string().max(100).optional(),
+  brideFatherName: z.string().max(100).optional(),
+  brideMotherName: z.string().max(100).optional(),
+  coupleMessage: z.string().max(2000).optional(),
+  events: z
+    .array(
+      z.object({
+        name: z.string(),
+        date: z.string(),
+        venue: z.string(),
+        time: z.string(),
+      }),
+    )
+    .optional(),
+  extraData: z.record(z.unknown()).optional(),
 });
 
 export type CreateWeddingInviteInput = z.infer<typeof createWeddingInviteSchema>;
