@@ -4,10 +4,10 @@ import { QRCodeCard } from "@/components/shared/qr-code-card";
 
 interface ShareSectionProps {
   username: string;
-  baseUrl: string;
 }
 
-export function ShareSection({ username, baseUrl }: ShareSectionProps) {
+export function ShareSection({ username }: ShareSectionProps) {
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
   const profileUrl = `${baseUrl}/u/${username}`;
 
   return (

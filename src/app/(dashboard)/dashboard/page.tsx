@@ -127,7 +127,6 @@ export default async function DashboardPage() {
           <CardContent>
             <ShareSection
               username={profile?.username ?? ""}
-              baseUrl={process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}
             />
           </CardContent>
         </Card>
