@@ -8,11 +8,16 @@ import { Share2, MapPin, Calendar, Heart, Download } from "lucide-react";
 import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
+import { ParticleLayer } from "../../shared/particle-layer";
+import { StaggeredTextReveal } from "../../shared/staggered-text-reveal";
+import { ParallaxImage } from "../../shared/parallax-image";
+import { ParallaxCards } from "../../shared/parallax-cards";
+import { MagneticButton } from "../../shared/magnetic-button";
+import { CurvedDivider } from "../../shared/curved-divider";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
 import { useLenis } from "@/hooks/use-lenis";
 import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
-import { ParticleLayer } from "../../shared/particle-layer";
 import type { TemplateProps } from "../../types";
 
 function formatWeddingDate(dateStr: string | null) {
@@ -341,18 +346,15 @@ export default function GoldenNightTemplate({
           Together with their families
         </motion.p>
 
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.65 }}
-          className="text-center text-5xl font-light tracking-wide sm:text-7xl"
-          style={{
-            color: GOLD,
-            textShadow: `0 0 40px ${GOLD_GLOW}, 0 0 80px rgba(255,215,0,0.08)`,
-          }}
-        >
-          {invite.groomName}
-        </motion.h1>
+        <div style={{ color: GOLD, textShadow: `0 0 40px ${GOLD_GLOW}, 0 0 80px rgba(255,215,0,0.08)` }}>
+          <StaggeredTextReveal
+            text={invite.groomName}
+            splitBy="letter"
+            as="h1"
+            trigger="inView"
+            className="text-center text-5xl font-light tracking-wide sm:text-7xl"
+          />
+        </div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -369,18 +371,15 @@ export default function GoldenNightTemplate({
           <div className="h-px w-14" style={{ backgroundColor: GOLD_DIM }} />
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.95 }}
-          className="text-center text-5xl font-light tracking-wide sm:text-7xl"
-          style={{
-            color: GOLD,
-            textShadow: `0 0 40px ${GOLD_GLOW}, 0 0 80px rgba(255,215,0,0.08)`,
-          }}
-        >
-          {invite.brideName}
-        </motion.h1>
+        <div style={{ color: GOLD, textShadow: `0 0 40px ${GOLD_GLOW}, 0 0 80px rgba(255,215,0,0.08)` }}>
+          <StaggeredTextReveal
+            text={invite.brideName}
+            splitBy="letter"
+            as="h1"
+            trigger="inView"
+            className="text-center text-5xl font-light tracking-wide sm:text-7xl"
+          />
+        </div>
 
         <motion.p
           initial={{ opacity: 0 }}
@@ -738,57 +737,39 @@ export default function GoldenNightTemplate({
               The Evening Unfolds
             </motion.p>
 
-            <div className="relative space-y-6">
-              {/* Vertical constellation line */}
-              <div
-                className="absolute bottom-0 left-5 top-0 w-px sm:left-6"
-                style={{ backgroundColor: GOLD_DIM }}
-              />
-
-              {invite.events.map((event, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, x: -15 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: idx * 0.12 }}
-                  className="relative pl-12 sm:pl-14"
-                >
-                  {/* Dot on timeline */}
+            <ParallaxCards
+              cards={invite.events.map((event, idx) => ({
+                id: idx,
+                content: (
                   <div
-                    className="absolute left-3.5 top-2 h-3 w-3 rounded-full sm:left-4.5"
-                    style={{
-                      backgroundColor: NAVY,
-                      border: `2px solid ${GOLD}`,
-                      boxShadow: `0 0 8px ${GOLD_GLOW}`,
-                    }}
-                  />
-
-                  <div
-                    className="rounded-xl border p-4 backdrop-blur-sm"
+                    className="rounded-xl border p-6 backdrop-blur-sm"
                     style={{
                       borderColor: GOLD_DIM,
-                      background: "rgba(255,215,0,0.02)",
+                      background: "rgba(255,215,0,0.03)",
+                      boxShadow: `0 0 20px rgba(255,215,0,0.04)`,
                     }}
                   >
-                    <p
-                      className="text-lg font-light"
-                      style={{ color: GOLD }}
-                    >
+                    <p className="text-lg font-light" style={{ color: GOLD }}>
                       {event.name}
                     </p>
-                    <p className="mt-0.5 text-sm text-white/40">
+                    <p className="mt-1 text-sm text-white/40">
                       {event.date} {event.time && `at ${event.time}`}
                     </p>
                     {event.venue && (
-                      <p className="text-sm text-white/30">{event.venue}</p>
+                      <p className="mt-0.5 text-sm text-white/30">{event.venue}</p>
                     )}
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                ),
+              }))}
+              cardClassName="mb-4"
+            />
           </div>
         </section>
+      )}
+
+      {/* Gold-tinted section divider */}
+      {invite.galleryImages.length > 0 && (
+        <CurvedDivider color={GOLD} height={60} className="relative z-10" />
       )}
 
       {/* ================================================================== */}
@@ -824,9 +805,12 @@ export default function GoldenNightTemplate({
                     boxShadow: `0 0 15px rgba(255,215,0,0.04)`,
                   }}
                 >
-                  <div
-                    className="h-full w-full bg-cover bg-center transition-transform duration-700 hover:scale-110"
-                    style={{ backgroundImage: `url(${img})` }}
+                  <ParallaxImage
+                    src={img}
+                    alt={`Gallery image ${idx + 1}`}
+                    speed={15}
+                    scaleRange={[1, 1.12]}
+                    className="h-full w-full"
                   />
                 </motion.div>
               ))}
@@ -834,6 +818,9 @@ export default function GoldenNightTemplate({
           </div>
         </section>
       )}
+
+      {/* Gold-tinted section divider */}
+      <CurvedDivider color={GOLD} height={60} flip className="relative z-10" />
 
       {/* ================================================================== */}
       {/*  RSVP SECTION                                                      */}
@@ -879,18 +866,20 @@ export default function GoldenNightTemplate({
             transition={{ duration: 0.7, delay: 0.2 }}
             className="flex flex-col items-center gap-3"
           >
-            <Button
-              size="lg"
-              onClick={() => setRsvpOpen(true)}
-              className="w-full rounded-xl border-0 px-10 py-6 text-sm font-light uppercase tracking-widest shadow-lg transition-all hover:shadow-xl"
-              style={{
-                background: `linear-gradient(135deg, ${GOLD}, #FFA500)`,
-                color: NAVY,
-                boxShadow: `0 4px 25px rgba(255,215,0,0.25)`,
-              }}
-            >
-              RSVP
-            </Button>
+            <MagneticButton strength={0.3} className="w-full">
+              <Button
+                size="lg"
+                onClick={() => setRsvpOpen(true)}
+                className="w-full rounded-xl border-0 px-10 py-6 text-sm font-light uppercase tracking-widest shadow-lg transition-all hover:shadow-xl"
+                style={{
+                  background: `linear-gradient(135deg, ${GOLD}, #FFA500)`,
+                  color: NAVY,
+                  boxShadow: `0 4px 25px rgba(255,215,0,0.25)`,
+                }}
+              >
+                RSVP
+              </Button>
+            </MagneticButton>
 
             <div className="flex w-full gap-2">
               <Button

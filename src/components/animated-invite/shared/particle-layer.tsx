@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { isLowEndDevice } from "@/hooks/use-is-low-end-device";
 
 type ParticleType = "PETAL" | "LIGHT" | "DUST";
 
@@ -20,15 +21,6 @@ interface Particle {
   life: number;
   maxLife: number;
   type: ParticleType;
-}
-
-function isLowEndDevice(): boolean {
-  if (typeof window === "undefined") return true;
-  const nav = navigator as Navigator & { deviceMemory?: number };
-  if (nav.hardwareConcurrency && nav.hardwareConcurrency <= 2) return true;
-  if (nav.deviceMemory && nav.deviceMemory <= 2) return true;
-  if (/Mobi|Android/i.test(navigator.userAgent)) return true;
-  return false;
 }
 
 export function ParticleLayer({

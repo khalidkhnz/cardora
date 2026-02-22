@@ -10,6 +10,10 @@ import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
 import { ParticleLayer } from "../../shared/particle-layer";
+import { StaggeredTextReveal } from "../../shared/staggered-text-reveal";
+import { ParallaxImage } from "../../shared/parallax-image";
+import { MagneticButton } from "../../shared/magnetic-button";
+import { SvgMaskTransition } from "../../shared/svg-mask-transition";
 import {
   DecorativeBorder,
   FloralFrame,
@@ -436,15 +440,14 @@ export default function CinematicScrollTemplate({
             A Celebration of Love
           </motion.p>
 
-          {/* Huge couple names */}
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, delay: 0.8 }}
+          {/* Huge couple names — letter-by-letter cinematic reveal */}
+          <StaggeredTextReveal
+            text={invite.groomName}
+            splitBy="letter"
+            as="h1"
+            trigger="inView"
             className="font-serif text-7xl font-light leading-[0.9] text-white sm:text-8xl lg:text-9xl"
-          >
-            {invite.groomName}
-          </motion.h1>
+          />
 
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
@@ -463,14 +466,13 @@ export default function CinematicScrollTemplate({
             <div className="h-px w-20 origin-left bg-gradient-to-l from-transparent to-[#C0C0C0]/40 sm:w-32" />
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, delay: 1.2 }}
+          <StaggeredTextReveal
+            text={invite.brideName}
+            splitBy="letter"
+            as="h1"
+            trigger="inView"
             className="font-serif text-7xl font-light leading-[0.9] text-white sm:text-8xl lg:text-9xl"
-          >
-            {invite.brideName}
-          </motion.h1>
+          />
 
           {invite.weddingDate && (
             <motion.p
@@ -504,8 +506,9 @@ export default function CinematicScrollTemplate({
       </section>
 
       {/* ================================================================== */}
-      {/*  SECTION 2 — STORY (fullscreen)                                    */}
+      {/*  SECTION 2 — STORY (fullscreen, with mask reveal)                  */}
       {/* ================================================================== */}
+      <SvgMaskTransition maskColor="#1a0a2e">
       <section className="fullscreen-section scroll-section relative flex min-h-screen items-center justify-center overflow-hidden">
         {/* Background gradient variation */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0a2e] via-[#2d1b4e] to-[#1a0a2e]" />
@@ -582,6 +585,7 @@ export default function CinematicScrollTemplate({
           )}
         </div>
       </section>
+      </SvgMaskTransition>
 
       {/* ================================================================== */}
       {/*  SECTION 3 — EVENT DETAILS (fullscreen)                            */}
@@ -711,9 +715,12 @@ export default function CinematicScrollTemplate({
                 {invite.galleryImages.map((img, idx) => (
                   <ImmersiveReveal key={idx} delay={idx * 0.08}>
                     <div className="group relative aspect-square overflow-hidden rounded-sm border border-[#C0C0C0]/8">
-                      <div
-                        className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                        style={{ backgroundImage: `url(${img})` }}
+                      <ParallaxImage
+                        src={img}
+                        alt={`Gallery image ${idx + 1}`}
+                        speed={18}
+                        scaleRange={[1, 1.15]}
+                        className="h-full w-full"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#1a0a2e]/50 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     </div>
@@ -849,13 +856,15 @@ export default function CinematicScrollTemplate({
           {/* RSVP + action buttons */}
           <ImmersiveReveal delay={0.4}>
             <div className="flex flex-col items-center gap-4">
-              <PlatinumShimmerButton
-                onClick={() => setRsvpOpen(true)}
-                className="w-full max-w-xs"
-              >
-                <Heart className="mr-2 inline h-4 w-4" />
-                RSVP Now
-              </PlatinumShimmerButton>
+              <MagneticButton strength={0.3} className="w-full max-w-xs">
+                <PlatinumShimmerButton
+                  onClick={() => setRsvpOpen(true)}
+                  className="w-full"
+                >
+                  <Heart className="mr-2 inline h-4 w-4" />
+                  RSVP Now
+                </PlatinumShimmerButton>
+              </MagneticButton>
 
               <div className="flex w-full max-w-xs gap-3">
                 <Button

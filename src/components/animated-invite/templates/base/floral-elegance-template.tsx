@@ -9,6 +9,11 @@ import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
 import { ParticleLayer } from "../../shared/particle-layer";
+import { StaggeredTextReveal } from "../../shared/staggered-text-reveal";
+import { TextParallaxMarquee } from "../../shared/text-parallax-marquee";
+import { ParallaxImage } from "../../shared/parallax-image";
+import { MagneticButton } from "../../shared/magnetic-button";
+import { CurvedDivider } from "../../shared/curved-divider";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
 import { useLenis } from "@/hooks/use-lenis";
@@ -298,9 +303,13 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
 
           {/* Couple Names */}
           <motion.div variants={fadeInUp} transition={{ duration: 0.8 }}>
-            <h1 className="font-serif text-5xl font-light leading-tight text-rose-800 sm:text-6xl lg:text-7xl">
-              {invite.groomName}
-            </h1>
+            <StaggeredTextReveal
+              text={invite.groomName}
+              splitBy="word"
+              as="h1"
+              trigger="inView"
+              className="font-serif text-5xl font-light leading-tight text-rose-800 sm:text-6xl lg:text-7xl"
+            />
 
             {/* Floral heart divider */}
             <div className="my-4 flex items-center justify-center gap-4">
@@ -325,9 +334,13 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
               />
             </div>
 
-            <h1 className="font-serif text-5xl font-light leading-tight text-rose-800 sm:text-6xl lg:text-7xl">
-              {invite.brideName}
-            </h1>
+            <StaggeredTextReveal
+              text={invite.brideName}
+              splitBy="word"
+              as="h1"
+              trigger="inView"
+              className="font-serif text-5xl font-light leading-tight text-rose-800 sm:text-6xl lg:text-7xl"
+            />
           </motion.div>
 
           {/* Invitation text */}
@@ -475,6 +488,16 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
           </motion.section>
         )}
 
+        {/* Decorative parallax marquee */}
+        <TextParallaxMarquee
+          text="Save the Date"
+          color="rgb(244 63 94)"
+          className="mb-8"
+        />
+
+        {/* Curved section divider */}
+        <CurvedDivider color="rgb(251 113 133)" height={60} />
+
         {/* ------------------------------------------------------------------ */}
         {/*  DATE & VENUE SECTION                                               */}
         {/* ------------------------------------------------------------------ */}
@@ -620,6 +643,11 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
           </motion.section>
         )}
 
+        {/* Curved section divider before gallery */}
+        {invite.galleryImages.length > 0 && (
+          <CurvedDivider color="rgb(251 113 133)" height={50} flip />
+        )}
+
         {/* ------------------------------------------------------------------ */}
         {/*  GALLERY SECTION                                                    */}
         {/* ------------------------------------------------------------------ */}
@@ -645,9 +673,12 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
                   transition={{ delay: idx * 0.08, duration: 0.5 }}
                   whileHover={{ scale: 1.03 }}
                 >
-                  <div
-                    className="h-full w-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${img})` }}
+                  <ParallaxImage
+                    src={img}
+                    alt={`Gallery image ${idx + 1}`}
+                    speed={15}
+                    scaleRange={[1, 1.08]}
+                    className="h-full w-full"
                   />
                 </motion.div>
               ))}
@@ -682,14 +713,16 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
           </p>
 
           <div className="flex flex-col items-center gap-4">
-            <Button
-              size="lg"
-              className="w-full max-w-xs bg-rose-500 text-white shadow-lg shadow-rose-200/50 hover:bg-rose-600"
-              onClick={() => setRsvpOpen(true)}
-            >
-              <Heart className="mr-2 h-4 w-4" />
-              RSVP Now
-            </Button>
+            <MagneticButton strength={0.3} className="w-full max-w-xs">
+              <Button
+                size="lg"
+                className="w-full bg-rose-500 text-white shadow-lg shadow-rose-200/50 hover:bg-rose-600"
+                onClick={() => setRsvpOpen(true)}
+              >
+                <Heart className="mr-2 h-4 w-4" />
+                RSVP Now
+              </Button>
+            </MagneticButton>
 
             <div className="flex w-full max-w-xs gap-3">
               <Button

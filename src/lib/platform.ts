@@ -82,15 +82,20 @@ export const platform = {
     groomMotherName: "Margaret Anderson",
     brideFatherName: "William Carter",
     brideMotherName: "Elizabeth Carter",
-    /** Placeholder images shown in demo/preview mode (deterministic seeds) */
-    heroImage: "https://picsum.photos/seed/cardora-hero/800/1200",
-    couplePhoto: "https://picsum.photos/seed/cardora-couple/800/800",
-    backgroundImage: "https://picsum.photos/seed/cardora-bg/1920/1080",
+    /** Curated Unsplash wedding photos for demo/preview mode */
+    heroImage:
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=1200&fit=crop&q=80",
+    couplePhoto:
+      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800&h=800&fit=crop&q=80",
+    backgroundImage:
+      "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1920&h=1080&fit=crop&q=80",
     galleryImages: [
-      "https://picsum.photos/seed/cardora-gal1/800/600",
-      "https://picsum.photos/seed/cardora-gal2/800/600",
-      "https://picsum.photos/seed/cardora-gal3/800/600",
-      "https://picsum.photos/seed/cardora-gal4/800/600",
+      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1507504031003-b417219a0fde?w=800&h=600&fit=crop&q=80",
     ],
     hashtag: "#JamesAndSophia2026",
     events: [
