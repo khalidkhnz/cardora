@@ -14,6 +14,8 @@ interface BusinessCardBackProps {
   templateId?: string | null;
   orientation?: "horizontal" | "vertical";
   size?: "standard" | "large";
+  targetWidth?: number;
+  targetHeight?: number;
 }
 
 const BASE_DIMENSIONS = {
@@ -196,6 +198,8 @@ export function BusinessCardBack({
   templateId,
   orientation = "horizontal",
   size = "standard",
+  targetWidth,
+  targetHeight,
 }: BusinessCardBackProps) {
   const template =
     getBusinessCardTemplate(templateId ?? "") ?? businessCardTemplates[0]!;
@@ -214,7 +218,10 @@ export function BusinessCardBack({
   };
 
   const base = BASE_DIMENSIONS[orientation];
-  const target = targetDimensions[orientation][size];
+  const presetTarget = targetDimensions[orientation][size];
+  const target = targetWidth && targetHeight
+    ? { width: targetWidth, height: targetHeight }
+    : presetTarget;
   const scaleFactor = target.width / base.width;
 
   return (

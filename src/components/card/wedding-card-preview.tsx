@@ -23,6 +23,10 @@ interface WeddingCardPreviewProps {
   templateId?: string | null;
   orientation?: "horizontal" | "vertical";
   size?: "standard" | "large";
+  /** Override the rendered card width (replaces the preset size). Must be used with targetHeight. */
+  targetWidth?: number;
+  /** Override the rendered card height (replaces the preset size). Must be used with targetWidth. */
+  targetHeight?: number;
   /** When true, renders just the card without padding, shadow, or entry animation (for use inside FlippableCard) */
   bare?: boolean;
 }
@@ -1607,7 +1611,7 @@ export const WeddingCardPreview = forwardRef<
   HTMLDivElement,
   WeddingCardPreviewProps
 >(function WeddingCardPreview(
-  { data, templateId, orientation = "vertical", size = "standard", bare = false },
+  { data, templateId, orientation = "vertical", size = "standard", targetWidth, targetHeight, bare = false },
   ref,
 ) {
   const template =
@@ -1615,7 +1619,10 @@ export const WeddingCardPreview = forwardRef<
   const { primary } = template.colors;
 
   const base = WEDDING_BASE_DIMENSIONS[orientation];
-  const target = WEDDING_TARGET_DIMENSIONS[orientation][size];
+  const presetTarget = WEDDING_TARGET_DIMENSIONS[orientation][size];
+  const target = targetWidth && targetHeight
+    ? { width: targetWidth, height: targetHeight }
+    : presetTarget;
   const scaleFactor = target.width / base.width;
 
   const cardCore = (

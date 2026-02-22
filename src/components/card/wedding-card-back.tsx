@@ -14,6 +14,8 @@ interface WeddingCardBackProps {
   templateId?: string | null;
   orientation?: "horizontal" | "vertical";
   size?: "standard" | "large";
+  targetWidth?: number;
+  targetHeight?: number;
 }
 
 const WEDDING_BASE_DIMENSIONS = {
@@ -217,6 +219,8 @@ export function WeddingCardBack({
   templateId,
   orientation = "vertical",
   size = "standard",
+  targetWidth,
+  targetHeight,
 }: WeddingCardBackProps) {
   const template =
     getWeddingCardTemplate(templateId ?? "") ?? weddingCardTemplates[0]!;
@@ -233,7 +237,10 @@ export function WeddingCardBack({
   };
 
   const base = WEDDING_BASE_DIMENSIONS[orientation];
-  const target = targetDimensions[orientation][size];
+  const presetTarget = targetDimensions[orientation][size];
+  const target = targetWidth && targetHeight
+    ? { width: targetWidth, height: targetHeight }
+    : presetTarget;
   const scaleFactor = target.width / base.width;
 
   return (

@@ -23,6 +23,10 @@ interface BusinessCardPreviewProps {
   templateId?: string | null;
   orientation?: "horizontal" | "vertical";
   size?: "standard" | "large";
+  /** Override the rendered card width (replaces the preset size). Must be used with targetHeight. */
+  targetWidth?: number;
+  /** Override the rendered card height (replaces the preset size). Must be used with targetWidth. */
+  targetHeight?: number;
   /** When true, renders just the card without padding, shadow, or entry animation (for use inside FlippableCard) */
   bare?: boolean;
 }
@@ -1324,14 +1328,17 @@ export const BUSINESS_TARGET_DIMENSIONS = {
 };
 
 export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPreviewProps>(
-  function BusinessCardPreview({ user, templateId, orientation = "horizontal", size = "standard", bare = false }, ref) {
+  function BusinessCardPreview({ user, templateId, orientation = "horizontal", size = "standard", targetWidth, targetHeight, bare = false }, ref) {
     const template =
       getBusinessCardTemplate(templateId ?? "") ?? businessCardTemplates[0]!;
     const { primary, secondary } = template.colors;
     const textColor = getTextColor(secondary);
 
     const base = BASE_DIMENSIONS[orientation];
-    const target = BUSINESS_TARGET_DIMENSIONS[orientation][size];
+    const presetTarget = BUSINESS_TARGET_DIMENSIONS[orientation][size];
+    const target = targetWidth && targetHeight
+      ? { width: targetWidth, height: targetHeight }
+      : presetTarget;
     const scaleFactor = target.width / base.width;
 
     const cardCore = (

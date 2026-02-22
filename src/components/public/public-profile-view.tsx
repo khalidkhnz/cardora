@@ -139,46 +139,31 @@ function useWindowSize() {
   return size;
 }
 
-/** Wraps FlippableCard in a CSS-scaled container that fills available width. */
-function ScaledCard({
-  cardW,
-  cardH,
-  maxAvailableWidth,
-  maxAvailableHeight,
-  children,
-}: {
-  cardW: number;
-  cardH: number;
-  maxAvailableWidth: number;
-  maxAvailableHeight?: number;
-  children: React.ReactNode;
-}) {
-  let scale = maxAvailableWidth > 0 ? maxAvailableWidth / cardW : 1;
-  if (maxAvailableHeight && maxAvailableHeight > 0) {
-    scale = Math.min(scale, maxAvailableHeight / cardH);
+/**
+ * Compute responsive card dimensions that fit within available space
+ * while preserving aspect ratio. Returns target width/height that can
+ * be passed directly to card components (single transform, no double-scaling).
+ */
+function computeResponsiveDims(
+  baseW: number,
+  baseH: number,
+  availW: number,
+  availH?: number,
+): { w: number; h: number } {
+  if (availW <= 0) return { w: baseW, h: baseH };
+  const aspect = baseW / baseH;
+  let w = availW;
+  let h = w / aspect;
+  if (availH && availH > 0 && h > availH) {
+    h = availH;
+    w = h * aspect;
   }
-  // Clamp between 1 and 4
-  scale = Math.max(1, Math.min(scale, 4));
-
-  return (
-    <div
-      style={{
-        width: cardW * scale,
-        height: cardH * scale,
-      }}
-    >
-      <div
-        style={{
-          width: cardW,
-          height: cardH,
-          transform: `scale(${scale})`,
-          transformOrigin: "top left",
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
+  // Don't go below the base (standard) dimensions
+  if (w < baseW) {
+    w = baseW;
+    h = baseH;
+  }
+  return { w: Math.round(w), h: Math.round(h) };
 }
 
 // ─── Fullscreen overlay ─────────────────────────────────────────────────────
@@ -203,14 +188,15 @@ function FullscreenCardOverlay({
     cardSettings.cardType === "engagement" ||
     cardSettings.cardType === "anniversary";
 
-  // Use "large" base size for fullscreen
-  const dims = isWedding
-    ? getWeddingDims(cardSettings.orientation, "large")
-    : getBusinessDims(cardSettings.orientation, "large");
+  // Base card dims for aspect ratio
+  const baseDims = isWedding
+    ? getWeddingDims(cardSettings.orientation, "standard")
+    : getBusinessDims(cardSettings.orientation, "standard");
 
-  // Available space: viewport minus padding for header/footer content
-  const availW = Math.max(0, viewport.w - 80); // 40px padding each side
-  const availH = Math.max(0, viewport.h - 260); // room for name, hints, button
+  // Compute responsive dimensions that fit the viewport (single transform, no double-scaling)
+  const availW = Math.max(0, viewport.w - 80);
+  const availH = Math.max(0, viewport.h - 260);
+  const dims = computeResponsiveDims(baseDims.w, baseDims.h, availW, availH);
 
   return (
     <motion.div
@@ -249,98 +235,95 @@ function FullscreenCardOverlay({
         )}
       </motion.div>
 
-      {/* Card — scales to fit viewport */}
+      {/* Card — responsive to viewport */}
       <motion.div
         initial={{ scale: 0.7, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.7, opacity: 0 }}
         transition={{ type: "spring", stiffness: 200, damping: 24, delay: 0.1 }}
       >
-        <ScaledCard
-          cardW={dims.w}
-          cardH={dims.h}
-          maxAvailableWidth={availW}
-          maxAvailableHeight={availH}
-        >
-          {!isWedding ? (
-            <FlippableCard
-              width={dims.w}
-              height={dims.h}
-              front={
-                <BusinessCardPreview
-                  user={{
-                    name: user.name,
-                    email: user.email,
-                    phone: user.phone,
-                    company: user.company,
-                    profession: user.profession,
-                    address: user.address,
-                    profileImage: user.profileImage,
-                  }}
-                  templateId={cardSettings.selectedTemplateId}
-                  orientation={cardSettings.orientation}
-                  size="large"
-                  bare
-                />
-              }
-              back={
-                <BusinessCardBack
-                  user={{
-                    name: user.name,
-                    email: user.email,
-                    phone: user.phone,
-                    company: user.company,
-                    profession: user.profession,
-                    address: user.address,
-                    profileImage: user.profileImage,
-                  }}
-                  username={user.username}
-                  templateId={cardSettings.selectedTemplateId}
-                  orientation={cardSettings.orientation}
-                  size="large"
-                />
-              }
-            />
-          ) : (
-            <FlippableCard
-              width={dims.w}
-              height={dims.h}
-              front={
-                <WeddingCardPreview
-                  data={{
-                    groomName: cardSettings.groomName,
-                    brideName: cardSettings.brideName,
-                    weddingDate: cardSettings.weddingDate,
-                    venue: cardSettings.venue,
-                    groomParentNames: cardSettings.groomParentNames,
-                    brideParentNames: cardSettings.brideParentNames,
-                    deceasedElders: cardSettings.deceasedElders,
-                  }}
-                  templateId={cardSettings.selectedTemplateId}
-                  orientation={cardSettings.orientation}
-                  size="large"
-                  bare
-                />
-              }
-              back={
-                <WeddingCardBack
-                  data={{
-                    groomName: cardSettings.groomName,
-                    brideName: cardSettings.brideName,
-                    weddingDate: cardSettings.weddingDate,
-                    venue: cardSettings.venue,
-                    groomParentNames: cardSettings.groomParentNames,
-                    brideParentNames: cardSettings.brideParentNames,
-                    deceasedElders: cardSettings.deceasedElders,
-                  }}
-                  templateId={cardSettings.selectedTemplateId}
-                  orientation={cardSettings.orientation}
-                  size="large"
-                />
-              }
-            />
-          )}
-        </ScaledCard>
+        {!isWedding ? (
+          <FlippableCard
+            width={dims.w}
+            height={dims.h}
+            front={
+              <BusinessCardPreview
+                user={{
+                  name: user.name,
+                  email: user.email,
+                  phone: user.phone,
+                  company: user.company,
+                  profession: user.profession,
+                  address: user.address,
+                  profileImage: user.profileImage,
+                }}
+                templateId={cardSettings.selectedTemplateId}
+                orientation={cardSettings.orientation}
+                targetWidth={dims.w}
+                targetHeight={dims.h}
+                bare
+              />
+            }
+            back={
+              <BusinessCardBack
+                user={{
+                  name: user.name,
+                  email: user.email,
+                  phone: user.phone,
+                  company: user.company,
+                  profession: user.profession,
+                  address: user.address,
+                  profileImage: user.profileImage,
+                }}
+                username={user.username}
+                templateId={cardSettings.selectedTemplateId}
+                orientation={cardSettings.orientation}
+                targetWidth={dims.w}
+                targetHeight={dims.h}
+              />
+            }
+          />
+        ) : (
+          <FlippableCard
+            width={dims.w}
+            height={dims.h}
+            front={
+              <WeddingCardPreview
+                data={{
+                  groomName: cardSettings.groomName,
+                  brideName: cardSettings.brideName,
+                  weddingDate: cardSettings.weddingDate,
+                  venue: cardSettings.venue,
+                  groomParentNames: cardSettings.groomParentNames,
+                  brideParentNames: cardSettings.brideParentNames,
+                  deceasedElders: cardSettings.deceasedElders,
+                }}
+                templateId={cardSettings.selectedTemplateId}
+                orientation={cardSettings.orientation}
+                targetWidth={dims.w}
+                targetHeight={dims.h}
+                bare
+              />
+            }
+            back={
+              <WeddingCardBack
+                data={{
+                  groomName: cardSettings.groomName,
+                  brideName: cardSettings.brideName,
+                  weddingDate: cardSettings.weddingDate,
+                  venue: cardSettings.venue,
+                  groomParentNames: cardSettings.groomParentNames,
+                  brideParentNames: cardSettings.brideParentNames,
+                  deceasedElders: cardSettings.deceasedElders,
+                }}
+                templateId={cardSettings.selectedTemplateId}
+                orientation={cardSettings.orientation}
+                targetWidth={dims.w}
+                targetHeight={dims.h}
+              />
+            }
+          />
+        )}
       </motion.div>
 
       {/* Hint text below card */}
@@ -420,11 +403,12 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
   const openFullscreen = useCallback(() => setFullscreen(true), []);
   const closeFullscreen = useCallback(() => setFullscreen(false), []);
 
-  const businessDims = getBusinessDims(cardSettings.orientation, cardSettings.cardSize);
-  const weddingDims = getWeddingDims(cardSettings.orientation, cardSettings.cardSize);
-
-  // Available width for the inline card: container is max-w-lg (512px) with px-4 (16px each side)
+  // Compute responsive inline card dimensions (single transform, no double-scaling)
+  const inlineBaseDims = isWedding
+    ? getWeddingDims(cardSettings.orientation, "standard")
+    : getBusinessDims(cardSettings.orientation, "standard");
   const inlineAvailW = Math.max(0, Math.min(viewport.w - 32, 480));
+  const inlineDims = computeResponsiveDims(inlineBaseDims.w, inlineBaseDims.h, inlineAvailW);
 
   return (
     <div className="min-h-screen" style={{ background: bgGradient }}>
@@ -484,88 +468,88 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
           transition={{ delay: 0.1 }}
           className="relative mb-6 flex flex-col items-center gap-3"
         >
-          {/* Inline card — scales to fill container width */}
+          {/* Inline card — responsive to container width */}
           {!isWedding ? (
-            <ScaledCard cardW={businessDims.w} cardH={businessDims.h} maxAvailableWidth={inlineAvailW}>
-              <FlippableCard
-                width={businessDims.w}
-                height={businessDims.h}
-                front={
-                  <BusinessCardPreview
-                    user={{
-                      name: user.name,
-                      email: user.email,
-                      phone: user.phone,
-                      company: user.company,
-                      profession: user.profession,
-                      address: user.address,
-                      profileImage: user.profileImage,
-                    }}
-                    templateId={cardSettings.selectedTemplateId}
-                    orientation={cardSettings.orientation}
-                    size={cardSettings.cardSize}
-                    bare
-                  />
-                }
-                back={
-                  <BusinessCardBack
-                    user={{
-                      name: user.name,
-                      email: user.email,
-                      phone: user.phone,
-                      company: user.company,
-                      profession: user.profession,
-                      address: user.address,
-                      profileImage: user.profileImage,
-                    }}
-                    username={user.username}
-                    templateId={cardSettings.selectedTemplateId}
-                    orientation={cardSettings.orientation}
-                    size={cardSettings.cardSize}
-                  />
-                }
-              />
-            </ScaledCard>
+            <FlippableCard
+              width={inlineDims.w}
+              height={inlineDims.h}
+              front={
+                <BusinessCardPreview
+                  user={{
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    company: user.company,
+                    profession: user.profession,
+                    address: user.address,
+                    profileImage: user.profileImage,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  targetWidth={inlineDims.w}
+                  targetHeight={inlineDims.h}
+                  bare
+                />
+              }
+              back={
+                <BusinessCardBack
+                  user={{
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    company: user.company,
+                    profession: user.profession,
+                    address: user.address,
+                    profileImage: user.profileImage,
+                  }}
+                  username={user.username}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  targetWidth={inlineDims.w}
+                  targetHeight={inlineDims.h}
+                />
+              }
+            />
           ) : (
-            <ScaledCard cardW={weddingDims.w} cardH={weddingDims.h} maxAvailableWidth={inlineAvailW}>
-              <FlippableCard
-                width={weddingDims.w}
-                height={weddingDims.h}
-                front={
-                  <WeddingCardPreview
-                    data={{
-                      groomName: cardSettings.groomName,
-                      brideName: cardSettings.brideName,
-                      weddingDate: cardSettings.weddingDate,
-                      venue: cardSettings.venue,
-                      groomParentNames: cardSettings.groomParentNames,
-                      brideParentNames: cardSettings.brideParentNames,
-                      deceasedElders: cardSettings.deceasedElders,
-                    }}
-                    templateId={cardSettings.selectedTemplateId}
-                    orientation={cardSettings.orientation}
-                    size={cardSettings.cardSize}
-                    bare
-                  />
-                }
-                back={
-                  <WeddingCardBack
-                    data={{
-                      groomName: cardSettings.groomName,
-                      brideName: cardSettings.brideName,
-                      weddingDate: cardSettings.weddingDate,
-                      venue: cardSettings.venue,
-                      groomParentNames: cardSettings.groomParentNames,
-                      brideParentNames: cardSettings.brideParentNames,
-                      deceasedElders: cardSettings.deceasedElders,
-                    }}
-                    templateId={cardSettings.selectedTemplateId}
-                    orientation={cardSettings.orientation}
-                    size={cardSettings.cardSize}
-                  />
-                }
-              />
-            </ScaledCard>
+            <FlippableCard
+              width={inlineDims.w}
+              height={inlineDims.h}
+              front={
+                <WeddingCardPreview
+                  data={{
+                    groomName: cardSettings.groomName,
+                    brideName: cardSettings.brideName,
+                    weddingDate: cardSettings.weddingDate,
+                    venue: cardSettings.venue,
+                    groomParentNames: cardSettings.groomParentNames,
+                    brideParentNames: cardSettings.brideParentNames,
+                    deceasedElders: cardSettings.deceasedElders,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  targetWidth={inlineDims.w}
+                  targetHeight={inlineDims.h}
+                  bare
+                />
+              }
+              back={
+                <WeddingCardBack
+                  data={{
+                    groomName: cardSettings.groomName,
+                    brideName: cardSettings.brideName,
+                    weddingDate: cardSettings.weddingDate,
+                    venue: cardSettings.venue,
+                    groomParentNames: cardSettings.groomParentNames,
+                    brideParentNames: cardSettings.brideParentNames,
+                    deceasedElders: cardSettings.deceasedElders,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  targetWidth={inlineDims.w}
+                  targetHeight={inlineDims.h}
+                />
+              }
+            />
           )}
 
           {/* Expand button */}
