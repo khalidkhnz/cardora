@@ -68,7 +68,7 @@ export const platform = {
   /** Example / demo data used in animated invite previews and unpaid invite fallbacks */
   demoData: {
     groomName: "James",
-    brideName: "Sophia",
+    brideName: "Alexandra",
     weddingDate: "2026-06-15",
     receptionDate: "2026-06-16",
     weddingTime: "6:00 PM",
