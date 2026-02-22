@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
@@ -8,8 +8,11 @@ import { Share2, MapPin, Calendar, Heart, Download } from "lucide-react";
 import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
+import { ParticleLayer } from "../../shared/particle-layer";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useLenis } from "@/hooks/use-lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import type { TemplateProps } from "../../types";
 
 /* -------------------------------------------------------------------------- */

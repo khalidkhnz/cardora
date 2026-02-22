@@ -16,7 +16,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import {
   animatedTemplates,
-  animatedTemplateCategories,
+  animatedTemplateFilters,
+  templateReligions,
+  filterTemplates,
   getAnimatedTemplate,
 } from "@/lib/templates/animated-templates";
 import { getTemplateCategory } from "@/components/animated-invite/template-registry";
@@ -264,10 +266,7 @@ export function AnimatedInviteEditor() {
     templateCategory === "cinematic" || templateCategory === "interactive";
   const showExtraDataFields = showMultiEventFields;
 
-  const filtered =
-    category === "All"
-      ? animatedTemplates
-      : animatedTemplates.filter((t) => t.category === category);
+  const filtered = filterTemplates(category);
 
   function addEvent() {
     setEvents([
@@ -374,35 +373,35 @@ export function AnimatedInviteEditor() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* Category filter */}
-          <div className="mb-4 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => setCategory("All")}
-              className={cn(
-                "rounded-full px-3 py-1 text-sm font-medium transition-colors",
-                category === "All"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted hover:bg-muted/80",
-              )}
-            >
-              All
-            </button>
-            {animatedTemplateCategories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setCategory(cat)}
-                className={cn(
-                  "rounded-full px-3 py-1 text-sm font-medium transition-colors",
-                  category === cat
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted hover:bg-muted/80",
-                )}
-              >
-                {cat}
-              </button>
-            ))}
+          {/* Merged filter row: style categories + religion filters */}
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            {animatedTemplateFilters.map((filter, idx) => {
+              const isReligion = templateReligions.some((r) => r.label === filter);
+              const isFirstReligion = isReligion && !templateReligions.some((r) => r.label === animatedTemplateFilters[idx - 1]);
+              return (
+                <div key={filter} className="flex items-center gap-2">
+                  {isFirstReligion && (
+                    <div className="mx-1 h-5 w-px bg-border" />
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setCategory(filter)}
+                    className={cn(
+                      "rounded-full px-3 py-1 text-sm font-medium transition-colors",
+                      category === filter
+                        ? isReligion
+                          ? "bg-amber-600 text-white"
+                          : "bg-primary text-primary-foreground"
+                        : isReligion
+                          ? "bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:hover:bg-amber-900/50"
+                          : "bg-muted hover:bg-muted/80",
+                    )}
+                  >
+                    {filter}
+                  </button>
+                </div>
+              );
+            })}
           </div>
 
           {/* Template grid */}

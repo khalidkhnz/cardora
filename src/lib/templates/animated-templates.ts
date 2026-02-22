@@ -1,3 +1,5 @@
+export type TemplateReligion = "hindu" | "muslim" | "christian" | "sikh";
+
 export interface AnimatedTemplate {
   id: string;
   name: string;
@@ -5,6 +7,7 @@ export interface AnimatedTemplate {
   category: string;
   preview: string;
   features: string[];
+  religion?: TemplateReligion;
 }
 
 export const animatedTemplates: AnimatedTemplate[] = [
@@ -55,6 +58,7 @@ export const animatedTemplates: AnimatedTemplate[] = [
     category: "Traditional",
     preview: "🕌",
     features: ["Arabic text support", "multiple events", "traditional motifs"],
+    religion: "muslim",
   },
   {
     id: "mountains-dark",
@@ -87,6 +91,7 @@ export const animatedTemplates: AnimatedTemplate[] = [
     category: "Traditional",
     preview: "🙏",
     features: ["Gurbani text", "traditional elements", "sacred design"],
+    religion: "sikh",
   },
   {
     id: "floral-elegance",
@@ -103,6 +108,7 @@ export const animatedTemplates: AnimatedTemplate[] = [
     category: "Traditional",
     preview: "🪔",
     features: ["Indian motifs", "traditional colors", "heritage patterns"],
+    religion: "hindu",
   },
   {
     id: "minimal-modern",
@@ -144,6 +150,100 @@ export const animatedTemplates: AnimatedTemplate[] = [
     preview: "🌟",
     features: ["golden particles", "night sky", "luxury animations"],
   },
+  // --- Hindu Templates ---
+  {
+    id: "mandap-ceremony",
+    name: "Mandap Ceremony",
+    description: "Traditional Hindu Mandap theme with marigold garlands and sacred motifs",
+    category: "Traditional",
+    preview: "🛕",
+    features: ["mandap canopy", "marigold petals", "sacred motifs"],
+    religion: "hindu",
+  },
+  {
+    id: "devi-divine",
+    name: "Devi Divine",
+    description: "Goddess-inspired divine theme with lotus mandala and peacock feathers",
+    category: "Elegant",
+    preview: "🪷",
+    features: ["lotus mandala", "peacock motifs", "divine elegance"],
+    religion: "hindu",
+  },
+  {
+    id: "royal-rajput",
+    name: "Royal Rajput",
+    description: "Royal Rajasthani heritage theme with haveli arches and elephant motifs",
+    category: "Premium",
+    preview: "🐘",
+    features: ["rajput crest", "haveli arches", "gold dust"],
+    religion: "hindu",
+  },
+  // --- Christian Templates ---
+  {
+    id: "chapel-grace",
+    name: "Chapel Grace",
+    description: "Elegant chapel theme with stained glass and dove motifs",
+    category: "Elegant",
+    preview: "⛪",
+    features: ["stained glass", "dove motifs", "holy matrimony"],
+    religion: "christian",
+  },
+  {
+    id: "garden-blessing",
+    name: "Garden Blessing",
+    description: "Outdoor garden ceremony theme with botanical illustrations",
+    category: "Nature",
+    preview: "🌿",
+    features: ["garden arch", "botanical art", "cherry blossom"],
+    religion: "christian",
+  },
+  {
+    id: "cathedral-grandeur",
+    name: "Cathedral Grandeur",
+    description: "Grand cathedral theme with gothic arches and candlelight",
+    category: "Premium",
+    preview: "🕯️",
+    features: ["gothic arches", "rose window", "candlelight"],
+    religion: "christian",
+  },
+  // --- Muslim Templates ---
+  {
+    id: "nikkah-elegance",
+    name: "Nikkah Elegance",
+    description: "Elegant Nikkah ceremony theme with Islamic geometric patterns",
+    category: "Elegant",
+    preview: "🌙",
+    features: ["geometric patterns", "arabesque borders", "Bismillah calligraphy"],
+    religion: "muslim",
+  },
+  {
+    id: "mughal-grandeur",
+    name: "Mughal Grandeur",
+    description: "Mughal-era inspired grandeur with jharokha arches and jali patterns",
+    category: "Premium",
+    preview: "🏯",
+    features: ["mughal arches", "jali patterns", "pietra dura"],
+    religion: "muslim",
+  },
+  // --- Sikh Templates ---
+  {
+    id: "golden-gurdwara",
+    name: "Golden Gurdwara",
+    description: "Golden temple-inspired Anand Karaj theme with Khanda and Ik Onkar",
+    category: "Traditional",
+    preview: "🪯",
+    features: ["golden dome", "Khanda symbol", "saffron petals"],
+    religion: "sikh",
+  },
+  {
+    id: "punjabi-vibrance",
+    name: "Punjabi Vibrance",
+    description: "Vibrant Punjabi celebration theme with phulkari patterns and truck art",
+    category: "Modern",
+    preview: "🎊",
+    features: ["phulkari patterns", "bangles border", "truck art"],
+    religion: "sikh",
+  },
 ];
 
 export function getAnimatedTemplate(id: string) {
@@ -152,4 +252,34 @@ export function getAnimatedTemplate(id: string) {
 
 export const animatedTemplateCategories = [
   ...new Set(animatedTemplates.map((t) => t.category)),
+];
+
+/** Religion labels for the filter row */
+export const templateReligions: { value: TemplateReligion; label: string }[] = [
+  { value: "hindu", label: "Hindu" },
+  { value: "muslim", label: "Muslim" },
+  { value: "christian", label: "Christian" },
+  { value: "sikh", label: "Sikh" },
+];
+
+/**
+ * Filter templates by category and/or religion.
+ * - `filter === "All"` → all templates
+ * - `filter` matches a religion value → templates with that religion
+ * - otherwise → filter by category name
+ */
+export function filterTemplates(filter: string): AnimatedTemplate[] {
+  if (filter === "All") return animatedTemplates;
+  const religion = templateReligions.find((r) => r.label === filter);
+  if (religion) {
+    return animatedTemplates.filter((t) => t.religion === religion.value);
+  }
+  return animatedTemplates.filter((t) => t.category === filter);
+}
+
+/** Merged filter row: "All" + style categories + religion labels */
+export const animatedTemplateFilters: string[] = [
+  "All",
+  ...animatedTemplateCategories,
+  ...templateReligions.map((r) => r.label),
 ];

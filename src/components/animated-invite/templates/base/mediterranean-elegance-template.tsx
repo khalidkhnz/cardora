@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
@@ -8,8 +8,11 @@ import { Share2, MapPin, Calendar, Heart, Download } from "lucide-react";
 import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
+import { ParticleLayer } from "../../shared/particle-layer";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useLenis } from "@/hooks/use-lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import type { TemplateProps } from "../../types";
 
 /* -------------------------------------------------------------------------- */
@@ -180,6 +183,46 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const { isPlaying, toggle } = useMusicPlayer(invite.musicUrl);
   const countdown = useCountdown(invite.weddingDate);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLenis();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".scroll-fade").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+
+      gsap.utils.toArray<HTMLElement>(".parallax-wash").forEach((el) => {
+        gsap.to(el, {
+          yPercent: -10,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   async function handleShare() {
     const url = `${window.location.origin}/wedding/${invite.slug}`;

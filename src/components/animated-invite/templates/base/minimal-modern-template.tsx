@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
@@ -8,8 +8,11 @@ import { Share2, MapPin, Calendar, Heart, Download } from "lucide-react";
 import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
+import { ParticleLayer } from "../../shared/particle-layer";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useLenis } from "@/hooks/use-lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import type { TemplateProps } from "../../types";
 
 function formatWeddingDate(dateStr: string | null) {
@@ -53,6 +56,32 @@ export default function MinimalModernTemplate({
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const { isPlaying, toggle } = useMusicPlayer(invite.musicUrl);
   const countdown = useCountdown(invite.weddingDate);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLenis();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".scroll-fade").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   async function handleShare() {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
@@ -72,7 +101,9 @@ export default function MinimalModernTemplate({
   }
 
   return (
-    <div className="relative min-h-screen bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+    <div ref={containerRef} className="relative min-h-screen bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+      <ParticleLayer type="LIGHT" />
+
       {/* ---- Music Toggle ---- */}
       {invite.musicUrl && (
         <MusicToggleButton
@@ -92,7 +123,7 @@ export default function MinimalModernTemplate({
       {/* ================================================================== */}
       {/*  HERO SECTION                                                      */}
       {/* ================================================================== */}
-      <section className="flex min-h-screen flex-col items-center justify-center px-6 py-24">
+      <section className="scroll-fade flex min-h-screen flex-col items-center justify-center px-6 py-24">
         {/* Couple photo */}
         {invite.heroImage && (
           <motion.div
@@ -183,7 +214,7 @@ export default function MinimalModernTemplate({
         invite.groomMotherName ??
         invite.brideFatherName ??
         invite.brideMotherName) && (
-        <section className="px-6 py-24">
+        <section className="scroll-fade px-6 py-24">
           <div className="mx-auto max-w-xl">
             <motion.p
               initial={{ opacity: 0 }}
@@ -252,7 +283,7 @@ export default function MinimalModernTemplate({
       {/*  STORY SECTION                                                     */}
       {/* ================================================================== */}
       {invite.story && (
-        <section className="px-6 py-24">
+        <section className="scroll-fade px-6 py-24">
           <div className="mx-auto max-w-lg text-center">
             <motion.p
               initial={{ opacity: 0 }}
@@ -294,7 +325,7 @@ export default function MinimalModernTemplate({
       {/* ================================================================== */}
       {/*  DATE & VENUE SECTION                                              */}
       {/* ================================================================== */}
-      <section className="px-6 py-24">
+      <section className="scroll-fade px-6 py-24">
         <div className="mx-auto max-w-xl">
           <motion.p
             initial={{ opacity: 0 }}
@@ -408,7 +439,7 @@ export default function MinimalModernTemplate({
       {/*  EVENTS SECTION                                                    */}
       {/* ================================================================== */}
       {invite.events && invite.events.length > 0 && (
-        <section className="px-6 py-24">
+        <section className="scroll-fade px-6 py-24">
           <div className="mx-auto max-w-xl">
             <motion.p
               initial={{ opacity: 0 }}
@@ -454,7 +485,7 @@ export default function MinimalModernTemplate({
       {/*  GALLERY SECTION                                                   */}
       {/* ================================================================== */}
       {invite.galleryImages.length > 0 && (
-        <section className="px-6 py-24">
+        <section className="scroll-fade px-6 py-24">
           <div className="mx-auto max-w-2xl">
             <motion.p
               initial={{ opacity: 0 }}
@@ -492,7 +523,7 @@ export default function MinimalModernTemplate({
       {/* ================================================================== */}
       {/*  RSVP SECTION                                                      */}
       {/* ================================================================== */}
-      <section className="px-6 py-24">
+      <section className="scroll-fade px-6 py-24">
         <div className="mx-auto max-w-sm text-center">
           <motion.p
             initial={{ opacity: 0 }}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
@@ -8,8 +8,11 @@ import { Share2, MapPin, Calendar, Heart, Download } from "lucide-react";
 import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
+import { ParticleLayer } from "../../shared/particle-layer";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useLenis } from "@/hooks/use-lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import type { TemplateProps } from "../../types";
 
 function formatWeddingDate(dateStr: string | null) {
@@ -188,6 +191,47 @@ export default function RoyalPalaceTemplate({
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const { isPlaying, toggle } = useMusicPlayer(invite.musicUrl);
   const countdown = useCountdown(invite.weddingDate);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLenis();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".scroll-fade").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+
+      // Parallax on decorative elements
+      gsap.utils.toArray<HTMLElement>(".parallax-bg").forEach((el) => {
+        gsap.to(el, {
+          yPercent: -15,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   async function handleShare() {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
@@ -207,15 +251,18 @@ export default function RoyalPalaceTemplate({
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-purple-950 via-gray-900 to-purple-950 text-gray-100">
+    <div ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-purple-950 via-gray-900 to-purple-950 text-gray-100">
       {/* ---- Gold sparkle particles ---- */}
       <GoldSparkles />
+
+      {/* ---- Gold light particle layer ---- */}
+      <ParticleLayer type="LIGHT" count={20} intensity="low" />
 
       {/* ---- Ornamental frame ---- */}
       <OrnamentalFrame />
 
       {/* ---- Golden dot pattern overlay ---- */}
-      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.03]">
+      <div className="parallax-bg pointer-events-none fixed inset-0 z-0 opacity-[0.03]">
         <svg width="100%" height="100%">
           <pattern
             id="royal-dots"
@@ -361,7 +408,7 @@ export default function RoyalPalaceTemplate({
         invite.groomMotherName ??
         invite.brideFatherName ??
         invite.brideMotherName) && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <RegalDivider />
 
           <div className="mx-auto max-w-lg">
@@ -445,7 +492,7 @@ export default function RoyalPalaceTemplate({
       {/*  STORY SECTION                                                     */}
       {/* ================================================================== */}
       {invite.story && (
-        <section className="relative z-10 px-6 py-20">
+        <section className="scroll-fade relative z-10 px-6 py-20">
           <RegalDivider />
 
           <div className="mx-auto max-w-lg text-center">
@@ -495,7 +542,7 @@ export default function RoyalPalaceTemplate({
       {/* ================================================================== */}
       {/*  DATE & VENUE SECTION                                              */}
       {/* ================================================================== */}
-      <section className="relative z-10 px-6 py-20">
+      <section className="scroll-fade relative z-10 px-6 py-20">
         <RegalDivider />
 
         <div className="mx-auto max-w-lg">
@@ -652,7 +699,7 @@ export default function RoyalPalaceTemplate({
       {/*  EVENTS SECTION                                                    */}
       {/* ================================================================== */}
       {invite.events && invite.events.length > 0 && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <RegalDivider />
 
           <div className="mx-auto max-w-lg">

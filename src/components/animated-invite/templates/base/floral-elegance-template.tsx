@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
@@ -8,8 +8,11 @@ import { Share2, MapPin, Calendar, Heart, Download } from "lucide-react";
 import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
+import { ParticleLayer } from "../../shared/particle-layer";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useLenis } from "@/hooks/use-lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import type { TemplateProps } from "../../types";
 
 /* -------------------------------------------------------------------------- */
@@ -171,6 +174,46 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const { isPlaying, toggle } = useMusicPlayer(invite.musicUrl);
   const countdown = useCountdown(invite.weddingDate);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLenis();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".scroll-fade").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+
+      gsap.utils.toArray<HTMLElement>(".parallax-hero").forEach((el) => {
+        gsap.to(el, {
+          yPercent: -15,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   async function handleShare() {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
@@ -190,9 +233,10 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-pink-50 via-rose-50 to-pink-50">
+    <div ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-pink-50 via-rose-50 to-pink-50">
       {/* Floating petals background layer */}
       <FloatingPetals />
+      <ParticleLayer type="PETAL" />
 
       {/* Music toggle */}
       {invite.musicUrl && (
@@ -234,7 +278,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
             <motion.div
               variants={fadeInUp}
               transition={{ duration: 0.8 }}
-              className="mx-auto mb-8 h-64 w-64 overflow-hidden rounded-full border-4 border-rose-200 shadow-2xl shadow-rose-200/40 sm:h-72 sm:w-72"
+              className="parallax-hero mx-auto mb-8 h-64 w-64 overflow-hidden rounded-full border-4 border-rose-200 shadow-2xl shadow-rose-200/40 sm:h-72 sm:w-72"
             >
               <div
                 className="h-full w-full bg-cover bg-center"
@@ -331,7 +375,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
         {/* ------------------------------------------------------------------ */}
         {invite.weddingDate && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -383,7 +427,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
             </motion.div>
 
             <motion.section
-              className="mb-16"
+              className="scroll-fade mb-16"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -417,7 +461,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
         {/* Couple message */}
         {invite.coupleMessage && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -444,7 +488,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
         </motion.div>
 
         <motion.section
-          className="mb-16"
+          className="scroll-fade mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -544,7 +588,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
         {/* ------------------------------------------------------------------ */}
         {invite.events && invite.events.length > 0 && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -581,7 +625,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
         {/* ------------------------------------------------------------------ */}
         {invite.galleryImages.length > 0 && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -624,7 +668,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
         </motion.div>
 
         <motion.section
-          className="mb-16 text-center"
+          className="scroll-fade mb-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
