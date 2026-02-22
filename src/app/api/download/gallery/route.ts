@@ -8,6 +8,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const items = await getGalleryItems(session.user.id);
-  return NextResponse.json(items);
+  const { searchParams } = request.nextUrl;
+  const limit = Math.min(Math.max(parseInt(searchParams.get("limit") ?? "20", 10) || 20, 1), 100);
+  const offset = Math.max(parseInt(searchParams.get("offset") ?? "0", 10) || 0, 0);
+
+  const result = await getGalleryItems(session.user.id, { limit, offset });
+  return NextResponse.json(result);
 }

@@ -1,7 +1,8 @@
 import "server-only";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { db } from "@/server/db";
 import { weddingInvite } from "@/server/db/schema/wedding";
+import { rsvp } from "@/server/db/schema/rsvp";
 import type { CreateWeddingInviteInput } from "@/lib/validators";
 
 export async function getWeddingInviteBySlug(slug: string) {
@@ -52,4 +53,19 @@ export async function createOrUpdateInvite(
     .returning();
 
   return result[0]!;
+}
+
+export async function deleteUserInvite(userId: string) {
+  const existing = await getCurrentUserInvite(userId);
+  if (!existing) return null;
+
+  // Delete associated RSVPs first
+  await db.delete(rsvp).where(eq(rsvp.inviteSlug, existing.slug));
+
+  // Delete the invite
+  await db
+    .delete(weddingInvite)
+    .where(eq(weddingInvite.userId, userId));
+
+  return { success: true };
 }

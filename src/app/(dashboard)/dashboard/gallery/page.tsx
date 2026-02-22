@@ -13,7 +13,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { CreditCard, Heart } from "lucide-react";
 
 export default function GalleryPage() {
-  const { data: items, isLoading } = useGallery();
+  const { data: result, isLoading } = useGallery();
+  const items = result?.data;
 
   return (
     <div className="space-y-6">

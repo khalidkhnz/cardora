@@ -36,7 +36,8 @@ const purposeLabels: Record<string, string> = {
 };
 
 export default function PaymentsPage() {
-  const { data: payments, isLoading, isError } = usePaymentHistory();
+  const { data: result, isLoading, isError } = usePaymentHistory();
+  const payments = result?.data;
 
   return (
     <div className="space-y-6">

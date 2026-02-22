@@ -20,25 +20,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate the invite exists before accepting the RSVP
+    const invite = await db
+      .select({
+        userId: weddingInvite.userId,
+        groomName: weddingInvite.groomName,
+        brideName: weddingInvite.brideName,
+        weddingDate: weddingInvite.weddingDate,
+        venue: weddingInvite.venue,
+      })
+      .from(weddingInvite)
+      .where(eq(weddingInvite.slug, parsed.data.inviteSlug))
+      .limit(1);
+
+    const inviteData = invite[0];
+    if (!inviteData) {
+      return NextResponse.json(
+        { error: "Wedding invite not found" },
+        { status: 404 },
+      );
+    }
+
     const result = await submitRsvp(parsed.data);
 
     // Send RSVP notification email to the invite owner (fire-and-forget)
     void (async () => {
       try {
-        const invite = await db
-          .select({
-            userId: weddingInvite.userId,
-            groomName: weddingInvite.groomName,
-            brideName: weddingInvite.brideName,
-            weddingDate: weddingInvite.weddingDate,
-            venue: weddingInvite.venue,
-          })
-          .from(weddingInvite)
-          .where(eq(weddingInvite.slug, parsed.data.inviteSlug))
-          .limit(1);
-
-        const inviteData = invite[0];
-        if (!inviteData) return;
 
         const owner = await db
           .select({ email: user.email })

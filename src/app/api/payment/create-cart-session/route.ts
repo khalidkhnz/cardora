@@ -1,14 +1,23 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { z } from "zod";
 import { getApiSession } from "@/server/auth-helpers";
 import { stripe } from "@/lib/stripe";
 import { createPayment } from "@/server/db/queries/payment";
 import { getOriginFromRequest } from "@/server/auth-helpers";
 
-interface CartItem {
-  name: string;
-  quantity: number;
-  unitPrice: number;
-}
+const cartSessionSchema = z.object({
+  items: z
+    .array(
+      z.object({
+        name: z.string().min(1).max(200),
+        quantity: z.number().int().min(1).max(100),
+        unitPrice: z.number().int().min(50).max(10_000_00),
+      }),
+    )
+    .min(1)
+    .max(50),
+  currency: z.string().length(3).regex(/^[A-Za-z]{3}$/),
+});
 
 export async function POST(request: NextRequest) {
   const session = await getApiSession(request);
@@ -16,10 +25,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as {
-    items: CartItem[];
-    currency: string;
-  };
+  const rawBody: unknown = await request.json();
+  const parsed = cartSessionSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Validation failed", details: parsed.error.flatten() },
+      { status: 400 },
+    );
+  }
+
+  const body = parsed.data;
 
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json(

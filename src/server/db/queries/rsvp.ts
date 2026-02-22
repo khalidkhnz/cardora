@@ -26,33 +26,100 @@ export async function getRsvpsByInviteSlug(inviteSlug: string) {
     .where(eq(rsvp.inviteSlug, inviteSlug));
 }
 
-export async function getDashboardRsvps(userId: string) {
+const EMPTY_DASHBOARD = {
+  rsvps: [],
+  stats: { total: 0, attending: 0, declined: 0, maybe: 0, totalGuests: 0 },
+  total: 0,
+  limit: 20,
+  offset: 0,
+};
+
+export async function getDashboardRsvps(
+  userId: string,
+  opts: { limit: number; offset: number } = { limit: 20, offset: 0 },
+) {
   // Get all invites for user, then get RSVPs for those invites
   const invites = await db
     .select({ slug: weddingInvite.slug })
     .from(weddingInvite)
     .where(eq(weddingInvite.userId, userId));
 
-  if (invites.length === 0) return { rsvps: [], stats: { total: 0, attending: 0, declined: 0, maybe: 0, totalGuests: 0 } };
+  if (invites.length === 0) return EMPTY_DASHBOARD;
 
   const slugs = invites.map((i) => i.slug);
-  if (slugs.length === 0) return { rsvps: [], stats: { total: 0, attending: 0, declined: 0, maybe: 0, totalGuests: 0 } };
 
-  const allRsvps = await db
-    .select()
-    .from(rsvp)
-    .where(sql`${rsvp.inviteSlug} = ANY(${slugs})`)
-    .orderBy(sql`${rsvp.createdAt} desc`);
+  const [pageRsvps, countResult, allForStats] = await Promise.all([
+    db
+      .select()
+      .from(rsvp)
+      .where(sql`${rsvp.inviteSlug} = ANY(${slugs})`)
+      .orderBy(sql`${rsvp.createdAt} desc`)
+      .limit(opts.limit)
+      .offset(opts.offset),
+    db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(rsvp)
+      .where(sql`${rsvp.inviteSlug} = ANY(${slugs})`),
+    db
+      .select({
+        attending: rsvp.attending,
+        numberOfGuests: rsvp.numberOfGuests,
+      })
+      .from(rsvp)
+      .where(sql`${rsvp.inviteSlug} = ANY(${slugs})`),
+  ]);
+
+  const totalCount = countResult[0]?.count ?? 0;
 
   const stats = {
-    total: allRsvps.length,
-    attending: allRsvps.filter((r) => r.attending === "yes").length,
-    declined: allRsvps.filter((r) => r.attending === "no").length,
-    maybe: allRsvps.filter((r) => r.attending === "maybe").length,
-    totalGuests: allRsvps.reduce((sum, r) => sum + (r.numberOfGuests ?? 1), 0),
+    total: totalCount,
+    attending: allForStats.filter((r) => r.attending === "yes").length,
+    declined: allForStats.filter((r) => r.attending === "no").length,
+    maybe: allForStats.filter((r) => r.attending === "maybe").length,
+    totalGuests: allForStats.reduce(
+      (sum, r) => sum + (r.numberOfGuests ?? 1),
+      0,
+    ),
   };
 
-  return { rsvps: allRsvps, stats };
+  return {
+    rsvps: pageRsvps,
+    stats,
+    total: totalCount,
+    limit: opts.limit,
+    offset: opts.offset,
+  };
+}
+
+export async function updateRsvpStatus(
+  rsvpId: string,
+  userId: string,
+  status: "pending" | "confirmed" | "declined",
+) {
+  // Verify the RSVP belongs to one of the user's invites
+  const rsvpRecord = await db
+    .select({ inviteSlug: rsvp.inviteSlug })
+    .from(rsvp)
+    .where(eq(rsvp.id, rsvpId))
+    .limit(1);
+
+  if (!rsvpRecord[0]) return null;
+
+  const invite = await db
+    .select({ userId: weddingInvite.userId })
+    .from(weddingInvite)
+    .where(eq(weddingInvite.slug, rsvpRecord[0].inviteSlug))
+    .limit(1);
+
+  if (invite[0]?.userId !== userId) return null;
+
+  const result = await db
+    .update(rsvp)
+    .set({ status })
+    .where(eq(rsvp.id, rsvpId))
+    .returning();
+
+  return result[0] ?? null;
 }
 
 export async function deleteRsvp(rsvpId: string, userId: string) {

@@ -31,11 +31,15 @@ interface DashboardRsvpData {
     maybe: number;
     totalGuests: number;
   };
+  total: number;
+  limit: number;
+  offset: number;
 }
 
 export const rsvpKeys = {
   all: ["rsvp"] as const,
-  dashboard: () => [...rsvpKeys.all, "dashboard"] as const,
+  dashboard: (opts?: { limit?: number; offset?: number }) =>
+    [...rsvpKeys.all, "dashboard", opts ?? {}] as const,
   public: (slug: string) => [...rsvpKeys.all, "public", slug] as const,
 };
 
@@ -49,10 +53,21 @@ export function useSubmitRSVP() {
   });
 }
 
-export function useDashboardRSVPs() {
+export function useDashboardRSVPs(opts?: {
+  limit?: number;
+  offset?: number;
+}) {
+  const params = new URLSearchParams();
+  if (opts?.limit) params.set("limit", String(opts.limit));
+  if (opts?.offset) params.set("offset", String(opts.offset));
+  const qs = params.toString();
+
   return useQuery({
-    queryKey: rsvpKeys.dashboard(),
-    queryFn: () => apiClient<DashboardRsvpData>("/api/rsvp/dashboard"),
+    queryKey: rsvpKeys.dashboard(opts),
+    queryFn: () =>
+      apiClient<DashboardRsvpData>(
+        `/api/rsvp/dashboard${qs ? `?${qs}` : ""}`,
+      ),
   });
 }
 
@@ -61,6 +76,23 @@ export function usePublicRSVPStats(inviteSlug: string) {
     queryKey: rsvpKeys.public(inviteSlug),
     queryFn: () => apiClient<RsvpStats>(`/api/rsvp/${inviteSlug}`),
     enabled: !!inviteSlug,
+  });
+}
+
+export function useUpdateRSVPStatus() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: {
+      rsvpId: string;
+      status: "pending" | "confirmed" | "declined";
+    }) =>
+      apiClient(`/api/rsvp/update/${data.rsvpId}`, {
+        method: "PUT",
+        body: JSON.stringify({ status: data.status }),
+      }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: rsvpKeys.dashboard() });
+    },
   });
 }
 

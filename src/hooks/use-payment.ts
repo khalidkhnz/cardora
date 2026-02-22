@@ -27,15 +27,31 @@ interface VerifyResponse {
   currency?: string;
 }
 
+interface PaginatedPayments {
+  data: Payment[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
 export const paymentKeys = {
   all: ["payment"] as const,
-  history: () => [...paymentKeys.all, "history"] as const,
+  history: (opts?: { limit?: number; offset?: number }) =>
+    [...paymentKeys.all, "history", opts ?? {}] as const,
 };
 
-export function usePaymentHistory() {
+export function usePaymentHistory(opts?: { limit?: number; offset?: number }) {
+  const params = new URLSearchParams();
+  if (opts?.limit) params.set("limit", String(opts.limit));
+  if (opts?.offset) params.set("offset", String(opts.offset));
+  const qs = params.toString();
+
   return useQuery({
-    queryKey: paymentKeys.history(),
-    queryFn: () => apiClient<Payment[]>("/api/payment/history"),
+    queryKey: paymentKeys.history(opts),
+    queryFn: () =>
+      apiClient<PaginatedPayments>(
+        `/api/payment/history${qs ? `?${qs}` : ""}`,
+      ),
   });
 }
 

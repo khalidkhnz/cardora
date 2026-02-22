@@ -31,12 +31,30 @@ export async function createPayment(data: {
   return result[0]!;
 }
 
-export async function getPaymentHistory(userId: string) {
-  return db
-    .select()
-    .from(payment)
-    .where(eq(payment.userId, userId))
-    .orderBy(sql`${payment.createdAt} desc`);
+export async function getPaymentHistory(
+  userId: string,
+  opts: { limit: number; offset: number } = { limit: 20, offset: 0 },
+) {
+  const [items, countResult] = await Promise.all([
+    db
+      .select()
+      .from(payment)
+      .where(eq(payment.userId, userId))
+      .orderBy(sql`${payment.createdAt} desc`)
+      .limit(opts.limit)
+      .offset(opts.offset),
+    db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(payment)
+      .where(eq(payment.userId, userId)),
+  ]);
+
+  return {
+    data: items,
+    total: countResult[0]?.count ?? 0,
+    limit: opts.limit,
+    offset: opts.offset,
+  };
 }
 
 export async function getPaymentByStripeSession(sessionId: string) {

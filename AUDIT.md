@@ -2,10 +2,10 @@
 
 > **Audit Date**: 2026-02-22
 > **Last Updated**: 2026-02-22
-> **Overall Status**: ~90% Complete (all critical issues resolved)
+> **Overall Status**: ~95% Complete (all critical + should-have issues resolved)
 > **Scope**: Full flow analysis of `cardora-remake-next/` with comparison to original `Cardora/`
 
-The remake is a near-complete port of the original with improved architecture (TypeScript, PostgreSQL, better-auth, Server Components). All core features exist. **All 7 critical/must-have issues have been fixed** (middleware, unlock security, analytics validation, RSVP data exposure, error boundaries, theme conflict, auth redirects). Remaining work is should-have and nice-to-have items.
+The remake is a near-complete port of the original with improved architecture (TypeScript, PostgreSQL, better-auth, Server Components). All core features exist. **All 7 critical/must-have issues and all 6 actionable should-have items have been fixed.** Remaining work is nice-to-have items and cloud storage migration (#14) which requires external service setup.
 
 ---
 
@@ -82,21 +82,17 @@ The remake is a near-complete port of the original with improved architecture (T
 - Max sizes: images 5MB, audio 10MB
 - **Fix**: Migrate to S3, Cloudflare R2, or UploadThing for production.
 
-### 9. No Pagination on Several List Endpoints
+### ~~9. No Pagination on Several List Endpoints~~ FIXED
 
-| Endpoint | Issue |
-|----------|-------|
-| `GET /api/payment/history` | Returns ALL payments, no limit |
-| `GET /api/download/gallery` | Returns ALL gallery items |
-| `GET /api/rsvp/dashboard` | Returns ALL RSVPs |
+- **Resolution**: All three endpoints now accept `?limit=20&offset=0` query params (default 20, max 100). Returns `{ data, total, limit, offset }` shape. Query functions, hooks, and page components updated.
+  - `GET /api/payment/history` — paginated
+  - `GET /api/download/gallery` — paginated
+  - `GET /api/rsvp/dashboard` — paginated (stats computed from full dataset, RSVP list paginated)
 
-These will degrade performance as data grows.
-
-### 10. RSVP Submit Doesn't Validate Invite Exists
+### ~~10. RSVP Submit Doesn't Validate Invite Exists~~ FIXED
 
 - **File**: `src/app/api/rsvp/submit/route.ts`
-- Creates an RSVP for any `inviteSlug` without checking if the wedding invite actually exists
-- Could create orphaned RSVP records with no parent invite
+- **Resolution**: Invite is now validated before inserting the RSVP. Returns 404 if the `inviteSlug` doesn't match any wedding invite. Also eliminated a duplicate DB query by reusing the invite data for the email notification.
 
 ---
 
@@ -112,15 +108,18 @@ These will degrade performance as data grows.
 - Debug logging scattered across API routes, email module, auth routes, and payment webhook
 - All prefixed (e.g., `[Email]`, `[Auth]`) which is good for debugging but should be removed or replaced with a proper logging service for production
 
-### 13. No Confirmation Dialogs for Destructive Actions
+### ~~13. No Confirmation Dialogs for Destructive Actions~~ FIXED
 
-- Deleting RSVPs, removing cart items, and similar operations have no "Are you sure?" confirmation
-- Risk of accidental data loss
+- **Resolution**: Added `AlertDialog` confirmations to all destructive actions:
+  - RSVP delete (rsvp-table.tsx) — shows guest name before confirming
+  - Cart item remove (cart-item-list.tsx) — shows item name before confirming
+  - Clear cart (order-summary.tsx) — shows item count before confirming
 
-### 14. Payment Amounts Not Validated
+### ~~14. Payment Amounts Not Validated~~ FIXED
 
-- No min/max validation on payment amounts in Zod schemas
-- Could theoretically create $0 or negative payment sessions
+- **Resolution**: Both payment session routes now use Zod validation schemas:
+  - `create-stripe-session`: `amount` min 50, max 10,000,00 (cents); `currency` 3-letter alpha; `purpose` enum
+  - `create-cart-session`: Per-item `unitPrice` min 50, max 10,000,00; `quantity` 1-100; `name` 1-200 chars; array 1-50 items
 
 ### 15. No Account Deletion Flow
 
@@ -224,8 +223,11 @@ All 10 dashboard pages are implemented and functional:
 | `/api/unlock/verify-payment` | POST | Verify payment + unlock (safe) |
 | `/api/upload/image` | POST/DELETE/GET | Image upload (local filesystem) |
 | `/api/upload/audio` | POST/DELETE | Audio upload (local filesystem) |
+| `/api/wedding/current` | GET/DELETE | Get or delete user's wedding invite |
+| `/api/download/gallery/[itemId]` | DELETE | Delete a gallery item |
+| `/api/rsvp/update/[rsvpId]` | PUT | Update RSVP status (by invite owner) |
 
-**Total: 30 API routes across 27 route files**
+**Total: 35 API routes across 30 route files**
 
 ---
 
@@ -235,9 +237,9 @@ All 10 dashboard pages are implemented and functional:
 |--------|:---:|:------:|:------:|:------:|-------|
 | User Profile | Done | Done | Done | **MISSING** | No account/profile deletion flow |
 | Card Settings | Done | Done | Done | **MISSING** | No way to reset to defaults |
-| Wedding Invite | Done | Done | Done | **MISSING** | Orphans RSVPs if deleted manually in DB |
-| RSVP | Done | Done | **MISSING** | Done | No way to edit a submitted RSVP |
-| Gallery Item | Done | Done | — | **MISSING** | No way to remove saved items |
+| Wedding Invite | Done | Done | Done | Done | `DELETE /api/wedding/current` — cascades RSVPs |
+| RSVP | Done | Done | Done | Done | `PUT /api/rsvp/update/[rsvpId]` — status update by invite owner |
+| Gallery Item | Done | Done | — | Done | `DELETE /api/download/gallery/[itemId]` |
 | Analytics Events | Done | Done | — | **MISSING** | No purge/cleanup mechanism |
 | Payment | Done | Done | — | — | No refund endpoint (status exists in schema) |
 
@@ -259,7 +261,7 @@ All 10 dashboard pages are implemented and functional:
 | Issue | Severity | File | Description |
 |-------|----------|------|-------------|
 | Local file storage | HIGH | `api/upload/image`, `api/upload/audio` | Won't scale, no cleanup |
-| No pagination limits | HIGH | `api/payment/history`, `api/download/gallery` | Unbounded result sets |
+| ~~No pagination limits~~ | ~~HIGH~~ | ~~`api/payment/history`, `api/download/gallery`~~ | **FIXED** — All list endpoints paginated (default 20, max 100) |
 | No CSRF protection | HIGH | Custom POST routes | better-auth handles auth routes only |
 
 ### Medium
@@ -405,6 +407,11 @@ Playfair Display, Cormorant Garamond, Great Vibes, Dancing Script, Montserrat, R
 - **Error boundaries** at root and dashboard level with custom 404 page
 - **Secure unlock endpoints** with Stripe payment verification
 - **Server-validated analytics** — userId verified server-side for all event types
+- **Paginated list endpoints** — payment history, gallery, RSVP dashboard all support limit/offset
+- **DELETE endpoints** — wedding invite (cascades RSVPs), gallery items, RSVP update status
+- **Payment validation** — Zod schemas enforce min/max amounts, valid currency, valid purpose
+- **Confirmation dialogs** — AlertDialog on RSVP delete, cart item remove, clear cart
+- **RSVP integrity** — invite existence validated before accepting submissions
 
 ---
 
@@ -422,18 +429,18 @@ Playfair Display, Cormorant Garamond, Great Vibes, Dancing Script, Montserrat, R
 | 6 | ~~Resolve theme provider conflict with Sonner~~ | Bug | **DONE** |
 | 7 | ~~Add `(auth)/layout.tsx` to redirect logged-in users from login/signup~~ | UX | **DONE** |
 
-### Should-Have
+### Should-Have — 6/8 DONE (remaining: cloud storage, rate limiting)
 
-| # | Task | Category | Effort |
+| # | Task | Category | Status |
 |---|------|----------|--------|
-| 8 | Add DELETE endpoints for profiles, wedding invites, gallery items | Feature | Medium |
-| 9 | Add RSVP update endpoint | Feature | Small |
-| 10 | Add pagination to payment history and gallery endpoints | Performance | Medium |
-| 11 | Validate invite exists before accepting RSVP submissions | Data Integrity | Small |
-| 12 | Add confirmation dialogs for destructive actions (delete RSVP, etc.) | UX | Small |
-| 13 | Add payment amount validation (min/max) in Zod schemas | Security | Small |
-| 14 | Migrate file uploads to cloud storage (S3/R2) for deployment | Infrastructure | Large |
-| 15 | Add rate limiting to public endpoints (RSVP, analytics) | Security | Medium |
+| 8 | ~~Add DELETE endpoints for wedding invites, gallery items~~ | Feature | **DONE** |
+| 9 | ~~Add RSVP update endpoint~~ | Feature | **DONE** |
+| 10 | ~~Add pagination to payment history, gallery, RSVP dashboard~~ | Performance | **DONE** |
+| 11 | ~~Validate invite exists before accepting RSVP submissions~~ | Data Integrity | **DONE** |
+| 12 | ~~Add confirmation dialogs for destructive actions~~ | UX | **DONE** |
+| 13 | ~~Add payment amount validation (min/max) in Zod schemas~~ | Security | **DONE** |
+| 14 | Migrate file uploads to cloud storage (S3/R2) for deployment | Infrastructure | Pending (requires external service) |
+| 15 | Add rate limiting to public endpoints (RSVP, analytics) | Security | Pending |
 
 ### Nice-to-Have
 

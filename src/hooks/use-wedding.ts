@@ -74,3 +74,14 @@ export function useCreateInvite() {
     },
   });
 }
+
+export function useDeleteInvite() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () =>
+      apiClient("/api/wedding/current", { method: "DELETE" }),
+    onSuccess: () => {
+      queryClient.setQueryData(weddingKeys.current(), null);
+    },
+  });
+}
