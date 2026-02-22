@@ -82,6 +82,16 @@ export const platform = {
     groomMotherName: "Margaret Anderson",
     brideFatherName: "William Carter",
     brideMotherName: "Elizabeth Carter",
+    /** Placeholder images shown in demo/preview mode (deterministic seeds) */
+    heroImage: "https://picsum.photos/seed/cardora-hero/800/1200",
+    couplePhoto: "https://picsum.photos/seed/cardora-couple/800/800",
+    backgroundImage: "https://picsum.photos/seed/cardora-bg/1920/1080",
+    galleryImages: [
+      "https://picsum.photos/seed/cardora-gal1/800/600",
+      "https://picsum.photos/seed/cardora-gal2/800/600",
+      "https://picsum.photos/seed/cardora-gal3/800/600",
+      "https://picsum.photos/seed/cardora-gal4/800/600",
+    ],
     hashtag: "#JamesAndSophia2026",
     events: [
       { name: "Mehendi", date: "Thursday, June 11th 2026", venue: "Rose Garden Villa", time: "4:00 PM" },

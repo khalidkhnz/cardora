@@ -25,6 +25,10 @@ export async function GET(
       venue: demo.venue,
       venueAddress: demo.venueAddress,
       story: demo.story,
+      heroImage: demo.heroImage,
+      couplePhoto: demo.couplePhoto,
+      backgroundImage: demo.backgroundImage,
+      galleryImages: demo.galleryImages,
       isDemo: true,
     });
   }
