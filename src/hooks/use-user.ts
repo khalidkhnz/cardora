@@ -5,6 +5,11 @@ import type { UpdateProfileInput } from "@/lib/validators";
 interface UserProfile {
   id: string;
   userId: string;
+  // Auth user fields (joined from user table)
+  name: string;
+  email: string;
+  image: string | null;
+  // Profile fields
   username: string | null;
   profession: string | null;
   company: string | null;
@@ -36,7 +41,7 @@ export const userKeys = {
 export function useUserProfile() {
   return useQuery({
     queryKey: userKeys.profile(),
-    queryFn: () => apiClient<UserProfile | null>("/api/user/profile"),
+    queryFn: () => apiClient<UserProfile>("/api/user/profile"),
   });
 }
 

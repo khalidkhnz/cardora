@@ -8,47 +8,47 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
-  type BusinessCardTemplate,
-  businessCardTemplates,
-  businessCardCategories,
-} from "@/lib/templates/business-card-templates";
+  type WeddingCardTemplate,
+  weddingCardTemplates,
+  weddingCardCategories,
+} from "@/lib/templates/wedding-card-templates";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
-interface TemplateSelectionModalProps {
+interface WeddingTemplateSelectionModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selectedId?: string | null;
-  onSelect: (template: BusinessCardTemplate) => void;
+  onSelect: (template: WeddingCardTemplate) => void;
 }
 
-export function TemplateSelectionModal({
+export function WeddingTemplateSelectionModal({
   open,
   onOpenChange,
   selectedId,
   onSelect,
-}: TemplateSelectionModalProps) {
+}: WeddingTemplateSelectionModalProps) {
   const [category, setCategory] = useState("All");
-  const [selected, setSelected] = useState<BusinessCardTemplate | null>(null);
+  const [selected, setSelected] = useState<WeddingCardTemplate | null>(null);
 
   useEffect(() => {
     setSelected(
       selectedId
-        ? businessCardTemplates.find((t) => t.id === selectedId) ?? null
+        ? weddingCardTemplates.find((t) => t.id === selectedId) ?? null
         : null,
     );
   }, [selectedId, open]);
 
   const filtered =
     category === "All"
-      ? businessCardTemplates
-      : businessCardTemplates.filter((t) => t.category === category);
+      ? weddingCardTemplates
+      : weddingCardTemplates.filter((t) => t.category === category);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Choose a Template</DialogTitle>
+          <DialogTitle>Choose a Wedding Template</DialogTitle>
         </DialogHeader>
 
         {/* Category filter */}
@@ -65,7 +65,7 @@ export function TemplateSelectionModal({
           >
             All
           </button>
-          {businessCardCategories.map((cat) => (
+          {weddingCardCategories.map((cat) => (
             <button
               key={cat}
               type="button"

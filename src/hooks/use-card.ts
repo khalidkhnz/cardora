@@ -27,7 +27,7 @@ export const cardKeys = {
 export function useCardSettings() {
   return useQuery({
     queryKey: cardKeys.settings(),
-    queryFn: () => apiClient<CardSettings | null>("/api/card/settings"),
+    queryFn: () => apiClient<CardSettings>("/api/card/settings"),
   });
 }
 

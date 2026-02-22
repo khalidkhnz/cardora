@@ -7,8 +7,6 @@ import {
   getBusinessCardTemplate,
   businessCardTemplates,
 } from "@/lib/templates/business-card-templates";
-import { cn } from "@/lib/utils";
-
 export interface UserCardData {
   name?: string | null;
   email?: string | null;
@@ -371,40 +369,39 @@ export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPrevie
     const { primary, secondary } = template.colors;
     const textColor = getTextColor(secondary);
 
-    const sizeClasses = {
+    const dimensions = {
       horizontal: {
-        standard: "w-64 h-40",
-        large: "w-80 h-52",
+        standard: { width: 256, height: 160 },
+        large: { width: 320, height: 208 },
       },
       vertical: {
-        standard: "w-40 h-64",
-        large: "w-52 h-80",
+        standard: { width: 160, height: 256 },
+        large: { width: 208, height: 320 },
       },
     };
 
+    const { width, height } = dimensions[orientation][size];
+
     return (
       <div className="flex items-center justify-center p-4">
-        <div className="relative">
+        <motion.div
+          key={`${orientation}-${size}-${template.id}`}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="relative"
+        >
           {/* Shadow card behind */}
           <div
-            className={cn(
-              "absolute top-2 left-2 rounded-xl opacity-30",
-              sizeClasses[orientation][size],
-            )}
-            style={{ backgroundColor: primary }}
+            className="absolute top-2 left-2 rounded-xl opacity-30"
+            style={{ backgroundColor: primary, width, height }}
           />
 
           {/* Main card */}
-          <motion.div
+          <div
             ref={ref}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className={cn(
-              "relative overflow-hidden rounded-xl shadow-lg",
-              sizeClasses[orientation][size],
-            )}
-            style={{ backgroundColor: secondary }}
+            className="relative overflow-hidden rounded-xl shadow-lg"
+            style={{ backgroundColor: secondary, width, height }}
           >
             <CardLayout template={template} user={user} textColor={textColor} />
 
@@ -415,8 +412,8 @@ export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPrevie
             >
               cardora
             </p>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     );
   },

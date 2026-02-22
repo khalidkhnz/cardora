@@ -3,6 +3,7 @@ import { getApiSession } from "@/server/auth-helpers";
 import {
   getCardSettings,
   updateCardSettings,
+  createCardSettings,
 } from "@/server/db/queries/card";
 import { updateCardSettingsSchema } from "@/lib/validators";
 
@@ -12,7 +13,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const settings = await getCardSettings(session.user.id);
+  let settings = await getCardSettings(session.user.id);
+
+  // Auto-create card settings for new users
+  if (!settings) {
+    settings = await createCardSettings(session.user.id);
+  }
+
   return NextResponse.json(settings);
 }
 

@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getApiSession } from "@/server/auth-helpers";
-import { getUserProfile, updateUserProfile, isUsernameTaken } from "@/server/db/queries/user";
+import { getUserProfile, updateUserProfile, isUsernameTaken, createUserProfile } from "@/server/db/queries/user";
 import { updateProfileSchema } from "@/lib/validators";
 
 export async function GET(request: NextRequest) {
@@ -9,8 +9,19 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const profile = await getUserProfile(session.user.id);
-  return NextResponse.json(profile);
+  let profile = await getUserProfile(session.user.id);
+
+  // Auto-create profile for new users
+  if (!profile) {
+    profile = await createUserProfile(session.user.id, {});
+  }
+
+  return NextResponse.json({
+    ...profile,
+    name: session.user.name,
+    email: session.user.email,
+    image: session.user.image,
+  });
 }
 
 export async function PUT(request: NextRequest) {
@@ -41,5 +52,10 @@ export async function PUT(request: NextRequest) {
   }
 
   const profile = await updateUserProfile(session.user.id, parsed.data);
-  return NextResponse.json(profile);
+  return NextResponse.json({
+    ...profile,
+    name: session.user.name,
+    email: session.user.email,
+    image: session.user.image,
+  });
 }

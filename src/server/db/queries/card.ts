@@ -14,6 +14,15 @@ export async function getCardSettings(userId: string) {
   return results[0] ?? null;
 }
 
+export async function createCardSettings(userId: string) {
+  const result = await db
+    .insert(cardSettings)
+    .values({ userId })
+    .returning();
+
+  return result[0]!;
+}
+
 export async function updateCardSettings(
   userId: string,
   data: UpdateCardSettingsInput,

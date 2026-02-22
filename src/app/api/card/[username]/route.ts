@@ -70,6 +70,13 @@ export async function GET(
     country: userData.profile.country,
     currency: userData.profile.currency,
     cardType: settings?.cardType ?? "business",
-    selectedTemplateId: settings?.selectedTemplateId,
+    selectedTemplateId: settings?.selectedTemplateId ?? null,
+    groomName: settings?.groomName ?? null,
+    brideName: settings?.brideName ?? null,
+    weddingDate: settings?.weddingDate ?? null,
+    venue: settings?.venue ?? null,
+    groomParentNames: settings?.groomParentNames ?? null,
+    brideParentNames: settings?.brideParentNames ?? null,
+    deceasedElders: settings?.deceasedElders ?? null,
   });
 }

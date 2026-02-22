@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { BusinessCardPreview } from "@/components/card/business-card-preview";
+import { WeddingCardPreview } from "@/components/card/wedding-card-preview";
 import { Button } from "@/components/ui/button";
 import {
   Linkedin,
@@ -41,6 +42,13 @@ interface PublicProfileViewProps {
   cardSettings: {
     cardType: string;
     selectedTemplateId: string | null;
+    groomName: string | null;
+    brideName: string | null;
+    weddingDate: string | null;
+    venue: string | null;
+    groomParentNames: string | null;
+    brideParentNames: string | null;
+    deceasedElders: string | null;
   };
 }
 
@@ -136,7 +144,7 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
           )}
         </motion.div>
 
-        {/* Card Preview */}
+        {/* Card Preview — Business */}
         {cardSettings.cardType === "business" && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -155,6 +163,33 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
                 profileImage: user.profileImage,
               }}
               templateId={cardSettings.selectedTemplateId}
+            />
+          </motion.div>
+        )}
+
+        {/* Card Preview — Wedding / Engagement / Anniversary */}
+        {(cardSettings.cardType === "wedding" ||
+          cardSettings.cardType === "engagement" ||
+          cardSettings.cardType === "anniversary") && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="mb-6"
+          >
+            <WeddingCardPreview
+              data={{
+                groomName: cardSettings.groomName,
+                brideName: cardSettings.brideName,
+                weddingDate: cardSettings.weddingDate,
+                venue: cardSettings.venue,
+                groomParentNames: cardSettings.groomParentNames,
+                brideParentNames: cardSettings.brideParentNames,
+                deceasedElders: cardSettings.deceasedElders,
+              }}
+              templateId={cardSettings.selectedTemplateId}
+              orientation="vertical"
+              size="large"
             />
           </motion.div>
         )}
