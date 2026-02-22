@@ -359,25 +359,23 @@ export default function MotionVideoTemplate({
               </motion.div>
 
               {/* Envelope visual with flap */}
-              <div className="relative" style={{ perspective: "800px" }}>
-                {/* Envelope flap (triangle) */}
+              <div className="relative w-72 sm:w-80" style={{ perspective: "800px" }}>
+                {/* Envelope flap (triangle pointing down, covering top of body) */}
                 <div
                   ref={flapRef}
-                  className="absolute -top-16 left-1/2 z-10 -translate-x-1/2"
+                  className="absolute top-0 left-0 z-10 w-full"
                   style={{
-                    width: 0,
-                    height: 0,
-                    borderLeft: "100px solid transparent",
-                    borderRight: "100px solid transparent",
-                    borderTop: "65px solid #D4A76A",
+                    height: "100px",
+                    clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                    background: "linear-gradient(180deg, #D4A76A 0%, #C5963A 100%)",
                     transformOrigin: "top center",
                     filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.15))",
                   }}
                 />
 
-                {/* Envelope back */}
+                {/* Envelope body */}
                 <div
-                  className="relative h-48 w-72 overflow-hidden rounded-b-lg rounded-t-sm shadow-xl sm:h-56 sm:w-80"
+                  className="relative h-48 w-full overflow-hidden rounded-b-lg shadow-xl sm:h-56"
                   style={{
                     background:
                       "linear-gradient(180deg, #E8CFA0 0%, #D4A76A 100%)",
@@ -393,26 +391,24 @@ export default function MotionVideoTemplate({
                     }}
                   />
 
-                  {/* Bottom V-shape */}
+                  {/* Inner V-fold lines */}
                   <div
-                    className="absolute bottom-0 left-0 right-0"
+                    className="absolute inset-0"
                     style={{
-                      height: 0,
-                      borderLeft: "160px solid transparent",
-                      borderRight: "160px solid transparent",
-                      borderBottom: "80px solid rgba(139,105,20,0.15)",
+                      clipPath: "polygon(0 0, 50% 55%, 100% 0)",
+                      background: "linear-gradient(180deg, rgba(139,105,20,0.08) 0%, rgba(139,105,20,0.03) 100%)",
                     }}
                   />
                 </div>
-              </div>
 
-              {/* Seal */}
-              <div className="relative -mt-16 z-20">
-                <EnvelopeSeal
-                  initials={initials}
-                  onClick={handleOpen}
-                  sealRef={sealRef}
-                />
+                {/* Seal — centered at flap tip */}
+                <div className="absolute left-1/2 z-20 -translate-x-1/2" style={{ top: "34px" }}>
+                  <EnvelopeSeal
+                    initials={initials}
+                    onClick={handleOpen}
+                    sealRef={sealRef}
+                  />
+                </div>
               </div>
 
               {/* Bottom ornament */}
