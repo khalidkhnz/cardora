@@ -4,6 +4,7 @@ import { db } from "@/server/db";
 import { user } from "@/server/db/schema/auth";
 import { passwordResetToken } from "@/server/db/schema/password-reset";
 import { sendPasswordResetEmail } from "@/server/utils/email";
+import { getOriginFromRequest } from "@/server/auth-helpers";
 
 export async function POST(request: NextRequest) {
   try {
@@ -47,7 +48,8 @@ export async function POST(request: NextRequest) {
     });
 
     // Send the email
-    const result = await sendPasswordResetEmail(email, token);
+    const origin = getOriginFromRequest(request);
+    const result = await sendPasswordResetEmail(email, token, origin);
 
     if (!result.success && "resetUrl" in result) {
       // In dev mode, return the reset URL if email isn't configured

@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getApiSession } from "@/server/auth-helpers";
 import { stripe } from "@/lib/stripe";
 import { createPayment } from "@/server/db/queries/payment";
+import { getOriginFromRequest } from "@/server/auth-helpers";
 
 interface CartItem {
   name: string;
@@ -42,12 +43,13 @@ export async function POST(request: NextRequest) {
       0,
     );
 
+    const origin = getOriginFromRequest(request);
     const stripeSession = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/cancel`,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/cancel`,
       customer_email: session.user.email,
       metadata: {
         userId: session.user.id,

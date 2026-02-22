@@ -8,6 +8,7 @@ import {
   unlockInvite,
 } from "@/server/db/queries/payment";
 import { sendPaymentSuccessEmail } from "@/server/utils/email";
+import { getOriginFromRequest } from "@/server/auth-helpers";
 import { db } from "@/server/db";
 import { user } from "@/server/db/schema/auth";
 import type Stripe from "stripe";
@@ -79,6 +80,7 @@ export async function POST(request: NextRequest) {
           const ownerData = owner[0];
           if (!ownerData) return;
 
+          const origin = getOriginFromRequest(request);
           await sendPaymentSuccessEmail(
             dbPayment.payerEmail ?? ownerData.email,
             ownerData.name,
@@ -89,6 +91,7 @@ export async function POST(request: NextRequest) {
               purpose: dbPayment.purpose,
               createdAt: dbPayment.createdAt,
             },
+            origin,
           );
         } catch (emailErr) {
           console.error("[Webhook] Email notification error:", emailErr);

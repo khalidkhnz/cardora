@@ -3,6 +3,7 @@ import { getApiSession } from "@/server/auth-helpers";
 import { stripe } from "@/lib/stripe";
 import { createPayment } from "@/server/db/queries/payment";
 import { platform } from "@/lib/platform";
+import { getOriginFromRequest } from "@/server/auth-helpers";
 
 export async function POST(request: NextRequest) {
   const session = await getApiSession(request);
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const origin = getOriginFromRequest(request);
     const stripeSession = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -46,8 +48,8 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/cancel`,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/cancel`,
       customer_email: body.payerEmail ?? session.user.email,
       metadata: {
         userId: session.user.id,

@@ -121,6 +121,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/* eslint-disable @typescript-eslint/no-empty-function */
 const emptyCart: CartContextValue = {
   items: [],
   addToCart: () => {},
@@ -130,6 +131,7 @@ const emptyCart: CartContextValue = {
   getTotal: () => 0,
   getCount: () => 0,
 };
+/* eslint-enable @typescript-eslint/no-empty-function */
 
 export function useCart() {
   const ctx = useContext(CartContext);

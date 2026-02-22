@@ -22,8 +22,9 @@ function isEmailConfigured(): boolean {
 export async function sendPasswordResetEmail(
   email: string,
   resetToken: string,
+  origin: string,
 ) {
-  const frontendUrl = env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const frontendUrl = origin;
   const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
 
   if (!isEmailConfigured()) {
@@ -87,13 +88,14 @@ export async function sendPaymentSuccessEmail(
     purpose: string;
     createdAt: Date;
   },
+  origin: string,
 ) {
   if (!isEmailConfigured()) {
     console.log("[Email] SMTP not configured. Payment success for:", toEmail);
     return { success: false, emailConfigured: false };
   }
 
-  const frontendUrl = env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const frontendUrl = origin;
   const currencySymbol =
     payment.currency === "INR" ? "\u20B9" : payment.currency === "CAD" ? "C$" : "$";
   const paymentDate = payment.createdAt.toLocaleDateString("en-US", {
@@ -157,13 +159,14 @@ export async function sendRSVPNotificationEmail(
     phone?: string;
   },
   coupleName: string,
+  origin: string,
 ) {
   if (!isEmailConfigured()) {
     console.log("[Email] SMTP not configured. RSVP notification for:", ownerEmail);
     return { success: false, emailConfigured: false };
   }
 
-  const frontendUrl = env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const frontendUrl = origin;
 
   try {
     const transporter = createTransporter();
@@ -220,13 +223,14 @@ export async function sendRSVPConfirmationEmail(
     venue?: string | null;
     slug: string;
   },
+  origin: string,
 ) {
   if (!isEmailConfigured()) {
     console.log("[Email] SMTP not configured. RSVP confirmation for:", guestEmail);
     return { success: false, emailConfigured: false };
   }
 
-  const frontendUrl = env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const frontendUrl = origin;
   const inviteUrl = `${frontendUrl}/wedding/${wedding.slug}`;
   const weddingDate = wedding.date
     ? new Date(wedding.date).toLocaleDateString("en-US", {

@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { submitRsvp } from "@/server/db/queries/rsvp";
 import { submitRsvpSchema } from "@/lib/validators";
 import { sendRSVPNotificationEmail, sendRSVPConfirmationEmail } from "@/server/utils/email";
+import { getOriginFromRequest } from "@/server/auth-helpers";
 import { db } from "@/server/db";
 import { weddingInvite } from "@/server/db/schema/wedding";
 import { user } from "@/server/db/schema/auth";
@@ -52,6 +53,8 @@ export async function POST(request: NextRequest) {
           .filter(Boolean)
           .join(" & ");
 
+        const origin = getOriginFromRequest(request);
+
         await sendRSVPNotificationEmail(ownerEmail, {
           name: parsed.data.guestName,
           email: parsed.data.guestEmail ?? undefined,
@@ -60,7 +63,7 @@ export async function POST(request: NextRequest) {
           dietaryRestrictions: parsed.data.dietaryRestrictions ?? undefined,
           message: parsed.data.message ?? undefined,
           phone: parsed.data.phone ?? undefined,
-        }, coupleName || "the couple");
+        }, coupleName || "the couple", origin);
 
         // Send confirmation email to guest if attending and email provided
         if (parsed.data.attending === "yes" && parsed.data.guestEmail) {
@@ -72,7 +75,7 @@ export async function POST(request: NextRequest) {
             date: inviteData.weddingDate ?? null,
             venue: inviteData.venue ?? null,
             slug: parsed.data.inviteSlug,
-          });
+          }, origin);
         }
       } catch (emailErr) {
         console.error("[RSVP] Email notification error:", emailErr);

@@ -5,8 +5,9 @@ import type { SubmitRsvpInput } from "@/lib/validators";
 interface RsvpStats {
   total: number;
   attending: number;
+  declined: number;
+  maybe: number;
   totalGuests: number;
-  guests: { name: string; attending: string; guests: number | null }[];
 }
 
 interface DashboardRsvpData {
