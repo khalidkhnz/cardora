@@ -68,6 +68,8 @@ export default async function PublicProfilePage({ params }: Props) {
       cardSettings={{
         cardType: cardSettings?.cardType ?? "business",
         selectedTemplateId: cardSettings?.selectedTemplateId ?? null,
+        orientation: cardSettings?.orientation ?? "horizontal",
+        cardSize: cardSettings?.cardSize ?? "standard",
         groomName: cardSettings?.groomName ?? null,
         brideName: cardSettings?.brideName ?? null,
         weddingDate: cardSettings?.weddingDate ?? null,

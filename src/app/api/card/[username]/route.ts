@@ -71,6 +71,8 @@ export async function GET(
     currency: userData.profile.currency,
     cardType: settings?.cardType ?? "business",
     selectedTemplateId: settings?.selectedTemplateId ?? null,
+    orientation: settings?.orientation ?? "horizontal",
+    cardSize: settings?.cardSize ?? "standard",
     groomName: settings?.groomName ?? null,
     brideName: settings?.brideName ?? null,
     weddingDate: settings?.weddingDate ?? null,

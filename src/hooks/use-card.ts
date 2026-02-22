@@ -8,6 +8,8 @@ interface CardSettings {
   cardType: "business" | "wedding" | "engagement" | "anniversary" | null;
   collection: string | null;
   selectedTemplateId: string | null;
+  orientation: "horizontal" | "vertical" | null;
+  cardSize: "standard" | "large" | null;
   weddingDate: string | null;
   venue: string | null;
   brideName: string | null;

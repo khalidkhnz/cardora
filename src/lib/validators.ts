@@ -29,6 +29,8 @@ export const updateCardSettingsSchema = z.object({
   cardType: z.enum(["business", "wedding", "engagement", "anniversary"]).optional(),
   collection: z.string().optional().nullable(),
   selectedTemplateId: z.string().optional().nullable(),
+  orientation: z.enum(["horizontal", "vertical"]).optional(),
+  cardSize: z.enum(["standard", "large"]).optional(),
   weddingDate: z.string().optional().nullable(),
   venue: z.string().optional().nullable(),
   brideName: z.string().optional().nullable(),

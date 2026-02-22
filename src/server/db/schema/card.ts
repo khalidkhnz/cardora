@@ -17,6 +17,12 @@ export const cardSettings = createTable("card_settings", {
     .default("business"),
   collection: text("collection"),
   selectedTemplateId: text("selected_template_id"),
+  orientation: text("orientation")
+    .$type<"horizontal" | "vertical">()
+    .default("horizontal"),
+  cardSize: text("card_size")
+    .$type<"standard" | "large">()
+    .default("standard"),
   weddingDate: text("wedding_date"),
   venue: text("venue"),
   brideName: text("bride_name"),

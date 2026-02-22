@@ -42,6 +42,8 @@ interface PublicProfileViewProps {
   cardSettings: {
     cardType: string;
     selectedTemplateId: string | null;
+    orientation: "horizontal" | "vertical";
+    cardSize: "standard" | "large";
     groomName: string | null;
     brideName: string | null;
     weddingDate: string | null;
@@ -163,6 +165,8 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
                 profileImage: user.profileImage,
               }}
               templateId={cardSettings.selectedTemplateId}
+              orientation={cardSettings.orientation}
+              size={cardSettings.cardSize}
             />
           </motion.div>
         )}
@@ -188,8 +192,8 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
                 deceasedElders: cardSettings.deceasedElders,
               }}
               templateId={cardSettings.selectedTemplateId}
-              orientation="vertical"
-              size="large"
+              orientation={cardSettings.orientation}
+              size={cardSettings.cardSize}
             />
           </motion.div>
         )}

@@ -81,6 +81,8 @@ export default function CardPage() {
     if (cardSettingsData) {
       setCardType(cardSettingsData.cardType ?? "business");
       setSelectedTemplateId(cardSettingsData.selectedTemplateId);
+      setOrientation(cardSettingsData.orientation ?? "horizontal");
+      setCardSize(cardSettingsData.cardSize ?? "standard");
     }
   }, [cardSettingsData]);
 
@@ -120,6 +122,22 @@ export default function CardPage() {
         onSuccess: () => toast.success(`Selected ${template.name}`),
         onError: () => toast.error("Failed to select template"),
       },
+    );
+  }
+
+  function handleOrientationChange(value: "horizontal" | "vertical") {
+    setOrientation(value);
+    updateCardSettings.mutate(
+      { orientation: value },
+      { onError: () => toast.error("Failed to update orientation") },
+    );
+  }
+
+  function handleCardSizeChange(value: "standard" | "large") {
+    setCardSize(value);
+    updateCardSettings.mutate(
+      { cardSize: value },
+      { onError: () => toast.error("Failed to update size") },
     );
   }
 
@@ -264,14 +282,14 @@ export default function CardPage() {
                       <Button
                         variant={orientation === "horizontal" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setOrientation("horizontal")}
+                        onClick={() => handleOrientationChange("horizontal")}
                       >
                         Horizontal
                       </Button>
                       <Button
                         variant={orientation === "vertical" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setOrientation("vertical")}
+                        onClick={() => handleOrientationChange("vertical")}
                       >
                         Vertical
                       </Button>
@@ -284,14 +302,14 @@ export default function CardPage() {
                       <Button
                         variant={cardSize === "standard" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setCardSize("standard")}
+                        onClick={() => handleCardSizeChange("standard")}
                       >
                         Standard
                       </Button>
                       <Button
                         variant={cardSize === "large" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setCardSize("large")}
+                        onClick={() => handleCardSizeChange("large")}
                       >
                         Large
                       </Button>
@@ -379,14 +397,14 @@ export default function CardPage() {
                       <Button
                         variant={orientation === "horizontal" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setOrientation("horizontal")}
+                        onClick={() => handleOrientationChange("horizontal")}
                       >
                         Horizontal
                       </Button>
                       <Button
                         variant={orientation === "vertical" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setOrientation("vertical")}
+                        onClick={() => handleOrientationChange("vertical")}
                       >
                         Vertical
                       </Button>
@@ -399,14 +417,14 @@ export default function CardPage() {
                       <Button
                         variant={cardSize === "standard" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setCardSize("standard")}
+                        onClick={() => handleCardSizeChange("standard")}
                       >
                         Standard
                       </Button>
                       <Button
                         variant={cardSize === "large" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setCardSize("large")}
+                        onClick={() => handleCardSizeChange("large")}
                       >
                         Large
                       </Button>
