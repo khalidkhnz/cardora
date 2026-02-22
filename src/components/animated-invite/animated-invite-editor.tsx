@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Trash2, Eye, X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { PublicWeddingView } from "@/components/animated-invite/public-wedding-view";
+import { PreviewDialogProvider } from "@/components/animated-invite/preview-context";
 import { getDemoInviteData } from "@/lib/demo-invite-data";
 
 interface EventRow {
@@ -131,17 +132,19 @@ function TemplatePreviewOverlay({
       {/* Template content — scrollable */}
       <div className="relative min-h-0 flex-1">
         <div className="absolute inset-0 overflow-y-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={templateId}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <PublicWeddingView invite={demoData} isDemo={true} />
-            </motion.div>
-          </AnimatePresence>
+          <PreviewDialogProvider value={true}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={templateId}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <PublicWeddingView invite={demoData} isDemo={true} />
+              </motion.div>
+            </AnimatePresence>
+          </PreviewDialogProvider>
         </div>
 
         {/* Prev / Next buttons */}
