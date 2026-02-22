@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/query-provider";
 import { CartProvider } from "@/providers/cart-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Cardora — Digital Business Cards & Wedding Invitations",
@@ -23,7 +24,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${geist.variable} ${fontVariables}`} suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <QueryProvider>

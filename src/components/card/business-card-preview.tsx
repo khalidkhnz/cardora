@@ -7,6 +7,7 @@ import {
   getBusinessCardTemplate,
   businessCardTemplates,
 } from "@/lib/templates/business-card-templates";
+
 export interface UserCardData {
   name?: string | null;
   email?: string | null;
@@ -25,7 +26,7 @@ interface BusinessCardPreviewProps {
 }
 
 export function getTextColor(secondaryColor: string) {
-  const light = ["#FFFFFF", "#fff", "#FEF3C7", "#D1FAE5", "#F3E8FF", "#F8F6F0"];
+  const light = ["#FFFFFF", "#fff", "#FEF3C7", "#D1FAE5", "#F3E8FF", "#F8F6F0", "#FFFBEB", "#FFF1F2", "#F0FDF4", "#FAFAFA"];
   return light.some((c) => c.toLowerCase() === secondaryColor.toLowerCase())
     ? "#1F2937"
     : "#FFFFFF";
@@ -51,308 +52,1248 @@ export function CardLayout({
   textColor: string;
 }) {
   const { primary, secondary, accent } = template.colors;
+  const { heading: headingFont, body: bodyFont } = template.fonts;
 
-  const renderProfileImage = () => {
+  const renderProfileImage = (size = 36, borderColor?: string) => {
     if (user.profileImage) {
       return (
         <div
-          className="h-10 w-10 rounded-full bg-cover bg-center"
-          style={{ backgroundImage: `url(${user.profileImage})` }}
+          style={{
+            width: size,
+            height: size,
+            borderRadius: "50%",
+            backgroundImage: `url(${user.profileImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            border: borderColor ? `1.5px solid ${borderColor}` : undefined,
+            flexShrink: 0,
+          }}
         />
       );
     }
     return (
       <div
-        className="flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
-        style={{ backgroundColor: accent, color: "#FFFFFF" }}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: "50%",
+          backgroundColor: accent,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: size * 0.3,
+          fontWeight: 700,
+          color: "#FFFFFF",
+          fontFamily: headingFont,
+          flexShrink: 0,
+          border: borderColor ? `1.5px solid ${borderColor}` : undefined,
+        }}
       >
         {getInitials(user.name)}
       </div>
     );
   };
 
-  const contactInfo = (
-    <div className="space-y-0.5 text-[8px] opacity-80" style={{ color: textColor }}>
-      {user.phone && <p>{user.phone}</p>}
-      {user.email && <p>{user.email}</p>}
-      {user.address && <p className="truncate">{user.address}</p>}
-    </div>
-  );
-
   switch (template.layout) {
+    // -------------------------------------------------------------------------
+    // 1. GEOMETRIC — Bold geometric, Montserrat, strong grid feel
+    // -------------------------------------------------------------------------
     case "geometric":
       return (
-        <div className="relative flex h-full flex-col justify-between overflow-hidden p-4">
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+            padding: "14px 14px 10px",
+            overflow: "hidden",
+            backgroundColor: secondary,
+          }}
+        >
+          {/* Large rotated diamond — top-right */}
           <div
-            className="absolute -top-6 -right-6 h-20 w-20 rotate-45 rounded-lg opacity-30"
-            style={{ backgroundColor: accent }}
+            style={{
+              position: "absolute",
+              top: -28,
+              right: -28,
+              width: 72,
+              height: 72,
+              transform: "rotate(45deg)",
+              backgroundColor: accent,
+              opacity: 0.18,
+              borderRadius: 6,
+            }}
           />
-          <div className="flex items-center gap-3">
-            {renderProfileImage()}
-            <div>
-              <p className="text-sm font-bold" style={{ color: textColor }}>
-                {user.name ?? "Your Name"}
-              </p>
-              <p className="text-[9px] font-medium" style={{ color: accent }}>
-                {user.profession ?? "Profession"}
-              </p>
-            </div>
+          {/* Smaller rotated square — bottom-left */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: -18,
+              left: -18,
+              width: 48,
+              height: 48,
+              transform: "rotate(45deg)",
+              backgroundColor: primary,
+              opacity: 0.12,
+              borderRadius: 4,
+            }}
+          />
+          {/* Corner accent — top-left solid strip */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: 4,
+              height: "100%",
+              backgroundColor: accent,
+            }}
+          />
+
+          {/* Name + profession */}
+          <div style={{ paddingLeft: 8 }}>
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 700,
+                fontSize: 13,
+                letterSpacing: "-0.02em",
+                color: primary,
+                margin: 0,
+                lineHeight: 1.2,
+              }}
+            >
+              {user.name ?? "Your Name"}
+            </p>
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 600,
+                fontSize: 8,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: accent,
+                margin: "3px 0 0",
+              }}
+            >
+              {user.profession ?? "Profession"}
+            </p>
           </div>
-          <div>
-            <p className="mb-1 text-[9px] font-semibold" style={{ color: textColor }}>
+
+          {/* Divider */}
+          <div
+            style={{
+              height: 1,
+              backgroundColor: primary,
+              opacity: 0.15,
+              margin: "0 8px",
+            }}
+          />
+
+          {/* Bottom: company + contact */}
+          <div style={{ paddingLeft: 8 }}>
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 600,
+                fontSize: 9,
+                color: primary,
+                margin: "0 0 3px",
+                letterSpacing: "0.04em",
+              }}
+            >
               {user.company ?? "Company Name"}
             </p>
-            {contactInfo}
+            <div
+              style={{
+                fontFamily: bodyFont,
+                fontSize: 7.5,
+                color: primary,
+                opacity: 0.65,
+                lineHeight: 1.5,
+              }}
+            >
+              {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+              {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+              {user.address && (
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: 160,
+                  }}
+                >
+                  {user.address}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 2. SPLIT — Luxury two-panel, Playfair + Raleway
+    // -------------------------------------------------------------------------
     case "split":
       return (
-        <div className="flex h-full">
+        <div
+          style={{
+            display: "flex",
+            height: "100%",
+            overflow: "hidden",
+          }}
+        >
+          {/* Left 40% panel */}
           <div
-            className="flex w-2/5 flex-col items-center justify-center p-3"
-            style={{ backgroundColor: accent }}
+            style={{
+              width: "40%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: accent,
+              padding: "10px 8px",
+              gap: 6,
+            }}
           >
-            {renderProfileImage()}
-            <p className="mt-1 text-center text-[8px] font-bold text-white">
+            {renderProfileImage(38, "rgba(255,255,255,0.5)")}
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 700,
+                fontSize: 8.5,
+                color: "#FFFFFF",
+                textAlign: "center",
+                margin: 0,
+                lineHeight: 1.3,
+                letterSpacing: "0.01em",
+              }}
+            >
               {user.name ?? "Your Name"}
             </p>
           </div>
-          <div className="flex w-3/5 flex-col justify-center p-3">
-            <p className="text-[9px] font-semibold" style={{ color: textColor }}>
+
+          {/* Gold vertical divider */}
+          <div
+            style={{
+              width: 1.5,
+              backgroundColor: accent,
+              opacity: 0.6,
+              flexShrink: 0,
+            }}
+          />
+
+          {/* Right 60% panel */}
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              padding: "10px 12px",
+              gap: 4,
+              backgroundColor: secondary,
+            }}
+          >
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 700,
+                fontStyle: "italic",
+                fontSize: 10,
+                color: primary,
+                margin: 0,
+                lineHeight: 1.3,
+                letterSpacing: "0.01em",
+              }}
+            >
               {user.profession ?? "Profession"}
             </p>
-            <p className="mb-2 text-[8px]" style={{ color: textColor, opacity: 0.7 }}>
-              {user.company ?? "Company Name"}
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 300,
+                fontSize: 8.5,
+                color: primary,
+                opacity: 0.75,
+                margin: 0,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+              }}
+            >
+              {user.company ?? "Company"}
             </p>
-            {contactInfo}
+            <div
+              style={{
+                height: 0.5,
+                backgroundColor: accent,
+                opacity: 0.4,
+                margin: "3px 0",
+              }}
+            />
+            <div
+              style={{
+                fontFamily: bodyFont,
+                fontSize: 7.5,
+                color: primary,
+                opacity: 0.65,
+                lineHeight: 1.55,
+              }}
+            >
+              {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+              {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+              {user.address && (
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {user.address}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 3. DARK — Sophisticated dark, DM Serif + Raleway
+    // -------------------------------------------------------------------------
     case "dark":
       return (
         <div
-          className="relative flex h-full flex-col justify-between overflow-hidden p-4"
           style={{
-            background: `linear-gradient(135deg, ${primary}, ${primary}DD)`,
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+            padding: "14px 14px 10px",
+            overflow: "hidden",
+            background: `linear-gradient(145deg, ${primary} 0%, #0a0f1e 100%)`,
           }}
         >
+          {/* Subtle circular gold accent bottom-right */}
           <div
-            className="absolute bottom-0 right-0 h-16 w-16 rounded-tl-full opacity-20"
-            style={{ backgroundColor: accent }}
+            style={{
+              position: "absolute",
+              bottom: -30,
+              right: -30,
+              width: 90,
+              height: 90,
+              borderRadius: "50%",
+              border: `12px solid ${accent}`,
+              opacity: 0.12,
+            }}
           />
-          <div className="flex items-center gap-3">
-            {renderProfileImage()}
-            <div>
-              <p className="text-sm font-bold text-white">{user.name ?? "Your Name"}</p>
-              <p className="text-[9px]" style={{ color: accent }}>
-                {user.profession ?? "Profession"}
-              </p>
-            </div>
+          <div
+            style={{
+              position: "absolute",
+              bottom: -14,
+              right: -14,
+              width: 50,
+              height: 50,
+              borderRadius: "50%",
+              backgroundColor: accent,
+              opacity: 0.08,
+            }}
+          />
+
+          {/* Top: name */}
+          <div>
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 700,
+                fontSize: 14,
+                color: "#FFFFFF",
+                margin: 0,
+                lineHeight: 1.2,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {user.name ?? "Your Name"}
+            </p>
+            {/* Thin accent line under name */}
+            <div
+              style={{
+                width: 28,
+                height: 1.5,
+                backgroundColor: accent,
+                margin: "5px 0 4px",
+              }}
+            />
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 300,
+                fontSize: 9,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: accent,
+                margin: 0,
+              }}
+            >
+              {user.profession ?? "Profession"}
+            </p>
           </div>
-          <div className="text-[8px] text-white/70">
-            <p className="mb-0.5 font-semibold text-white/90">
+
+          {/* Bottom: company + contact */}
+          <div>
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 600,
+                fontSize: 9,
+                color: "rgba(255,255,255,0.85)",
+                margin: "0 0 4px",
+                letterSpacing: "0.04em",
+              }}
+            >
               {user.company ?? "Company Name"}
             </p>
-            {user.phone && <p>{user.phone}</p>}
-            {user.email && <p>{user.email}</p>}
+            <div
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 300,
+                fontSize: 7.5,
+                color: "rgba(255,255,255,0.5)",
+                lineHeight: 1.55,
+              }}
+            >
+              {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+              {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+              {user.address && (
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {user.address}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 4. GRADIENT — Flowing gradient, Raleway thin, ethereal & airy
+    // -------------------------------------------------------------------------
     case "gradient":
       return (
         <div
-          className="flex h-full flex-col justify-between p-4"
           style={{
-            background: `linear-gradient(135deg, ${primary}, ${secondary}, ${accent})`,
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+            padding: "14px 14px 10px",
+            overflow: "hidden",
+            background: `linear-gradient(135deg, ${primary} 0%, ${secondary} 50%, ${accent} 100%)`,
           }}
         >
+          {/* Subtle radial highlight */}
+          <div
+            style={{
+              position: "absolute",
+              top: -20,
+              left: -20,
+              width: 100,
+              height: 100,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.08)",
+            }}
+          />
+
+          {/* Large thin name */}
           <div>
-            <p className="text-sm font-bold text-white">{user.name ?? "Your Name"}</p>
-            <p className="text-[9px] text-white/80">
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 300,
+                fontSize: 16,
+                color: "#FFFFFF",
+                margin: 0,
+                lineHeight: 1.1,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {user.name ?? "Your Name"}
+            </p>
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 400,
+                fontSize: 8,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.75)",
+                margin: "5px 0 0",
+              }}
+            >
               {user.profession ?? "Profession"}
             </p>
           </div>
-          <div className="text-[8px] text-white/70">
-            <p className="mb-0.5 font-semibold text-white/90">
+
+          {/* Bottom contact */}
+          <div>
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 400,
+                fontSize: 8.5,
+                color: "rgba(255,255,255,0.9)",
+                margin: "0 0 2px",
+                letterSpacing: "0.04em",
+              }}
+            >
               {user.company ?? "Company Name"}
             </p>
-            {user.phone && <p>{user.phone}</p>}
-            {user.email && <p>{user.email}</p>}
+            <div
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 300,
+                fontSize: 7.5,
+                color: "rgba(255,255,255,0.6)",
+                lineHeight: 1.55,
+              }}
+            >
+              {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+              {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+            </div>
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 5. CORPORATE — Professional, Montserrat, clean grid
+    // -------------------------------------------------------------------------
     case "corporate":
       return (
-        <div className="flex h-full flex-col justify-between p-4">
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+            padding: "16px 14px 10px",
+            overflow: "hidden",
+            backgroundColor: secondary,
+          }}
+        >
+          {/* 3px accent bar at top */}
           <div
-            className="absolute inset-x-0 top-0 h-1.5"
-            style={{ backgroundColor: accent }}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 3,
+              backgroundColor: accent,
+            }}
           />
-          <div className="flex items-center gap-3 pt-1">
-            {renderProfileImage()}
+          {/* 1px thin line below bar */}
+          <div
+            style={{
+              position: "absolute",
+              top: 5,
+              left: 0,
+              right: 0,
+              height: 0.75,
+              backgroundColor: primary,
+              opacity: 0.1,
+            }}
+          />
+
+          {/* Profile + name */}
+          <div style={{ display: "flex", alignItems: "center", gap: 9, paddingTop: 2 }}>
+            {renderProfileImage(34, accent)}
             <div>
-              <p className="text-sm font-bold" style={{ color: textColor }}>
+              <p
+                style={{
+                  fontFamily: headingFont,
+                  fontWeight: 600,
+                  fontSize: 12,
+                  color: primary,
+                  margin: 0,
+                  lineHeight: 1.2,
+                  letterSpacing: "-0.01em",
+                }}
+              >
                 {user.name ?? "Your Name"}
               </p>
-              <p className="text-[9px]" style={{ color: primary }}>
+              <p
+                style={{
+                  fontFamily: bodyFont,
+                  fontWeight: 500,
+                  fontSize: 8,
+                  color: accent,
+                  margin: "2px 0 0",
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                }}
+              >
                 {user.profession ?? "Profession"}
               </p>
             </div>
           </div>
+
+          {/* Bottom section */}
           <div>
-            <p className="mb-1 text-[9px] font-semibold" style={{ color: primary }}>
+            <div
+              style={{
+                height: 0.75,
+                backgroundColor: primary,
+                opacity: 0.12,
+                marginBottom: 6,
+              }}
+            />
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 700,
+                fontSize: 9,
+                color: primary,
+                margin: "0 0 3px",
+                letterSpacing: "0.05em",
+              }}
+            >
               {user.company ?? "Company Name"}
             </p>
-            {contactInfo}
+            <div
+              style={{
+                fontFamily: bodyFont,
+                fontSize: 7.5,
+                color: primary,
+                opacity: 0.6,
+                lineHeight: 1.55,
+              }}
+            >
+              {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+              {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+              {user.address && (
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {user.address}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 6. ARTISTIC — Expressive, Lora italic + Montserrat, asymmetric
+    // -------------------------------------------------------------------------
     case "artistic":
       return (
         <div
-          className="relative flex h-full flex-col justify-between overflow-hidden p-4"
           style={{
-            background: `radial-gradient(circle at 80% 20%, ${accent}40, transparent 60%), ${secondary}`,
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+            padding: "12px 12px 10px",
+            overflow: "hidden",
+            background: `radial-gradient(ellipse at 85% 15%, ${accent}55 0%, transparent 55%), ${secondary}`,
           }}
         >
+          {/* Large accent arc — decorative top-right */}
+          <div
+            style={{
+              position: "absolute",
+              top: -20,
+              right: -20,
+              width: 70,
+              height: 70,
+              borderRadius: "50%",
+              border: `8px solid ${accent}`,
+              opacity: 0.25,
+            }}
+          />
+
+          {/* Top: name + company */}
           <div>
-            <p className="text-sm font-bold" style={{ color: primary }}>
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 700,
+                fontStyle: "italic",
+                fontSize: 13,
+                color: primary,
+                margin: 0,
+                lineHeight: 1.2,
+              }}
+            >
               {user.name ?? "Your Name"}
             </p>
-            <p className="text-[9px]" style={{ color: accent }}>
-              {user.profession ?? "Profession"}
-            </p>
-            <p className="mt-0.5 text-[8px]" style={{ color: textColor, opacity: 0.7 }}>
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 400,
+                fontSize: 8,
+                color: accent,
+                margin: "3px 0 0",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+              }}
+            >
               {user.company ?? "Company Name"}
             </p>
           </div>
-          <div className="flex items-end justify-between">
-            {contactInfo}
-            {renderProfileImage()}
+
+          {/* Bottom: contact left, profile image right */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <p
+                style={{
+                  fontFamily: headingFont,
+                  fontStyle: "italic",
+                  fontSize: 9,
+                  color: primary,
+                  margin: "0 0 3px",
+                  opacity: 0.85,
+                }}
+              >
+                {user.profession ?? "Profession"}
+              </p>
+              <div
+                style={{
+                  fontFamily: bodyFont,
+                  fontSize: 7.5,
+                  color: primary,
+                  opacity: 0.6,
+                  lineHeight: 1.55,
+                }}
+              >
+                {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+                {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+              </div>
+            </div>
+            {renderProfileImage(34, accent)}
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 7. CYBER — Terminal/neon, Source Code Pro, futuristic
+    // -------------------------------------------------------------------------
     case "cyber":
       return (
         <div
-          className="relative flex h-full flex-col justify-between overflow-hidden p-4"
-          style={{ background: primary }}
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+            padding: "12px 12px 10px",
+            overflow: "hidden",
+            backgroundColor: "#0A0A0A",
+          }}
         >
+          {/* Horizontal scanlines */}
           <div
-            className="absolute inset-0 opacity-10"
             style={{
-              backgroundImage: `repeating-linear-gradient(0deg, ${secondary}10, ${secondary}10 1px, transparent 1px, transparent 8px)`,
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `repeating-linear-gradient(0deg, ${accent}08, ${accent}08 1px, transparent 1px, transparent 6px)`,
+              pointerEvents: "none",
             }}
           />
+          {/* Dot grid corner — top-right */}
+          <div
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              width: 36,
+              height: 36,
+              backgroundImage: `radial-gradient(circle, ${accent}55 1px, transparent 1px)`,
+              backgroundSize: "6px 6px",
+              opacity: 0.5,
+            }}
+          />
+
+          {/* Top: name */}
           <div>
-            <p className="text-sm font-bold" style={{ color: secondary }}>
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 700,
+                fontSize: 12,
+                color: secondary,
+                margin: 0,
+                lineHeight: 1.2,
+                letterSpacing: "0.05em",
+                textShadow: `0 0 8px ${secondary}88`,
+              }}
+            >
               {user.name ?? "Your Name"}
             </p>
-            <p className="text-[9px]" style={{ color: accent }}>
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 400,
+                fontSize: 8.5,
+                color: accent,
+                margin: "4px 0 0",
+                letterSpacing: "0.04em",
+              }}
+            >
+              <span style={{ opacity: 0.5 }}>&gt; </span>
               {user.profession ?? "Profession"}
             </p>
           </div>
-          <div className="flex items-end justify-between">
-            <div className="text-[8px]" style={{ color: secondary, opacity: 0.6 }}>
-              <p>{user.company ?? "Company Name"}</p>
-              {user.phone && <p>{user.phone}</p>}
-              {user.email && <p>{user.email}</p>}
+
+          {/* Bottom: contact + profile */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: bodyFont,
+                fontSize: 7.5,
+                color: secondary,
+                opacity: 0.55,
+                lineHeight: 1.6,
+              }}
+            >
+              {user.company && (
+                <p style={{ margin: 0 }}>
+                  <span style={{ color: accent, opacity: 0.8 }}>// </span>
+                  {user.company}
+                </p>
+              )}
+              {user.phone && (
+                <p style={{ margin: 0 }}>
+                  <span style={{ color: accent, opacity: 0.8 }}>// </span>
+                  {user.phone}
+                </p>
+              )}
+              {user.email && (
+                <p style={{ margin: 0 }}>
+                  <span style={{ color: accent, opacity: 0.8 }}>// </span>
+                  {user.email}
+                </p>
+              )}
             </div>
-            {renderProfileImage()}
+            {renderProfileImage(32, accent)}
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 8. ORGANIC — Natural warmth, Lora, soft & warm
+    // -------------------------------------------------------------------------
     case "organic":
       return (
         <div
-          className="flex h-full flex-col justify-between p-4"
           style={{
-            background: `linear-gradient(160deg, ${secondary}, ${primary}15)`,
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+            padding: "12px 14px 10px",
+            overflow: "hidden",
+            background: `linear-gradient(155deg, ${secondary} 0%, ${secondary}cc 60%, ${accent}22 100%)`,
           }}
         >
-          <div className="flex items-center gap-3">
-            {renderProfileImage()}
+          {/* Large teardrop/leaf watermark shape */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: -20,
+              right: -20,
+              width: 80,
+              height: 100,
+              borderRadius: "50% 50% 50% 0",
+              backgroundColor: accent,
+              opacity: 0.08,
+              transform: "rotate(-30deg)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: -8,
+              right: -8,
+              width: 50,
+              height: 64,
+              borderRadius: "50% 50% 50% 0",
+              border: `2px solid ${accent}`,
+              opacity: 0.12,
+              transform: "rotate(-30deg)",
+            }}
+          />
+
+          {/* Top: profile + name */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {renderProfileImage(36, `${accent}88`)}
             <div>
-              <p className="text-sm font-bold" style={{ color: primary }}>
+              <p
+                style={{
+                  fontFamily: headingFont,
+                  fontWeight: 700,
+                  fontSize: 12,
+                  color: primary,
+                  margin: 0,
+                  lineHeight: 1.2,
+                }}
+              >
                 {user.name ?? "Your Name"}
               </p>
-              <p className="text-[9px]" style={{ color: accent }}>
+              <p
+                style={{
+                  fontFamily: headingFont,
+                  fontStyle: "italic",
+                  fontWeight: 400,
+                  fontSize: 8.5,
+                  color: accent,
+                  margin: "2px 0 0",
+                  letterSpacing: "0.02em",
+                }}
+              >
                 {user.profession ?? "Profession"}
               </p>
             </div>
           </div>
+
+          {/* Curved accent divider */}
+          <div
+            style={{
+              height: 1,
+              background: `linear-gradient(to right, ${accent}88, transparent)`,
+              borderRadius: 1,
+            }}
+          />
+
+          {/* Bottom: company + contact */}
           <div>
-            <p className="mb-1 text-[9px] font-semibold" style={{ color: primary }}>
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 600,
+                fontSize: 9,
+                color: primary,
+                margin: "0 0 3px",
+                opacity: 0.9,
+              }}
+            >
               {user.company ?? "Company Name"}
             </p>
-            <div className="space-y-0.5 text-[8px]" style={{ color: primary, opacity: 0.7 }}>
-              {user.phone && <p>{user.phone}</p>}
-              {user.email && <p>{user.email}</p>}
+            <div
+              style={{
+                fontFamily: bodyFont,
+                fontSize: 7.5,
+                color: primary,
+                opacity: 0.6,
+                lineHeight: 1.55,
+              }}
+            >
+              {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+              {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+              {user.address && (
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {user.address}
+                </p>
+              )}
             </div>
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 9. ROYAL — Ornate regal, Cinzel + Raleway, centered feel
+    // -------------------------------------------------------------------------
     case "royal":
       return (
         <div
-          className="flex h-full flex-col justify-between p-4"
           style={{
-            background: `linear-gradient(135deg, ${primary}, ${primary}CC)`,
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            padding: "14px 16px",
+            overflow: "hidden",
+            background: `linear-gradient(135deg, ${primary} 0%, ${secondary} 100%)`,
+            textAlign: "center",
           }}
         >
+          {/* Double lines — top */}
           <div
-            className="absolute inset-x-0 top-0 h-0.5"
-            style={{ backgroundColor: accent }}
-          />
-          <div
-            className="absolute inset-x-0 bottom-0 h-0.5"
-            style={{ backgroundColor: accent }}
-          />
-          <div className="flex items-center gap-3">
-            {renderProfileImage()}
-            <div>
-              <p className="text-sm font-bold text-white">{user.name ?? "Your Name"}</p>
-              <p className="text-[9px]" style={{ color: accent }}>
-                {user.profession ?? "Profession"}
-              </p>
-            </div>
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+            }}
+          >
+            <div style={{ height: 3, backgroundColor: accent, opacity: 0.9 }} />
+            <div style={{ height: 2 }} />
+            <div style={{ height: 0.75, backgroundColor: accent, opacity: 0.4 }} />
           </div>
-          <div className="text-[8px] text-white/70">
-            <p className="mb-0.5 font-semibold text-white/90">
+          {/* Double lines — bottom */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+            }}
+          >
+            <div style={{ height: 0.75, backgroundColor: accent, opacity: 0.4 }} />
+            <div style={{ height: 2 }} />
+            <div style={{ height: 3, backgroundColor: accent, opacity: 0.9 }} />
+          </div>
+
+          {/* Centered content */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+            {/* Small ornament line */}
+            <div
+              style={{
+                width: 24,
+                height: 0.75,
+                backgroundColor: accent,
+                opacity: 0.7,
+              }}
+            />
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 700,
+                fontSize: 11,
+                color: accent,
+                margin: 0,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                lineHeight: 1.3,
+              }}
+            >
+              {user.name ?? "Your Name"}
+            </p>
+            <div
+              style={{
+                width: 24,
+                height: 0.75,
+                backgroundColor: accent,
+                opacity: 0.7,
+              }}
+            />
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 300,
+                fontSize: 7.5,
+                color: accent,
+                opacity: 0.8,
+                margin: "1px 0 0",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+              }}
+            >
+              {user.profession ?? "Profession"}
+            </p>
+            <p
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 400,
+                fontSize: 8,
+                color: "rgba(255,255,255,0.7)",
+                margin: "1px 0 0",
+                letterSpacing: "0.06em",
+              }}
+            >
               {user.company ?? "Company Name"}
             </p>
-            {user.phone && <p>{user.phone}</p>}
-            {user.email && <p>{user.email}</p>}
+            <div
+              style={{
+                marginTop: 4,
+                fontFamily: bodyFont,
+                fontWeight: 300,
+                fontSize: 7,
+                color: "rgba(255,255,255,0.5)",
+                lineHeight: 1.6,
+              }}
+            >
+              {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+              {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+            </div>
           </div>
         </div>
       );
 
+    // -------------------------------------------------------------------------
+    // 10. MONOCHROME — Ultra minimal, Raleway, lots of whitespace
+    // -------------------------------------------------------------------------
     case "monochrome":
       return (
         <div
-          className="flex h-full flex-col justify-between border p-4"
-          style={{ borderColor: accent }}
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+            padding: "14px 14px 10px",
+            overflow: "hidden",
+            backgroundColor: secondary,
+            border: `1px solid ${accent}`,
+          }}
         >
+          {/* Subtle corner accent — top-right */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              width: 0,
+              height: 0,
+              borderStyle: "solid",
+              borderWidth: "0 20px 20px 0",
+              borderColor: `transparent ${accent} transparent transparent`,
+              opacity: 0.35,
+            }}
+          />
+
+          {/* Top: name + profession | company */}
           <div>
-            <p className="text-sm font-bold" style={{ color: primary }}>
+            <p
+              style={{
+                fontFamily: headingFont,
+                fontWeight: 600,
+                fontSize: 13,
+                color: primary,
+                margin: 0,
+                lineHeight: 1.2,
+                letterSpacing: "-0.01em",
+              }}
+            >
               {user.name ?? "Your Name"}
             </p>
-            <p className="text-[9px]" style={{ color: accent }}>
-              {user.profession ?? "Profession"} | {user.company ?? "Company Name"}
-            </p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
+                marginTop: 4,
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: bodyFont,
+                  fontWeight: 300,
+                  fontSize: 8,
+                  color: primary,
+                  opacity: 0.65,
+                  margin: 0,
+                  letterSpacing: "0.04em",
+                }}
+              >
+                {user.profession ?? "Profession"}
+              </p>
+              <span style={{ color: accent, fontSize: 8, opacity: 0.6 }}>|</span>
+              <p
+                style={{
+                  fontFamily: bodyFont,
+                  fontWeight: 300,
+                  fontSize: 8,
+                  color: primary,
+                  opacity: 0.65,
+                  margin: 0,
+                  letterSpacing: "0.04em",
+                }}
+              >
+                {user.company ?? "Company Name"}
+              </p>
+            </div>
+            {/* Single thin accent line */}
+            <div
+              style={{
+                width: "100%",
+                height: 0.75,
+                backgroundColor: accent,
+                opacity: 0.3,
+                marginTop: 8,
+              }}
+            />
           </div>
-          <div className="flex items-end justify-between">
-            {contactInfo}
-            {renderProfileImage()}
+
+          {/* Bottom: contact left, profile image right */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: bodyFont,
+                fontWeight: 300,
+                fontSize: 7.5,
+                color: primary,
+                opacity: 0.55,
+                lineHeight: 1.6,
+              }}
+            >
+              {user.phone && <p style={{ margin: 0 }}>{user.phone}</p>}
+              {user.email && <p style={{ margin: 0 }}>{user.email}</p>}
+              {user.address && (
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: 130,
+                  }}
+                >
+                  {user.address}
+                </p>
+              )}
+            </div>
+            {renderProfileImage(30, `${accent}88`)}
           </div>
         </div>
       );
@@ -383,32 +1324,56 @@ export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPrevie
     const { width, height } = dimensions[orientation][size];
 
     return (
-      <div className="flex items-center justify-center p-4">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
         <motion.div
           key={`${orientation}-${size}-${template.id}`}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="relative"
+          style={{ position: "relative" }}
         >
           {/* Shadow card behind */}
           <div
-            className="absolute top-2 left-2 rounded-xl opacity-30"
-            style={{ backgroundColor: primary, width, height }}
+            style={{
+              position: "absolute",
+              top: 8,
+              left: 8,
+              borderRadius: 12,
+              opacity: 0.25,
+              backgroundColor: primary,
+              width,
+              height,
+            }}
           />
 
           {/* Main card */}
           <div
             ref={ref}
-            className="relative overflow-hidden rounded-xl shadow-lg"
-            style={{ backgroundColor: secondary, width, height }}
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              borderRadius: 12,
+              boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
+              backgroundColor: secondary,
+              width,
+              height,
+            }}
           >
             <CardLayout template={template} user={user} textColor={textColor} />
 
             {/* Watermark */}
             <p
-              className="absolute right-2 bottom-1 text-[6px] opacity-30"
-              style={{ color: textColor }}
+              style={{
+                position: "absolute",
+                right: 6,
+                bottom: 3,
+                fontSize: 6,
+                opacity: 0.28,
+                color: textColor,
+                margin: 0,
+                fontFamily: template.fonts.body,
+                letterSpacing: "0.06em",
+              }}
             >
               cardora
             </p>
