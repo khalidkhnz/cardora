@@ -45,11 +45,7 @@ export async function POST(request: NextRequest) {
 
     const dbPayment = await getPaymentByStripeSession(session.id);
     if (dbPayment) {
-      await updatePaymentStatus(
-        dbPayment.id,
-        "completed",
-        session.payment_intent as string,
-      );
+      await updatePaymentStatus(dbPayment.id, "completed");
 
       // Auto-unlock based on purpose
       if (

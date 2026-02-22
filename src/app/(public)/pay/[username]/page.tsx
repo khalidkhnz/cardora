@@ -70,13 +70,13 @@ export default function PayPage() {
     setSubmitting(true);
     try {
       const result = await apiClient<{ url: string }>(
-        "/api/payment/create-stripe-session",
+        "/api/payment/create-public-session",
         {
           method: "POST",
           body: JSON.stringify({
+            username: params.username,
             amount: amountInCents,
             currency: profile.currency ?? "CAD",
-            purpose: "payment",
             payerEmail: payerEmail || undefined,
           }),
         },

@@ -1,17 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getApiSession } from "@/server/auth-helpers";
+import { eq } from "drizzle-orm";
 import { stripe } from "@/lib/stripe";
 import {
   getPaymentByStripeSession,
   updatePaymentStatus,
 } from "@/server/db/queries/payment";
+import { db } from "@/server/db";
+import { user } from "@/server/db/schema/auth";
 
 export async function POST(request: NextRequest) {
-  const session = await getApiSession(request);
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const body = (await request.json()) as { sessionId: string };
 
   if (!body.sessionId) {
@@ -35,6 +32,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Only allow verification of public payments
+    if (dbPayment.purpose !== "payment") {
+      return NextResponse.json(
+        { error: "Invalid payment type" },
+        { status: 403 },
+      );
+    }
+
+    let recipientName: string | null = null;
+    if (dbPayment.recipientId) {
+      const recipientData = await db
+        .select({ name: user.name })
+        .from(user)
+        .where(eq(user.id, dbPayment.recipientId))
+        .limit(1);
+      recipientName = recipientData[0]?.name ?? null;
+    }
+
     if (stripeSession.payment_status === "paid") {
       await updatePaymentStatus(dbPayment.id, "completed");
 
@@ -42,14 +57,16 @@ export async function POST(request: NextRequest) {
         status: "completed",
         amount: dbPayment.amount,
         currency: dbPayment.currency,
+        recipientName,
       });
     }
 
     return NextResponse.json({
       status: stripeSession.payment_status,
+      recipientName,
     });
   } catch (error) {
-    console.error("[Payment] Verify error:", error);
+    console.error("[Payment] Verify public error:", error);
     return NextResponse.json(
       { error: "Failed to verify payment" },
       { status: 500 },

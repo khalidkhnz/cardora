@@ -8,6 +8,20 @@
       "when": 1771739784835,
       "tag": "0000_nervous_barracuda",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1771767587621,
+      "tag": "0001_bright_expediter",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1771768814511,
+      "tag": "0002_noisy_mister_fear",
+      "breakpoints": true
     }
   ]
 }

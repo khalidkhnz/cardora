@@ -40,11 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (stripeSession.payment_status === "paid") {
-      await updatePaymentStatus(
-        dbPayment.id,
-        "completed",
-        stripeSession.payment_intent as string,
-      );
+      await updatePaymentStatus(dbPayment.id, "completed");
 
       if (body.type === "card") {
         await unlockCard(session.user.id);

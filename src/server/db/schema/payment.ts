@@ -12,6 +12,9 @@ export const payment = createTable("payment", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
+  recipientId: text("recipient_id").references(() => user.id, {
+    onDelete: "cascade",
+  }),
   amount: integer("amount").notNull(),
   currency: text("currency").notNull().default("CAD"),
   paymentMethod: text("payment_method").$type<"stripe" | "interac">().notNull(),
@@ -41,5 +44,14 @@ export const payment = createTable("payment", {
 });
 
 export const paymentRelations = relations(payment, ({ one }) => ({
-  user: one(user, { fields: [payment.userId], references: [user.id] }),
+  user: one(user, {
+    fields: [payment.userId],
+    references: [user.id],
+    relationName: "paymentUser",
+  }),
+  recipient: one(user, {
+    fields: [payment.recipientId],
+    references: [user.id],
+    relationName: "paymentRecipient",
+  }),
 }));

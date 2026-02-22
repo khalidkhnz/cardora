@@ -67,6 +67,7 @@ export async function GET(
     paymentEnabled: userData.profile.paymentEnabled,
     paymentType: userData.profile.paymentType,
     fixedAmount: userData.profile.fixedAmount,
+    interacEmail: userData.profile.interacEmail,
     country: userData.profile.country,
     currency: userData.profile.currency,
     cardType: settings?.cardType ?? "business",

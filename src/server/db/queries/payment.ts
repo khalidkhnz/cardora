@@ -6,11 +6,11 @@ import { userProfile } from "@/server/db/schema/profile";
 
 export async function createPayment(data: {
   userId: string;
+  recipientId?: string;
   amount: number;
   currency: string;
   paymentMethod: "stripe" | "interac";
   stripeSessionId?: string;
-  stripePaymentIntentId?: string;
   status: "pending" | "completed" | "failed" | "refunded";
   purpose:
     | "card_unlock"
@@ -20,7 +20,6 @@ export async function createPayment(data: {
     | "cart_checkout"
     | "payment";
   payerEmail?: string;
-  payerName?: string;
   itemData?: Record<string, unknown>;
 }) {
   const result = await db
@@ -57,6 +56,32 @@ export async function getPaymentHistory(
   };
 }
 
+export async function getReceivedPayments(
+  userId: string,
+  opts: { limit: number; offset: number } = { limit: 20, offset: 0 },
+) {
+  const [items, countResult] = await Promise.all([
+    db
+      .select()
+      .from(payment)
+      .where(eq(payment.recipientId, userId))
+      .orderBy(sql`${payment.createdAt} desc`)
+      .limit(opts.limit)
+      .offset(opts.offset),
+    db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(payment)
+      .where(eq(payment.recipientId, userId)),
+  ]);
+
+  return {
+    data: items,
+    total: countResult[0]?.count ?? 0,
+    limit: opts.limit,
+    offset: opts.offset,
+  };
+}
+
 export async function getPaymentByStripeSession(sessionId: string) {
   const results = await db
     .select()
@@ -70,14 +95,10 @@ export async function getPaymentByStripeSession(sessionId: string) {
 export async function updatePaymentStatus(
   paymentId: string,
   status: "pending" | "completed" | "failed" | "refunded",
-  stripePaymentIntentId?: string,
 ) {
   await db
     .update(payment)
-    .set({
-      status,
-      ...(stripePaymentIntentId ? { stripePaymentIntentId } : {}),
-    })
+    .set({ status, updatedAt: new Date() })
     .where(eq(payment.id, paymentId));
 }
 

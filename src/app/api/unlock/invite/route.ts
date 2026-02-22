@@ -36,11 +36,7 @@ export async function POST(request: NextRequest) {
 
     const dbPayment = await getPaymentByStripeSession(body.sessionId);
     if (dbPayment) {
-      await updatePaymentStatus(
-        dbPayment.id,
-        "completed",
-        stripeSession.payment_intent as string,
-      );
+      await updatePaymentStatus(dbPayment.id, "completed");
     }
 
     await unlockInvite(session.user.id);
