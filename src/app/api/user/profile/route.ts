@@ -12,9 +12,7 @@ export async function GET(request: NextRequest) {
   let profile = await getUserProfile(session.user.id);
 
   // Auto-create profile for new users
-  if (!profile) {
-    profile = await createUserProfile(session.user.id, {});
-  }
+  profile ??= await createUserProfile(session.user.id, {});
 
   return NextResponse.json({
     ...profile,

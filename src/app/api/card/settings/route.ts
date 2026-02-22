@@ -16,9 +16,7 @@ export async function GET(request: NextRequest) {
   let settings = await getCardSettings(session.user.id);
 
   // Auto-create card settings for new users
-  if (!settings) {
-    settings = await createCardSettings(session.user.id);
-  }
+  settings ??= await createCardSettings(session.user.id);
 
   return NextResponse.json(settings);
 }

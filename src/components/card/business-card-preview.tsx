@@ -52,7 +52,7 @@ function getInitials(name?: string | null) {
 export function CardLayout({
   template,
   user,
-  textColor,
+  textColor: _textColor,
 }: {
   template: BusinessCardTemplate;
   user: UserCardData;
@@ -898,19 +898,19 @@ export function CardLayout({
             >
               {user.company && (
                 <p style={{ margin: 0 }}>
-                  <span style={{ color: accent, opacity: 0.8 }}>// </span>
+                  <span style={{ color: accent, opacity: 0.8 }}>{"// "}</span>
                   {user.company}
                 </p>
               )}
               {user.phone && (
                 <p style={{ margin: 0 }}>
-                  <span style={{ color: accent, opacity: 0.8 }}>// </span>
+                  <span style={{ color: accent, opacity: 0.8 }}>{"// "}</span>
                   {user.phone}
                 </p>
               )}
               {user.email && (
                 <p style={{ margin: 0 }}>
-                  <span style={{ color: accent, opacity: 0.8 }}>// </span>
+                  <span style={{ color: accent, opacity: 0.8 }}>{"// "}</span>
                   {user.email}
                 </p>
               )}
