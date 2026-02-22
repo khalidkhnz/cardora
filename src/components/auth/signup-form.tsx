@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { platform } from "@/lib/platform";
 
 export function SignupForm() {
   const router = useRouter();
@@ -107,7 +108,7 @@ export function SignupForm() {
               maxLength={30}
             />
             <p className="text-xs text-muted-foreground">
-              Your public profile will be at cardora.com/u/{username || "username"}
+              Your public profile will be at {platform.domain}/u/{username || "username"}
             </p>
           </div>
           <div className="space-y-2">

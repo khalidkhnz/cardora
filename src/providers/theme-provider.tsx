@@ -8,6 +8,7 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
+import { storageKey } from "@/lib/platform";
 
 type Theme = "light" | "dark" | "system";
 
@@ -19,7 +20,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-const THEME_KEY = "cardora_theme";
+const THEME_KEY = storageKey("theme");
 
 function getSystemTheme(): "light" | "dark" {
   if (typeof window === "undefined") return "light";

@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/server/better-auth/server";
 import { SignupForm } from "@/components/auth/signup-form";
+import { pageTitle } from "@/lib/platform";
 
 export const metadata = {
-  title: "Sign Up — Cardora",
+  title: pageTitle("Sign Up"),
 };
 
 export default async function SignupPage() {

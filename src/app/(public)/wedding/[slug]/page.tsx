@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getWeddingInviteBySlug } from "@/server/db/queries/wedding";
 import { PublicWeddingView } from "@/components/animated-invite/public-wedding-view";
+import { platform, pageTitle } from "@/lib/platform";
 import type { Metadata } from "next";
 
 interface Props {
@@ -12,13 +13,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const invite = await getWeddingInviteBySlug(slug);
 
   if (!invite) {
-    return { title: "Invite Not Found — Cardora" };
+    return { title: pageTitle("Invite Not Found") };
   }
 
   const names = [invite.groomName, invite.brideName].filter(Boolean).join(" & ");
 
   return {
-    title: names ? `${names} — Wedding Invite` : "Wedding Invite — Cardora",
+    title: names ? `${names} — Wedding Invite` : pageTitle("Wedding Invite"),
     description: invite.story
       ? invite.story.slice(0, 160)
       : "You're invited to celebrate our special day!",

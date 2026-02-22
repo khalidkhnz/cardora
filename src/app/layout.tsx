@@ -7,11 +7,11 @@ import { QueryProvider } from "@/providers/query-provider";
 import { CartProvider } from "@/providers/cart-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { fontVariables } from "@/lib/fonts";
+import { platform, pageTitle } from "@/lib/platform";
 
 export const metadata: Metadata = {
-  title: "Cardora — Digital Business Cards & Wedding Invitations",
-  description:
-    "Create stunning digital business cards and beautiful wedding invitations. Share via QR code, NFC, or link.",
+  title: pageTitle(),
+  description: platform.description,
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -24,7 +24,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${fontVariables}`} suppressHydrationWarning>
+    <html lang={platform.locale} className={`${geist.variable} ${fontVariables}`} suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <QueryProvider>

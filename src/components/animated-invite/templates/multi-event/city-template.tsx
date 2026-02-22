@@ -166,13 +166,9 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
     { name: "Reception", date: invite.receptionDate ?? "Date TBA", venue: invite.venue ?? "Venue TBA", time: invite.weddingTime ?? "7 PM" },
   ];
 
-  /* ---- Extra data for "Things to Know" ---- */
-  const thingsToKnow = (invite.extraData?.thingsToKnow as { label: string; detail: string }[] | undefined) ?? [
-    { label: "Weather", detail: "Indoor venue — comfortable year-round" },
-    { label: "Dress Code", detail: "Smart casual to cocktail attire" },
-    { label: "Parking", detail: "Multi-level garage attached to the venue" },
-    { label: "Accommodation", detail: "Partnered hotels nearby with special rates" },
-  ];
+  /* ---- Extra data ---- */
+  const thingsToKnow = (invite.extraData?.thingsToKnow as { label: string; detail: string }[] | undefined) ?? [];
+  const hashtag = (invite.extraData?.hashtag as string | undefined) ?? null;
 
   /* ---- Share handler ---- */
   async function handleShare() {
@@ -589,34 +585,70 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
       )}
 
       {/* ============================================================ */}
+      {/*  Gallery                                                      */}
+      {/* ============================================================ */}
+      {invite.galleryImages.length > 0 && (
+        <section className="relative z-10 px-4 py-16">
+          <div className="mx-auto max-w-3xl">
+            <div className="scroll-fade mb-8 text-center">
+              <h2 className="text-3xl font-extralight tracking-widest text-white uppercase sm:text-4xl">
+                Gallery
+              </h2>
+              <NeonLine className="mt-4 opacity-40" />
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {invite.galleryImages.map((img, idx) => (
+                <div
+                  key={idx}
+                  className="scroll-fade aspect-square overflow-hidden rounded-xl border border-white/10 shadow-md"
+                >
+                  <div
+                    className="h-full w-full bg-cover bg-center transition-transform duration-700 hover:scale-105"
+                    style={{ backgroundImage: `url(${img})` }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Neon divider */}
+      <div className="py-6">
+        <NeonLine className="opacity-40" />
+      </div>
+
+      {/* ============================================================ */}
       {/*  SECTION 4 — Things to Know                                  */}
       {/* ============================================================ */}
-      <section className="relative z-10 px-4 py-16">
-        <div className="mx-auto max-w-3xl">
-          <div className="scroll-fade mb-10 text-center">
-            <h2 className="text-3xl font-extralight tracking-widest text-white uppercase sm:text-4xl">
-              Good to Know
-            </h2>
-            <NeonLine className="mt-4 opacity-40" />
-          </div>
+      {thingsToKnow.length > 0 && (
+        <section className="relative z-10 px-4 py-16">
+          <div className="mx-auto max-w-3xl">
+            <div className="scroll-fade mb-10 text-center">
+              <h2 className="text-3xl font-extralight tracking-widest text-white uppercase sm:text-4xl">
+                Good to Know
+              </h2>
+              <NeonLine className="mt-4 opacity-40" />
+            </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {thingsToKnow.map((item, idx) => (
-              <div
-                key={idx}
-                className="scroll-fade rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
-              >
-                <h4 className="mb-1 text-sm font-semibold tracking-wider text-[#00D4FF] uppercase">
-                  {item.label}
-                </h4>
-                <p className="text-sm leading-relaxed font-light text-white/50">
-                  {item.detail}
-                </p>
-              </div>
-            ))}
+            <div className="grid gap-5 sm:grid-cols-2">
+              {thingsToKnow.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="scroll-fade rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
+                >
+                  <h4 className="mb-1 text-sm font-semibold tracking-wider text-[#00D4FF] uppercase">
+                    {item.label}
+                  </h4>
+                  <p className="text-sm leading-relaxed font-light text-white/50">
+                    {item.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Neon divider */}
       <div className="py-6">
@@ -694,6 +726,12 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
           <p className="text-sm font-light text-white/40">
             Your presence would make our celebration complete
           </p>
+
+          {hashtag && (
+            <p className="text-lg font-extralight tracking-widest text-[#00D4FF]/70 italic uppercase">
+              {hashtag}
+            </p>
+          )}
 
           <Button
             size="lg"

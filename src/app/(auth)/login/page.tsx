@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/server/better-auth/server";
 import { LoginForm } from "@/components/auth/login-form";
+import { pageTitle } from "@/lib/platform";
 
 export const metadata = {
-  title: "Sign In — Cardora",
+  title: pageTitle("Sign In"),
 };
 
 export default async function LoginPage() {

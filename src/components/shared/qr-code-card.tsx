@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
+import { platform, qrCodeFilename } from "@/lib/platform";
 
 interface QRCodeCardProps {
   url: string;
@@ -52,7 +53,7 @@ export function QRCodeCard({ url, title = "Share via QR Code", size = 200 }: QRC
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const link = document.createElement("a");
-      link.download = "cardora-qr-code.png";
+      link.download = qrCodeFilename();
       link.href = canvas.toDataURL("image/png");
       link.click();
     };
@@ -62,7 +63,7 @@ export function QRCodeCard({ url, title = "Share via QR Code", size = 200 }: QRC
   async function handleShare() {
     if (navigator.share) {
       try {
-        await navigator.share({ title: "Cardora", url });
+        await navigator.share({ title: platform.name, url });
       } catch {
         // User cancelled share
       }

@@ -41,9 +41,12 @@ export function getDemoInviteData(templateId: string): InviteData {
     ];
     base.extraData = {
       hashtag: "#JamesAndSophia2026",
-      weather: "Expected sunny, 25\u00B0C",
-      parking: "Complimentary valet parking available",
-      hotelInfo: "The Ritz-Carlton, 5 min from venue",
+      thingsToKnow: [
+        { label: "Weather", detail: "Expected sunny, 25\u00B0C" },
+        { label: "Parking", detail: "Complimentary valet parking available" },
+        { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue" },
+        { label: "Dress Code", detail: "Semi-formal / Cocktail attire" },
+      ],
     };
   }
 

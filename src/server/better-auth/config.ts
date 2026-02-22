@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 import { db } from "@/server/db";
+import { platform } from "@/lib/platform";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -9,7 +10,7 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    minPasswordLength: 8,
+    minPasswordLength: platform.minPasswordLength,
   },
 });
 

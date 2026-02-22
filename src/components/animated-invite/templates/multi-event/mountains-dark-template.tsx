@@ -181,13 +181,9 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
     { name: "Reception", date: invite.receptionDate ?? "Date TBA", venue: invite.venue ?? "Venue TBA", time: invite.weddingTime ?? "7 PM" },
   ];
 
-  /* ---- Extra data for "Things to Know" ---- */
-  const thingsToKnow = (invite.extraData?.thingsToKnow as { label: string; detail: string }[] | undefined) ?? [
-    { label: "Weather", detail: "Mountain evenings can be cool — bring a light jacket" },
-    { label: "Dress Code", detail: "Black tie optional — dark formals encouraged" },
-    { label: "Parking", detail: "Dedicated parking available near the venue entrance" },
-    { label: "Accommodation", detail: "Mountain lodge rooms available at a discounted rate" },
-  ];
+  /* ---- Extra data ---- */
+  const thingsToKnow = (invite.extraData?.thingsToKnow as { label: string; detail: string }[] | undefined) ?? [];
+  const hashtag = (invite.extraData?.hashtag as string | undefined) ?? null;
 
   /* ---- Share handler ---- */
   async function handleShare() {
@@ -573,36 +569,74 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
       )}
 
       {/* ============================================================ */}
-      {/*  SECTION 4 — Things to Know                                  */}
+      {/*  Gallery                                                      */}
       {/* ============================================================ */}
-      <section className="relative z-10 px-4 py-16">
-        <div className="mx-auto max-w-3xl">
-          <div className="scroll-fade mb-10 text-center">
-            <h2 className="text-3xl font-light tracking-wider text-[#DAA520] sm:text-4xl">
-              Things to Know
-            </h2>
-            <div className="gold-divider mt-4 flex justify-center">
-              <GoldDivider />
+      {invite.galleryImages.length > 0 && (
+        <section className="relative z-10 px-4 py-16">
+          <div className="mx-auto max-w-3xl">
+            <div className="scroll-fade mb-8 text-center">
+              <h2 className="text-3xl font-light tracking-wider text-[#DAA520] sm:text-4xl">
+                Gallery
+              </h2>
+              <div className="gold-divider mt-4 flex justify-center">
+                <GoldDivider />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {invite.galleryImages.map((img, idx) => (
+                <div
+                  key={idx}
+                  className="scroll-fade aspect-square overflow-hidden rounded-xl border border-[#DAA520]/20 shadow-md"
+                >
+                  <div
+                    className="h-full w-full bg-cover bg-center transition-transform duration-700 hover:scale-105"
+                    style={{ backgroundImage: `url(${img})` }}
+                  />
+                </div>
+              ))}
             </div>
           </div>
+        </section>
+      )}
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {thingsToKnow.map((item, idx) => (
-              <div
-                key={idx}
-                className="scroll-fade rounded-xl border border-[#DAA520]/15 bg-[#0a1628]/60 p-5 shadow-sm backdrop-blur-sm"
-              >
-                <h4 className="mb-1 text-base font-semibold text-[#DAA520]">
-                  {item.label}
-                </h4>
-                <p className="text-sm leading-relaxed text-white/50">
-                  {item.detail}
-                </p>
+      {/* Gold divider */}
+      <div className="gold-divider flex justify-center py-4">
+        <GoldDivider />
+      </div>
+
+      {/* ============================================================ */}
+      {/*  SECTION 4 — Things to Know                                  */}
+      {/* ============================================================ */}
+      {thingsToKnow.length > 0 && (
+        <section className="relative z-10 px-4 py-16">
+          <div className="mx-auto max-w-3xl">
+            <div className="scroll-fade mb-10 text-center">
+              <h2 className="text-3xl font-light tracking-wider text-[#DAA520] sm:text-4xl">
+                Things to Know
+              </h2>
+              <div className="gold-divider mt-4 flex justify-center">
+                <GoldDivider />
               </div>
-            ))}
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              {thingsToKnow.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="scroll-fade rounded-xl border border-[#DAA520]/15 bg-[#0a1628]/60 p-5 shadow-sm backdrop-blur-sm"
+                >
+                  <h4 className="mb-1 text-base font-semibold text-[#DAA520]">
+                    {item.label}
+                  </h4>
+                  <p className="text-sm leading-relaxed text-white/50">
+                    {item.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Gold divider */}
       <div className="gold-divider flex justify-center py-4">
@@ -679,6 +713,12 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
           <p className="text-sm text-white/40">
             We would be honoured by your presence on this magical night
           </p>
+
+          {hashtag && (
+            <p className="text-lg font-light tracking-wider text-[#DAA520]/70 italic">
+              {hashtag}
+            </p>
+          )}
 
           <Button
             size="lg"

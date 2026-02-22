@@ -8,6 +8,7 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
+import { storageKey } from "@/lib/platform";
 
 export interface CartItem {
   id: string;
@@ -33,7 +34,7 @@ interface CartContextValue {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-const CART_KEY = "cardora_cart";
+const CART_KEY = storageKey("cart");
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);

@@ -11,9 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShareSection } from "@/components/dashboard/share-section";
+import { platform, pageTitle } from "@/lib/platform";
 
 export const metadata = {
-  title: "Dashboard — Cardora",
+  title: pageTitle("Dashboard"),
 };
 
 export default async function DashboardPage() {
@@ -138,7 +139,7 @@ export default async function DashboardPage() {
           <CardHeader>
             <CardTitle>Get Started</CardTitle>
             <CardDescription>
-              Complete these steps to set up your Cardora profile
+              Complete these steps to set up your {platform.name} profile
             </CardDescription>
           </CardHeader>
           <CardContent>

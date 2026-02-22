@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { platform } from "@/lib/platform";
 
 export function CardoraWatermark({ className }: { className?: string }) {
   return (
@@ -10,7 +11,7 @@ export function CardoraWatermark({ className }: { className?: string }) {
       transition={{ delay: 1.0 }}
       className={className ?? "mt-12 pb-8 text-center text-xs text-gray-400"}
     >
-      Made with love on Cardora
+      {platform.watermarkText}
     </motion.p>
   );
 }

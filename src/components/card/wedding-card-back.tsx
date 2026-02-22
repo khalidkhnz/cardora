@@ -7,6 +7,7 @@ import {
   weddingCardTemplates,
 } from "@/lib/templates/wedding-card-templates";
 import type { WeddingCardData } from "./wedding-card-preview";
+import { platform } from "@/lib/platform";
 
 interface WeddingCardBackProps {
   data: WeddingCardData;
@@ -194,7 +195,7 @@ function WeddingBackLayout({
           margin: 0,
         }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
 
       {/* Bottom accent */}

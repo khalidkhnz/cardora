@@ -7,6 +7,7 @@ import {
   getBusinessCardTemplate,
   businessCardTemplates,
 } from "@/lib/templates/business-card-templates";
+import { platform } from "@/lib/platform";
 
 export interface UserCardData {
   name?: string | null;
@@ -1378,7 +1379,7 @@ export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPrevie
               letterSpacing: "0.06em",
             }}
           >
-            cardora
+            {platform.name.toLowerCase()}
           </p>
         </div>
       </div>

@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { platform } from "@/lib/platform";
 
 export function LoginForm() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export function LoginForm() {
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-        <CardDescription>Sign in to your Cardora account</CardDescription>
+        <CardDescription>Sign in to your {platform.name} account</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

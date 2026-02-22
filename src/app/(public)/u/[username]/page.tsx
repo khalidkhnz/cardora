@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getUserProfileByUsername } from "@/server/db/queries/user";
 import { getCardSettings } from "@/server/db/queries/card";
 import { PublicProfileView } from "@/components/public/public-profile-view";
+import { platform, pageTitle } from "@/lib/platform";
 import type { Metadata } from "next";
 
 interface Props {
@@ -13,14 +14,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const userData = await getUserProfileByUsername(username);
 
   if (!userData?.profile) {
-    return { title: "User Not Found — Cardora" };
+    return { title: pageTitle("User Not Found") };
   }
 
   return {
-    title: `${userData.name} — Cardora`,
+    title: pageTitle(userData.name),
     description: userData.profile.profession
       ? `${userData.name} - ${userData.profile.profession}${userData.profile.company ? ` at ${userData.profile.company}` : ""}`
-      : `${userData.name}'s digital card on Cardora`,
+      : `${userData.name}'s digital card on ${platform.name}`,
   };
 }
 

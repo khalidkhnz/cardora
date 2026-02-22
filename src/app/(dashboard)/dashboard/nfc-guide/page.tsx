@@ -17,6 +17,7 @@ import {
   CheckCircle,
   ExternalLink,
 } from "lucide-react";
+import { platform } from "@/lib/platform";
 
 const NFC_APPS = [
   {
@@ -58,7 +59,7 @@ const STEPS = [
   {
     title: "Get an NFC tag",
     description:
-      "Purchase NFC stickers or cards online. NTAG215 or NTAG216 are recommended for Cardora profiles.",
+      `Purchase NFC stickers or cards online. NTAG215 or NTAG216 are recommended for ${platform.name} profiles.`,
   },
   {
     title: "Install an NFC writing app",
@@ -68,7 +69,7 @@ const STEPS = [
   {
     title: "Copy your profile URL",
     description:
-      "Your public Cardora profile URL will be shown below. Copy it to your clipboard.",
+      `Your public ${platform.name} profile URL will be shown below. Copy it to your clipboard.`,
   },
   {
     title: "Write the URL to your tag",
@@ -78,7 +79,7 @@ const STEPS = [
   {
     title: "Test the tag",
     description:
-      "Tap the NFC tag with any smartphone. It should open your Cardora profile in the browser.",
+      `Tap the NFC tag with any smartphone. It should open your ${platform.name} profile in the browser.`,
   },
 ];
 
@@ -107,7 +108,7 @@ export default function NfcGuidePage() {
       <div>
         <h1 className="text-3xl font-bold">NFC Tag Guide</h1>
         <p className="text-muted-foreground">
-          Learn how to program NFC tags with your Cardora profile
+          Learn how to program NFC tags with your {platform.name} profile
         </p>
       </div>
 
@@ -270,7 +271,7 @@ export default function NfcGuidePage() {
             </li>
             <li className="flex gap-2">
               <span className="text-primary">&#8226;</span>
-              Each tap on your NFC tag is tracked in your Cardora Analytics dashboard as an &quot;nfc_tap&quot; event.
+              Each tap on your NFC tag is tracked in your {platform.name} Analytics dashboard as an &quot;nfc_tap&quot; event.
             </li>
           </ul>
         </CardContent>

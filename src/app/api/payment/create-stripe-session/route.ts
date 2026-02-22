@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getApiSession } from "@/server/auth-helpers";
 import { stripe } from "@/lib/stripe";
 import { createPayment } from "@/server/db/queries/payment";
+import { platform } from "@/lib/platform";
 
 export async function POST(request: NextRequest) {
   const session = await getApiSession(request);
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: body.currency.toLowerCase(),
             product_data: {
-              name: `Cardora - ${body.purpose}`,
+              name: `${platform.name} - ${body.purpose}`,
             },
             unit_amount: body.amount,
           },

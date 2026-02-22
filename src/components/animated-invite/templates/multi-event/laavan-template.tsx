@@ -491,8 +491,9 @@ export default function LaavanTemplate({ invite, isDemo }: TemplateProps) {
     toast.success("Link copied to clipboard");
   }
 
-  // Extract Things to Know data from extraData
-  const thingsToKnow = (invite.extraData?.thingsToKnow as { title: string; description: string }[] | undefined) ?? [];
+  // Extract Things to Know data and hashtag from extraData
+  const thingsToKnow = (invite.extraData?.thingsToKnow as { label: string; detail: string }[] | undefined) ?? [];
+  const hashtag = (invite.extraData?.hashtag as string | undefined) ?? null;
 
   return (
     <div
@@ -820,10 +821,10 @@ export default function LaavanTemplate({ invite, isDemo }: TemplateProps) {
                   }`}
                 >
                   <h3 className="mb-2 font-serif text-lg text-[#FF6F00]">
-                    {item.title}
+                    {item.label}
                   </h3>
                   <p className="text-sm leading-relaxed text-[#e8e0d0]/55">
-                    {item.description}
+                    {item.detail}
                   </p>
                 </div>
               ))}
@@ -930,6 +931,12 @@ export default function LaavanTemplate({ invite, isDemo }: TemplateProps) {
             <p className="mb-8 text-sm text-[#e8e0d0]/50">
               We would be honoured to have you witness the Anand Karaj and celebrate this joyous occasion with us.
             </p>
+
+            {hashtag && (
+              <p className="mb-4 font-serif text-lg text-[#FF6F00]/70 italic">
+                {hashtag}
+              </p>
+            )}
 
             <div className="flex flex-col items-center gap-4">
               <Button

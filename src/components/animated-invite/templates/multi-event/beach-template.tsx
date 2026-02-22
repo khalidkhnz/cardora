@@ -137,13 +137,9 @@ export default function BeachTemplate({ invite, isDemo }: TemplateProps) {
     { name: "Reception", date: invite.receptionDate ?? "Date TBA", venue: invite.venue ?? "Venue TBA", time: invite.weddingTime ?? "7 PM" },
   ];
 
-  /* ---- Extra data for "Things to Know" ---- */
-  const thingsToKnow = (invite.extraData?.thingsToKnow as { label: string; detail: string }[] | undefined) ?? [
-    { label: "Weather", detail: "Expect warm sunny skies — sunscreen recommended!" },
-    { label: "Dress Code", detail: "Resort casual — light fabrics and sandals welcome" },
-    { label: "Parking", detail: "Complimentary valet parking available at the venue" },
-    { label: "Accommodation", detail: "A block of rooms has been reserved at the resort" },
-  ];
+  /* ---- Extra data ---- */
+  const thingsToKnow = (invite.extraData?.thingsToKnow as { label: string; detail: string }[] | undefined) ?? [];
+  const hashtag = (invite.extraData?.hashtag as string | undefined) ?? null;
 
   /* ---- Share handler ---- */
   async function handleShare() {
@@ -515,34 +511,65 @@ export default function BeachTemplate({ invite, isDemo }: TemplateProps) {
       )}
 
       {/* ============================================================ */}
+      {/*  Gallery                                                      */}
+      {/* ============================================================ */}
+      {invite.galleryImages.length > 0 && (
+        <section className="relative z-10 bg-gradient-to-b from-[#f4e4bc]/30 to-[#f4e4bc]/50 px-4 py-16">
+          <div className="mx-auto max-w-3xl">
+            <div className="scroll-fade mb-8 text-center">
+              <h2 className="text-3xl font-light tracking-wide text-[#1e3a5f] sm:text-4xl">
+                Gallery
+              </h2>
+              <Seashell className="mx-auto mt-3 h-8 w-8 opacity-50" />
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {invite.galleryImages.map((img, idx) => (
+                <div
+                  key={idx}
+                  className="scroll-fade aspect-square overflow-hidden rounded-xl border border-[#FF7F50]/20 shadow-md"
+                >
+                  <div
+                    className="h-full w-full bg-cover bg-center transition-transform duration-700 hover:scale-105"
+                    style={{ backgroundImage: `url(${img})` }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ============================================================ */}
       {/*  SECTION 4 — Things to Know                                  */}
       {/* ============================================================ */}
-      <section className="relative z-10 bg-gradient-to-b from-[#f4e4bc]/40 to-[#f4e4bc]/60 px-4 py-16">
-        <div className="mx-auto max-w-3xl">
-          <div className="scroll-fade mb-10 text-center">
-            <h2 className="text-3xl font-light tracking-wide text-[#1e3a5f] sm:text-4xl">
-              Things to Know
-            </h2>
-            <Seashell className="mx-auto mt-3 h-8 w-8 opacity-50" />
-          </div>
+      {thingsToKnow.length > 0 && (
+        <section className="relative z-10 bg-gradient-to-b from-[#f4e4bc]/40 to-[#f4e4bc]/60 px-4 py-16">
+          <div className="mx-auto max-w-3xl">
+            <div className="scroll-fade mb-10 text-center">
+              <h2 className="text-3xl font-light tracking-wide text-[#1e3a5f] sm:text-4xl">
+                Things to Know
+              </h2>
+              <Seashell className="mx-auto mt-3 h-8 w-8 opacity-50" />
+            </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {thingsToKnow.map((item, idx) => (
-              <div
-                key={idx}
-                className="scroll-fade rounded-xl border border-[#1e3a5f]/10 bg-white/60 p-5 shadow-sm backdrop-blur-sm"
-              >
-                <h4 className="mb-1 text-base font-semibold text-[#1e3a5f]">
-                  {item.label}
-                </h4>
-                <p className="text-sm leading-relaxed text-[#1e3a5f]/70">
-                  {item.detail}
-                </p>
-              </div>
-            ))}
+            <div className="grid gap-5 sm:grid-cols-2">
+              {thingsToKnow.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="scroll-fade rounded-xl border border-[#1e3a5f]/10 bg-white/60 p-5 shadow-sm backdrop-blur-sm"
+                >
+                  <h4 className="mb-1 text-base font-semibold text-[#1e3a5f]">
+                    {item.label}
+                  </h4>
+                  <p className="text-sm leading-relaxed text-[#1e3a5f]/70">
+                    {item.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Wave transition */}
       <div className="wave-deco relative z-10">
@@ -619,6 +646,12 @@ export default function BeachTemplate({ invite, isDemo }: TemplateProps) {
           <p className="text-sm text-[#f4e4bc]/60">
             We would be honoured to have you celebrate with us
           </p>
+
+          {hashtag && (
+            <p className="text-lg font-light tracking-wide text-[#FF7F50]/80 italic">
+              {hashtag}
+            </p>
+          )}
 
           <Button
             size="lg"

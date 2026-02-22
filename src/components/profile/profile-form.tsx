@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { COUNTRIES, type CountryCode } from "@/lib/constants";
+import { platform } from "@/lib/platform";
 
 export function ProfileForm() {
   const { data: profile, isLoading } = useUserProfile();
@@ -125,7 +126,7 @@ export function ProfileForm() {
                 maxLength={30}
               />
               <p className="text-xs text-muted-foreground">
-                cardora.com/u/{form.username || "username"}
+                {platform.domain}/u/{form.username || "username"}
               </p>
             </div>
             <div className="space-y-2">

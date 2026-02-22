@@ -1,4 +1,6 @@
-export const APP_NAME = "Cardora";
+import { platform } from "./platform";
+
+export const APP_NAME = platform.name;
 
 export const COUNTRIES = {
   CA: { name: "Canada", currency: "CAD", symbol: "$" },

@@ -7,6 +7,7 @@ import {
   getWeddingCardTemplate,
   weddingCardTemplates,
 } from "@/lib/templates/wedding-card-templates";
+import { platform } from "@/lib/platform";
 
 export interface WeddingCardData {
   groomName?: string | null;
@@ -203,7 +204,7 @@ function OrnateVertical({
         className="absolute right-2 bottom-1"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -359,7 +360,7 @@ function OrnateHorizontal({
         className="absolute right-2 bottom-1"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -511,7 +512,7 @@ function ClassicVertical({
         className="absolute right-2 bottom-1"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -650,7 +651,7 @@ function ClassicHorizontal({
         className="absolute right-2 bottom-1"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -800,7 +801,7 @@ function RomanticVertical({
         className="absolute right-2 bottom-1"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -927,7 +928,7 @@ function RomanticHorizontal({
         className="absolute right-2 bottom-1"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -1093,7 +1094,7 @@ function RegalVertical({
         className="absolute right-2 bottom-2"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -1257,7 +1258,7 @@ function RegalHorizontal({
         className="absolute right-2 bottom-2"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -1398,7 +1399,7 @@ function ModernVertical({
         className="absolute right-2 bottom-1"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );
@@ -1534,7 +1535,7 @@ function ModernHorizontal({
         className="absolute right-2 bottom-1"
         style={{ fontSize: "5px", opacity: 0.2, color: text }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
     </div>
   );

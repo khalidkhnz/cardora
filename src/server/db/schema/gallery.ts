@@ -1,8 +1,9 @@
 import { relations } from "drizzle-orm";
 import { jsonb, pgTableCreator, text, timestamp } from "drizzle-orm/pg-core";
 import { user } from "./auth";
+import { platform } from "@/lib/platform";
 
-const createTable = pgTableCreator((name) => `cardora_${name}`);
+const createTable = pgTableCreator((name) => `${platform.dbTablePrefix}_${name}`);
 
 export const galleryItem = createTable("gallery_item", {
   id: text("id")

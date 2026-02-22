@@ -27,6 +27,7 @@ import {
   Maximize2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { platform } from "@/lib/platform";
 
 interface PublicProfileData {
   name: string;
@@ -92,7 +93,7 @@ async function handleShare(username: string) {
 
   if (navigator.share) {
     try {
-      await navigator.share({ title: "Cardora Profile", url });
+      await navigator.share({ title: `${platform.name} Profile`, url });
       return;
     } catch {
       // User cancelled or share failed, fall through to clipboard
@@ -685,7 +686,7 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
           transition={{ delay: 0.5 }}
           className="mt-8 text-center text-xs text-white/30"
         >
-          Powered by Cardora
+          {platform.poweredByText}
         </motion.p>
       </div>
     </div>

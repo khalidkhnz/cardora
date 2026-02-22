@@ -1,6 +1,7 @@
 import { pgTableCreator, text, timestamp } from "drizzle-orm/pg-core";
+import { platform } from "@/lib/platform";
 
-const createTable = pgTableCreator((name) => `cardora_${name}`);
+const createTable = pgTableCreator((name) => `${platform.dbTablePrefix}_${name}`);
 
 export const passwordResetToken = createTable("password_reset_token", {
   id: text("id")

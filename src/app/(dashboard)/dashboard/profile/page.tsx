@@ -1,7 +1,8 @@
 import { ProfileForm } from "@/components/profile/profile-form";
+import { pageTitle } from "@/lib/platform";
 
 export const metadata = {
-  title: "Profile — Cardora",
+  title: pageTitle("Profile"),
 };
 
 export default function ProfilePage() {

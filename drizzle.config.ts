@@ -1,6 +1,7 @@
 import { type Config } from "drizzle-kit";
 
 import { env } from "@/env";
+import { platform } from "@/lib/platform";
 
 export default {
   schema: "./src/server/db/schema/index.ts",
@@ -8,5 +9,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["cardora_*", "user", "session", "account", "verification"],
+  tablesFilter: [`${platform.dbTablePrefix}_*`, "user", "session", "account", "verification"],
 } satisfies Config;

@@ -37,6 +37,11 @@ interface EventRow {
   time: string;
 }
 
+interface ThingsToKnowRow {
+  label: string;
+  detail: string;
+}
+
 function TemplatePreviewOverlay({
   templateId,
   filtered,
@@ -207,9 +212,7 @@ export function AnimatedInviteEditor() {
 
   // Extra data fields
   const [hashtag, setHashtag] = useState("");
-  const [weather, setWeather] = useState("");
-  const [parking, setParking] = useState("");
-  const [hotelInfo, setHotelInfo] = useState("");
+  const [thingsToKnow, setThingsToKnow] = useState<ThingsToKnowRow[]>([]);
 
   useEffect(() => {
     if (currentInvite) {
@@ -235,9 +238,10 @@ export function AnimatedInviteEditor() {
       const extra = currentInvite.extraData;
       if (extra) {
         setHashtag((extra.hashtag as string) ?? "");
-        setWeather((extra.weather as string) ?? "");
-        setParking((extra.parking as string) ?? "");
-        setHotelInfo((extra.hotelInfo as string) ?? "");
+        const ttk = extra.thingsToKnow as ThingsToKnowRow[] | undefined;
+        if (ttk && Array.isArray(ttk)) {
+          setThingsToKnow(ttk);
+        }
       }
     }
   }, [currentInvite]);
@@ -270,6 +274,24 @@ export function AnimatedInviteEditor() {
     );
   }
 
+  function addThingToKnow() {
+    setThingsToKnow([...thingsToKnow, { label: "", detail: "" }]);
+  }
+
+  function removeThingToKnow(index: number) {
+    setThingsToKnow(thingsToKnow.filter((_, i) => i !== index));
+  }
+
+  function updateThingToKnow(
+    index: number,
+    field: keyof ThingsToKnowRow,
+    value: string,
+  ) {
+    setThingsToKnow(
+      thingsToKnow.map((t, i) => (i === index ? { ...t, [field]: value } : t)),
+    );
+  }
+
   async function handleSave() {
     if (!slug.trim()) {
       toast.error("Please enter a unique URL slug");
@@ -278,9 +300,11 @@ export function AnimatedInviteEditor() {
 
     const extraData: Record<string, unknown> = {};
     if (hashtag) extraData.hashtag = hashtag;
-    if (weather) extraData.weather = weather;
-    if (parking) extraData.parking = parking;
-    if (hotelInfo) extraData.hotelInfo = hotelInfo;
+    const filteredThingsToKnow = thingsToKnow.filter(
+      (t) => t.label.trim() || t.detail.trim(),
+    );
+    if (filteredThingsToKnow.length > 0)
+      extraData.thingsToKnow = filteredThingsToKnow;
 
     try {
       await createInvite.mutateAsync({
@@ -653,45 +677,71 @@ export function AnimatedInviteEditor() {
           <CardHeader>
             <CardTitle>Additional Info</CardTitle>
             <CardDescription>
-              Extra details shown in the &quot;Things to Know&quot; section
+              Hashtag and &quot;Things to Know&quot; details for your guests
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Wedding Hashtag</Label>
-                <Input
-                  value={hashtag}
-                  onChange={(e) => setHashtag(e.target.value)}
-                  placeholder="#OurWedding"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Weather Info</Label>
-                <Input
-                  value={weather}
-                  onChange={(e) => setWeather(e.target.value)}
-                  placeholder="Expected weather at venue"
-                />
-              </div>
+            <div className="space-y-2">
+              <Label>Wedding Hashtag</Label>
+              <Input
+                value={hashtag}
+                onChange={(e) => setHashtag(e.target.value)}
+                placeholder="#OurWedding"
+              />
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label>Parking Info</Label>
-                <Input
-                  value={parking}
-                  onChange={(e) => setParking(e.target.value)}
-                  placeholder="Parking arrangements"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Hotel / Accommodation</Label>
-                <Input
-                  value={hotelInfo}
-                  onChange={(e) => setHotelInfo(e.target.value)}
-                  placeholder="Recommended hotels nearby"
-                />
-              </div>
+
+            <div className="pt-2">
+              <Label className="mb-3 block">Things to Know</Label>
+              <p className="text-muted-foreground mb-3 text-xs">
+                Add helpful info for guests (weather, parking, dress code,
+                accommodation, etc.)
+              </p>
+              {thingsToKnow.map((item, index) => (
+                <div key={index} className="mb-3 rounded-lg border p-4">
+                  <div className="mb-3 flex items-center justify-between">
+                    <span className="text-sm font-medium">
+                      Item {index + 1}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeThingToKnow(index)}
+                      className="text-destructive h-8 w-8 p-0"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="space-y-1">
+                      <Label className="text-xs">Label</Label>
+                      <Input
+                        value={item.label}
+                        onChange={(e) =>
+                          updateThingToKnow(index, "label", e.target.value)
+                        }
+                        placeholder="e.g. Weather"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Detail</Label>
+                      <Input
+                        value={item.detail}
+                        onChange={(e) =>
+                          updateThingToKnow(index, "detail", e.target.value)
+                        }
+                        placeholder="e.g. Expected sunny, 25°C"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <Button
+                variant="outline"
+                onClick={addThingToKnow}
+                className="w-full"
+              >
+                <Plus className="mr-2 h-4 w-4" /> Add Item
+              </Button>
             </div>
           </CardContent>
         </Card>

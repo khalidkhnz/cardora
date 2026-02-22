@@ -368,8 +368,9 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
     toast.success("Link copied to clipboard");
   }
 
-  // Extract Things to Know data from extraData
-  const thingsToKnow = (invite.extraData?.thingsToKnow as { title: string; description: string }[] | undefined) ?? [];
+  // Extract Things to Know data and hashtag from extraData
+  const thingsToKnow = (invite.extraData?.thingsToKnow as { label: string; detail: string }[] | undefined) ?? [];
+  const hashtag = (invite.extraData?.hashtag as string | undefined) ?? null;
 
   return (
     <div
@@ -680,10 +681,10 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
                   className="scroll-fade rounded-xl border border-[#DAA520]/20 bg-[#0a5c36]/40 p-5 backdrop-blur-sm"
                 >
                   <h3 className="mb-2 font-serif text-lg text-[#DAA520]">
-                    {item.title}
+                    {item.label}
                   </h3>
                   <p className="text-sm leading-relaxed text-[#FFF8E7]/60">
-                    {item.description}
+                    {item.detail}
                   </p>
                 </div>
               ))}
@@ -790,6 +791,12 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
             <p className="mb-8 text-sm text-[#FFF8E7]/60">
               We would be honoured to have you celebrate this blessed occasion with us.
             </p>
+
+            {hashtag && (
+              <p className="mb-4 font-serif text-lg text-[#DAA520]/70 italic">
+                {hashtag}
+              </p>
+            )}
 
             <div className="flex flex-col items-center gap-4">
               <Button

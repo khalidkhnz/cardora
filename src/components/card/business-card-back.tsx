@@ -7,6 +7,7 @@ import {
   businessCardTemplates,
 } from "@/lib/templates/business-card-templates";
 import { getTextColor, type UserCardData } from "./business-card-preview";
+import { platform } from "@/lib/platform";
 
 interface BusinessCardBackProps {
   user: UserCardData;
@@ -174,7 +175,7 @@ function BackLayout({
           letterSpacing: "0.06em",
         }}
       >
-        cardora
+        {platform.name.toLowerCase()}
       </p>
 
       {/* Decorative accent line at bottom */}

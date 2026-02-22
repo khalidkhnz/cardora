@@ -209,7 +209,7 @@ export function LandingContent() {
               variants={fadeUp}
               className="mx-auto mt-3 max-w-xl text-muted-foreground"
             >
-              From business cards to wedding invitations, Cardora has you
+              From business cards to wedding invitations, {APP_NAME} has you
               covered with powerful features and beautiful designs.
             </motion.p>
           </motion.div>
