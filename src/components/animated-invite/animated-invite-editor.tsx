@@ -26,7 +26,7 @@ import { useCurrentInvite, useCreateInvite } from "@/hooks/use-wedding";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Trash2, Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Trash2, Eye, X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { PublicWeddingView } from "@/components/animated-invite/public-wedding-view";
 import { getDemoInviteData } from "@/lib/demo-invite-data";
 
@@ -107,6 +107,15 @@ function TemplatePreviewOverlay({
         </div>
 
         <div className="flex items-center gap-2">
+          <a
+            href={`/wedding/demo/${templateId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 rounded-lg border border-white/20 px-4 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            <ExternalLink className="h-3 w-3" />
+            Visit Demo
+          </a>
           <button
             onClick={() => {
               onSelect(templateId);
