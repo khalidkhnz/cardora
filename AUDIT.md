@@ -47,7 +47,10 @@ The remake is a near-complete port of the original with improved architecture (T
 ### ~~4. No Middleware for Route Protection~~ FIXED
 
 - **File**: `src/middleware.ts`
-- **Resolution**: Added Next.js middleware that checks the `better-auth.session_token` cookie. Redirects authenticated users away from auth pages (`/login`, `/signup`, `/forgot-password`, `/reset-password`) to `/dashboard`. Redirects unauthenticated users from `/dashboard/*` to `/login?callbackUrl=...`.
+- **Resolution**: Added Next.js middleware that checks the `better-auth.session_token` cookie. Redirects authenticated users away from auth pages (`/login`, `/signup`, `/forgot-password`, `/reset-password`) to `/dashboard`.
+
+> **NOTE — Infinite Redirect Bug (do NOT add dashboard protection in middleware):**
+> The middleware must NOT protect `/dashboard` routes via cookie checks. On HTTPS (production), better-auth prefixes cookies with `__Secure-` (e.g. `__Secure-better-auth.session_token`), and the cookie name can vary by environment. If the middleware's cookie check disagrees with `getSession()` (used in `(dashboard)/layout.tsx` and `(auth)/layout.tsx`), it creates an infinite redirect loop: middleware redirects `/dashboard` → `/login` (cookie not found), then auth layout's `getSession()` finds the session and redirects `/login` → `/dashboard`, and so on forever. Dashboard route protection is handled by the dashboard layout via `getSession()` which calls `auth.api.getSession()` — the authoritative session check from better-auth. Do not duplicate this in middleware with a less reliable cookie-name check.
 
 ### ~~5. Theme Provider Conflict with Sonner~~ FIXED
 
