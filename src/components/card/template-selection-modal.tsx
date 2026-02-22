@@ -12,6 +12,7 @@ import {
   businessCardTemplates,
   businessCardCategories,
 } from "@/lib/templates/business-card-templates";
+import { CardLayout, getTextColor } from "./business-card-preview";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
@@ -21,6 +22,16 @@ interface TemplateSelectionModalProps {
   selectedId?: string | null;
   onSelect: (template: BusinessCardTemplate) => void;
 }
+
+const dummyUser = {
+  name: "John Doe",
+  email: "john@example.com",
+  phone: "+1 (555) 123-4567",
+  company: "Acme Corp",
+  profession: "Software Engineer",
+  address: "123 Main St, City",
+  profileImage: null,
+};
 
 export function TemplateSelectionModal({
   open,
@@ -84,43 +95,46 @@ export function TemplateSelectionModal({
 
         {/* Template grid */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {filtered.map((template) => (
-            <button
-              key={template.id}
-              type="button"
-              onClick={() => setSelected(template)}
-              className={cn(
-                "relative overflow-hidden rounded-xl border-2 p-3 text-left transition-all",
-                selected?.id === template.id
-                  ? "border-primary ring-primary/20 ring-2"
-                  : "border-muted hover:border-muted-foreground/30",
-              )}
-            >
-              <div
-                className="mb-2 flex h-20 items-center justify-center rounded-lg"
-                style={{
-                  background: `linear-gradient(135deg, ${template.colors.primary}, ${template.colors.secondary})`,
-                }}
+          {filtered.map((template) => {
+            const textColor = getTextColor(template.colors.secondary);
+            return (
+              <button
+                key={template.id}
+                type="button"
+                onClick={() => setSelected(template)}
+                className={cn(
+                  "relative overflow-hidden rounded-xl border-2 p-3 text-left transition-all",
+                  selected?.id === template.id
+                    ? "border-primary ring-primary/20 ring-2"
+                    : "border-muted hover:border-muted-foreground/30",
+                )}
               >
-                <span className="text-2xl">{template.preview}</span>
-              </div>
-              <p className="text-sm font-semibold">{template.name}</p>
-              <div className="mt-1 flex gap-1">
-                {Object.values(template.colors).map((color, j) => (
-                  <div
-                    key={j}
-                    className="h-3 w-3 rounded-full border border-black/10"
-                    style={{ backgroundColor: color }}
+                {/* Mini card preview */}
+                <div
+                  className="relative mb-2 overflow-hidden rounded-lg"
+                  style={{
+                    backgroundColor: template.colors.secondary,
+                    height: 100,
+                  }}
+                >
+                  <CardLayout
+                    template={template}
+                    user={dummyUser}
+                    textColor={textColor}
                   />
-                ))}
-              </div>
-              {selected?.id === template.id && (
-                <div className="bg-primary text-primary-foreground absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs">
-                  ✓
                 </div>
-              )}
-            </button>
-          ))}
+                <p className="text-sm font-semibold">{template.name}</p>
+                <p className="text-muted-foreground text-xs">
+                  {template.category}
+                </p>
+                {selected?.id === template.id && (
+                  <div className="bg-primary text-primary-foreground absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs">
+                    ✓
+                  </div>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Selected info + action */}

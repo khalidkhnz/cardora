@@ -38,7 +38,7 @@ function formatDate(dateStr?: string | null) {
   }
 }
 
-function WeddingLayout({
+export function WeddingLayoutVertical({
   template,
   data,
 }: {
@@ -129,6 +129,93 @@ function WeddingLayout({
   );
 }
 
+function WeddingLayoutHorizontal({
+  template,
+  data,
+}: {
+  template: WeddingCardTemplate;
+  data: WeddingCardData;
+}) {
+  const { primary, secondary, accent, text } = template.colors;
+  const groom = data.groomName || "Groom";
+  const bride = data.brideName || "Bride";
+
+  return (
+    <div
+      className="relative flex h-full overflow-hidden"
+      style={{
+        background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+        color: text,
+      }}
+    >
+      {/* Overlay */}
+      {template.hasOverlay && (
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `radial-gradient(circle at 20% 80%, ${accent}, transparent 50%), radial-gradient(circle at 80% 20%, ${accent}, transparent 50%)`,
+          }}
+        />
+      )}
+
+      {/* Left section - couple names */}
+      <div className="relative z-10 flex w-1/2 flex-col items-center justify-center border-r border-white/10 p-4">
+        <p className="text-[7px] uppercase tracking-[2px] opacity-60">
+          {template.hasGurbani
+            ? "Ik Onkar"
+            : template.hasHindu
+              ? "Shubh Vivah"
+              : "Together with their families"}
+        </p>
+        <div
+          className="my-1.5 h-[1px] w-10 opacity-40"
+          style={{ backgroundColor: accent }}
+        />
+        <p className="text-base font-bold leading-tight">{groom}</p>
+        <p
+          className="my-0.5 text-[8px] italic opacity-70"
+          style={{ color: accent }}
+        >
+          &amp;
+        </p>
+        <p className="text-base font-bold leading-tight">{bride}</p>
+      </div>
+
+      {/* Right section - details */}
+      <div className="relative z-10 flex w-1/2 flex-col items-center justify-center p-4 text-center">
+        <p className="text-[8px] font-semibold">
+          {formatDate(data.weddingDate)}
+        </p>
+        <div
+          className="my-1.5 h-[1px] w-8 opacity-40"
+          style={{ backgroundColor: accent }}
+        />
+        <p className="text-[7px] opacity-70">
+          {data.venue || "Venue TBD"}
+        </p>
+        {data.groomParentNames && (
+          <p className="mt-1.5 text-[6px] opacity-50">
+            S/o {data.groomParentNames}
+          </p>
+        )}
+        {data.brideParentNames && (
+          <p className="text-[6px] opacity-50">
+            D/o {data.brideParentNames}
+          </p>
+        )}
+      </div>
+
+      {/* Watermark */}
+      <p
+        className="absolute right-2 bottom-1 text-[5px] opacity-20"
+        style={{ color: text }}
+      >
+        cardora
+      </p>
+    </div>
+  );
+}
+
 export const WeddingCardPreview = forwardRef<
   HTMLDivElement,
   WeddingCardPreviewProps
@@ -174,7 +261,11 @@ export const WeddingCardPreview = forwardRef<
           className="relative overflow-hidden rounded-xl shadow-lg"
           style={{ width, height }}
         >
-          <WeddingLayout template={template} data={data} />
+          {orientation === "horizontal" ? (
+            <WeddingLayoutHorizontal template={template} data={data} />
+          ) : (
+            <WeddingLayoutVertical template={template} data={data} />
+          )}
         </div>
       </motion.div>
     </div>

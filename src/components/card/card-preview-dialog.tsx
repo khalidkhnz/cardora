@@ -17,6 +17,7 @@ interface CardPreviewDialogProps {
   businessData?: UserCardData;
   weddingData?: WeddingCardData;
   templateId?: string | null;
+  orientation?: "horizontal" | "vertical";
 }
 
 export function CardPreviewDialog({
@@ -26,6 +27,7 @@ export function CardPreviewDialog({
   businessData,
   weddingData,
   templateId,
+  orientation,
 }: CardPreviewDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -47,7 +49,7 @@ export function CardPreviewDialog({
             <BusinessCardPreview
               user={businessData}
               templateId={templateId}
-              orientation="horizontal"
+              orientation={orientation ?? "horizontal"}
               size="large"
             />
           )}
@@ -56,7 +58,7 @@ export function CardPreviewDialog({
             <WeddingCardPreview
               data={weddingData}
               templateId={templateId}
-              orientation="vertical"
+              orientation={orientation ?? "vertical"}
               size="large"
             />
           )}

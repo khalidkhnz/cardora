@@ -12,6 +12,7 @@ import {
   weddingCardTemplates,
   weddingCardCategories,
 } from "@/lib/templates/wedding-card-templates";
+import { WeddingLayoutVertical } from "./wedding-card-preview";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
@@ -21,6 +22,16 @@ interface WeddingTemplateSelectionModalProps {
   selectedId?: string | null;
   onSelect: (template: WeddingCardTemplate) => void;
 }
+
+const dummyWeddingData = {
+  groomName: "Rahul",
+  brideName: "Priya",
+  weddingDate: "2026-06-15",
+  venue: "Royal Palace, Jaipur",
+  groomParentNames: "Mr. & Mrs. Sharma",
+  brideParentNames: "Mr. & Mrs. Patel",
+  deceasedElders: null,
+};
 
 export function WeddingTemplateSelectionModal({
   open,
@@ -96,24 +107,20 @@ export function WeddingTemplateSelectionModal({
                   : "border-muted hover:border-muted-foreground/30",
               )}
             >
+              {/* Mini wedding card preview */}
               <div
-                className="mb-2 flex h-20 items-center justify-center rounded-lg"
-                style={{
-                  background: `linear-gradient(135deg, ${template.colors.primary}, ${template.colors.secondary})`,
-                }}
+                className="relative mb-2 overflow-hidden rounded-lg"
+                style={{ height: 140 }}
               >
-                <span className="text-2xl">{template.preview}</span>
+                <WeddingLayoutVertical
+                  template={template}
+                  data={dummyWeddingData}
+                />
               </div>
               <p className="text-sm font-semibold">{template.name}</p>
-              <div className="mt-1 flex gap-1">
-                {Object.values(template.colors).map((color, j) => (
-                  <div
-                    key={j}
-                    className="h-3 w-3 rounded-full border border-black/10"
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
+              <p className="text-muted-foreground text-xs">
+                {template.category}
+              </p>
               {selected?.id === template.id && (
                 <div className="bg-primary text-primary-foreground absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs">
                   ✓

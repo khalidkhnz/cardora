@@ -6,6 +6,7 @@ import {
   weddingCardTemplates,
   weddingCardCategories,
 } from "@/lib/templates/wedding-card-templates";
+import { WeddingLayoutVertical } from "./wedding-card-preview";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -13,6 +14,16 @@ interface WeddingTemplateGridProps {
   selectedId?: string | null;
   onSelect: (template: WeddingCardTemplate) => void;
 }
+
+const dummyWeddingData = {
+  groomName: "Rahul",
+  brideName: "Priya",
+  weddingDate: "2026-06-15",
+  venue: "Royal Palace, Jaipur",
+  groomParentNames: "Mr. & Mrs. Sharma",
+  brideParentNames: "Mr. & Mrs. Patel",
+  deceasedElders: null,
+};
 
 export function WeddingTemplateGrid({
   selectedId,
@@ -77,31 +88,21 @@ export function WeddingTemplateGrid({
                 : "border-muted hover:border-muted-foreground/30",
             )}
           >
-            {/* Color preview */}
+            {/* Mini wedding card preview */}
             <div
-              className="mb-3 flex h-24 items-center justify-center rounded-lg"
-              style={{
-                background: `linear-gradient(135deg, ${template.colors.primary}, ${template.colors.secondary})`,
-              }}
+              className="relative mb-3 overflow-hidden rounded-lg"
+              style={{ height: 160 }}
             >
-              <span className="text-3xl">{template.preview}</span>
-            </div>
-
-            {/* Color swatches */}
-            <div className="mb-2 flex gap-1">
-              {Object.values(template.colors).map((color, j) => (
-                <div
-                  key={j}
-                  className="h-4 w-4 rounded-full border border-black/10"
-                  style={{ backgroundColor: color }}
-                />
-              ))}
+              <WeddingLayoutVertical
+                template={template}
+                data={dummyWeddingData}
+              />
             </div>
 
             {/* Template info */}
             <p className="text-sm font-semibold">{template.name}</p>
             <p className="text-muted-foreground line-clamp-1 text-xs">
-              {template.description}
+              {template.category}
             </p>
 
             {/* Selection indicator */}

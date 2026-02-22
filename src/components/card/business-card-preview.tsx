@@ -24,7 +24,7 @@ interface BusinessCardPreviewProps {
   size?: "standard" | "large";
 }
 
-function getTextColor(secondaryColor: string) {
+export function getTextColor(secondaryColor: string) {
   const light = ["#FFFFFF", "#fff", "#FEF3C7", "#D1FAE5", "#F3E8FF", "#F8F6F0"];
   return light.some((c) => c.toLowerCase() === secondaryColor.toLowerCase())
     ? "#1F2937"
@@ -41,7 +41,7 @@ function getInitials(name?: string | null) {
     .slice(0, 2);
 }
 
-function CardLayout({
+export function CardLayout({
   template,
   user,
   textColor,

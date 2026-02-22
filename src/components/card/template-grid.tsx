@@ -6,6 +6,7 @@ import {
   businessCardTemplates,
   businessCardCategories,
 } from "@/lib/templates/business-card-templates";
+import { CardLayout, getTextColor } from "./business-card-preview";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -13,6 +14,16 @@ interface TemplateGridProps {
   selectedId?: string | null;
   onSelect: (template: BusinessCardTemplate) => void;
 }
+
+const dummyUser = {
+  name: "John Doe",
+  email: "john@example.com",
+  phone: "+1 (555) 123-4567",
+  company: "Acme Corp",
+  profession: "Software Engineer",
+  address: "123 Main St, City",
+  profileImage: null,
+};
 
 export function TemplateGrid({ selectedId, onSelect }: TemplateGridProps) {
   const [category, setCategory] = useState<string>("All");
@@ -57,58 +68,55 @@ export function TemplateGrid({ selectedId, onSelect }: TemplateGridProps) {
 
       {/* Template grid */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {filtered.map((template, i) => (
-          <motion.button
-            key={template.id}
-            type="button"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => onSelect(template)}
-            className={cn(
-              "group relative overflow-hidden rounded-xl border-2 p-3 text-left transition-all",
-              selectedId === template.id
-                ? "border-primary ring-primary/20 ring-2"
-                : "border-muted hover:border-muted-foreground/30",
-            )}
-          >
-            {/* Color preview */}
-            <div
-              className="mb-3 flex h-24 items-center justify-center rounded-lg"
-              style={{
-                background: `linear-gradient(135deg, ${template.colors.primary}, ${template.colors.secondary})`,
-              }}
+        {filtered.map((template, i) => {
+          const textColor = getTextColor(template.colors.secondary);
+          return (
+            <motion.button
+              key={template.id}
+              type="button"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => onSelect(template)}
+              className={cn(
+                "group relative overflow-hidden rounded-xl border-2 p-3 text-left transition-all",
+                selectedId === template.id
+                  ? "border-primary ring-primary/20 ring-2"
+                  : "border-muted hover:border-muted-foreground/30",
+              )}
             >
-              <span className="text-3xl">{template.preview}</span>
-            </div>
-
-            {/* Color swatches */}
-            <div className="mb-2 flex gap-1">
-              {Object.values(template.colors).map((color, j) => (
-                <div
-                  key={j}
-                  className="h-4 w-4 rounded-full border border-black/10"
-                  style={{ backgroundColor: color }}
+              {/* Mini card preview */}
+              <div
+                className="relative mb-3 overflow-hidden rounded-lg"
+                style={{
+                  backgroundColor: template.colors.secondary,
+                  height: 120,
+                }}
+              >
+                <CardLayout
+                  template={template}
+                  user={dummyUser}
+                  textColor={textColor}
                 />
-              ))}
-            </div>
-
-            {/* Template info */}
-            <p className="text-sm font-semibold">{template.name}</p>
-            <p className="text-muted-foreground line-clamp-1 text-xs">
-              {template.description}
-            </p>
-
-            {/* Selection indicator */}
-            {selectedId === template.id && (
-              <div className="bg-primary text-primary-foreground absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs">
-                ✓
               </div>
-            )}
-          </motion.button>
-        ))}
+
+              {/* Template info */}
+              <p className="text-sm font-semibold">{template.name}</p>
+              <p className="text-muted-foreground line-clamp-1 text-xs">
+                {template.category}
+              </p>
+
+              {/* Selection indicator */}
+              {selectedId === template.id && (
+                <div className="bg-primary text-primary-foreground absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs">
+                  ✓
+                </div>
+              )}
+            </motion.button>
+          );
+        })}
       </div>
     </div>
   );
