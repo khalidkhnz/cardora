@@ -394,7 +394,7 @@ export default function RoyalPalaceTemplate({
 
         {/* Glowing radial behind names */}
         <div
-          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          className="parallax-bg pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
             background: `radial-gradient(circle, rgba(218,165,32,0.06) 0%, transparent 70%)`,
           }}
@@ -766,7 +766,7 @@ export default function RoyalPalaceTemplate({
       {/*  GALLERY SECTION                                                   */}
       {/* ================================================================== */}
       {invite.galleryImages.length > 0 && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <RegalDivider />
 
           <div className="mx-auto max-w-2xl">
@@ -809,7 +809,7 @@ export default function RoyalPalaceTemplate({
       {/* ================================================================== */}
       {/*  RSVP SECTION                                                      */}
       {/* ================================================================== */}
-      <section className="relative z-10 px-6 py-20">
+      <section className="scroll-fade relative z-10 px-6 py-20">
         <RegalDivider />
 
         <div className="mx-auto max-w-sm text-center">
@@ -886,7 +886,7 @@ export default function RoyalPalaceTemplate({
       {/* ================================================================== */}
       {/*  FOOTER                                                            */}
       {/* ================================================================== */}
-      <footer className="relative z-10 px-6 pb-12 pt-8">
+      <footer className="scroll-fade relative z-10 px-6 pb-12 pt-8">
         <RegalDivider />
 
         <div className="mx-auto max-w-sm text-center">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
@@ -8,8 +8,11 @@ import { Share2, MapPin, Calendar, Heart, Download } from "lucide-react";
 import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
+import { ParticleLayer } from "../../shared/particle-layer";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useLenis } from "@/hooks/use-lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import type { TemplateProps } from "../../types";
 
 /* -------------------------------------------------------------------------- */
@@ -261,6 +264,46 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const { isPlaying, toggle } = useMusicPlayer(invite.musicUrl);
   const countdown = useCountdown(invite.weddingDate);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLenis();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".scroll-fade").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+
+      gsap.utils.toArray<HTMLElement>(".parallax-mandala").forEach((el) => {
+        gsap.to(el, {
+          yPercent: -12,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   async function handleShare() {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
@@ -280,17 +323,18 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-orange-50 via-red-50/30 to-amber-50">
+    <div ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-orange-50 via-red-50/30 to-amber-50">
       {/* Decorative mandala backgrounds */}
-      <div className="pointer-events-none absolute -top-16 -left-16 z-0 text-orange-300">
+      <div className="parallax-mandala pointer-events-none absolute -top-16 -left-16 z-0 text-orange-300">
         <MandalaOrnament className="h-64 w-64 opacity-30" />
       </div>
-      <div className="pointer-events-none absolute -right-20 top-1/4 z-0 text-red-300">
+      <div className="parallax-mandala pointer-events-none absolute -right-20 top-1/4 z-0 text-red-300">
         <MandalaOrnament className="h-48 w-48 opacity-20" />
       </div>
-      <div className="pointer-events-none absolute -bottom-16 -left-12 z-0 text-amber-300">
+      <div className="parallax-mandala pointer-events-none absolute -bottom-16 -left-12 z-0 text-amber-300">
         <MandalaOrnament className="h-56 w-56 opacity-25" />
       </div>
+      <ParticleLayer type="LIGHT" />
 
       {/* Music toggle */}
       {invite.musicUrl && (
@@ -500,7 +544,7 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
         {/* ------------------------------------------------------------------ */}
         {invite.weddingDate && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -566,7 +610,7 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
             </motion.div>
 
             <motion.section
-              className="mb-16"
+              className="scroll-fade mb-16"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -607,7 +651,7 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
         {/* Couple message */}
         {invite.coupleMessage && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -644,7 +688,7 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
         </motion.div>
 
         <motion.section
-          className="mb-16"
+          className="scroll-fade mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -768,7 +812,7 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
         {/* ------------------------------------------------------------------ */}
         {invite.events && invite.events.length > 0 && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -819,7 +863,7 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
         {/* ------------------------------------------------------------------ */}
         {invite.galleryImages.length > 0 && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -867,7 +911,7 @@ export default function IndianHeritageTemplate({ invite, isDemo }: TemplateProps
         </motion.div>
 
         <motion.section
-          className="mb-16 text-center"
+          className="scroll-fade mb-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

@@ -93,27 +93,27 @@ function WatercolorBorder() {
     <div className="pointer-events-none absolute inset-0 z-0">
       {/* Top-left watercolor wash */}
       <div
-        className="absolute -top-20 -left-20 h-72 w-72 rounded-full opacity-20 blur-3xl"
+        className="parallax-wash absolute -top-20 -left-20 h-72 w-72 rounded-full opacity-20 blur-3xl"
         style={{ background: "radial-gradient(circle, #c4a35a 0%, transparent 70%)" }}
       />
       {/* Top-right watercolor wash */}
       <div
-        className="absolute -top-16 -right-16 h-64 w-64 rounded-full opacity-15 blur-3xl"
+        className="parallax-wash absolute -top-16 -right-16 h-64 w-64 rounded-full opacity-15 blur-3xl"
         style={{ background: "radial-gradient(circle, #8b9a5b 0%, transparent 70%)" }}
       />
       {/* Bottom-left watercolor wash */}
       <div
-        className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full opacity-15 blur-3xl"
+        className="parallax-wash absolute -bottom-24 -left-24 h-80 w-80 rounded-full opacity-15 blur-3xl"
         style={{ background: "radial-gradient(circle, #8b9a5b 0%, transparent 70%)" }}
       />
       {/* Bottom-right watercolor wash */}
       <div
-        className="absolute -right-20 -bottom-20 h-72 w-72 rounded-full opacity-20 blur-3xl"
+        className="parallax-wash absolute -right-20 -bottom-20 h-72 w-72 rounded-full opacity-20 blur-3xl"
         style={{ background: "radial-gradient(circle, #c4a35a 0%, transparent 70%)" }}
       />
       {/* Center subtle wash */}
       <div
-        className="absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.08] blur-3xl"
+        className="parallax-wash absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.08] blur-3xl"
         style={{ background: "radial-gradient(circle, #d4a574 0%, transparent 70%)" }}
       />
     </div>
@@ -242,9 +242,10 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-amber-50/30 via-stone-50 to-amber-50/30">
+    <div ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-amber-50/30 via-stone-50 to-amber-50/30">
       {/* Watercolor background washes */}
       <WatercolorBorder />
+      <ParticleLayer type="LIGHT" />
 
       {/* Music toggle */}
       {invite.musicUrl && (
@@ -413,7 +414,7 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
         {/* ------------------------------------------------------------------ */}
         {invite.weddingDate && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -475,7 +476,7 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
             </motion.div>
 
             <motion.section
-              className="mb-16"
+              className="scroll-fade mb-16"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -527,7 +528,7 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
         {/* Couple message */}
         {invite.coupleMessage && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -563,7 +564,7 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
         </motion.div>
 
         <motion.section
-          className="mb-16"
+          className="scroll-fade mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -679,7 +680,7 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
         {/* ------------------------------------------------------------------ */}
         {invite.events && invite.events.length > 0 && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -721,7 +722,7 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
         {/* ------------------------------------------------------------------ */}
         {invite.galleryImages.length > 0 && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -765,7 +766,7 @@ export default function MediterraneanEleganceTemplate({ invite, isDemo }: Templa
         </motion.div>
 
         <motion.section
-          className="mb-16 text-center"
+          className="scroll-fade mb-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

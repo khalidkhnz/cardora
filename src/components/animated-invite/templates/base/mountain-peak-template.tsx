@@ -140,6 +140,46 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const { isPlaying, toggle } = useMusicPlayer(invite.musicUrl);
   const countdown = useCountdown(invite.weddingDate);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLenis();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".scroll-fade").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+
+      gsap.utils.toArray<HTMLElement>(".parallax-mountain").forEach((el) => {
+        gsap.to(el, {
+          yPercent: -15,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   async function handleShare() {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
@@ -159,9 +199,12 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-stone-100 via-amber-50 to-stone-100">
+    <div ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-stone-100 via-amber-50 to-stone-100">
       {/* Mountain silhouette backdrop */}
-      <MountainSilhouette />
+      <div className="parallax-mountain">
+        <MountainSilhouette />
+      </div>
+      <ParticleLayer type="DUST" />
 
       {/* Music toggle */}
       {invite.musicUrl && (
@@ -292,7 +335,7 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
         {/* ------------------------------------------------------------------ */}
         {invite.weddingDate && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -344,7 +387,7 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
             </motion.div>
 
             <motion.section
-              className="mb-16"
+              className="scroll-fade mb-16"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -378,7 +421,7 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
         {/* Couple message */}
         {invite.coupleMessage && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -405,7 +448,7 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
         </motion.div>
 
         <motion.section
-          className="mb-16"
+          className="scroll-fade mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -505,7 +548,7 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
         {/* ------------------------------------------------------------------ */}
         {invite.events && invite.events.length > 0 && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -542,7 +585,7 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
         {/* ------------------------------------------------------------------ */}
         {invite.galleryImages.length > 0 && (
           <motion.section
-            className="mb-16"
+            className="scroll-fade mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -585,7 +628,7 @@ export default function MountainPeakTemplate({ invite, isDemo }: TemplateProps) 
         </motion.div>
 
         <motion.section
-          className="mb-16 text-center"
+          className="scroll-fade mb-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
@@ -10,6 +10,8 @@ import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useLenis } from "@/hooks/use-lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import { ParticleLayer } from "../../shared/particle-layer";
 import type { TemplateProps } from "../../types";
 
@@ -201,6 +203,47 @@ export default function GoldenNightTemplate({
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const { isPlaying, toggle } = useMusicPlayer(invite.musicUrl);
   const countdown = useCountdown(invite.weddingDate);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLenis();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".scroll-fade").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+
+      // Parallax on star/night sky elements
+      gsap.utils.toArray<HTMLElement>(".parallax-bg").forEach((el) => {
+        gsap.to(el, {
+          yPercent: -15,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   async function handleShare() {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
@@ -221,6 +264,7 @@ export default function GoldenNightTemplate({
 
   return (
     <div
+      ref={containerRef}
       className="relative min-h-screen overflow-hidden text-white"
       style={{
         background: `linear-gradient(to bottom, ${NAVY}, #1a1a3e, ${NAVY})`,
@@ -349,7 +393,7 @@ export default function GoldenNightTemplate({
 
         {/* Subtle glow behind hero */}
         <div
-          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          className="parallax-bg pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
             background: `radial-gradient(circle, ${GOLD_GLOW} 0%, transparent 60%)`,
           }}
@@ -378,7 +422,7 @@ export default function GoldenNightTemplate({
         invite.groomMotherName ??
         invite.brideFatherName ??
         invite.brideMotherName) && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <ConstellationLine />
 
           <div className="mx-auto max-w-lg">
@@ -460,7 +504,7 @@ export default function GoldenNightTemplate({
       {/*  STORY SECTION                                                     */}
       {/* ================================================================== */}
       {invite.story && (
-        <section className="relative z-10 px-6 py-20">
+        <section className="scroll-fade relative z-10 px-6 py-20">
           <ConstellationLine />
 
           <div className="mx-auto max-w-lg text-center">
@@ -523,7 +567,7 @@ export default function GoldenNightTemplate({
       {/* ================================================================== */}
       {/*  DATE & VENUE SECTION                                              */}
       {/* ================================================================== */}
-      <section className="relative z-10 px-6 py-20">
+      <section className="scroll-fade relative z-10 px-6 py-20">
         <ConstellationLine />
 
         <div className="mx-auto max-w-lg">
@@ -679,7 +723,7 @@ export default function GoldenNightTemplate({
       {/*  EVENTS SECTION                                                    */}
       {/* ================================================================== */}
       {invite.events && invite.events.length > 0 && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <ConstellationLine />
 
           <div className="mx-auto max-w-lg">
@@ -751,7 +795,7 @@ export default function GoldenNightTemplate({
       {/*  GALLERY SECTION                                                   */}
       {/* ================================================================== */}
       {invite.galleryImages.length > 0 && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <ConstellationLine />
 
           <div className="mx-auto max-w-2xl">
@@ -794,7 +838,7 @@ export default function GoldenNightTemplate({
       {/* ================================================================== */}
       {/*  RSVP SECTION                                                      */}
       {/* ================================================================== */}
-      <section className="relative z-10 px-6 py-20">
+      <section className="scroll-fade relative z-10 px-6 py-20">
         <ConstellationLine />
 
         <div className="mx-auto max-w-sm text-center">
@@ -883,7 +927,7 @@ export default function GoldenNightTemplate({
       {/* ================================================================== */}
       {/*  FOOTER                                                            */}
       {/* ================================================================== */}
-      <footer className="relative z-10 px-6 pb-12 pt-8">
+      <footer className="scroll-fade relative z-10 px-6 pb-12 pt-8">
         <ConstellationLine />
 
         <div className="mx-auto max-w-sm text-center">

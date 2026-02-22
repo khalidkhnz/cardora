@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RsvpModal } from "@/components/rsvp/rsvp-modal";
@@ -8,8 +8,11 @@ import { Share2, MapPin, Calendar, Heart, Download } from "lucide-react";
 import { toast } from "sonner";
 import { MusicToggleButton } from "../../shared/music-toggle-button";
 import { CardoraWatermark } from "../../shared/cardora-watermark";
+import { ParticleLayer } from "../../shared/particle-layer";
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import { useCountdown } from "@/hooks/use-countdown";
+import { useLenis } from "@/hooks/use-lenis";
+import { gsap, ScrollTrigger } from "@/lib/gsap-setup";
 import type { TemplateProps } from "../../types";
 
 function formatWeddingDate(dateStr: string | null) {
@@ -211,6 +214,32 @@ export default function RomanticGardenTemplate({
   const [rsvpOpen, setRsvpOpen] = useState(false);
   const { isPlaying, toggle } = useMusicPlayer(invite.musicUrl);
   const countdown = useCountdown(invite.weddingDate);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLenis();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>(".scroll-fade").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   async function handleShare() {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
@@ -230,7 +259,9 @@ export default function RomanticGardenTemplate({
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-green-50/30 via-pink-50/20 to-green-50/30">
+    <div ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-green-50/30 via-pink-50/20 to-green-50/30">
+      <ParticleLayer type="PETAL" />
+
       {/* ---- Floating petals background ---- */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         {Array.from({ length: 8 }).map((_, i) => (
@@ -305,7 +336,7 @@ export default function RomanticGardenTemplate({
       {/* ================================================================== */}
       {/*  HERO SECTION  — Garden Gate Metaphor                              */}
       {/* ================================================================== */}
-      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20">
+      <section className="scroll-fade relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20">
         {/* Garden gate arch */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -410,7 +441,7 @@ export default function RomanticGardenTemplate({
         invite.groomMotherName ??
         invite.brideFatherName ??
         invite.brideMotherName) && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <VineDivider />
           <div className="mx-auto max-w-lg">
             <motion.p
@@ -476,7 +507,7 @@ export default function RomanticGardenTemplate({
       {/*  STORY SECTION                                                     */}
       {/* ================================================================== */}
       {invite.story && (
-        <section className="relative z-10 px-6 py-20">
+        <section className="scroll-fade relative z-10 px-6 py-20">
           <VineDivider />
 
           <div className="mx-auto max-w-lg text-center">
@@ -528,7 +559,7 @@ export default function RomanticGardenTemplate({
       {/* ================================================================== */}
       {/*  DATE & VENUE SECTION                                              */}
       {/* ================================================================== */}
-      <section className="relative z-10 px-6 py-20">
+      <section className="scroll-fade relative z-10 px-6 py-20">
         <VineDivider />
 
         <div className="mx-auto max-w-lg">
@@ -645,7 +676,7 @@ export default function RomanticGardenTemplate({
       {/*  EVENTS SECTION                                                    */}
       {/* ================================================================== */}
       {invite.events && invite.events.length > 0 && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <VineDivider />
 
           <div className="mx-auto max-w-lg">
@@ -698,7 +729,7 @@ export default function RomanticGardenTemplate({
       {/*  GALLERY SECTION                                                   */}
       {/* ================================================================== */}
       {invite.galleryImages.length > 0 && (
-        <section className="relative z-10 px-6 py-16">
+        <section className="scroll-fade relative z-10 px-6 py-16">
           <VineDivider />
 
           <div className="mx-auto max-w-2xl">
@@ -736,7 +767,7 @@ export default function RomanticGardenTemplate({
       {/* ================================================================== */}
       {/*  RSVP SECTION                                                      */}
       {/* ================================================================== */}
-      <section className="relative z-10 px-6 py-20">
+      <section className="scroll-fade relative z-10 px-6 py-20">
         <VineDivider />
 
         <div className="mx-auto max-w-sm text-center">
