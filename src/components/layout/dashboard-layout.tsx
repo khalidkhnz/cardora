@@ -49,21 +49,23 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
     .slice(0, 2);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       {/* Desktop sidebar */}
-      <aside className="hidden w-64 border-r bg-card lg:block">
-        <div className="flex h-16 items-center border-b px-6">
+      <aside className="hidden w-64 shrink-0 flex-col border-r bg-card lg:flex">
+        <div className="flex h-16 shrink-0 items-center border-b px-6">
           <Link href="/dashboard" className="text-xl font-bold">
             {APP_NAME}
           </Link>
         </div>
-        <DashboardSidebar />
+        <div className="flex-1 overflow-y-auto">
+          <DashboardSidebar />
+        </div>
       </aside>
 
       {/* Main content */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col">
         {/* Header */}
-        <header className="flex h-16 items-center justify-between border-b bg-card px-4 lg:px-6">
+        <header className="flex h-16 shrink-0 items-center justify-between border-b bg-card px-4 lg:px-6">
           <div className="flex items-center gap-4">
             {/* Mobile menu */}
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
