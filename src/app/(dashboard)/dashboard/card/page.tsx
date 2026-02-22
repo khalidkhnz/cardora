@@ -16,6 +16,9 @@ import {
 } from "@/components/card/card-type-selector";
 import { BusinessCardPreview } from "@/components/card/business-card-preview";
 import { WeddingCardPreview } from "@/components/card/wedding-card-preview";
+import { BusinessCardBack } from "@/components/card/business-card-back";
+import { WeddingCardBack } from "@/components/card/wedding-card-back";
+import { FlippableCard } from "@/components/card/flippable-card";
 import { TemplateGrid } from "@/components/card/template-grid";
 import { WeddingTemplateGrid } from "@/components/card/wedding-template-grid";
 import { TemplateSelectionModal } from "@/components/card/template-selection-modal";
@@ -263,15 +266,40 @@ export default function CardPage() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-6 lg:flex-row">
-                {/* Preview */}
+                {/* Preview (3D flippable) */}
                 <div className="flex flex-1 items-center justify-center rounded-lg border bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
-                  <BusinessCardPreview
-                    ref={cardRef}
-                    user={businessData}
-                    templateId={selectedTemplateId}
-                    orientation={orientation}
-                    size={cardSize}
+                  <FlippableCard
+                    width={cardSize === "standard" ? (orientation === "horizontal" ? 256 : 160) : (orientation === "horizontal" ? 320 : 208)}
+                    height={cardSize === "standard" ? (orientation === "horizontal" ? 160 : 256) : (orientation === "horizontal" ? 208 : 320)}
+                    front={
+                      <BusinessCardPreview
+                        user={businessData}
+                        templateId={selectedTemplateId}
+                        orientation={orientation}
+                        size={cardSize}
+                        bare
+                      />
+                    }
+                    back={
+                      <BusinessCardBack
+                        user={businessData}
+                        username={profile?.username}
+                        templateId={selectedTemplateId}
+                        orientation={orientation}
+                        size={cardSize}
+                      />
+                    }
                   />
+                  {/* Hidden flat ref for PDF capture */}
+                  <div style={{ position: "absolute", left: -9999, top: -9999 }}>
+                    <BusinessCardPreview
+                      ref={cardRef}
+                      user={businessData}
+                      templateId={selectedTemplateId}
+                      orientation={orientation}
+                      size={cardSize}
+                    />
+                  </div>
                 </div>
 
                 {/* Options */}
@@ -378,15 +406,39 @@ export default function CardPage() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-6 lg:flex-row">
-                {/* Preview */}
+                {/* Preview (3D flippable) */}
                 <div className="flex flex-1 items-center justify-center rounded-lg border bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
-                  <WeddingCardPreview
-                    ref={weddingCardRef}
-                    data={weddingData}
-                    templateId={selectedTemplateId}
-                    orientation={orientation}
-                    size={cardSize}
+                  <FlippableCard
+                    width={cardSize === "standard" ? (orientation === "horizontal" ? 256 : 192) : (orientation === "horizontal" ? 320 : 240)}
+                    height={cardSize === "standard" ? (orientation === "horizontal" ? 160 : 288) : (orientation === "horizontal" ? 208 : 352)}
+                    front={
+                      <WeddingCardPreview
+                        data={weddingData}
+                        templateId={selectedTemplateId}
+                        orientation={orientation}
+                        size={cardSize}
+                        bare
+                      />
+                    }
+                    back={
+                      <WeddingCardBack
+                        data={weddingData}
+                        templateId={selectedTemplateId}
+                        orientation={orientation}
+                        size={cardSize}
+                      />
+                    }
                   />
+                  {/* Hidden flat ref for PDF capture */}
+                  <div style={{ position: "absolute", left: -9999, top: -9999 }}>
+                    <WeddingCardPreview
+                      ref={weddingCardRef}
+                      data={weddingData}
+                      templateId={selectedTemplateId}
+                      orientation={orientation}
+                      size={cardSize}
+                    />
+                  </div>
                 </div>
 
                 {/* Options */}

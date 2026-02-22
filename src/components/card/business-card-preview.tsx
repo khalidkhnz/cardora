@@ -23,6 +23,8 @@ interface BusinessCardPreviewProps {
   templateId?: string | null;
   orientation?: "horizontal" | "vertical";
   size?: "standard" | "large";
+  /** When true, renders just the card without padding, shadow, or entry animation (for use inside FlippableCard) */
+  bare?: boolean;
 }
 
 export function getTextColor(secondaryColor: string) {
@@ -1303,25 +1305,80 @@ export function CardLayout({
   }
 }
 
+// Base dimensions — layouts render at this fixed size (matches "standard").
+// "large" scales up from this base; "standard" uses scaleFactor=1.
+const BASE_DIMENSIONS = {
+  horizontal: { width: 256, height: 160 },
+  vertical: { width: 160, height: 256 },
+};
+
+export const BUSINESS_TARGET_DIMENSIONS = {
+  horizontal: {
+    standard: { width: 256, height: 160 },
+    large: { width: 320, height: 208 },
+  },
+  vertical: {
+    standard: { width: 160, height: 256 },
+    large: { width: 208, height: 320 },
+  },
+};
+
 export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPreviewProps>(
-  function BusinessCardPreview({ user, templateId, orientation = "horizontal", size = "standard" }, ref) {
+  function BusinessCardPreview({ user, templateId, orientation = "horizontal", size = "standard", bare = false }, ref) {
     const template =
       getBusinessCardTemplate(templateId ?? "") ?? businessCardTemplates[0]!;
     const { primary, secondary } = template.colors;
     const textColor = getTextColor(secondary);
 
-    const dimensions = {
-      horizontal: {
-        standard: { width: 256, height: 160 },
-        large: { width: 320, height: 208 },
-      },
-      vertical: {
-        standard: { width: 160, height: 256 },
-        large: { width: 208, height: 320 },
-      },
-    };
+    const base = BASE_DIMENSIONS[orientation];
+    const target = BUSINESS_TARGET_DIMENSIONS[orientation][size];
+    const scaleFactor = target.width / base.width;
 
-    const { width, height } = dimensions[orientation][size];
+    const cardCore = (
+      <div
+        style={{
+          position: "relative",
+          width: target.width,
+          height: target.height,
+          overflow: "hidden",
+          borderRadius: 12,
+          boxShadow: bare ? undefined : "0 4px 24px rgba(0,0,0,0.18)",
+        }}
+      >
+        <div
+          ref={ref}
+          style={{
+            width: base.width,
+            height: base.height,
+            transform: `scale(${scaleFactor})`,
+            transformOrigin: "top left",
+            backgroundColor: secondary,
+          }}
+        >
+          <CardLayout template={template} user={user} textColor={textColor} />
+
+          {/* Watermark */}
+          <p
+            style={{
+              position: "absolute",
+              right: 6,
+              bottom: 3,
+              fontSize: 6,
+              opacity: 0.28,
+              color: textColor,
+              margin: 0,
+              fontFamily: template.fonts.body,
+              letterSpacing: "0.06em",
+            }}
+          >
+            cardora
+          </p>
+        </div>
+      </div>
+    );
+
+    // Bare mode — no padding, no shadow card, no entry animation
+    if (bare) return cardCore;
 
     return (
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
@@ -1341,43 +1398,11 @@ export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPrevie
               borderRadius: 12,
               opacity: 0.25,
               backgroundColor: primary,
-              width,
-              height,
+              width: target.width,
+              height: target.height,
             }}
           />
-
-          {/* Main card */}
-          <div
-            ref={ref}
-            style={{
-              position: "relative",
-              overflow: "hidden",
-              borderRadius: 12,
-              boxShadow: "0 4px 24px rgba(0,0,0,0.18)",
-              backgroundColor: secondary,
-              width,
-              height,
-            }}
-          >
-            <CardLayout template={template} user={user} textColor={textColor} />
-
-            {/* Watermark */}
-            <p
-              style={{
-                position: "absolute",
-                right: 6,
-                bottom: 3,
-                fontSize: 6,
-                opacity: 0.28,
-                color: textColor,
-                margin: 0,
-                fontFamily: template.fonts.body,
-                letterSpacing: "0.06em",
-              }}
-            >
-              cardora
-            </p>
-          </div>
+          {cardCore}
         </motion.div>
       </div>
     );

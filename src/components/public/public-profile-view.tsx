@@ -1,8 +1,14 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { BusinessCardPreview } from "@/components/card/business-card-preview";
 import { WeddingCardPreview } from "@/components/card/wedding-card-preview";
+import { BusinessCardBack } from "@/components/card/business-card-back";
+import { WeddingCardBack } from "@/components/card/wedding-card-back";
+import { FlippableCard } from "@/components/card/flippable-card";
+import { getBusinessCardTemplate, businessCardTemplates } from "@/lib/templates/business-card-templates";
+import { getWeddingCardTemplate, weddingCardTemplates } from "@/lib/templates/wedding-card-templates";
 import { Button } from "@/components/ui/button";
 import {
   Linkedin,
@@ -95,6 +101,15 @@ async function handleShare(username: string) {
   toast.success("Link copied to clipboard");
 }
 
+/** Darken a hex color by a factor (0..1, lower = darker) */
+function darkenHex(hex: string, factor: number): string {
+  const h = hex.replace("#", "");
+  const r = Math.round(parseInt(h.substring(0, 2), 16) * factor);
+  const g = Math.round(parseInt(h.substring(2, 4), 16) * factor);
+  const b = Math.round(parseInt(h.substring(4, 6), 16) * factor);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps) {
   const socialEntries = Object.entries(user.socialLinks ?? {}).filter(
     ([, v]) => v && v.trim() !== "",
@@ -112,8 +127,36 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
     { icon: MapPin, label: "Address", value: user.address, href: undefined },
   ].filter((item) => item.value);
 
+  // Derive background colors from the selected template
+  const { bgGradient, accentColor } = useMemo(() => {
+    const isWedding =
+      cardSettings.cardType === "wedding" ||
+      cardSettings.cardType === "engagement" ||
+      cardSettings.cardType === "anniversary";
+
+    if (isWedding) {
+      const t = getWeddingCardTemplate(cardSettings.selectedTemplateId ?? "") ?? weddingCardTemplates[0]!;
+      const from = darkenHex(t.colors.primary, 0.25);
+      const via = darkenHex(t.colors.secondary, 0.3);
+      const to = darkenHex(t.colors.primary, 0.15);
+      return {
+        bgGradient: `linear-gradient(135deg, ${from}, ${via}, ${to})`,
+        accentColor: t.colors.accent,
+      };
+    }
+
+    const t = getBusinessCardTemplate(cardSettings.selectedTemplateId ?? "") ?? businessCardTemplates[0]!;
+    const from = darkenHex(t.colors.primary, 0.3);
+    const via = darkenHex(t.colors.accent, 0.2);
+    const to = darkenHex(t.colors.primary, 0.15);
+    return {
+      bgGradient: `linear-gradient(135deg, ${from}, ${via}, ${to})`,
+      accentColor: t.colors.accent,
+    };
+  }, [cardSettings.cardType, cardSettings.selectedTemplateId]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen" style={{ background: bgGradient }}>
       <div className="mx-auto max-w-lg px-4 py-8">
         {/* Profile Header */}
         <motion.div
@@ -129,7 +172,10 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
                 style={{ backgroundImage: `url(${user.profileImage})` }}
               />
             ) : (
-              <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white/20 bg-gradient-to-br from-purple-500 to-pink-500 text-2xl font-bold text-white shadow-xl">
+              <div
+                className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white/20 text-2xl font-bold text-white shadow-xl"
+                style={{ background: `linear-gradient(135deg, ${accentColor}, ${darkenHex(accentColor, 0.6)})` }}
+              >
                 {getInitials(user.name)}
               </div>
             )}
@@ -137,10 +183,10 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
 
           <h1 className="text-2xl font-bold text-white">{user.name}</h1>
           {user.profession && (
-            <p className="mt-1 text-purple-200">
+            <p className="mt-1 text-white/70">
               {user.profession}
               {user.company && (
-                <span className="text-purple-300"> at {user.company}</span>
+                <span className="text-white/50"> at {user.company}</span>
               )}
             </p>
           )}
@@ -152,21 +198,45 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-6"
+            className="mb-6 flex justify-center"
           >
-            <BusinessCardPreview
-              user={{
-                name: user.name,
-                email: user.email,
-                phone: user.phone,
-                company: user.company,
-                profession: user.profession,
-                address: user.address,
-                profileImage: user.profileImage,
-              }}
-              templateId={cardSettings.selectedTemplateId}
-              orientation={cardSettings.orientation}
-              size={cardSettings.cardSize}
+            <FlippableCard
+              width={cardSettings.cardSize === "standard" ? (cardSettings.orientation === "horizontal" ? 256 : 160) : (cardSettings.orientation === "horizontal" ? 320 : 208)}
+              height={cardSettings.cardSize === "standard" ? (cardSettings.orientation === "horizontal" ? 160 : 256) : (cardSettings.orientation === "horizontal" ? 208 : 320)}
+              front={
+                <BusinessCardPreview
+                  user={{
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    company: user.company,
+                    profession: user.profession,
+                    address: user.address,
+                    profileImage: user.profileImage,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  size={cardSettings.cardSize}
+                  bare
+                />
+              }
+              back={
+                <BusinessCardBack
+                  user={{
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    company: user.company,
+                    profession: user.profession,
+                    address: user.address,
+                    profileImage: user.profileImage,
+                  }}
+                  username={user.username}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  size={cardSettings.cardSize}
+                />
+              }
             />
           </motion.div>
         )}
@@ -179,21 +249,44 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-6"
+            className="mb-6 flex justify-center"
           >
-            <WeddingCardPreview
-              data={{
-                groomName: cardSettings.groomName,
-                brideName: cardSettings.brideName,
-                weddingDate: cardSettings.weddingDate,
-                venue: cardSettings.venue,
-                groomParentNames: cardSettings.groomParentNames,
-                brideParentNames: cardSettings.brideParentNames,
-                deceasedElders: cardSettings.deceasedElders,
-              }}
-              templateId={cardSettings.selectedTemplateId}
-              orientation={cardSettings.orientation}
-              size={cardSettings.cardSize}
+            <FlippableCard
+              width={cardSettings.cardSize === "standard" ? (cardSettings.orientation === "horizontal" ? 256 : 192) : (cardSettings.orientation === "horizontal" ? 320 : 240)}
+              height={cardSettings.cardSize === "standard" ? (cardSettings.orientation === "horizontal" ? 160 : 288) : (cardSettings.orientation === "horizontal" ? 208 : 352)}
+              front={
+                <WeddingCardPreview
+                  data={{
+                    groomName: cardSettings.groomName,
+                    brideName: cardSettings.brideName,
+                    weddingDate: cardSettings.weddingDate,
+                    venue: cardSettings.venue,
+                    groomParentNames: cardSettings.groomParentNames,
+                    brideParentNames: cardSettings.brideParentNames,
+                    deceasedElders: cardSettings.deceasedElders,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  size={cardSettings.cardSize}
+                  bare
+                />
+              }
+              back={
+                <WeddingCardBack
+                  data={{
+                    groomName: cardSettings.groomName,
+                    brideName: cardSettings.brideName,
+                    weddingDate: cardSettings.weddingDate,
+                    venue: cardSettings.venue,
+                    groomParentNames: cardSettings.groomParentNames,
+                    brideParentNames: cardSettings.brideParentNames,
+                    deceasedElders: cardSettings.deceasedElders,
+                  }}
+                  templateId={cardSettings.selectedTemplateId}
+                  orientation={cardSettings.orientation}
+                  size={cardSettings.cardSize}
+                />
+              }
             />
           </motion.div>
         )}
@@ -218,17 +311,17 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
                     href={item.href}
                     className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition-colors hover:bg-white/10"
                   >
-                    <item.icon className="h-5 w-5 text-purple-300" />
+                    <item.icon className="h-5 w-5" style={{ color: accentColor }} />
                     <div>
-                      <p className="text-xs text-purple-300">{item.label}</p>
+                      <p className="text-xs" style={{ color: accentColor, opacity: 0.8 }}>{item.label}</p>
                       <p className="text-sm text-white">{item.value}</p>
                     </div>
                   </a>
                 ) : (
                   <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-                    <item.icon className="h-5 w-5 text-purple-300" />
+                    <item.icon className="h-5 w-5" style={{ color: accentColor }} />
                     <div>
-                      <p className="text-xs text-purple-300">{item.label}</p>
+                      <p className="text-xs" style={{ color: accentColor, opacity: 0.8 }}>{item.label}</p>
                       <p className="text-sm text-white">{item.value}</p>
                     </div>
                   </div>
@@ -262,7 +355,7 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
                   whileTap={{ scale: 0.97 }}
                   className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition-colors hover:bg-white/10"
                 >
-                  <Icon className="h-5 w-5 text-purple-300" />
+                  <Icon className="h-5 w-5" style={{ color: accentColor }} />
                   <span className="text-sm font-medium text-white">{label}</span>
                 </motion.a>
               );
@@ -302,7 +395,8 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
 
           {user.paymentEnabled && (
             <Button
-              className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600"
+              className="flex-1 text-white"
+              style={{ background: `linear-gradient(135deg, ${accentColor}, ${darkenHex(accentColor, 0.6)})` }}
               asChild
             >
               <a href={`/pay/${user.username}`}>
@@ -318,7 +412,7 @@ export function PublicProfileView({ user, cardSettings }: PublicProfileViewProps
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-8 text-center text-xs text-purple-300/50"
+          className="mt-8 text-center text-xs text-white/30"
         >
           Powered by Cardora
         </motion.p>

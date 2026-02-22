@@ -23,6 +23,8 @@ interface WeddingCardPreviewProps {
   templateId?: string | null;
   orientation?: "horizontal" | "vertical";
   size?: "standard" | "large";
+  /** When true, renders just the card without padding, shadow, or entry animation (for use inside FlippableCard) */
+  bare?: boolean;
 }
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -1584,29 +1586,63 @@ function WeddingLayoutHorizontal({
 
 // ─── Main export ─────────────────────────────────────────────────────────────
 
+// Base dimensions — layouts render at this fixed size (matches "standard").
+const WEDDING_BASE_DIMENSIONS = {
+  horizontal: { width: 256, height: 160 },
+  vertical: { width: 192, height: 288 },
+};
+
+export const WEDDING_TARGET_DIMENSIONS = {
+  horizontal: {
+    standard: { width: 256, height: 160 },
+    large: { width: 320, height: 208 },
+  },
+  vertical: {
+    standard: { width: 192, height: 288 },
+    large: { width: 240, height: 352 },
+  },
+};
+
 export const WeddingCardPreview = forwardRef<
   HTMLDivElement,
   WeddingCardPreviewProps
 >(function WeddingCardPreview(
-  { data, templateId, orientation = "vertical", size = "standard" },
+  { data, templateId, orientation = "vertical", size = "standard", bare = false },
   ref,
 ) {
   const template =
     getWeddingCardTemplate(templateId ?? "") ?? weddingCardTemplates[0]!;
   const { primary } = template.colors;
 
-  const dimensions = {
-    horizontal: {
-      standard: { width: 256, height: 160 },
-      large: { width: 320, height: 208 },
-    },
-    vertical: {
-      standard: { width: 192, height: 288 },
-      large: { width: 240, height: 352 },
-    },
-  };
+  const base = WEDDING_BASE_DIMENSIONS[orientation];
+  const target = WEDDING_TARGET_DIMENSIONS[orientation][size];
+  const scaleFactor = target.width / base.width;
 
-  const { width, height } = dimensions[orientation][size];
+  const cardCore = (
+    <div
+      className={`relative overflow-hidden rounded-xl${bare ? "" : " shadow-lg"}`}
+      style={{ width: target.width, height: target.height }}
+    >
+      <div
+        ref={ref}
+        style={{
+          width: base.width,
+          height: base.height,
+          transform: `scale(${scaleFactor})`,
+          transformOrigin: "top left",
+        }}
+      >
+        {orientation === "horizontal" ? (
+          <WeddingLayoutHorizontal template={template} data={data} />
+        ) : (
+          <WeddingLayoutVertical template={template} data={data} />
+        )}
+      </div>
+    </div>
+  );
+
+  // Bare mode — no padding, no shadow card, no entry animation
+  if (bare) return cardCore;
 
   return (
     <div className="flex items-center justify-center p-4">
@@ -1620,21 +1656,9 @@ export const WeddingCardPreview = forwardRef<
         {/* Shadow card */}
         <div
           className="absolute top-2 left-2 rounded-xl opacity-30"
-          style={{ backgroundColor: primary, width, height }}
+          style={{ backgroundColor: primary, width: target.width, height: target.height }}
         />
-
-        {/* Main card */}
-        <div
-          ref={ref}
-          className="relative overflow-hidden rounded-xl shadow-lg"
-          style={{ width, height }}
-        >
-          {orientation === "horizontal" ? (
-            <WeddingLayoutHorizontal template={template} data={data} />
-          ) : (
-            <WeddingLayoutVertical template={template} data={data} />
-          )}
-        </div>
+        {cardCore}
       </motion.div>
     </div>
   );

@@ -69,9 +69,9 @@ export const weddingCardTemplates: WeddingCardTemplate[] = [
     hasOverlay: true,
     layout: "ornate",
     fonts: {
-      heading: "var(--font-cormorant), serif",
-      body: "var(--font-raleway), sans-serif",
-      script: "var(--font-great-vibes), cursive",
+      heading: "var(--font-libre-baskerville), serif",
+      body: "var(--font-merriweather), serif",
+      script: "var(--font-dancing-script), cursive",
     },
   },
   {
@@ -302,9 +302,9 @@ export const weddingCardTemplates: WeddingCardTemplate[] = [
     hasOverlay: true,
     layout: "romantic",
     fonts: {
-      heading: "var(--font-playfair), serif",
-      body: "var(--font-raleway), sans-serif",
-      script: "var(--font-great-vibes), cursive",
+      heading: "var(--font-crimson-pro), serif",
+      body: "var(--font-philosopher), sans-serif",
+      script: "var(--font-dancing-script), cursive",
     },
   },
   {
@@ -385,9 +385,9 @@ export const weddingCardTemplates: WeddingCardTemplate[] = [
     hasOverlay: false,
     layout: "modern",
     fonts: {
-      heading: "var(--font-montserrat), sans-serif",
-      body: "var(--font-raleway), sans-serif",
-      script: "var(--font-raleway), sans-serif",
+      heading: "var(--font-josefin), sans-serif",
+      body: "var(--font-bitter), serif",
+      script: "var(--font-josefin), sans-serif",
     },
   },
   {

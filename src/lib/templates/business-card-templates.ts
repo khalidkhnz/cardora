@@ -52,8 +52,8 @@ export const businessCardTemplates: BusinessCardTemplate[] = [
     layout: "split",
     style: "luxury",
     fonts: {
-      heading: "var(--font-playfair), serif",
-      body: "var(--font-raleway), sans-serif",
+      heading: "var(--font-libre-baskerville), serif",
+      body: "var(--font-josefin), sans-serif",
     },
   },
   {
@@ -66,7 +66,7 @@ export const businessCardTemplates: BusinessCardTemplate[] = [
     layout: "dark",
     style: "elegant",
     fonts: {
-      heading: "var(--font-dm-serif), serif",
+      heading: "var(--font-bitter), serif",
       body: "var(--font-raleway), sans-serif",
     },
   },
@@ -108,8 +108,8 @@ export const businessCardTemplates: BusinessCardTemplate[] = [
     layout: "artistic",
     style: "creative",
     fonts: {
-      heading: "var(--font-lora), serif",
-      body: "var(--font-montserrat), sans-serif",
+      heading: "var(--font-abril-fatface), serif",
+      body: "var(--font-crimson-pro), serif",
     },
   },
   {
@@ -136,8 +136,8 @@ export const businessCardTemplates: BusinessCardTemplate[] = [
     layout: "organic",
     style: "natural",
     fonts: {
-      heading: "var(--font-lora), serif",
-      body: "var(--font-lora), serif",
+      heading: "var(--font-merriweather), serif",
+      body: "var(--font-philosopher), sans-serif",
     },
   },
   {
