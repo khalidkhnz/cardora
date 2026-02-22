@@ -4,6 +4,8 @@ import { PublicWeddingView } from "@/components/animated-invite/public-wedding-v
 import { platform, pageTitle } from "@/lib/platform";
 import type { Metadata } from "next";
 
+const demo = platform.demoData;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -41,15 +43,13 @@ export default async function PublicWeddingPage({ params }: Props) {
       invite={{
         slug: invite.slug,
         templateId: invite.templateId,
-        groomName: isDemo ? "John" : (invite.groomName ?? "Groom"),
-        brideName: isDemo ? "Jane" : (invite.brideName ?? "Bride"),
-        weddingDate: isDemo ? "2025-06-15" : invite.weddingDate,
+        groomName: isDemo ? demo.groomName : (invite.groomName ?? "Groom"),
+        brideName: isDemo ? demo.brideName : (invite.brideName ?? "Bride"),
+        weddingDate: isDemo ? demo.weddingDate : invite.weddingDate,
         receptionDate: invite.receptionDate,
-        venue: isDemo ? "Grand Ballroom" : invite.venue,
-        venueAddress: isDemo ? "123 Celebration Ave" : invite.venueAddress,
-        story: isDemo
-          ? "We met at a coffee shop and knew it was meant to be..."
-          : invite.story,
+        venue: isDemo ? demo.venue : invite.venue,
+        venueAddress: isDemo ? demo.venueAddress : invite.venueAddress,
+        story: isDemo ? demo.story : invite.story,
         heroImage: invite.heroImage,
         galleryImages: invite.galleryImages ?? [],
         musicUrl: invite.musicUrl,

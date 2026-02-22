@@ -64,6 +64,38 @@ export const platform = {
 
   /** Footer text for public pages */
   poweredByText: "Powered by Cardora",
+
+  /** Example / demo data used in animated invite previews and unpaid invite fallbacks */
+  demoData: {
+    groomName: "James",
+    brideName: "Sophia",
+    weddingDate: "2026-06-15",
+    receptionDate: "2026-06-16",
+    weddingTime: "6:00 PM",
+    venue: "The Grand Ballroom",
+    venueAddress: "123 Celebration Avenue, Toronto, ON",
+    story:
+      "We met at a coffee shop on a rainy afternoon. What started as a conversation over lattes turned into a lifetime of love. Three years later, here we are — ready to begin our forever together.",
+    coupleMessage:
+      "We are so excited to celebrate our special day with you. Your presence means the world to us!",
+    groomFatherName: "Robert Anderson",
+    groomMotherName: "Margaret Anderson",
+    brideFatherName: "William Carter",
+    brideMotherName: "Elizabeth Carter",
+    hashtag: "#JamesAndSophia2026",
+    events: [
+      { name: "Mehendi", date: "Thursday, June 11th 2026", venue: "Rose Garden Villa", time: "4:00 PM" },
+      { name: "Sangeet", date: "Friday, June 12th 2026", venue: "Starlight Banquet Hall", time: "7:00 PM" },
+      { name: "Wedding Ceremony", date: "Saturday, June 13th 2026", venue: "The Grand Ballroom", time: "11:00 AM" },
+      { name: "Reception", date: "Saturday, June 13th 2026", venue: "The Grand Ballroom", time: "7:00 PM" },
+    ],
+    thingsToKnow: [
+      { label: "Weather", detail: "Expected sunny, 25\u00B0C" },
+      { label: "Parking", detail: "Complimentary valet parking available" },
+      { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue" },
+      { label: "Dress Code", detail: "Semi-formal / Cocktail attire" },
+    ],
+  },
 } as const;
 
 // ---------------------------------------------------------------------------

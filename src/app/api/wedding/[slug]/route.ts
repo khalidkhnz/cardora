@@ -1,14 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getWeddingInviteBySlug } from "@/server/db/queries/wedding";
+import { platform } from "@/lib/platform";
 
-const DEMO_DATA = {
-  groomName: "John",
-  brideName: "Jane",
-  weddingDate: "2025-06-15",
-  venue: "Grand Ballroom",
-  venueAddress: "123 Celebration Ave, Toronto, ON",
-  story: "We met at a coffee shop and knew it was meant to be...",
-};
+const demo = platform.demoData;
 
 export async function GET(
   _request: NextRequest,
@@ -25,12 +19,12 @@ export async function GET(
   if (!invite.isPaid) {
     return NextResponse.json({
       ...invite,
-      groomName: DEMO_DATA.groomName,
-      brideName: DEMO_DATA.brideName,
-      weddingDate: DEMO_DATA.weddingDate,
-      venue: DEMO_DATA.venue,
-      venueAddress: DEMO_DATA.venueAddress,
-      story: DEMO_DATA.story,
+      groomName: demo.groomName,
+      brideName: demo.brideName,
+      weddingDate: demo.weddingDate,
+      venue: demo.venue,
+      venueAddress: demo.venueAddress,
+      story: demo.story,
       isDemo: true,
     });
   }
