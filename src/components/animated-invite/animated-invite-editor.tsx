@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import {
   Card,
@@ -29,9 +29,6 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Trash2, Eye, X, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
-import { PublicWeddingView } from "@/components/animated-invite/public-wedding-view";
-import { PreviewDialogProvider } from "@/components/animated-invite/preview-context";
-import { getDemoInviteData } from "@/lib/demo-invite-data";
 
 interface EventRow {
   name: string;
@@ -85,8 +82,6 @@ function TemplatePreviewOverlay({
     };
   }, [onClose, goPrev, goNext]);
 
-  const demoData = useMemo(() => getDemoInviteData(templateId), [templateId]);
-
   return createPortal(
     <div className="fixed inset-0 z-[100] flex flex-col bg-black">
       {/* Top bar */}
@@ -131,23 +126,25 @@ function TemplatePreviewOverlay({
         </div>
       </div>
 
-      {/* Template content — scrollable */}
+      {/* Template content — iframe preview */}
       <div className="relative min-h-0 flex-1">
-        <div className="absolute inset-0 overflow-y-auto">
-          <PreviewDialogProvider value={true}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={templateId}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <PublicWeddingView invite={demoData} isDemo={true} />
-              </motion.div>
-            </AnimatePresence>
-          </PreviewDialogProvider>
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={templateId}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0"
+          >
+            <iframe
+              src={`/wedding/demo/${templateId}`}
+              className="h-full w-full border-0"
+              title={`Preview: ${template?.name ?? templateId}`}
+              allow="autoplay"
+            />
+          </motion.div>
+        </AnimatePresence>
 
         {/* Prev / Next buttons */}
         {hasPrev && (
