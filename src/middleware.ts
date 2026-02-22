@@ -7,7 +7,6 @@ const AUTH_COOKIES = [
 ];
 
 const AUTH_PAGES = ["/login", "/signup", "/forgot-password", "/reset-password"];
-const PROTECTED_PREFIX = "/dashboard";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -18,22 +17,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Redirect unauthenticated users away from protected pages
-  if (!hasSession && pathname.startsWith(PROTECTED_PREFIX)) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
-  }
+  // Dashboard protection is handled by the dashboard layout via getSession()
+  // which is more reliable than cookie-name checking in middleware.
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/login",
-    "/signup",
-    "/forgot-password",
-    "/reset-password",
-    "/dashboard/:path*",
-  ],
+  matcher: ["/login", "/signup", "/forgot-password", "/reset-password"],
 };
