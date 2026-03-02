@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, LogOut, ChevronDown, ShoppingCart } from "lucide-react";
+import { Menu, LogOut, ChevronDown } from "lucide-react";
 import { authClient } from "@/server/better-auth/client";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -17,7 +17,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DashboardSidebar } from "./dashboard-sidebar";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
-import { useCart } from "@/providers/cart-provider";
+
 import { APP_NAME } from "@/lib/constants";
 
 interface DashboardLayoutProps {
@@ -32,9 +32,6 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children, user }: DashboardLayoutProps) {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { getCount } = useCart();
-  const cartCount = getCount();
-
   async function handleSignOut() {
     await authClient.signOut();
     router.push("/login");
@@ -85,17 +82,6 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
           </div>
 
           <div className="flex items-center gap-2">
-          {/* Cart */}
-          <Button variant="ghost" size="icon" className="relative" asChild>
-            <Link href="/dashboard/checkout">
-              <ShoppingCart className="h-4 w-4" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                  {cartCount > 9 ? "9+" : cartCount}
-                </span>
-              )}
-            </Link>
-          </Button>
           <ThemeToggle />
           {/* User menu */}
           <DropdownMenu>

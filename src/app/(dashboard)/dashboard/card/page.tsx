@@ -183,41 +183,39 @@ function CardListView({
         </Card>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="space-y-3">
         {cards?.map((card) => (
           <Card
             key={card.id}
             className="cursor-pointer transition-shadow hover:shadow-md"
             onClick={() => onSelectCard(card.id)}
           >
-            <CardContent className="p-4">
-              <div className="mb-3 flex items-start justify-between">
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="truncate text-sm font-semibold">
-                      {card.name ?? card.slug}
-                    </h3>
-                    {card.isDefault && (
-                      <Badge variant="default" className="shrink-0 text-[10px]">
-                        <Star className="mr-1 h-3 w-3" /> Default
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-muted-foreground truncate text-xs">
-                    /{card.slug}
-                  </p>
+            <CardContent className="flex items-center gap-4 p-4">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="truncate text-sm font-semibold">
+                    {card.name ?? card.slug}
+                  </h3>
+                  {card.isDefault && (
+                    <Badge variant="default" className="shrink-0 text-[10px]">
+                      <Star className="mr-1 h-3 w-3" /> Default
+                    </Badge>
+                  )}
+                  <Badge variant="secondary" className="shrink-0 text-[10px]">
+                    {card.cardType ?? "business"}
+                  </Badge>
                 </div>
-                <Badge variant="secondary" className="shrink-0 text-[10px]">
-                  {card.cardType ?? "business"}
-                </Badge>
+                <p className="text-muted-foreground truncate text-xs">
+                  /{card.slug}
+                </p>
               </div>
 
-              <div className="flex gap-1">
+              <div className="flex shrink-0 items-center gap-1">
                 {!card.isDefault && (
                   <Button
                     variant="ghost"
-                    size="sm"
-                    className="h-7 px-2 text-xs"
+                    size="icon"
+                    className="h-8 w-8"
                     onClick={(e) => {
                       e.stopPropagation();
                       void setDefault.mutateAsync(card.id).then(() =>
@@ -225,25 +223,25 @@ function CardListView({
                       );
                     }}
                   >
-                    <Star className="mr-1 h-3 w-3" /> Set Default
+                    <Star className="h-3.5 w-3.5" />
                   </Button>
                 )}
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="h-7 px-2 text-xs"
+                  size="icon"
+                  className="h-8 w-8"
                   onClick={(e) => {
                     e.stopPropagation();
                     onSelectCard(card.id);
                   }}
                 >
-                  <Pencil className="mr-1 h-3 w-3" /> Edit
+                  <Pencil className="h-3.5 w-3.5" />
                 </Button>
                 {!card.isDefault && (
                   <Button
                     variant="ghost"
-                    size="sm"
-                    className="text-destructive h-7 px-2 text-xs"
+                    size="icon"
+                    className="text-destructive h-8 w-8"
                     onClick={(e) => {
                       e.stopPropagation();
                       if (confirm("Delete this card?")) {
@@ -253,7 +251,7 @@ function CardListView({
                       }
                     }}
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 )}
               </div>

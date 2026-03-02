@@ -30,7 +30,7 @@ export default function CancelPage() {
             <Link href="/dashboard">Go to Dashboard</Link>
           </Button>
           <Button variant="outline" asChild>
-            <Link href="/dashboard/checkout">Return to Checkout</Link>
+            <Link href="/dashboard/animated-invite">View Invites</Link>
           </Button>
         </CardFooter>
       </Card>

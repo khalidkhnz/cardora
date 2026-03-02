@@ -100,19 +100,6 @@ export function useCreateRazorpayOrder() {
   });
 }
 
-export function useCreateCartOrder() {
-  return useMutation({
-    mutationFn: (data: {
-      items: { name: string; quantity: number; unitPrice: number }[];
-      currency: string;
-    }) =>
-      apiClient<CreateOrderResponse>("/api/payment/create-cart-order", {
-        method: "POST",
-        body: JSON.stringify(data),
-      }),
-  });
-}
-
 export function useVerifyPayment() {
   const queryClient = useQueryClient();
   return useMutation({

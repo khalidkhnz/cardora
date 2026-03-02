@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import confetti from "canvas-confetti";
 import {
   Card,
   CardContent,
@@ -34,6 +35,17 @@ import {
   CreditCard,
   Loader2,
 } from "lucide-react";
+
+function fireConfetti() {
+  const duration = 2000;
+  const end = Date.now() + duration;
+  const frame = () => {
+    void confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0, y: 0.6 } });
+    void confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1, y: 0.6 } });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  };
+  frame();
+}
 
 // ---------------------------------------------------------------------------
 // Invite List View
@@ -77,6 +89,7 @@ function InviteListView({
             onSuccess: (paymentData) => {
               verifyPayment.mutate(paymentData, {
                 onSuccess: () => {
+                  fireConfetti();
                   toast.success("Invite activated successfully!");
                   void refetch();
                   setActivatingId(null);
@@ -102,9 +115,10 @@ function InviteListView({
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
-        <Skeleton className="h-24" />
-        <Skeleton className="h-24" />
+      <div className="space-y-3">
+        <Skeleton className="h-16" />
+        <Skeleton className="h-16" />
+        <Skeleton className="h-16" />
       </div>
     );
   }
@@ -148,7 +162,7 @@ function InviteListView({
         </Card>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="space-y-3">
         {invites?.map((invite) => {
           const template = getAnimatedTemplate(invite.templateId);
           return (
@@ -157,80 +171,69 @@ function InviteListView({
               className="cursor-pointer transition-shadow hover:shadow-md"
               onClick={() => onSelectInvite(invite.id)}
             >
-              <CardContent className="p-4">
-                <div className="mb-3 flex items-start justify-between">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl">{template?.preview ?? "💍"}</span>
-                      <div className="min-w-0">
-                        <h3 className="truncate text-sm font-semibold">
-                          {template?.name ?? invite.templateId}
-                        </h3>
-                        <p className="text-muted-foreground truncate text-xs">
-                          /wedding/{invite.slug}
-                        </p>
-                      </div>
-                    </div>
+              <CardContent className="flex items-center gap-4 p-4">
+                <span className="text-2xl">{template?.preview ?? "💍"}</span>
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="truncate text-sm font-semibold">
+                      {template?.name ?? invite.templateId}
+                    </h3>
+                    <Badge
+                      variant={invite.isPaid ? "default" : "secondary"}
+                      className="shrink-0 text-[10px]"
+                    >
+                      {invite.isPaid ? (
+                        <><Unlock className="mr-1 h-3 w-3" /> Active</>
+                      ) : (
+                        <><Lock className="mr-1 h-3 w-3" /> Unpaid</>
+                      )}
+                    </Badge>
                   </div>
-                  <Badge
-                    variant={invite.isPaid ? "default" : "secondary"}
-                    className="shrink-0 text-[10px]"
-                  >
-                    {invite.isPaid ? (
-                      <>
-                        <Unlock className="mr-1 h-3 w-3" /> Active
-                      </>
-                    ) : (
-                      <>
-                        <Lock className="mr-1 h-3 w-3" /> Unpaid
-                      </>
+                  <p className="text-muted-foreground text-xs">
+                    /wedding/{invite.slug}
+                    {(invite.groomName ?? invite.brideName) && (
+                      <span className="ml-2">
+                        {[invite.groomName, invite.brideName].filter(Boolean).join(" & ")}
+                      </span>
                     )}
-                  </Badge>
+                  </p>
                 </div>
 
-                {(invite.groomName ?? invite.brideName) && (
-                  <p className="text-muted-foreground mb-2 text-xs">
-                    {[invite.groomName, invite.brideName]
-                      .filter(Boolean)
-                      .join(" & ")}
-                  </p>
-                )}
-
-                {!invite.isPaid && (
-                  <Button
-                    size="sm"
-                    className="mb-2 w-full text-xs"
-                    disabled={activatingId === invite.id}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleActivate(invite.id);
-                    }}
-                  >
-                    {activatingId === invite.id ? (
-                      <Loader2 className="mr-1 h-3 w-3 animate-spin" />
-                    ) : (
-                      <CreditCard className="mr-1 h-3 w-3" />
-                    )}
-                    Activate — {formatCurrency(unitPrice, currency)}
-                  </Button>
-                )}
-
-                <div className="flex gap-1">
+                <div className="flex shrink-0 items-center gap-1">
+                  {!invite.isPaid && (
+                    <Button
+                      size="sm"
+                      className="text-xs"
+                      disabled={activatingId === invite.id}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleActivate(invite.id);
+                      }}
+                    >
+                      {activatingId === invite.id ? (
+                        <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                      ) : (
+                        <CreditCard className="mr-1 h-3 w-3" />
+                      )}
+                      {formatCurrency(unitPrice, currency)}
+                    </Button>
+                  )}
                   <Button
                     variant="ghost"
-                    size="sm"
-                    className="h-7 px-2 text-xs"
+                    size="icon"
+                    className="h-8 w-8"
                     onClick={(e) => {
                       e.stopPropagation();
                       onSelectInvite(invite.id);
                     }}
                   >
-                    <Pencil className="mr-1 h-3 w-3" /> Edit
+                    <Pencil className="h-3.5 w-3.5" />
                   </Button>
                   <Button
                     variant="ghost"
-                    size="sm"
-                    className="h-7 px-2 text-xs"
+                    size="icon"
+                    className="h-8 w-8"
                     asChild
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -239,13 +242,13 @@ function InviteListView({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <ExternalLink className="mr-1 h-3 w-3" /> View
+                      <ExternalLink className="h-3.5 w-3.5" />
                     </a>
                   </Button>
                   <Button
                     variant="ghost"
-                    size="sm"
-                    className="text-destructive h-7 px-2 text-xs"
+                    size="icon"
+                    className="text-destructive h-8 w-8"
                     onClick={(e) => {
                       e.stopPropagation();
                       if (confirm("Delete this invite and all its RSVPs?")) {
@@ -255,7 +258,7 @@ function InviteListView({
                       }
                     }}
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               </CardContent>

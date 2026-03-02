@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import confetti from "canvas-confetti";
 import { Loader2, DollarSign, User, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,6 +38,17 @@ interface CreateOrderResponse {
   amount: number;
   currency: string;
   keyId: string;
+}
+
+function fireConfetti() {
+  const duration = 2000;
+  const end = Date.now() + duration;
+  const frame = () => {
+    void confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0, y: 0.6 } });
+    void confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1, y: 0.6 } });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  };
+  frame();
 }
 
 export default function PayPage() {
@@ -109,6 +121,7 @@ export default function PayPage() {
                 body: JSON.stringify(paymentData),
               });
               setPaid(true);
+              fireConfetti();
               toast.success("Payment successful!");
             } catch {
               toast.error("Payment verification failed. Please contact support.");

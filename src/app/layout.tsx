@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/query-provider";
-import { CartProvider } from "@/providers/cart-provider";
+
 import { ThemeProvider } from "@/providers/theme-provider";
 import { fontVariables } from "@/lib/fonts";
 import { platform, pageTitle } from "@/lib/platform";
@@ -28,9 +28,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <QueryProvider>
-            <CartProvider>
-              {children}
-            </CartProvider>
+            {children}
             <Toaster richColors position="top-right" />
           </QueryProvider>
         </ThemeProvider>
