@@ -1,13 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { getApiSession } from "@/server/auth-helpers";
-import { stripe } from "@/lib/stripe";
+import { getRazorpay } from "@/lib/razorpay";
 import { createPayment } from "@/server/db/queries/payment";
-import { platform } from "@/lib/platform";
-import { getOriginFromRequest } from "@/server/auth-helpers";
 
-const createSessionSchema = z.object({
-  amount: z.number().int().min(50).max(10_000_00), // min 50 cents, max $100,000
+const createOrderSchema = z.object({
+  amount: z.number().int().min(100).max(100_000_00),
   currency: z.string().length(3).regex(/^[A-Za-z]{3}$/),
   purpose: z.enum([
     "card_unlock",
@@ -28,7 +26,7 @@ export async function POST(request: NextRequest) {
   }
 
   const rawBody: unknown = await request.json();
-  const parsed = createSessionSchema.safeParse(rawBody);
+  const parsed = createOrderSchema.safeParse(rawBody);
   if (!parsed.success) {
     return NextResponse.json(
       { error: "Validation failed", details: parsed.error.flatten() },
@@ -38,7 +36,6 @@ export async function POST(request: NextRequest) {
 
   const body = parsed.data;
 
-  // Require inviteId for invite-related payments
   if (
     (body.purpose === "animated_invite" || body.purpose === "invite_unlock") &&
     !body.inviteId
@@ -49,62 +46,45 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!process.env.STRIPE_SECRET_KEY) {
+  if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
     return NextResponse.json(
-      { error: "Stripe is not configured" },
+      { error: "Razorpay is not configured" },
       { status: 503 },
     );
   }
 
   try {
-    const origin = getOriginFromRequest(request);
-    const stripeSession = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: body.currency.toLowerCase(),
-            product_data: {
-              name: `${platform.name} - ${body.purpose}`,
-            },
-            unit_amount: body.amount,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/cancel`,
-      ...(body.payerEmail ?? session.user.email
-        ? { customer_email: body.payerEmail ?? session.user.email }
-        : {}),
-      metadata: {
-        userId: session.user.id,
-        purpose: body.purpose,
-        ...(body.inviteId ? { inviteId: body.inviteId } : {}),
-      },
+    const razorpay = getRazorpay();
+    const order = await razorpay.orders.create({
+      amount: body.amount,
+      currency: body.currency.toUpperCase(),
+      receipt: `order_${Date.now()}`,
     });
 
-    // Record payment in DB
     await createPayment({
       userId: session.user.id,
       amount: body.amount,
       currency: body.currency,
-      paymentMethod: "stripe",
-      stripeSessionId: stripeSession.id,
+      paymentMethod: "razorpay",
+      razorpayOrderId: order.id,
       status: "pending",
       purpose: body.purpose,
       inviteId: body.inviteId,
       payerEmail: body.payerEmail ?? session.user.email,
     });
 
-    return NextResponse.json({ url: stripeSession.url });
+    return NextResponse.json({
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      keyId: process.env.RAZORPAY_KEY_ID,
+    });
   } catch (error) {
-    console.error("[Payment] Create session error:", error);
+    console.error("[Payment] Create order error:", error);
     const message =
       error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: "Failed to create payment session", details: message },
+      { error: "Failed to create payment order", details: message },
       { status: 500 },
     );
   }

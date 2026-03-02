@@ -26,7 +26,7 @@ export function getUnitPrice(
     IN: {
       business_card: 5000, // ₹50.00 INR
       wedding_card: 5000,
-      animated_invite: 5000, // ₹50.00 INR
+      animated_invite: 300000, // ₹3000.00 INR
     },
   };
 

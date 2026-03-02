@@ -1,29 +1,43 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
-import { stripe } from "@/lib/stripe";
+import { verifyRazorpaySignature } from "@/lib/razorpay";
 import {
-  getPaymentByStripeSession,
+  getPaymentByRazorpayOrder,
   updatePaymentStatus,
+  updatePaymentRazorpayId,
 } from "@/server/db/queries/payment";
 import { db } from "@/server/db";
 import { user } from "@/server/db/schema/auth";
 
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as { sessionId: string };
+  const body = (await request.json()) as {
+    razorpay_order_id?: string;
+    razorpay_payment_id?: string;
+    razorpay_signature?: string;
+  };
 
-  if (!body.sessionId) {
+  if (!body.razorpay_order_id || !body.razorpay_payment_id || !body.razorpay_signature) {
     return NextResponse.json(
-      { error: "Session ID required" },
+      { error: "Missing Razorpay payment data" },
       { status: 400 },
     );
   }
 
   try {
-    const stripeSession = await stripe.checkout.sessions.retrieve(
-      body.sessionId,
+    const isValid = verifyRazorpaySignature(
+      body.razorpay_order_id,
+      body.razorpay_payment_id,
+      body.razorpay_signature,
     );
 
-    const dbPayment = await getPaymentByStripeSession(body.sessionId);
+    if (!isValid) {
+      return NextResponse.json(
+        { error: "Invalid payment signature" },
+        { status: 400 },
+      );
+    }
+
+    const dbPayment = await getPaymentByRazorpayOrder(body.razorpay_order_id);
 
     if (!dbPayment) {
       return NextResponse.json(
@@ -50,19 +64,13 @@ export async function POST(request: NextRequest) {
       recipientName = recipientData[0]?.name ?? null;
     }
 
-    if (stripeSession.payment_status === "paid") {
-      await updatePaymentStatus(dbPayment.id, "completed");
-
-      return NextResponse.json({
-        status: "completed",
-        amount: dbPayment.amount,
-        currency: dbPayment.currency,
-        recipientName,
-      });
-    }
+    await updatePaymentStatus(dbPayment.id, "completed");
+    await updatePaymentRazorpayId(dbPayment.id, body.razorpay_payment_id);
 
     return NextResponse.json({
-      status: stripeSession.payment_status,
+      status: "completed",
+      amount: dbPayment.amount,
+      currency: dbPayment.currency,
       recipientName,
     });
   } catch (error) {

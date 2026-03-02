@@ -15,7 +15,7 @@ import {
   useDeleteInvite,
 } from "@/hooks/use-wedding";
 import { useUserProfile } from "@/hooks/use-user";
-import { useCreateStripeSession } from "@/hooks/use-payment";
+import { useCreateRazorpayOrder, useVerifyPayment, useRazorpayCheckout } from "@/hooks/use-payment";
 import { getAnimatedTemplate } from "@/lib/templates/animated-templates";
 import { getUnitPrice, formatCurrency, getCurrencyForCountry } from "@/lib/pricing";
 import type { CountryCode } from "@/lib/constants";
@@ -48,7 +48,9 @@ function InviteListView({
   const { data: invites, isLoading, isError, refetch } = useUserInvites();
   const deleteInvite = useDeleteInvite();
   const { data: profile } = useUserProfile();
-  const createSession = useCreateStripeSession();
+  const createOrder = useCreateRazorpayOrder();
+  const verifyPayment = useVerifyPayment();
+  const { openCheckout } = useRazorpayCheckout();
   const [activatingId, setActivatingId] = useState<string | null>(null);
 
   const country = (profile?.country as CountryCode) ?? "CA";
@@ -57,7 +59,7 @@ function InviteListView({
 
   function handleActivate(inviteId: string) {
     setActivatingId(inviteId);
-    createSession.mutate(
+    createOrder.mutate(
       {
         amount: unitPrice,
         currency,
@@ -65,6 +67,31 @@ function InviteListView({
         inviteId,
       },
       {
+        onSuccess: (data) => {
+          void openCheckout({
+            orderId: data.orderId,
+            amount: data.amount,
+            currency: data.currency,
+            keyId: data.keyId,
+            description: "Animated Invite Activation",
+            onSuccess: (paymentData) => {
+              verifyPayment.mutate(paymentData, {
+                onSuccess: () => {
+                  toast.success("Invite activated successfully!");
+                  void refetch();
+                  setActivatingId(null);
+                },
+                onError: () => {
+                  toast.error("Payment verification failed. Please contact support.");
+                  setActivatingId(null);
+                },
+              });
+            },
+            onDismiss: () => {
+              setActivatingId(null);
+            },
+          });
+        },
         onError: () => {
           toast.error("Failed to start payment. Please try again.");
           setActivatingId(null);

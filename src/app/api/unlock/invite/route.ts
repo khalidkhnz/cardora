@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getApiSession } from "@/server/auth-helpers";
-import { stripe } from "@/lib/stripe";
+import { verifyRazorpaySignature } from "@/lib/razorpay";
 import {
-  getPaymentByStripeSession,
+  getPaymentByRazorpayOrder,
   updatePaymentStatus,
+  updatePaymentRazorpayId,
   unlockInviteById,
 } from "@/server/db/queries/payment";
 
@@ -13,11 +14,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as { sessionId?: string; inviteId?: string };
+  const body = (await request.json()) as {
+    razorpay_order_id?: string;
+    razorpay_payment_id?: string;
+    razorpay_signature?: string;
+    inviteId?: string;
+  };
 
-  if (!body.sessionId) {
+  if (!body.razorpay_order_id || !body.razorpay_payment_id || !body.razorpay_signature) {
     return NextResponse.json(
-      { error: "Stripe session ID required" },
+      { error: "Razorpay payment data required" },
       { status: 400 },
     );
   }
@@ -30,20 +36,23 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const stripeSession = await stripe.checkout.sessions.retrieve(
-      body.sessionId,
+    const isValid = verifyRazorpaySignature(
+      body.razorpay_order_id,
+      body.razorpay_payment_id,
+      body.razorpay_signature,
     );
 
-    if (stripeSession.payment_status !== "paid") {
+    if (!isValid) {
       return NextResponse.json(
-        { error: "Payment not completed", status: stripeSession.payment_status },
+        { error: "Invalid payment signature" },
         { status: 402 },
       );
     }
 
-    const dbPayment = await getPaymentByStripeSession(body.sessionId);
+    const dbPayment = await getPaymentByRazorpayOrder(body.razorpay_order_id);
     if (dbPayment) {
       await updatePaymentStatus(dbPayment.id, "completed");
+      await updatePaymentRazorpayId(dbPayment.id, body.razorpay_payment_id);
     }
 
     await unlockInviteById(body.inviteId, session.user.id);

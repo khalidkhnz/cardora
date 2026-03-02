@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { apiClient } from "@/lib/api-client";
 import { formatCurrency } from "@/lib/pricing";
+import { useRazorpayCheckout } from "@/hooks/use-payment";
+import { toast } from "sonner";
 
 interface PublicProfile {
   username: string;
@@ -30,6 +32,13 @@ interface PublicProfile {
   interacEmail: string | null;
 }
 
+interface CreateOrderResponse {
+  orderId: string;
+  amount: number;
+  currency: string;
+  keyId: string;
+}
+
 export default function PayPage() {
   const params = useParams<{ username: string }>();
   const [profile, setProfile] = useState<PublicProfile | null>(null);
@@ -38,6 +47,8 @@ export default function PayPage() {
   const [amount, setAmount] = useState("");
   const [payerEmail, setPayerEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [paid, setPaid] = useState(false);
+  const { openCheckout } = useRazorpayCheckout();
 
   useEffect(() => {
     async function fetchProfile() {
@@ -62,34 +73,58 @@ export default function PayPage() {
     void fetchProfile();
   }, [params.username]);
 
-  async function handlePay() {
+  const handlePay = useCallback(async () => {
     if (!profile) return;
-    const amountInCents = Math.round(parseFloat(amount) * 100);
-    if (isNaN(amountInCents) || amountInCents <= 0) return;
+    const amountInPaise = Math.round(parseFloat(amount) * 100);
+    if (isNaN(amountInPaise) || amountInPaise <= 0) return;
 
     setSubmitting(true);
     try {
-      const result = await apiClient<{ url: string }>(
-        "/api/payment/create-public-session",
+      const orderData = await apiClient<CreateOrderResponse>(
+        "/api/payment/create-public-order",
         {
           method: "POST",
           body: JSON.stringify({
             username: params.username,
-            amount: amountInCents,
-            currency: profile.currency ?? "CAD",
+            amount: amountInPaise,
+            currency: profile.currency ?? "INR",
             payerEmail: payerEmail || undefined,
           }),
         },
       );
-      if (result.url) {
-        window.location.href = result.url;
-      }
+
+      await openCheckout({
+        orderId: orderData.orderId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        keyId: orderData.keyId,
+        name: `Pay ${profile.name}`,
+        description: "Payment",
+        prefillEmail: payerEmail || undefined,
+        onSuccess: (paymentData) => {
+          void (async () => {
+            try {
+              await apiClient("/api/payment/verify-public", {
+                method: "POST",
+                body: JSON.stringify(paymentData),
+              });
+              setPaid(true);
+              toast.success("Payment successful!");
+            } catch {
+              toast.error("Payment verification failed. Please contact support.");
+            }
+            setSubmitting(false);
+          })();
+        },
+        onDismiss: () => {
+          setSubmitting(false);
+        },
+      });
     } catch {
-      setError("Failed to create payment session.");
-    } finally {
+      setError("Failed to create payment order.");
       setSubmitting(false);
     }
-  }
+  }, [profile, amount, payerEmail, params.username, openCheckout]);
 
   if (loading) {
     return (
@@ -119,7 +154,34 @@ export default function PayPage() {
     );
   }
 
-  const currency = profile.currency ?? "CAD";
+  if (paid) {
+    return (
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center">
+          <CardHeader>
+            <CardTitle>Payment Successful!</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              Your payment to {profile.name} has been confirmed.
+            </p>
+            {amount && (
+              <p className="mt-2 text-lg font-semibold">
+                {formatCurrency(Math.round(parseFloat(amount) * 100), profile.currency ?? "INR")}
+              </p>
+            )}
+          </CardContent>
+          <CardFooter className="justify-center">
+            <Button variant="outline" asChild>
+              <Link href="/">Go Home</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
+
+  const currency = profile.currency ?? "INR";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
@@ -196,7 +258,7 @@ export default function PayPage() {
           <Button
             className="w-full"
             size="lg"
-            onClick={handlePay}
+            onClick={() => void handlePay()}
             disabled={
               submitting ||
               !amount ||

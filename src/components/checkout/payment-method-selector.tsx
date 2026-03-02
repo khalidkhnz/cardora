@@ -3,7 +3,7 @@
 import { CreditCard, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type PaymentMethod = "stripe" | "interac";
+export type PaymentMethod = "razorpay" | "interac";
 
 interface PaymentMethodSelectorProps {
   value: PaymentMethod;
@@ -26,10 +26,10 @@ export function PaymentMethodSelector({
       <div className="grid gap-3">
         <button
           type="button"
-          onClick={() => onChange("stripe")}
+          onClick={() => onChange("razorpay")}
           className={cn(
             "flex items-center gap-3 rounded-lg border p-4 text-left transition-colors",
-            value === "stripe"
+            value === "razorpay"
               ? "border-primary bg-primary/5"
               : "border-border hover:bg-muted",
           )}
@@ -38,7 +38,7 @@ export function PaymentMethodSelector({
           <div>
             <p className="text-sm font-medium">Credit / Debit Card</p>
             <p className="text-xs text-muted-foreground">
-              Secure payment via Stripe
+              Secure payment via Razorpay
             </p>
           </div>
         </button>

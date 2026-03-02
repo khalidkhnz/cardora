@@ -9,8 +9,8 @@ export async function createPayment(data: {
   recipientId?: string;
   amount: number;
   currency: string;
-  paymentMethod: "stripe" | "interac";
-  stripeSessionId?: string;
+  paymentMethod: "razorpay" | "interac";
+  razorpayOrderId?: string;
   status: "pending" | "completed" | "failed" | "refunded";
   purpose:
     | "card_unlock"
@@ -83,11 +83,11 @@ export async function getReceivedPayments(
   };
 }
 
-export async function getPaymentByStripeSession(sessionId: string) {
+export async function getPaymentByRazorpayOrder(orderId: string) {
   const results = await db
     .select()
     .from(payment)
-    .where(eq(payment.stripeSessionId, sessionId))
+    .where(eq(payment.razorpayOrderId, orderId))
     .limit(1);
 
   return results[0] ?? null;
@@ -100,6 +100,16 @@ export async function updatePaymentStatus(
   await db
     .update(payment)
     .set({ status, updatedAt: new Date() })
+    .where(eq(payment.id, paymentId));
+}
+
+export async function updatePaymentRazorpayId(
+  paymentId: string,
+  razorpayPaymentId: string,
+) {
+  await db
+    .update(payment)
+    .set({ razorpayPaymentId, updatedAt: new Date() })
     .where(eq(payment.id, paymentId));
 }
 

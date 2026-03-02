@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getApiSession } from "@/server/auth-helpers";
-import { stripe } from "@/lib/stripe";
+import { verifyRazorpaySignature } from "@/lib/razorpay";
 import {
-  getPaymentByStripeSession,
+  getPaymentByRazorpayOrder,
   updatePaymentStatus,
+  updatePaymentRazorpayId,
   unlockInviteById,
 } from "@/server/db/queries/payment";
 
@@ -13,21 +14,34 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as { sessionId: string };
+  const body = (await request.json()) as {
+    razorpay_order_id?: string;
+    razorpay_payment_id?: string;
+    razorpay_signature?: string;
+  };
 
-  if (!body.sessionId) {
+  if (!body.razorpay_order_id || !body.razorpay_payment_id || !body.razorpay_signature) {
     return NextResponse.json(
-      { error: "Session ID required" },
+      { error: "Missing Razorpay payment data" },
       { status: 400 },
     );
   }
 
   try {
-    const stripeSession = await stripe.checkout.sessions.retrieve(
-      body.sessionId,
+    const isValid = verifyRazorpaySignature(
+      body.razorpay_order_id,
+      body.razorpay_payment_id,
+      body.razorpay_signature,
     );
 
-    const dbPayment = await getPaymentByStripeSession(body.sessionId);
+    if (!isValid) {
+      return NextResponse.json(
+        { error: "Invalid payment signature" },
+        { status: 400 },
+      );
+    }
+
+    const dbPayment = await getPaymentByRazorpayOrder(body.razorpay_order_id);
 
     if (!dbPayment) {
       return NextResponse.json(
@@ -36,27 +50,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (stripeSession.payment_status === "paid") {
-      await updatePaymentStatus(dbPayment.id, "completed");
+    await updatePaymentStatus(dbPayment.id, "completed");
+    await updatePaymentRazorpayId(dbPayment.id, body.razorpay_payment_id);
 
-      // Auto-unlock invite if this payment is for an invite
-      if (
-        (dbPayment.purpose === "animated_invite" ||
-          dbPayment.purpose === "invite_unlock") &&
-        dbPayment.inviteId
-      ) {
-        await unlockInviteById(dbPayment.inviteId, session.user.id);
-      }
-
-      return NextResponse.json({
-        status: "completed",
-        amount: dbPayment.amount,
-        currency: dbPayment.currency,
-      });
+    // Auto-unlock invite if this payment is for an invite
+    if (
+      (dbPayment.purpose === "animated_invite" ||
+        dbPayment.purpose === "invite_unlock") &&
+      dbPayment.inviteId
+    ) {
+      await unlockInviteById(dbPayment.inviteId, session.user.id);
     }
 
     return NextResponse.json({
-      status: stripeSession.payment_status,
+      status: "completed",
+      amount: dbPayment.amount,
+      currency: dbPayment.currency,
     });
   } catch (error) {
     console.error("[Payment] Verify error:", error);

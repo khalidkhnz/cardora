@@ -82,7 +82,7 @@ const highlights = [
   {
     icon: Shield,
     title: "Secure Payments",
-    description: "Stripe-powered checkout with Interac support",
+    description: "Razorpay-powered checkout with Interac support",
   },
   {
     icon: Zap,

@@ -22,28 +22,61 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/providers/cart-provider";
-import { useCreateCartSession } from "@/hooks/use-payment";
+import { useCreateCartOrder, useVerifyPayment, useRazorpayCheckout } from "@/hooks/use-payment";
 import { formatCurrency } from "@/lib/pricing";
+import { toast } from "sonner";
 
 export function OrderSummary() {
   const { items, getTotal, getCount, clearCart } = useCart();
-  const createSession = useCreateCartSession();
+  const createOrder = useCreateCartOrder();
+  const verifyPayment = useVerifyPayment();
+  const { openCheckout } = useRazorpayCheckout();
 
   const total = getTotal();
   const count = getCount();
-  const currency = items[0]?.currency ?? "CAD";
+  const currency = items[0]?.currency ?? "INR";
 
   function handleCheckout() {
     if (items.length === 0) return;
 
-    createSession.mutate({
-      items: items.map((item) => ({
-        name: item.name,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice,
-      })),
-      currency,
-    });
+    createOrder.mutate(
+      {
+        items: items.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+        })),
+        currency,
+      },
+      {
+        onSuccess: (data) => {
+          void openCheckout({
+            orderId: data.orderId,
+            amount: data.amount,
+            currency: data.currency,
+            keyId: data.keyId,
+            description: "Cart Checkout",
+            onSuccess: (paymentData) => {
+              verifyPayment.mutate(paymentData, {
+                onSuccess: () => {
+                  clearCart();
+                  toast.success("Payment successful!");
+                },
+                onError: () => {
+                  toast.error("Payment verification failed. Please contact support.");
+                },
+              });
+            },
+            onDismiss: () => {
+              toast.info("Payment cancelled");
+            },
+          });
+        },
+        onError: () => {
+          toast.error("Failed to create payment order");
+        },
+      },
+    );
   }
 
   return (
@@ -80,12 +113,12 @@ export function OrderSummary() {
           className="w-full"
           size="lg"
           onClick={handleCheckout}
-          disabled={items.length === 0 || createSession.isPending}
+          disabled={items.length === 0 || createOrder.isPending || verifyPayment.isPending}
         >
-          {createSession.isPending ? (
+          {createOrder.isPending || verifyPayment.isPending ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Redirecting to Stripe...
+              Processing...
             </>
           ) : (
             `Pay ${formatCurrency(total, currency)}`
