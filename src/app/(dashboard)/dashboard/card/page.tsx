@@ -659,7 +659,7 @@ export default function CardPage() {
 
   // Auto-open editor for default card when there's only 1 card
   useEffect(() => {
-    if (!autoOpenedRef.current && cards && cards.length === 1 && cards[0]) {
+    if (!autoOpenedRef.current && cards?.length === 1 && cards[0]) {
       autoOpenedRef.current = true;
       setEditingCardId(cards[0].id);
       setView("edit");
