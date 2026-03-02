@@ -1,5 +1,5 @@
 import "server-only";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, inArray } from "drizzle-orm";
 import { db } from "@/server/db";
 import { rsvp } from "@/server/db/schema/rsvp";
 import { weddingInvite } from "@/server/db/schema/wedding";
@@ -48,25 +48,27 @@ export async function getDashboardRsvps(
 
   const slugs = invites.map((i) => i.slug);
 
+  const slugFilter = inArray(rsvp.inviteSlug, slugs);
+
   const [pageRsvps, countResult, allForStats] = await Promise.all([
     db
       .select()
       .from(rsvp)
-      .where(sql`${rsvp.inviteSlug} = ANY(${slugs})`)
+      .where(slugFilter)
       .orderBy(sql`${rsvp.createdAt} desc`)
       .limit(opts.limit)
       .offset(opts.offset),
     db
       .select({ count: sql<number>`count(*)::int` })
       .from(rsvp)
-      .where(sql`${rsvp.inviteSlug} = ANY(${slugs})`),
+      .where(slugFilter),
     db
       .select({
         attending: rsvp.attending,
         numberOfGuests: rsvp.numberOfGuests,
       })
       .from(rsvp)
-      .where(sql`${rsvp.inviteSlug} = ANY(${slugs})`),
+      .where(slugFilter),
   ]);
 
   const totalCount = countResult[0]?.count ?? 0;
