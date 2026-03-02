@@ -14,7 +14,9 @@ export const env = createEnv({
     SMTP_HOST: z.string().optional(),
     SMTP_PORT: z.coerce.number().optional(),
     SMTP_SECURE: z
-      .enum(["true", "false"])
+      .string()
+      .trim()
+      .pipe(z.enum(["true", "false"]))
       .transform((v) => v === "true")
       .optional(),
     SMTP_USER: z.string().optional(),
