@@ -65,7 +65,7 @@ function InviteListView({
   const { openCheckout } = useRazorpayCheckout();
   const [activatingId, setActivatingId] = useState<string | null>(null);
 
-  const country = (profile?.country as CountryCode) ?? "CA";
+  const country = (profile?.country as CountryCode) ?? "IN";
   const currency = getCurrencyForCountry(country);
   const unitPrice = getUnitPrice(country, "animated_invite");
 

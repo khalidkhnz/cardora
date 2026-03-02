@@ -1,38 +1,29 @@
-import { COUNTRIES, type CountryCode } from "./constants";
+import { type CountryCode } from "./constants";
 
 export function formatCurrency(
   amountInSmallestUnit: number,
-  currency: string,
+  _currency?: string,
 ): string {
-  const symbol = currency === "INR" ? "₹" : currency === "CAD" ? "C$" : "$";
+  // All prices are in INR (paise)
   const amount = amountInSmallestUnit / 100;
-  return `${symbol}${amount.toFixed(2)}`;
+  return `₹${amount.toFixed(2)}`;
 }
 
 export function getUnitPrice(
-  country: CountryCode,
+  _country: CountryCode,
   type: "business_card" | "wedding_card" | "animated_invite",
 ): number {
-  // Price per share in smallest currency unit (cents/paise)
-  const prices: Record<
-    CountryCode,
-    Record<string, number>
-  > = {
-    CA: {
-      business_card: 20, // $0.20 CAD
-      wedding_card: 20,
-      animated_invite: 50, // $0.50 CAD
-    },
-    IN: {
-      business_card: 5000, // ₹50.00 INR
-      wedding_card: 5000,
-      animated_invite: 300000, // ₹3000.00 INR
-    },
+  // Business cards and wedding cards are FREE
+  // Only animated invites are paid — ₹3,000 (300000 paise)
+  const prices: Record<string, number> = {
+    business_card: 0,
+    wedding_card: 0,
+    animated_invite: 300000, // ₹3,000.00 INR
   };
 
-  return prices[country]?.[type] ?? 20;
+  return prices[type] ?? 0;
 }
 
-export function getCurrencyForCountry(country: CountryCode): string {
-  return COUNTRIES[country].currency;
+export function getCurrencyForCountry(_country: CountryCode): string {
+  return "INR";
 }

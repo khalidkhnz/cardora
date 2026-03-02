@@ -74,7 +74,7 @@ export default function AboutPage() {
               text={`About ${APP_NAME}`}
               as="h1"
               splitBy="word"
-              className="text-4xl font-bold tracking-tight md:text-6xl"
+              className="justify-center text-4xl font-bold tracking-tight md:text-6xl"
             />
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -139,7 +139,7 @@ export default function AboutPage() {
                 text="What we believe in"
                 as="h2"
                 splitBy="word"
-                className="text-2xl font-bold md:text-4xl"
+                className="justify-center text-2xl font-bold md:text-4xl"
               />
             </div>
 
@@ -197,9 +197,9 @@ export default function AboutPage() {
               transition={{ duration: 0.5 }}
               className="mt-6 text-muted-foreground leading-relaxed"
             >
-              {APP_NAME} is proudly built in Canada, supporting users across
-              Canada and India. We leverage modern web technologies — Next.js,
-              React, and Stripe — to deliver a fast, secure, and delightful
+              {APP_NAME} is proudly built in India, supporting users across
+              India and beyond. We leverage modern web technologies — Next.js,
+              React, and Razorpay — to deliver a fast, secure, and delightful
               experience. Every interaction, animation, and pixel is crafted
               with care.
             </motion.p>
@@ -221,7 +221,7 @@ export default function AboutPage() {
               text="Ready to create something beautiful?"
               as="h2"
               splitBy="word"
-              className="text-3xl font-bold text-white md:text-4xl"
+              className="justify-center text-3xl font-bold text-white md:text-4xl"
             />
             <motion.p
               initial={{ opacity: 0, y: 15 }}

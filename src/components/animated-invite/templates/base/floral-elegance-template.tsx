@@ -308,7 +308,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
               splitBy="word"
               as="h1"
               trigger="inView"
-              className="font-serif text-5xl font-light leading-tight text-rose-800 sm:text-6xl lg:text-7xl"
+              className="justify-center font-serif text-5xl font-light leading-tight text-rose-800 sm:text-6xl lg:text-7xl"
             />
 
             {/* Floral heart divider */}
@@ -339,7 +339,7 @@ export default function FloralEleganceTemplate({ invite, isDemo }: TemplateProps
               splitBy="word"
               as="h1"
               trigger="inView"
-              className="font-serif text-5xl font-light leading-tight text-rose-800 sm:text-6xl lg:text-7xl"
+              className="justify-center font-serif text-5xl font-light leading-tight text-rose-800 sm:text-6xl lg:text-7xl"
             />
           </motion.div>
 

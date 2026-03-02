@@ -96,8 +96,7 @@ export async function sendPaymentSuccessEmail(
   }
 
   const frontendUrl = origin;
-  const currencySymbol =
-    payment.currency === "INR" ? "\u20B9" : payment.currency === "CAD" ? "C$" : "$";
+  const currencySymbol = "\u20B9";
   const paymentDate = payment.createdAt.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",

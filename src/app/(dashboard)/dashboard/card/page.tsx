@@ -278,7 +278,7 @@ function CardEditorView({
   const updateProfile = useUpdateProfile();
   const updateCard = useUpdateCard(cardId);
 
-  const [country, setCountry] = useState<CountryCode>("CA");
+  const [country, setCountry] = useState<CountryCode>("IN");
   const [cardType, setCardType] = useState<CardType>("business");
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -308,7 +308,7 @@ function CardEditorView({
 
   useEffect(() => {
     if (profile) {
-      setCountry((profile.country as CountryCode) ?? "CA");
+      setCountry((profile.country as CountryCode) ?? "IN");
     }
   }, [profile]);
 

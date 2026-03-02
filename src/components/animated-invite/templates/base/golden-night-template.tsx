@@ -352,7 +352,7 @@ export default function GoldenNightTemplate({
             splitBy="letter"
             as="h1"
             trigger="inView"
-            className="text-center text-5xl font-light tracking-wide sm:text-7xl"
+            className="justify-center text-center text-5xl font-light tracking-wide sm:text-7xl"
           />
         </div>
 
@@ -377,7 +377,7 @@ export default function GoldenNightTemplate({
             splitBy="letter"
             as="h1"
             trigger="inView"
-            className="text-center text-5xl font-light tracking-wide sm:text-7xl"
+            className="justify-center text-center text-5xl font-light tracking-wide sm:text-7xl"
           />
         </div>
 

@@ -11,13 +11,15 @@ export type CountryCode = keyof typeof COUNTRIES;
 
 export const PRICING = {
   CA: {
-    businessCard: 499, // cents
-    weddingInvite: 999,
-    currency: "CAD",
+    businessCard: 0, // free
+    weddingInvite: 0, // free
+    animatedInvite: 300000, // ₹3,000 in paise (INR only)
+    currency: "INR",
   },
   IN: {
-    businessCard: 29900, // paise
-    weddingInvite: 59900,
+    businessCard: 0, // free
+    weddingInvite: 0, // free
+    animatedInvite: 300000, // ₹3,000 in paise
     currency: "INR",
   },
 } as const;

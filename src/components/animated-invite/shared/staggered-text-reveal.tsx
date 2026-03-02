@@ -76,8 +76,7 @@ export function StaggeredTextReveal({
       {...(trigger === "inView"
         ? { whileInView: "visible", viewport: { once: true, margin: "-50px" } }
         : { animate: "visible" })}
-      className={className}
-      style={{ display: "flex", flexWrap: "wrap", justifyContent: "inherit" }}
+      className={`flex flex-wrap ${className ?? ""}`}
     >
       {units.map((unit) => (
         <motion.span

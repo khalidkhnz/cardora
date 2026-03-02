@@ -446,7 +446,7 @@ export default function CinematicScrollTemplate({
             splitBy="letter"
             as="h1"
             trigger="inView"
-            className="font-serif text-7xl font-light leading-[0.9] text-white sm:text-8xl lg:text-9xl"
+            className="justify-center font-serif text-7xl font-light leading-[0.9] text-white sm:text-8xl lg:text-9xl"
           />
 
           <motion.div
@@ -471,7 +471,7 @@ export default function CinematicScrollTemplate({
             splitBy="letter"
             as="h1"
             trigger="inView"
-            className="font-serif text-7xl font-light leading-[0.9] text-white sm:text-8xl lg:text-9xl"
+            className="justify-center font-serif text-7xl font-light leading-[0.9] text-white sm:text-8xl lg:text-9xl"
           />
 
           {invite.weddingDate && (

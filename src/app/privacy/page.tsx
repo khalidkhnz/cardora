@@ -63,8 +63,8 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong className="text-foreground">Payment Information:</strong>{" "}
-                Payment details processed securely through Stripe. We do not
-                store your full credit card information.
+                Payment details processed securely through Razorpay. We do not
+                store your full payment card information.
               </li>
               <li>
                 <strong className="text-foreground">Uploaded Content:</strong>{" "}
@@ -101,8 +101,8 @@ export default function PrivacyPage() {
           <section>
             <h2>4. Payment Processing</h2>
             <p>
-              All payment transactions are processed by Stripe, our third-party
-              payment processor. Stripe collects and processes your payment
+              All payment transactions are processed by Razorpay, our third-party
+              payment processor. Razorpay collects and processes your payment
               information in accordance with their own privacy policy. {name}{" "}
               only receives confirmation of payment status and does not have
               access to your full payment card details.
@@ -135,7 +135,7 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong className="text-foreground">Payment Processing:</strong>{" "}
-                Payment data is shared with Stripe to process transactions.
+                Payment data is shared with Razorpay to process transactions.
               </li>
               <li>
                 <strong className="text-foreground">Legal Requirements:</strong>{" "}

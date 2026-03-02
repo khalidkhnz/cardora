@@ -25,11 +25,13 @@ import {
   Clock,
   Layout,
   Shield,
+  Zap,
+  Star,
+  Music,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { APP_NAME } from "@/lib/constants";
-import { platform } from "@/lib/platform";
 import { StaggeredTextReveal } from "@/components/animated-invite/shared/staggered-text-reveal";
 import { MagneticButton } from "@/components/animated-invite/shared/magnetic-button";
 import { TextParallaxMarquee } from "@/components/animated-invite/shared/text-parallax-marquee";
@@ -45,31 +47,35 @@ const features = [
     title: "Business Cards",
     description:
       "10+ professionally designed templates with live preview. Customize every detail to match your brand.",
-    gradient: "from-blue-500/20 to-cyan-500/20",
+    gradient: "from-blue-500 to-cyan-400",
+    bgGradient: "from-blue-500/20 to-cyan-400/20",
     iconColor: "text-blue-500",
   },
   {
     icon: Heart,
     title: "Wedding Invitations",
     description:
-      "30+ static and 17 animated templates. Beautiful designs crafted for your most special day.",
-    gradient: "from-rose-500/20 to-pink-500/20",
+      "30+ stunning static templates. Beautiful designs crafted for your most special day — completely free.",
+    gradient: "from-rose-500 to-pink-400",
+    bgGradient: "from-rose-500/20 to-pink-400/20",
     iconColor: "text-rose-500",
   },
   {
     icon: Sparkles,
     title: "Animated Invites",
     description:
-      "Cinematic invitations with music, parallax animations, and interactive RSVP — unforgettable.",
-    gradient: "from-amber-500/20 to-orange-500/20",
+      "Cinematic invitations with music, parallax animations, and interactive RSVP — truly unforgettable.",
+    gradient: "from-amber-500 to-orange-400",
+    bgGradient: "from-amber-500/20 to-orange-400/20",
     iconColor: "text-amber-500",
   },
   {
     icon: BarChart3,
     title: "Analytics Dashboard",
     description:
-      "Track profile views, QR scans, and NFC taps. Understand your audience with real-time data.",
-    gradient: "from-emerald-500/20 to-green-500/20",
+      "Track profile views, QR scans, and NFC taps. Understand your audience with real-time insights.",
+    gradient: "from-emerald-500 to-green-400",
+    bgGradient: "from-emerald-500/20 to-green-400/20",
     iconColor: "text-emerald-500",
   },
   {
@@ -77,28 +83,34 @@ const features = [
     title: "QR & NFC Sharing",
     description:
       "Share your card instantly via QR code, NFC tap, or a unique link. One tap is all it takes.",
-    gradient: "from-violet-500/20 to-purple-500/20",
+    gradient: "from-violet-500 to-purple-400",
+    bgGradient: "from-violet-500/20 to-purple-400/20",
     iconColor: "text-violet-500",
   },
   {
     icon: Globe,
     title: "Multi-Country Support",
     description:
-      "Localized pricing and payments for India and Canada. Pay in your currency, your way.",
-    gradient: "from-cyan-500/20 to-teal-500/20",
+      "Localized experience for India and Canada. Razorpay-powered secure payments in INR.",
+    gradient: "from-cyan-500 to-teal-400",
+    bgGradient: "from-cyan-500/20 to-teal-400/20",
     iconColor: "text-cyan-500",
   },
 ];
 
 const pricingCards = [
   {
-    title: "Business Card",
+    title: "Business Cards & Wedding Cards",
     icon: CreditCard,
-    iconColor: "text-blue-500",
-    price: "C$4.99",
+    iconColor: "text-emerald-500",
+    price: "Free",
+    priceSubtext: "forever",
     badge: null,
+    accentColor: "emerald",
+    gradient: "from-emerald-500 to-teal-400",
     features: [
-      "10+ premium templates",
+      "10+ business card templates",
+      "30+ wedding card templates",
       "QR code & NFC sharing",
       "Analytics dashboard",
       "Public profile page",
@@ -106,17 +118,21 @@ const pricingCards = [
     ],
   },
   {
-    title: "Wedding Invite",
-    icon: Heart,
-    iconColor: "text-rose-500",
-    price: "C$9.99",
-    badge: "Popular",
+    title: "Animated Invites",
+    icon: Sparkles,
+    iconColor: "text-amber-500",
+    price: "₹3,000",
+    priceSubtext: "one-time",
+    badge: "Premium",
+    accentColor: "amber",
+    gradient: "from-amber-500 to-orange-400",
     features: [
-      "30+ static + 17 animated templates",
-      "RSVP tracking & guest management",
+      "17 cinematic animated templates",
       "Background music & gallery",
-      "Shareable invite link",
+      "Interactive RSVP system",
       "Multi-event support",
+      "Parallax & scroll animations",
+      "Shareable invite link",
     ],
   },
 ];
@@ -203,13 +219,17 @@ function FeatureCard({
       }}
       className="group relative overflow-hidden rounded-2xl border bg-card p-8 shadow-sm transition-shadow hover:shadow-xl"
     >
-      {/* Gradient overlay on hover */}
+      {/* Colorful gradient overlay on hover */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
+        className={`absolute inset-0 bg-gradient-to-br ${feature.bgGradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
+      />
+      {/* Colorful top border accent */}
+      <div
+        className={`absolute top-0 right-0 left-0 h-1 bg-gradient-to-r ${feature.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
       />
       <div className="relative z-10">
         <div
-          className={`mb-5 inline-flex rounded-xl bg-muted p-3 ${feature.iconColor}`}
+          className={`mb-5 inline-flex rounded-xl bg-gradient-to-br ${feature.bgGradient} p-3 ${feature.iconColor}`}
         >
           <feature.icon className="h-6 w-6" />
         </div>
@@ -248,12 +268,12 @@ function Navbar() {
   return (
     <motion.header
       style={{ y: smoothNavY }}
-      className="fixed top-0 right-0 left-0 z-50 border-b bg-background/60 backdrop-blur-xl"
+      className="fixed top-0 right-0 left-0 z-50 border-b border-white/10 bg-background/60 backdrop-blur-xl"
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="text-xl font-bold"
+          className="bg-gradient-to-r from-violet-600 to-pink-500 bg-clip-text text-xl font-bold text-transparent"
           style={{ fontFamily: "var(--font-playfair)" }}
         >
           {APP_NAME}
@@ -289,7 +309,12 @@ function Navbar() {
           </Link>
           <MagneticButton strength={0.2}>
             <Link href="/signup">
-              <Button size="sm">Get Started</Button>
+              <Button
+                size="sm"
+                className="bg-gradient-to-r from-violet-600 to-pink-500 text-white hover:from-violet-700 hover:to-pink-600"
+              >
+                Get Started
+              </Button>
             </Link>
           </MagneticButton>
         </div>
@@ -313,6 +338,8 @@ function HeroSection() {
   const orbY1 = useTransform(smoothMouseY, (v) => v * 0.02);
   const orbX2 = useTransform(smoothMouseX, (v) => v * -0.015);
   const orbY2 = useTransform(smoothMouseY, (v) => v * -0.015);
+  const orbX3 = useTransform(smoothMouseX, (v) => v * 0.01);
+  const orbY3 = useTransform(smoothMouseY, (v) => v * 0.01);
 
   function handleMouseMove(e: React.MouseEvent) {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -327,47 +354,62 @@ function HeroSection() {
       onMouseMove={handleMouseMove}
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-16"
     >
-      {/* Animated gradient mesh background */}
+      {/* Vibrant animated gradient mesh background */}
       <div className="absolute inset-0 -z-10">
         <div
           className="animate-gradient-shift absolute inset-0"
           style={{
             background: `
-              radial-gradient(ellipse at 20% 50%, ${platform.brand.primaryColor}15 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 20%, ${platform.brand.secondaryColor}15 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 80%, ${platform.brand.primaryColor}10 0%, transparent 50%)
+              radial-gradient(ellipse at 20% 50%, #667eea30 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, #764ba230 0%, transparent 50%),
+              radial-gradient(ellipse at 40% 80%, #f093fb20 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 60%, #4facfe20 0%, transparent 50%)
             `,
             backgroundSize: "200% 200%",
           }}
         />
       </div>
 
-      {/* Floating orbs with parallax */}
+      {/* Colorful floating orbs */}
       <motion.div
         style={{ x: orbX1, y: orbY1 }}
-        className="animate-float absolute top-1/4 left-[15%] -z-10 h-72 w-72 rounded-full opacity-30 blur-3xl"
+        className="animate-float absolute top-1/4 left-[10%] -z-10 h-80 w-80 rounded-full opacity-40 blur-3xl"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        animate={{ opacity: 0.4 }}
         transition={{ duration: 2 }}
       >
         <div
           className="h-full w-full rounded-full"
           style={{
-            background: `radial-gradient(circle, ${platform.brand.primaryColor}40, transparent 70%)`,
+            background: "radial-gradient(circle, #667eea60, transparent 70%)",
           }}
         />
       </motion.div>
       <motion.div
         style={{ x: orbX2, y: orbY2 }}
-        className="animate-float absolute right-[15%] bottom-1/3 -z-10 h-64 w-64 rounded-full opacity-30 blur-3xl"
+        className="animate-float absolute right-[10%] bottom-1/3 -z-10 h-72 w-72 rounded-full opacity-40 blur-3xl"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        animate={{ opacity: 0.4 }}
         transition={{ duration: 2, delay: 0.5 }}
       >
         <div
           className="h-full w-full rounded-full"
           style={{
-            background: `radial-gradient(circle, ${platform.brand.secondaryColor}40, transparent 70%)`,
+            background: "radial-gradient(circle, #f093fb60, transparent 70%)",
+          }}
+        />
+      </motion.div>
+      <motion.div
+        style={{ x: orbX3, y: orbY3 }}
+        className="animate-float absolute top-[60%] left-[40%] -z-10 h-64 w-64 rounded-full opacity-30 blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ duration: 2, delay: 1 }}
+      >
+        <div
+          className="h-full w-full rounded-full"
+          style={{
+            background: "radial-gradient(circle, #4facfe50, transparent 70%)",
           }}
         />
       </motion.div>
@@ -380,9 +422,9 @@ function HeroSection() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border bg-background/60 px-4 py-1.5 text-sm font-medium text-muted-foreground backdrop-blur-sm">
+          <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 text-sm font-medium text-violet-600 backdrop-blur-sm dark:text-violet-400">
             <Sparkles className="h-3.5 w-3.5" />
-            Digital cards for the modern world
+            100% Free Business Cards & Wedding Invitations
           </span>
         </motion.div>
 
@@ -390,7 +432,7 @@ function HeroSection() {
           text="Your Digital Identity, Beautifully Crafted"
           as="h1"
           splitBy="word"
-          className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+          className="justify-center text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
         />
 
         <motion.p
@@ -400,8 +442,9 @@ function HeroSection() {
           className="mx-auto mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl"
         >
           Create stunning digital business cards and beautiful wedding
-          invitations. Share via QR code, NFC, or a simple link — all from one
-          platform.
+          invitations — <strong className="text-foreground">completely free</strong>.
+          Upgrade to cinematic animated invites for just{" "}
+          <strong className="text-foreground">₹3,000</strong>.
         </motion.p>
 
         <motion.div
@@ -412,7 +455,10 @@ function HeroSection() {
         >
           <MagneticButton strength={0.3}>
             <Link href="/signup">
-              <Button size="lg" className="min-w-[200px] gap-2 text-base">
+              <Button
+                size="lg"
+                className="min-w-[200px] gap-2 bg-gradient-to-r from-violet-600 to-pink-500 text-base text-white hover:from-violet-700 hover:to-pink-600"
+              >
                 Get Started Free
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -423,12 +469,34 @@ function HeroSection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="min-w-[200px] text-base"
+                className="min-w-[200px] border-violet-500/30 text-base hover:bg-violet-500/10"
               >
                 Sign In
               </Button>
             </Link>
           </MagneticButton>
+        </motion.div>
+
+        {/* Highlight badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.0 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          {[
+            { icon: Zap, text: "5 Min Setup", color: "text-amber-500" },
+            { icon: Shield, text: "Razorpay Secure", color: "text-emerald-500" },
+            { icon: Star, text: "50+ Templates", color: "text-violet-500" },
+          ].map((item) => (
+            <span
+              key={item.text}
+              className="inline-flex items-center gap-2 rounded-full bg-muted/50 px-3 py-1.5 text-xs font-medium text-muted-foreground"
+            >
+              <item.icon className={`h-3.5 w-3.5 ${item.color}`} />
+              {item.text}
+            </span>
+          ))}
         </motion.div>
       </div>
 
@@ -456,14 +524,25 @@ function HeroSection() {
 
 function FeaturesSection() {
   return (
-    <section id="features" className="scroll-mt-20 px-6 py-24">
+    <section id="features" className="relative scroll-mt-20 px-6 py-24">
+      {/* Subtle colorful background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-violet-500/5 via-transparent to-pink-500/5" />
+
       <div className="mx-auto max-w-6xl">
         <div className="mb-16 text-center">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block rounded-full bg-emerald-500/10 px-4 py-1 text-sm font-medium text-emerald-600 dark:text-emerald-400"
+          >
+            Packed with Features
+          </motion.span>
           <StaggeredTextReveal
             text="Everything you need"
             as="h2"
             splitBy="word"
-            className="text-3xl font-bold md:text-5xl"
+            className="justify-center text-3xl font-bold md:text-5xl"
           />
           <motion.p
             initial={{ opacity: 0, y: 15 }}
@@ -493,7 +572,10 @@ function FeaturesSection() {
 
 function TemplateShowcase() {
   return (
-    <section className="overflow-hidden bg-muted/30 px-6 py-24">
+    <section className="relative overflow-hidden px-6 py-24">
+      {/* Colorful background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-amber-500/5 via-rose-500/5 to-violet-500/5" />
+
       <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
         {/* Left — text */}
         <motion.div
@@ -502,6 +584,14 @@ function TemplateShowcase() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block rounded-full bg-rose-500/10 px-4 py-1 text-sm font-medium text-rose-600 dark:text-rose-400"
+          >
+            Beautiful Templates
+          </motion.span>
           <StaggeredTextReveal
             text="Templates that leave a lasting impression"
             as="h2"
@@ -523,9 +613,9 @@ function TemplateShowcase() {
           {/* Animated stat counters */}
           <div className="mt-10 grid grid-cols-3 gap-6">
             {[
-              { label: "Business Templates", count: 10, suffix: "+" },
-              { label: "Wedding Templates", count: 30, suffix: "+" },
-              { label: "Animated Invites", count: 17, suffix: "" },
+              { label: "Business Templates", count: 10, suffix: "+", color: "text-blue-500" },
+              { label: "Wedding Templates", count: 30, suffix: "+", color: "text-rose-500" },
+              { label: "Animated Invites", count: 17, suffix: "", color: "text-amber-500" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -535,7 +625,7 @@ function TemplateShowcase() {
                 transition={{ delay: 0.5 + i * 0.15, duration: 0.5 }}
               >
                 <div
-                  className="text-3xl font-bold md:text-4xl"
+                  className={`text-3xl font-bold md:text-4xl ${stat.color}`}
                   style={{ fontFamily: "var(--font-playfair)" }}
                 >
                   <AnimatedCounter
@@ -559,18 +649,25 @@ function TemplateShowcase() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative"
         >
-          <div className="animate-pulse-glow relative overflow-hidden rounded-2xl border bg-card shadow-2xl">
-            <div className="aspect-[4/3] bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 p-8">
-              {/* Stylized card mockup */}
+          <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
+            {/* Colorful gradient card mockup */}
+            <div className="aspect-[4/3] bg-gradient-to-br from-violet-500/10 via-pink-500/10 to-amber-500/10 p-8">
               <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20" />
-                <div className="h-3 w-40 rounded-full bg-muted" />
+                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-violet-500/30 to-pink-500/30" />
+                <div className="h-3 w-40 rounded-full bg-gradient-to-r from-violet-500/20 to-pink-500/20" />
                 <div className="h-2 w-24 rounded-full bg-muted/60" />
                 <div className="mt-4 grid w-full max-w-xs grid-cols-3 gap-3">
-                  {Array.from({ length: 6 }).map((_, i) => (
+                  {[
+                    "from-blue-500/20 to-cyan-400/20",
+                    "from-rose-500/20 to-pink-400/20",
+                    "from-amber-500/20 to-orange-400/20",
+                    "from-emerald-500/20 to-green-400/20",
+                    "from-violet-500/20 to-purple-400/20",
+                    "from-cyan-500/20 to-teal-400/20",
+                  ].map((grad, i) => (
                     <div
                       key={i}
-                      className="aspect-square rounded-lg bg-muted/40"
+                      className={`aspect-square rounded-lg bg-gradient-to-br ${grad}`}
                     />
                   ))}
                 </div>
@@ -578,7 +675,12 @@ function TemplateShowcase() {
             </div>
           </div>
           {/* Decorative floating card behind */}
-          <div className="animate-float absolute -right-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10" />
+          <div className="animate-float absolute -right-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-violet-500/15 to-pink-500/15" />
+          {/* Second decorative layer */}
+          <div
+            className="animate-float absolute -right-8 -bottom-8 -z-20 h-full w-full rounded-2xl bg-gradient-to-br from-amber-500/10 to-rose-500/10"
+            style={{ animationDelay: "2s" }}
+          />
         </motion.div>
       </div>
     </section>
@@ -591,14 +693,25 @@ function TemplateShowcase() {
 
 function PricingSection() {
   return (
-    <section id="pricing" className="scroll-mt-20 px-6 py-24">
+    <section id="pricing" className="relative scroll-mt-20 px-6 py-24">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-500/5 via-transparent to-amber-500/5" />
+
       <div className="mx-auto max-w-4xl">
         <div className="mb-16 text-center">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block rounded-full bg-violet-500/10 px-4 py-1 text-sm font-medium text-violet-600 dark:text-violet-400"
+          >
+            Pricing
+          </motion.span>
           <StaggeredTextReveal
-            text="Simple, transparent pricing"
+            text="Most features, completely free"
             as="h2"
             splitBy="word"
-            className="text-3xl font-bold md:text-5xl"
+            className="justify-center text-3xl font-bold md:text-5xl"
           />
           <motion.p
             initial={{ opacity: 0, y: 15 }}
@@ -607,8 +720,8 @@ function PricingSection() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="mx-auto mt-4 max-w-xl text-muted-foreground"
           >
-            Pay only for what you use. No subscriptions, no hidden fees.
-            One-time payment, lifetime access.
+            Business cards and wedding invitations are free forever.
+            Only animated invites require a one-time payment — no subscriptions.
           </motion.p>
         </div>
 
@@ -622,14 +735,19 @@ function PricingSection() {
               transition={{ duration: 0.5, delay: i * 0.15 }}
               whileHover={{ y: -4 }}
               className={`relative overflow-hidden rounded-2xl border bg-card p-8 shadow-sm transition-shadow hover:shadow-xl ${
-                card.badge ? "border-primary/50 ring-1 ring-primary/20" : ""
+                card.badge ? "ring-2 ring-amber-500/30" : ""
               }`}
             >
+              {/* Colorful top gradient bar */}
+              <div
+                className={`absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-r ${card.gradient}`}
+              />
+
               {card.badge && (
                 <motion.span
                   animate={{ opacity: [0.7, 1, 0.7] }}
                   transition={{ repeat: Infinity, duration: 2 }}
-                  className="absolute top-4 right-4 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground"
+                  className="absolute top-4 right-4 rounded-full bg-gradient-to-r from-amber-500 to-orange-400 px-3 py-1 text-xs font-medium text-white"
                 >
                   {card.badge}
                 </motion.span>
@@ -637,7 +755,7 @@ function PricingSection() {
 
               <div className="mb-2 flex items-center gap-3">
                 <div
-                  className={`inline-flex rounded-xl bg-muted p-2.5 ${card.iconColor}`}
+                  className={`inline-flex rounded-xl bg-gradient-to-br ${card.gradient.replace("500", "500/20").replace("400", "400/20")} p-2.5 ${card.iconColor}`}
                 >
                   <card.icon className="h-5 w-5" />
                 </div>
@@ -646,12 +764,18 @@ function PricingSection() {
 
               <div className="mb-6 mt-4">
                 <span
-                  className="text-4xl font-bold"
+                  className={`text-4xl font-bold ${
+                    card.price === "Free"
+                      ? "bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent"
+                      : "bg-gradient-to-r from-amber-500 to-orange-400 bg-clip-text text-transparent"
+                  }`}
                   style={{ fontFamily: "var(--font-playfair)" }}
                 >
                   {card.price}
                 </span>
-                <span className="ml-1 text-muted-foreground">/ one-time</span>
+                <span className="ml-2 text-muted-foreground">
+                  / {card.priceSubtext}
+                </span>
               </div>
 
               <ul className="mb-8 space-y-3">
@@ -673,10 +797,13 @@ function PricingSection() {
               <MagneticButton strength={0.2} className="w-full">
                 <Link href="/signup" className="block w-full">
                   <Button
-                    className="w-full"
-                    variant={card.badge ? "default" : "outline"}
+                    className={`w-full ${
+                      card.badge
+                        ? "bg-gradient-to-r from-amber-500 to-orange-400 text-white hover:from-amber-600 hover:to-orange-500"
+                        : "bg-gradient-to-r from-emerald-500 to-teal-400 text-white hover:from-emerald-600 hover:to-teal-500"
+                    }`}
                   >
-                    Get Started
+                    {card.price === "Free" ? "Start Free" : "Get Started"}
                   </Button>
                 </Link>
               </MagneticButton>
@@ -689,50 +816,159 @@ function PricingSection() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Social Proof / Stats                                               */
+/*  What You Get (Free vs Paid)                                        */
 /* ------------------------------------------------------------------ */
 
-function StatsSection() {
+function WhatsIncluded() {
   return (
-    <section className="relative overflow-hidden bg-muted/30 px-6 py-24">
-      <div className="mx-auto max-w-4xl">
+    <section className="relative overflow-hidden px-6 py-24">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-rose-500/5 via-transparent to-violet-500/5" />
+
+      <div className="mx-auto max-w-5xl">
         <div className="mb-16 text-center">
           <StaggeredTextReveal
             text="Why choose us"
             as="h2"
             splitBy="word"
-            className="text-3xl font-bold md:text-5xl"
+            className="justify-center text-3xl font-bold md:text-5xl"
           />
         </div>
 
         <div className="grid gap-8 sm:grid-cols-3">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-              className="text-center"
-            >
-              <div className="mb-4 inline-flex rounded-2xl bg-background p-4 shadow-sm">
-                <stat.icon className="h-6 w-6 text-muted-foreground" />
-              </div>
-              <div
-                className="text-5xl font-bold"
-                style={{ fontFamily: "var(--font-playfair)" }}
+          {stats.map((stat, i) => {
+            const colors = ["text-amber-500", "text-violet-500", "text-emerald-500"];
+            const bgColors = ["bg-amber-500/10", "bg-violet-500/10", "bg-emerald-500/10"];
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+                className="text-center"
               >
-                <AnimatedCounter
-                  target={Number(stat.value)}
-                  suffix={stat.suffix}
-                />
-              </div>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {stat.label}
-              </p>
-            </motion.div>
-          ))}
+                <div
+                  className={`mb-4 inline-flex rounded-2xl ${bgColors[i]} p-4 shadow-sm`}
+                >
+                  <stat.icon className={`h-6 w-6 ${colors[i]}`} />
+                </div>
+                <div
+                  className={`text-5xl font-bold ${colors[i]}`}
+                  style={{ fontFamily: "var(--font-playfair)" }}
+                >
+                  <AnimatedCounter
+                    target={Number(stat.value)}
+                    suffix={stat.suffix}
+                  />
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {stat.label}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Animated Invites Highlight                                         */
+/* ------------------------------------------------------------------ */
+
+function AnimatedInviteHighlight() {
+  return (
+    <section className="relative overflow-hidden px-6 py-24">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-amber-500/5 via-rose-500/5 to-violet-500/5" />
+
+      <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
+        {/* Left — visual */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="relative"
+        >
+          <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
+            <div className="aspect-[4/3] bg-gradient-to-br from-amber-500/10 via-rose-500/10 to-violet-500/10 p-8">
+              <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
+                <motion.div
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                  className="rounded-full bg-gradient-to-br from-amber-500/20 to-rose-500/20 p-6"
+                >
+                  <Music className="h-10 w-10 text-amber-500" />
+                </motion.div>
+                <div className="h-3 w-48 rounded-full bg-gradient-to-r from-amber-500/20 to-rose-500/20" />
+                <div className="h-2 w-32 rounded-full bg-muted/40" />
+                <div className="flex gap-2">
+                  {["from-amber-500/20 to-orange-400/20", "from-rose-500/20 to-pink-400/20", "from-violet-500/20 to-purple-400/20"].map((g, i) => (
+                    <motion.div
+                      key={i}
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ repeat: Infinity, duration: 2, delay: i * 0.3 }}
+                      className={`h-14 w-14 rounded-lg bg-gradient-to-br ${g}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="animate-float absolute -left-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-amber-500/15 to-rose-500/15" />
+        </motion.div>
+
+        {/* Right — text */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block rounded-full bg-amber-500/10 px-4 py-1 text-sm font-medium text-amber-600 dark:text-amber-400"
+          >
+            Premium Feature
+          </motion.span>
+          <StaggeredTextReveal
+            text="Cinematic animated invitations"
+            as="h2"
+            splitBy="word"
+            className="text-3xl font-bold md:text-4xl lg:text-5xl"
+          />
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="mt-6 max-w-md text-muted-foreground"
+          >
+            Go beyond static cards. Our animated invites feature background music,
+            parallax scrolling, interactive RSVP, multi-event timelines, and
+            gorgeous scroll-triggered animations — all for just{" "}
+            <strong className="text-foreground">₹3,000</strong> one-time.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="mt-8"
+          >
+            <MagneticButton strength={0.2}>
+              <Link href="/signup">
+                <Button className="gap-2 bg-gradient-to-r from-amber-500 to-orange-400 text-white hover:from-amber-600 hover:to-orange-500">
+                  Explore Animated Invites
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            </MagneticButton>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
@@ -745,18 +981,18 @@ function StatsSection() {
 function FinalCTA() {
   return (
     <section className="relative overflow-hidden px-6 py-24">
-      {/* Gradient background */}
+      {/* Vibrant gradient background */}
       <div
         className="animate-gradient-shift absolute inset-0 -z-10"
         style={{
-          background: platform.brand.gradient,
-          backgroundSize: "200% 200%",
-          opacity: 0.9,
+          background:
+            "linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #667eea 100%)",
+          backgroundSize: "400% 400%",
         }}
       />
       {/* Sparkle overlay */}
       <div className="absolute inset-0 -z-[5]">
-        {Array.from({ length: 12 }).map((_, i) => (
+        {Array.from({ length: 20 }).map((_, i) => (
           <motion.div
             key={i}
             className="absolute h-1 w-1 rounded-full bg-white"
@@ -782,7 +1018,7 @@ function FinalCTA() {
           text="Ready to make a lasting impression?"
           as="h2"
           splitBy="word"
-          className="text-3xl font-bold text-white md:text-5xl"
+          className="justify-center text-3xl font-bold text-white md:text-5xl"
         />
         <motion.p
           initial={{ opacity: 0, y: 15 }}
@@ -792,7 +1028,7 @@ function FinalCTA() {
           className="mx-auto mt-6 max-w-xl text-lg text-white/80"
         >
           Join thousands of users creating beautiful digital cards and
-          invitations. Start building yours today — it only takes 5 minutes.
+          invitations. Start building yours today — it&apos;s free and takes just 5 minutes.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -831,7 +1067,7 @@ export function LandingContent() {
 
       {/* Marquee strip */}
       <TextParallaxMarquee
-        text="Digital Business Cards  &bull;  Wedding Invitations  &bull;  QR Sharing  &bull;  NFC Tap  &bull;  Analytics  &bull;"
+        text="Digital Business Cards  &bull;  Wedding Invitations  &bull;  QR Sharing  &bull;  NFC Tap  &bull;  Analytics  &bull;  Free Forever  &bull;"
         repeat={3}
         baseVelocity={100}
         className="border-y"
@@ -839,8 +1075,9 @@ export function LandingContent() {
 
       <FeaturesSection />
       <TemplateShowcase />
+      <AnimatedInviteHighlight />
       <PricingSection />
-      <StatsSection />
+      <WhatsIncluded />
       <FinalCTA />
       <Footer />
     </main>

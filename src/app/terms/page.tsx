@@ -84,11 +84,12 @@ export default function TermsPage() {
           <section>
             <h2>5. Payment Terms</h2>
             <p>
-              Certain features and products on {name} require a one-time
-              payment. All payments are processed securely through Stripe. Prices
-              are displayed in your local currency (CAD or INR) and are inclusive
-              of applicable taxes unless otherwise stated. All sales are final
-              unless otherwise required by applicable law.
+              Most features on {name} are completely free, including business
+              cards and wedding invitations. Premium features such as animated
+              invites require a one-time payment of ₹3,000. All payments are
+              processed securely through Razorpay. Prices are displayed in INR
+              and are inclusive of applicable taxes unless otherwise stated. All
+              sales are final unless otherwise required by applicable law.
             </p>
             <p>
               By making a purchase, you authorize {name} and our payment
