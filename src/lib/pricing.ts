@@ -24,9 +24,9 @@ export function getUnitPrice(
       animated_invite: 50, // $0.50 CAD
     },
     IN: {
-      business_card: 500, // ₹5.00 INR
-      wedding_card: 500,
-      animated_invite: 2000, // ₹20.00 INR
+      business_card: 5000, // ₹50.00 INR
+      wedding_card: 5000,
+      animated_invite: 5000, // ₹50.00 INR
     },
   };
 

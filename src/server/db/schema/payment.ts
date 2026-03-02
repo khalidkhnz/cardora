@@ -33,6 +33,7 @@ export const payment = createTable("payment", {
       | "payment"
     >()
     .notNull(),
+  inviteId: text("invite_id"),
   payerEmail: text("payer_email"),
   itemData: jsonb("item_data").$type<Record<string, unknown>>(),
   createdAt: timestamp("created_at")

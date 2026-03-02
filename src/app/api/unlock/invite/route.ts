@@ -4,7 +4,7 @@ import { stripe } from "@/lib/stripe";
 import {
   getPaymentByStripeSession,
   updatePaymentStatus,
-  unlockInvite,
+  unlockInviteById,
 } from "@/server/db/queries/payment";
 
 export async function POST(request: NextRequest) {
@@ -13,11 +13,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as { sessionId?: string };
+  const body = (await request.json()) as { sessionId?: string; inviteId?: string };
 
   if (!body.sessionId) {
     return NextResponse.json(
       { error: "Stripe session ID required" },
+      { status: 400 },
+    );
+  }
+
+  if (!body.inviteId) {
+    return NextResponse.json(
+      { error: "Invite ID required" },
       { status: 400 },
     );
   }
@@ -39,7 +46,7 @@ export async function POST(request: NextRequest) {
       await updatePaymentStatus(dbPayment.id, "completed");
     }
 
-    await unlockInvite(session.user.id);
+    await unlockInviteById(body.inviteId, session.user.id);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[Unlock] Invite unlock error:", error);

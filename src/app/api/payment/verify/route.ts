@@ -4,6 +4,7 @@ import { stripe } from "@/lib/stripe";
 import {
   getPaymentByStripeSession,
   updatePaymentStatus,
+  unlockInviteById,
 } from "@/server/db/queries/payment";
 
 export async function POST(request: NextRequest) {
@@ -37,6 +38,15 @@ export async function POST(request: NextRequest) {
 
     if (stripeSession.payment_status === "paid") {
       await updatePaymentStatus(dbPayment.id, "completed");
+
+      // Auto-unlock invite if this payment is for an invite
+      if (
+        (dbPayment.purpose === "animated_invite" ||
+          dbPayment.purpose === "invite_unlock") &&
+        dbPayment.inviteId
+      ) {
+        await unlockInviteById(dbPayment.inviteId, session.user.id);
+      }
 
       return NextResponse.json({
         status: "completed",

@@ -17,6 +17,7 @@ const createSessionSchema = z.object({
     "cart_checkout",
     "payment",
   ]),
+  inviteId: z.string().optional(),
   payerEmail: z.string().email().optional(),
 });
 
@@ -36,6 +37,17 @@ export async function POST(request: NextRequest) {
   }
 
   const body = parsed.data;
+
+  // Require inviteId for invite-related payments
+  if (
+    (body.purpose === "animated_invite" || body.purpose === "invite_unlock") &&
+    !body.inviteId
+  ) {
+    return NextResponse.json(
+      { error: "inviteId is required for invite payments" },
+      { status: 400 },
+    );
+  }
 
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json(
@@ -63,10 +75,13 @@ export async function POST(request: NextRequest) {
       mode: "payment",
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel`,
-      customer_email: body.payerEmail ?? session.user.email,
+      ...(body.payerEmail ?? session.user.email
+        ? { customer_email: body.payerEmail ?? session.user.email }
+        : {}),
       metadata: {
         userId: session.user.id,
         purpose: body.purpose,
+        ...(body.inviteId ? { inviteId: body.inviteId } : {}),
       },
     });
 
@@ -79,14 +94,17 @@ export async function POST(request: NextRequest) {
       stripeSessionId: stripeSession.id,
       status: "pending",
       purpose: body.purpose,
+      inviteId: body.inviteId,
       payerEmail: body.payerEmail ?? session.user.email,
     });
 
     return NextResponse.json({ url: stripeSession.url });
   } catch (error) {
     console.error("[Payment] Create session error:", error);
+    const message =
+      error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: "Failed to create payment session" },
+      { error: "Failed to create payment session", details: message },
       { status: 500 },
     );
   }

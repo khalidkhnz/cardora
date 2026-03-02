@@ -1,32 +1,34 @@
 import { notFound } from "next/navigation";
 import { getUserProfileByUsername } from "@/server/db/queries/user";
-import { getDefaultCard } from "@/server/db/queries/card";
+import { getCardByUserAndSlug } from "@/server/db/queries/card";
 import { PublicProfileView } from "@/components/public/public-profile-view";
 import { platform, pageTitle } from "@/lib/platform";
 import type { Metadata } from "next";
 
 interface Props {
-  params: Promise<{ username: string }>;
+  params: Promise<{ username: string; slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { username } = await params;
+  const { username, slug } = await params;
   const userData = await getUserProfileByUsername(username);
 
   if (!userData?.profile) {
     return { title: pageTitle("User Not Found") };
   }
 
+  const card = await getCardByUserAndSlug(userData.profile.userId, slug);
+
   return {
-    title: pageTitle(userData.name),
+    title: pageTitle(card?.name ?? `${userData.name} - ${slug}`),
     description: userData.profile.profession
       ? `${userData.name} - ${userData.profile.profession}${userData.profile.company ? ` at ${userData.profile.company}` : ""}`
       : `${userData.name}'s digital card on ${platform.name}`,
   };
 }
 
-export default async function PublicProfilePage({ params }: Props) {
-  const { username } = await params;
+export default async function PublicCardSlugPage({ params }: Props) {
+  const { username, slug } = await params;
   const userData = await getUserProfileByUsername(username);
 
   if (!userData?.profile) {
@@ -46,7 +48,11 @@ export default async function PublicProfilePage({ params }: Props) {
     );
   }
 
-  const card = await getDefaultCard(userData.profile.userId);
+  const card = await getCardByUserAndSlug(userData.profile.userId, slug);
+
+  if (!card) {
+    notFound();
+  }
 
   return (
     <PublicProfileView
@@ -67,17 +73,17 @@ export default async function PublicProfilePage({ params }: Props) {
         currency: userData.profile.currency,
       }}
       cardSettings={{
-        cardType: card?.cardType ?? "business",
-        selectedTemplateId: card?.selectedTemplateId ?? null,
-        orientation: card?.orientation ?? "horizontal",
-        cardSize: card?.cardSize ?? "standard",
-        groomName: card?.groomName ?? null,
-        brideName: card?.brideName ?? null,
-        weddingDate: card?.weddingDate ?? null,
-        venue: card?.venue ?? null,
-        groomParentNames: card?.groomParentNames ?? null,
-        brideParentNames: card?.brideParentNames ?? null,
-        deceasedElders: card?.deceasedElders ?? null,
+        cardType: card.cardType ?? "business",
+        selectedTemplateId: card.selectedTemplateId ?? null,
+        orientation: card.orientation ?? "horizontal",
+        cardSize: card.cardSize ?? "standard",
+        groomName: card.groomName ?? null,
+        brideName: card.brideName ?? null,
+        weddingDate: card.weddingDate ?? null,
+        venue: card.venue ?? null,
+        groomParentNames: card.groomParentNames ?? null,
+        brideParentNames: card.brideParentNames ?? null,
+        deceasedElders: card.deceasedElders ?? null,
       }}
     />
   );

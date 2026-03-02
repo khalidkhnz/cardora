@@ -42,6 +42,29 @@ export const updateCardSettingsSchema = z.object({
 
 export type UpdateCardSettingsInput = z.infer<typeof updateCardSettingsSchema>;
 
+export const createCardSchema = z.object({
+  slug: z
+    .string()
+    .min(2)
+    .max(60)
+    .regex(/^[a-z0-9-]+$/, "Only lowercase letters, numbers, and hyphens"),
+  name: z.string().max(100).optional(),
+  cardType: z.enum(["business", "wedding", "engagement", "anniversary"]).optional(),
+  collection: z.string().optional().nullable(),
+  selectedTemplateId: z.string().optional().nullable(),
+  orientation: z.enum(["horizontal", "vertical"]).optional(),
+  cardSize: z.enum(["standard", "large"]).optional(),
+  weddingDate: z.string().optional().nullable(),
+  venue: z.string().optional().nullable(),
+  brideName: z.string().optional().nullable(),
+  groomName: z.string().optional().nullable(),
+  brideParentNames: z.string().optional().nullable(),
+  groomParentNames: z.string().optional().nullable(),
+  deceasedElders: z.string().optional().nullable(),
+});
+
+export type CreateCardInput = z.infer<typeof createCardSchema>;
+
 export const createWeddingInviteSchema = z.object({
   slug: z
     .string()
@@ -78,6 +101,10 @@ export const createWeddingInviteSchema = z.object({
 });
 
 export type CreateWeddingInviteInput = z.infer<typeof createWeddingInviteSchema>;
+
+export const updateWeddingInviteSchema = createWeddingInviteSchema.partial();
+
+export type UpdateWeddingInviteInput = z.infer<typeof updateWeddingInviteSchema>;
 
 export const submitRsvpSchema = z.object({
   inviteSlug: z.string(),

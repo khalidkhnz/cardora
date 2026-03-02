@@ -1,5 +1,7 @@
 import { getSession } from "@/server/better-auth/server";
 import { getUserProfile } from "@/server/db/queries/user";
+import { getUserCards } from "@/server/db/queries/card";
+import { getUserInvites } from "@/server/db/queries/wedding";
 import Link from "next/link";
 import {
   Card,
@@ -24,8 +26,15 @@ export default async function DashboardPage() {
     : null;
 
   const hasProfile = !!profile?.username;
-  const cardPaid = profile?.cardPaid ?? false;
-  const invitePaid = profile?.invitePaid ?? false;
+
+  // Fetch card & invite counts
+  const [cards, invites] = await Promise.all([
+    session?.user ? getUserCards(session.user.id) : [],
+    session?.user ? getUserInvites(session.user.id) : [],
+  ]);
+
+  const cardCount = cards.length;
+  const activeInvites = invites.filter((i) => i.isPaid).length;
 
   return (
     <div className="space-y-6">
@@ -62,19 +71,17 @@ export default async function DashboardPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardDescription>Business Card</CardDescription>
+            <CardDescription>Cards</CardDescription>
             <CardTitle className="text-lg">
-              {cardPaid ? (
-                <Badge variant="default">Unlocked</Badge>
-              ) : (
-                <Badge variant="secondary">Free</Badge>
-              )}
+              <Badge variant={cardCount > 0 ? "default" : "secondary"}>
+                {cardCount} card{cardCount !== 1 ? "s" : ""}
+              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <Link href="/dashboard/card">
               <Button variant="outline" size="sm" className="w-full">
-                Edit Card
+                Manage Cards
               </Button>
             </Link>
           </CardContent>
@@ -82,19 +89,17 @@ export default async function DashboardPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardDescription>Wedding Invite</CardDescription>
+            <CardDescription>Animated Invites</CardDescription>
             <CardTitle className="text-lg">
-              {invitePaid ? (
-                <Badge variant="default">Unlocked</Badge>
-              ) : (
-                <Badge variant="secondary">Free</Badge>
-              )}
+              <Badge variant={activeInvites > 0 ? "default" : "secondary"}>
+                {activeInvites} active / {invites.length} total
+              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <Link href="/dashboard/animated-invite">
               <Button variant="outline" size="sm" className="w-full">
-                Create Invite
+                Manage Invites
               </Button>
             </Link>
           </CardContent>
@@ -157,9 +162,9 @@ export default async function DashboardPage() {
                   href="/dashboard/card"
                   className="text-primary hover:underline"
                 >
-                  Customize your card
+                  Create your cards
                 </Link>{" "}
-                — Choose a template and personalize your design
+                — Choose templates and personalize your designs
               </li>
               <li>
                 Share your card — Send your unique link, QR code, or use NFC

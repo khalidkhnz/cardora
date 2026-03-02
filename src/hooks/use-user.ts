@@ -27,8 +27,6 @@ interface UserProfile {
   currency: string | null;
   profileImage: string | null;
   cardBackgroundImage: string | null;
-  cardPaid: boolean;
-  invitePaid: boolean;
   createdAt: string;
   updatedAt: string;
 }

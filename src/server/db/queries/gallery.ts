@@ -2,7 +2,6 @@ import "server-only";
 import { eq, and, sql } from "drizzle-orm";
 import { db } from "@/server/db";
 import { galleryItem } from "@/server/db/schema/gallery";
-import { userProfile } from "@/server/db/schema/profile";
 
 export async function getGalleryItems(
   userId: string,
@@ -60,23 +59,4 @@ export async function deleteGalleryItem(itemId: string, userId: string) {
     .returning({ id: galleryItem.id });
 
   return result[0] ?? null;
-}
-
-export async function checkPaymentStatus(
-  userId: string,
-  type: "card" | "invite",
-) {
-  const profiles = await db
-    .select({
-      cardPaid: userProfile.cardPaid,
-      invitePaid: userProfile.invitePaid,
-    })
-    .from(userProfile)
-    .where(eq(userProfile.userId, userId))
-    .limit(1);
-
-  const profile = profiles[0];
-  if (!profile) return false;
-
-  return type === "card" ? profile.cardPaid : profile.invitePaid;
 }

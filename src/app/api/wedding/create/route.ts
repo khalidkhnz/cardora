@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getApiSession } from "@/server/auth-helpers";
-import { createOrUpdateInvite } from "@/server/db/queries/wedding";
+import { createInvite } from "@/server/db/queries/wedding";
 import { createWeddingInviteSchema } from "@/lib/validators";
 
 export async function POST(request: NextRequest) {
@@ -19,6 +19,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const invite = await createOrUpdateInvite(session.user.id, parsed.data);
-  return NextResponse.json(invite);
+  try {
+    const invite = await createInvite(session.user.id, parsed.data);
+    return NextResponse.json(invite);
+  } catch (error) {
+    // Handle unique slug constraint violation
+    if (error instanceof Error && error.message.includes("unique")) {
+      return NextResponse.json(
+        { error: "An invite with this slug already exists" },
+        { status: 409 },
+      );
+    }
+    throw error;
+  }
 }

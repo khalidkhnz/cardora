@@ -30,8 +30,6 @@ export const userProfile = createTable("user_profile", {
   currency: text("currency").default("CAD"),
   profileImage: text("profile_image"),
   cardBackgroundImage: text("card_background_image"),
-  cardPaid: boolean("card_paid").default(false).notNull(),
-  invitePaid: boolean("invite_paid").default(false).notNull(),
   createdAt: timestamp("created_at")
     .$defaultFn(() => new Date())
     .notNull(),

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
 import { userKeys } from "./use-user";
+import { weddingKeys } from "./use-wedding";
 
 interface Payment {
   id: string;
@@ -78,6 +79,7 @@ export function useCreateStripeSession() {
       amount: number;
       currency: string;
       purpose: string;
+      inviteId?: string;
       payerEmail?: string;
     }) =>
       apiClient<CreateSessionResponse>("/api/payment/create-stripe-session", {
@@ -121,6 +123,7 @@ export function useVerifyPayment() {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: paymentKeys.history() });
       void queryClient.invalidateQueries({ queryKey: userKeys.profile() });
+      void queryClient.invalidateQueries({ queryKey: weddingKeys.all });
     },
   });
 }

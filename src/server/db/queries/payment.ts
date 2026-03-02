@@ -1,8 +1,8 @@
 import "server-only";
-import { eq, sql } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { db } from "@/server/db";
 import { payment } from "@/server/db/schema/payment";
-import { userProfile } from "@/server/db/schema/profile";
+import { weddingInvite } from "@/server/db/schema/wedding";
 
 export async function createPayment(data: {
   userId: string;
@@ -19,6 +19,7 @@ export async function createPayment(data: {
     | "animated_invite"
     | "cart_checkout"
     | "payment";
+  inviteId?: string;
   payerEmail?: string;
   itemData?: Record<string, unknown>;
 }) {
@@ -102,16 +103,15 @@ export async function updatePaymentStatus(
     .where(eq(payment.id, paymentId));
 }
 
-export async function unlockCard(userId: string) {
-  await db
-    .update(userProfile)
-    .set({ cardPaid: true, updatedAt: new Date() })
-    .where(eq(userProfile.userId, userId));
-}
+/**
+ * Unlock a specific invite by setting isPaid = true on the weddingInvite row.
+ */
+export async function unlockInviteById(inviteId: string, userId: string) {
+  const result = await db
+    .update(weddingInvite)
+    .set({ isPaid: true, updatedAt: new Date() })
+    .where(and(eq(weddingInvite.id, inviteId), eq(weddingInvite.userId, userId)))
+    .returning();
 
-export async function unlockInvite(userId: string) {
-  await db
-    .update(userProfile)
-    .set({ invitePaid: true, updatedAt: new Date() })
-    .where(eq(userProfile.userId, userId));
+  return result[0] ?? null;
 }

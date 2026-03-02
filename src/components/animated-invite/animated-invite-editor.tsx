@@ -24,7 +24,7 @@ import {
 import { getTemplateCategory } from "@/components/animated-invite/template-registry";
 import { ImageUpload } from "@/components/shared/image-upload";
 import { MusicUpload } from "@/components/shared/music-upload";
-import { useCurrentInvite, useCreateInvite } from "@/hooks/use-wedding";
+import { useInvite, useCreateInvite, useUpdateInvite } from "@/hooks/use-wedding";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -40,6 +40,11 @@ interface EventRow {
 interface ThingsToKnowRow {
   label: string;
   detail: string;
+}
+
+interface AnimatedInviteEditorProps {
+  inviteId?: string;
+  onSaved?: () => void;
 }
 
 function TemplatePreviewOverlay({
@@ -146,7 +151,6 @@ function TemplatePreviewOverlay({
           </motion.div>
         </AnimatePresence>
 
-        {/* Prev / Next buttons */}
         {hasPrev && (
           <button
             onClick={goPrev}
@@ -190,14 +194,14 @@ function TemplatePreviewOverlay({
   );
 }
 
-export function AnimatedInviteEditor() {
-  const { data: currentInvite, isLoading } = useCurrentInvite();
+export function AnimatedInviteEditor({ inviteId, onSaved }: AnimatedInviteEditorProps) {
+  const { data: existingInvite, isLoading } = useInvite(inviteId ?? "");
   const createInvite = useCreateInvite();
+  const updateInviteMutation = useUpdateInvite(inviteId ?? "");
 
-  const [previewTemplateId, setPreviewTemplateId] = useState<string | null>(
-    null,
-  );
+  const isEditing = !!inviteId;
 
+  const [previewTemplateId, setPreviewTemplateId] = useState<string | null>(null);
   const [selectedTemplateId, setSelectedTemplateId] = useState("motion-video");
   const [category, setCategory] = useState("All");
   const [slug, setSlug] = useState("");
@@ -226,27 +230,27 @@ export function AnimatedInviteEditor() {
   const [thingsToKnow, setThingsToKnow] = useState<ThingsToKnowRow[]>([]);
 
   useEffect(() => {
-    if (currentInvite) {
-      setSelectedTemplateId(currentInvite.templateId);
-      setSlug(currentInvite.slug);
-      setGroomName(currentInvite.groomName ?? "");
-      setBrideName(currentInvite.brideName ?? "");
-      setWeddingDate(currentInvite.weddingDate ?? "");
-      setVenue(currentInvite.venue ?? "");
-      setVenueAddress(currentInvite.venueAddress ?? "");
-      setStory(currentInvite.story ?? "");
-      setHeroImage(currentInvite.heroImage);
-      setMusicUrl(currentInvite.musicUrl);
-      setWeddingTime(currentInvite.weddingTime ?? "");
-      setCouplePhoto(currentInvite.couplePhoto);
-      setBackgroundImage(currentInvite.backgroundImage);
-      setGroomFatherName(currentInvite.groomFatherName ?? "");
-      setGroomMotherName(currentInvite.groomMotherName ?? "");
-      setBrideFatherName(currentInvite.brideFatherName ?? "");
-      setBrideMotherName(currentInvite.brideMotherName ?? "");
-      setCoupleMessage(currentInvite.coupleMessage ?? "");
-      setEvents(currentInvite.events ?? []);
-      const extra = currentInvite.extraData;
+    if (existingInvite && isEditing) {
+      setSelectedTemplateId(existingInvite.templateId);
+      setSlug(existingInvite.slug);
+      setGroomName(existingInvite.groomName ?? "");
+      setBrideName(existingInvite.brideName ?? "");
+      setWeddingDate(existingInvite.weddingDate ?? "");
+      setVenue(existingInvite.venue ?? "");
+      setVenueAddress(existingInvite.venueAddress ?? "");
+      setStory(existingInvite.story ?? "");
+      setHeroImage(existingInvite.heroImage);
+      setMusicUrl(existingInvite.musicUrl);
+      setWeddingTime(existingInvite.weddingTime ?? "");
+      setCouplePhoto(existingInvite.couplePhoto);
+      setBackgroundImage(existingInvite.backgroundImage);
+      setGroomFatherName(existingInvite.groomFatherName ?? "");
+      setGroomMotherName(existingInvite.groomMotherName ?? "");
+      setBrideFatherName(existingInvite.brideFatherName ?? "");
+      setBrideMotherName(existingInvite.brideMotherName ?? "");
+      setCoupleMessage(existingInvite.coupleMessage ?? "");
+      setEvents(existingInvite.events ?? []);
+      const extra = existingInvite.extraData;
       if (extra) {
         setHashtag((extra.hashtag as string) ?? "");
         const ttk = extra.thingsToKnow as ThingsToKnowRow[] | undefined;
@@ -255,7 +259,7 @@ export function AnimatedInviteEditor() {
         }
       }
     }
-  }, [currentInvite]);
+  }, [existingInvite, isEditing]);
 
   const templateCategory = getTemplateCategory(selectedTemplateId);
   const showMultiEventFields = templateCategory === "multi-event";
@@ -314,34 +318,44 @@ export function AnimatedInviteEditor() {
     if (filteredThingsToKnow.length > 0)
       extraData.thingsToKnow = filteredThingsToKnow;
 
+    const payload = {
+      slug: slug.trim().toLowerCase(),
+      templateId: selectedTemplateId,
+      groomName: groomName || undefined,
+      brideName: brideName || undefined,
+      weddingDate: weddingDate || undefined,
+      venue: venue || undefined,
+      venueAddress: venueAddress || undefined,
+      story: story || undefined,
+      weddingTime: weddingTime || undefined,
+      couplePhoto: couplePhoto ?? undefined,
+      backgroundImage: backgroundImage ?? undefined,
+      groomFatherName: groomFatherName || undefined,
+      groomMotherName: groomMotherName || undefined,
+      brideFatherName: brideFatherName || undefined,
+      brideMotherName: brideMotherName || undefined,
+      coupleMessage: coupleMessage || undefined,
+      events: events.length > 0 ? events : undefined,
+      extraData: Object.keys(extraData).length > 0 ? extraData : undefined,
+    };
+
     try {
-      await createInvite.mutateAsync({
-        slug: slug.trim().toLowerCase(),
-        templateId: selectedTemplateId,
-        groomName: groomName || undefined,
-        brideName: brideName || undefined,
-        weddingDate: weddingDate || undefined,
-        venue: venue || undefined,
-        venueAddress: venueAddress || undefined,
-        story: story || undefined,
-        weddingTime: weddingTime || undefined,
-        couplePhoto: couplePhoto ?? undefined,
-        backgroundImage: backgroundImage ?? undefined,
-        groomFatherName: groomFatherName || undefined,
-        groomMotherName: groomMotherName || undefined,
-        brideFatherName: brideFatherName || undefined,
-        brideMotherName: brideMotherName || undefined,
-        coupleMessage: coupleMessage || undefined,
-        events: events.length > 0 ? events : undefined,
-        extraData: Object.keys(extraData).length > 0 ? extraData : undefined,
-      });
-      toast.success("Invite saved!");
+      if (isEditing) {
+        await updateInviteMutation.mutateAsync(payload);
+        toast.success("Invite updated!");
+      } else {
+        await createInvite.mutateAsync(payload);
+        toast.success("Invite created!");
+      }
+      onSaved?.();
     } catch {
-      toast.error("Failed to save invite");
+      toast.error(isEditing ? "Failed to update invite" : "Failed to create invite");
     }
   }
 
-  if (isLoading) {
+  const isSaving = createInvite.isPending || updateInviteMutation.isPending;
+
+  if (isLoading && isEditing) {
     return (
       <div className="text-muted-foreground py-8 text-center">Loading...</div>
     );
@@ -467,10 +481,13 @@ export function AnimatedInviteEditor() {
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
                 placeholder="john-and-jane"
+                disabled={isEditing}
               />
             </div>
             <p className="text-muted-foreground text-xs">
-              Only lowercase letters, numbers, and hyphens
+              {isEditing
+                ? "Slug cannot be changed after creation"
+                : "Only lowercase letters, numbers, and hyphens"}
             </p>
           </div>
 
@@ -804,23 +821,23 @@ export function AnimatedInviteEditor() {
       {/* Save */}
       <Button
         onClick={() => void handleSave()}
-        disabled={createInvite.isPending}
+        disabled={isSaving}
         size="lg"
         className="w-full sm:w-auto"
       >
-        {createInvite.isPending ? "Saving..." : "Save Invite"}
+        {isSaving ? "Saving..." : isEditing ? "Update Invite" : "Create Invite"}
       </Button>
 
-      {currentInvite && (
+      {isEditing && existingInvite && (
         <p className="text-muted-foreground text-sm">
           Preview your invite at{" "}
           <a
-            href={`/wedding/${currentInvite.slug}`}
+            href={`/wedding/${existingInvite.slug}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary underline"
           >
-            /wedding/{currentInvite.slug}
+            /wedding/{existingInvite.slug}
           </a>
         </p>
       )}

@@ -4,8 +4,7 @@ import { stripe } from "@/lib/stripe";
 import {
   getPaymentByStripeSession,
   updatePaymentStatus,
-  unlockCard,
-  unlockInvite,
+  unlockInviteById,
 } from "@/server/db/queries/payment";
 
 export async function POST(request: NextRequest) {
@@ -17,6 +16,7 @@ export async function POST(request: NextRequest) {
   const body = (await request.json()) as {
     sessionId: string;
     type: "card" | "invite";
+    inviteId?: string;
   };
 
   if (!body.sessionId) {
@@ -43,9 +43,12 @@ export async function POST(request: NextRequest) {
       await updatePaymentStatus(dbPayment.id, "completed");
 
       if (body.type === "card") {
-        await unlockCard(session.user.id);
+        // Cards are free — no unlock needed
       } else {
-        await unlockInvite(session.user.id);
+        const inviteId = body.inviteId ?? dbPayment.inviteId;
+        if (inviteId) {
+          await unlockInviteById(inviteId, session.user.id);
+        }
       }
 
       return NextResponse.json({ success: true, status: "unlocked" });

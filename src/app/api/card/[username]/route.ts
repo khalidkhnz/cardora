@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserProfileByUsername } from "@/server/db/queries/user";
-import { getCardSettings } from "@/server/db/queries/card";
+import { getDefaultCard } from "@/server/db/queries/card";
 import { db } from "@/server/db";
 import { analyticsEvent } from "@/server/db/schema/analytics";
 
@@ -50,7 +50,7 @@ export async function GET(
     .catch((_e: unknown) => { /* analytics failure is non-critical */ });
 
   // Get card settings
-  const settings = await getCardSettings(userData.profile.userId);
+  const settings = await getDefaultCard(userData.profile.userId);
 
   return NextResponse.json({
     name: userData.name,

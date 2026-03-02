@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
-import type { CreateWeddingInviteInput } from "@/lib/validators";
+import type { CreateWeddingInviteInput, UpdateWeddingInviteInput } from "@/lib/validators";
 
 interface WeddingEvent {
   name: string;
@@ -42,22 +42,28 @@ interface WeddingInvite {
 
 export const weddingKeys = {
   all: ["wedding"] as const,
+  list: () => [...weddingKeys.all, "list"] as const,
   current: () => [...weddingKeys.all, "current"] as const,
   bySlug: (slug: string) => [...weddingKeys.all, "slug", slug] as const,
+  detail: (inviteId: string) => [...weddingKeys.all, "detail", inviteId] as const,
 };
 
-export function useWeddingInvite(slug: string) {
+// ---------------------------------------------------------------------------
+// Multi-invite hooks
+// ---------------------------------------------------------------------------
+
+export function useUserInvites() {
   return useQuery({
-    queryKey: weddingKeys.bySlug(slug),
-    queryFn: () => apiClient<WeddingInvite>(`/api/wedding/${slug}`),
-    enabled: !!slug,
+    queryKey: weddingKeys.list(),
+    queryFn: () => apiClient<WeddingInvite[]>("/api/wedding/list"),
   });
 }
 
-export function useCurrentInvite() {
+export function useInvite(inviteId: string) {
   return useQuery({
-    queryKey: weddingKeys.current(),
-    queryFn: () => apiClient<WeddingInvite | null>("/api/wedding/current"),
+    queryKey: weddingKeys.detail(inviteId),
+    queryFn: () => apiClient<WeddingInvite>(`/api/wedding/invite/${inviteId}`),
+    enabled: !!inviteId,
   });
 }
 
@@ -69,8 +75,24 @@ export function useCreateInvite() {
         method: "POST",
         body: JSON.stringify(data),
       }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: weddingKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: weddingKeys.current() });
+    },
+  });
+}
+
+export function useUpdateInvite(inviteId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: UpdateWeddingInviteInput) =>
+      apiClient<WeddingInvite>(`/api/wedding/invite/${inviteId}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+      }),
     onSuccess: (data) => {
-      queryClient.setQueryData(weddingKeys.current(), data);
+      queryClient.setQueryData(weddingKeys.detail(inviteId), data);
+      void queryClient.invalidateQueries({ queryKey: weddingKeys.list() });
     },
   });
 }
@@ -78,10 +100,34 @@ export function useCreateInvite() {
 export function useDeleteInvite() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () =>
-      apiClient("/api/wedding/current", { method: "DELETE" }),
+    mutationFn: (inviteId: string) =>
+      apiClient(`/api/wedding/invite/${inviteId}`, { method: "DELETE" }),
     onSuccess: () => {
-      queryClient.setQueryData(weddingKeys.current(), null);
+      void queryClient.invalidateQueries({ queryKey: weddingKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: weddingKeys.current() });
     },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Public / slug-based hooks
+// ---------------------------------------------------------------------------
+
+export function useWeddingInvite(slug: string) {
+  return useQuery({
+    queryKey: weddingKeys.bySlug(slug),
+    queryFn: () => apiClient<WeddingInvite>(`/api/wedding/${slug}`),
+    enabled: !!slug,
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Backward-compat hooks
+// ---------------------------------------------------------------------------
+
+export function useCurrentInvite() {
+  return useQuery({
+    queryKey: weddingKeys.current(),
+    queryFn: () => apiClient<WeddingInvite | null>("/api/wedding/current"),
   });
 }

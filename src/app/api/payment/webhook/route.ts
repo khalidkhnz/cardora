@@ -4,8 +4,7 @@ import { stripe } from "@/lib/stripe";
 import {
   getPaymentByStripeSession,
   updatePaymentStatus,
-  unlockCard,
-  unlockInvite,
+  unlockInviteById,
 } from "@/server/db/queries/payment";
 import { sendPaymentSuccessEmail } from "@/server/utils/email";
 import { getOriginFromRequest } from "@/server/auth-helpers";
@@ -47,22 +46,25 @@ export async function POST(request: NextRequest) {
     if (dbPayment) {
       await updatePaymentStatus(dbPayment.id, "completed");
 
+      const metadata = session.metadata ?? {};
+      const inviteId = metadata.inviteId ?? dbPayment.inviteId;
+
       // Auto-unlock based on purpose
       if (
-        dbPayment.purpose === "card_unlock" ||
-        dbPayment.purpose === "business_card"
-      ) {
-        await unlockCard(dbPayment.userId);
-      } else if (
         dbPayment.purpose === "invite_unlock" ||
         dbPayment.purpose === "animated_invite"
       ) {
-        await unlockInvite(dbPayment.userId);
+        if (inviteId) {
+          await unlockInviteById(inviteId, dbPayment.userId);
+        }
       } else if (dbPayment.purpose === "cart_checkout") {
-        // Unlock both for cart purchases
-        await unlockCard(dbPayment.userId);
-        await unlockInvite(dbPayment.userId);
+        // For cart checkouts, unlock invites from itemData
+        const itemData = dbPayment.itemData;
+        if (itemData?.inviteId && typeof itemData.inviteId === "string") {
+          await unlockInviteById(itemData.inviteId, dbPayment.userId);
+        }
       }
+      // card_unlock / business_card — cards are now free, no unlock needed
 
       // Send payment success email (fire-and-forget)
       void (async () => {
