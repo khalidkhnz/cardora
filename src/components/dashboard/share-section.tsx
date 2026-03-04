@@ -8,7 +8,7 @@ interface ShareSectionProps {
 }
 
 export function ShareSection({ username }: ShareSectionProps) {
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : (env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000");
+  const baseUrl = env.NEXT_PUBLIC_FE_BASE_URL ?? env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
   const profileUrl = `${baseUrl}/u/${username}`;
 
   return (

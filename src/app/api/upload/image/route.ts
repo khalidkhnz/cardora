@@ -1,7 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getApiSession } from "@/server/auth-helpers";
-import { writeFile, unlink, readdir } from "fs/promises";
-import { join } from "path";
+import {
+  buildImageKey,
+  uploadToS3,
+  deleteFromS3,
+  listUserFiles,
+  isOwnedByUser,
+} from "@/lib/s3";
 
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = [
@@ -20,7 +25,7 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData();
   const file = formData.get("file") as File | null;
-  const type = formData.get("type") as string | null; // profile, background, couple, card
+  const type = formData.get("type") as string | null;
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -41,34 +46,20 @@ export async function POST(request: NextRequest) {
   }
 
   const ext = file.name.split(".").pop() ?? "jpg";
-  const timestamp = Date.now();
-  const random = Math.random().toString(36).substring(2, 8);
-  const filename = `${session.user.id}-${timestamp}-${random}.${ext}`;
-
-  const uploadDir = join(process.cwd(), "public", "uploads");
-  const filePath = join(uploadDir, filename);
-
+  const key = buildImageKey(session.user.id, ext);
   const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(filePath, buffer);
 
-  // If this is replacing an existing image (type=profile or type=background),
-  // delete old file passed via form data
+  const url = await uploadToS3({ key, body: buffer, contentType: file.type });
+
+  // Delete old image if replacing
   const oldUrl = formData.get("oldUrl") as string | null;
   if (oldUrl) {
-    const oldFilename = oldUrl.split("/").pop();
-    if (oldFilename) {
-      const oldPath = join(uploadDir, oldFilename);
-      await unlink(oldPath).catch(() => {
-        /* file may not exist */
-      });
-    }
+    await deleteFromS3(oldUrl);
   }
-
-  const url = `/uploads/${filename}`;
 
   return NextResponse.json({
     url,
-    filename,
+    filename: key.split("/").pop()!,
     type: type ?? "general",
     size: file.size,
   });
@@ -90,16 +81,11 @@ export async function DELETE(request: NextRequest) {
     );
   }
 
-  const filename = imageUrl.split("/").pop();
-  if (!filename?.startsWith(session.user.id)) {
+  if (!isOwnedByUser(imageUrl, session.user.id)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   }
 
-  const uploadDir = join(process.cwd(), "public", "uploads");
-  const filePath = join(uploadDir, filename);
-  await unlink(filePath).catch(() => {
-    /* file may not exist */
-  });
+  await deleteFromS3(imageUrl);
 
   return NextResponse.json({ success: true });
 }
@@ -110,21 +96,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const uploadDir = join(process.cwd(), "public", "uploads");
+  const files = await listUserFiles(`uploads/images/${session.user.id}/`);
 
-  let files: string[];
-  try {
-    files = await readdir(uploadDir);
-  } catch {
-    files = [];
-  }
-
-  const userFiles = files
-    .filter((f) => f.startsWith(session.user.id))
-    .map((f) => ({
-      url: `/uploads/${f}`,
-      filename: f,
-    }));
+  const userFiles = files.map((f) => ({
+    url: f.url,
+    filename: f.key.split("/").pop()!,
+  }));
 
   return NextResponse.json(userFiles);
 }

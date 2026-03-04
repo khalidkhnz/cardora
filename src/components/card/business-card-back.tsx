@@ -38,10 +38,7 @@ function BackLayout({
 }) {
   const { primary, secondary, accent } = template.colors;
   const { heading: headingFont, body: bodyFont } = template.fonts;
-  const profileUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/u/${username ?? ""}`
-      : `${env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/u/${username ?? ""}`;
+  const profileUrl = `${env.NEXT_PUBLIC_FE_BASE_URL ?? env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/u/${username ?? ""}`;
 
   const subtleColor =
     textColor === "#1F2937" ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.55)";

@@ -48,10 +48,7 @@ function WeddingBackLayout({
   slug?: string | null;
 }) {
   const { primary, secondary, accent, text } = template.colors;
-  const rsvpUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/rsvp/${slug ?? ""}`
-      : `${env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/rsvp/${slug ?? ""}`;
+  const rsvpUrl = `${env.NEXT_PUBLIC_FE_BASE_URL ?? env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/rsvp/${slug ?? ""}`;
 
   return (
     <div

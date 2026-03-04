@@ -1,7 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getApiSession } from "@/server/auth-helpers";
-import { writeFile, unlink } from "fs/promises";
-import { join } from "path";
+import {
+  buildAudioKey,
+  uploadToS3,
+  deleteFromS3,
+  isOwnedByUser,
+} from "@/lib/s3";
 
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 const ALLOWED_TYPES = [
@@ -43,33 +47,20 @@ export async function POST(request: NextRequest) {
   }
 
   const ext = file.name.split(".").pop() ?? "mp3";
-  const timestamp = Date.now();
-  const random = Math.random().toString(36).substring(2, 8);
-  const filename = `${session.user.id}-audio-${timestamp}-${random}.${ext}`;
-
-  const uploadDir = join(process.cwd(), "public", "uploads");
-  const filePath = join(uploadDir, filename);
-
+  const key = buildAudioKey(session.user.id, ext);
   const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(filePath, buffer);
 
-  // Delete old audio if provided
+  const url = await uploadToS3({ key, body: buffer, contentType: file.type });
+
+  // Delete old audio if replacing
   const oldUrl = formData.get("oldUrl") as string | null;
   if (oldUrl) {
-    const oldFilename = oldUrl.split("/").pop();
-    if (oldFilename) {
-      const oldPath = join(uploadDir, oldFilename);
-      await unlink(oldPath).catch(() => {
-        /* file may not exist */
-      });
-    }
+    await deleteFromS3(oldUrl);
   }
-
-  const url = `/uploads/${filename}`;
 
   return NextResponse.json({
     url,
-    filename,
+    filename: key.split("/").pop()!,
     size: file.size,
   });
 }
@@ -90,16 +81,11 @@ export async function DELETE(request: NextRequest) {
     );
   }
 
-  const filename = audioUrl.split("/").pop();
-  if (!filename?.startsWith(session.user.id)) {
+  if (!isOwnedByUser(audioUrl, session.user.id)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   }
 
-  const uploadDir = join(process.cwd(), "public", "uploads");
-  const filePath = join(uploadDir, filename);
-  await unlink(filePath).catch(() => {
-    /* file may not exist */
-  });
+  await deleteFromS3(audioUrl);
 
   return NextResponse.json({ success: true });
 }
