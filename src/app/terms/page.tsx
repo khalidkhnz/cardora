@@ -86,8 +86,8 @@ export default function TermsPage() {
             <p>
               Most features on {name} are completely free, including business
               cards and wedding invitations. Premium features such as animated
-              invites require a one-time payment of ₹3,000. All payments are
-              processed securely through Razorpay. Prices are displayed in INR
+              invites require a one-time payment of C$49.99. All payments are
+              processed securely through Stripe. Prices are displayed in CAD
               and are inclusive of applicable taxes unless otherwise stated. All
               sales are final unless otherwise required by applicable law.
             </p>

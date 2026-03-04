@@ -27,13 +27,13 @@ export const platform = {
   locale: "en",
 
   /** Default locale for date/number formatting (Intl) */
-  formatLocale: "en-IN",
+  formatLocale: "en-CA",
 
   /** Default country code (ISO 3166-1 alpha-2) */
-  defaultCountry: "IN" as const,
+  defaultCountry: "CA" as const,
 
   /** Default currency code (ISO 4217) */
-  defaultCurrency: "INR",
+  defaultCurrency: "CAD",
 
   /** Minimum password length for auth */
   minPasswordLength: 8,

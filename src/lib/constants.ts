@@ -4,7 +4,6 @@ export const APP_NAME = platform.name;
 
 export const COUNTRIES = {
   CA: { name: "Canada", currency: "CAD", symbol: "$" },
-  IN: { name: "India", currency: "INR", symbol: "₹" },
 } as const;
 
 export type CountryCode = keyof typeof COUNTRIES;
@@ -13,14 +12,8 @@ export const PRICING = {
   CA: {
     businessCard: 0, // free
     weddingInvite: 0, // free
-    animatedInvite: 300000, // ₹3,000 in paise (INR only)
-    currency: "INR",
-  },
-  IN: {
-    businessCard: 0, // free
-    weddingInvite: 0, // free
-    animatedInvite: 300000, // ₹3,000 in paise
-    currency: "INR",
+    animatedInvite: 4999, // C$49.99 in cents (CAD)
+    currency: "CAD",
   },
 } as const;
 

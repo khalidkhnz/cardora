@@ -16,7 +16,7 @@ export const payment = createTable("payment", {
     onDelete: "cascade",
   }),
   amount: integer("amount").notNull(),
-  currency: text("currency").notNull().default("INR"),
+  currency: text("currency").notNull().default("CAD"),
   paymentMethod: text("payment_method").$type<"razorpay" | "interac">().notNull(),
   razorpayOrderId: text("razorpay_order_id"),
   razorpayPaymentId: text("razorpay_payment_id"),

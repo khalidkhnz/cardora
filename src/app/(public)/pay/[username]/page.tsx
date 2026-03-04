@@ -99,7 +99,7 @@ export default function PayPage() {
           body: JSON.stringify({
             username: params.username,
             amount: amountInPaise,
-            currency: profile.currency ?? "INR",
+            currency: profile.currency ?? "CAD",
             payerEmail: payerEmail || undefined,
           }),
         },
@@ -180,7 +180,7 @@ export default function PayPage() {
             </p>
             {amount && (
               <p className="mt-2 text-lg font-semibold">
-                {formatCurrency(Math.round(parseFloat(amount) * 100), profile.currency ?? "INR")}
+                {formatCurrency(Math.round(parseFloat(amount) * 100), profile.currency ?? "CAD")}
               </p>
             )}
           </CardContent>
@@ -194,7 +194,7 @@ export default function PayPage() {
     );
   }
 
-  const currency = profile.currency ?? "INR";
+  const currency = profile.currency ?? "CAD";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">

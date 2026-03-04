@@ -55,7 +55,7 @@ const features = [
     icon: Heart,
     title: "Wedding Invitations",
     description:
-      "30+ stunning static templates. Beautiful designs crafted for your most special day — completely free.",
+      "30+ stunning static templates. Beautiful designs crafted for your most special day, completely free.",
     gradient: "from-rose-500 to-pink-400",
     bgGradient: "from-rose-500/20 to-pink-400/20",
     iconColor: "text-rose-500",
@@ -64,7 +64,7 @@ const features = [
     icon: Sparkles,
     title: "Animated Invites",
     description:
-      "Cinematic invitations with music, parallax animations, and interactive RSVP — truly unforgettable.",
+      "Cinematic invitations with music, parallax animations, and interactive RSVP. Truly unforgettable.",
     gradient: "from-amber-500 to-orange-400",
     bgGradient: "from-amber-500/20 to-orange-400/20",
     iconColor: "text-amber-500",
@@ -91,7 +91,7 @@ const features = [
     icon: Globe,
     title: "Multi-Country Support",
     description:
-      "Localized experience for India and Canada. Razorpay-powered secure payments in INR.",
+      "Stripe-powered secure payments in Canadian Dollars. Built for Canada.",
     gradient: "from-cyan-500 to-teal-400",
     bgGradient: "from-cyan-500/20 to-teal-400/20",
     iconColor: "text-cyan-500",
@@ -121,7 +121,7 @@ const pricingCards = [
     title: "Animated Invites",
     icon: Sparkles,
     iconColor: "text-amber-500",
-    price: "₹3,000",
+    price: "C$49.99",
     priceSubtext: "one-time",
     badge: "Premium",
     accentColor: "amber",
@@ -442,9 +442,9 @@ function HeroSection() {
           className="mx-auto mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl"
         >
           Create stunning digital business cards and beautiful wedding
-          invitations — <strong className="text-foreground">completely free</strong>.
+          invitations, <strong className="text-foreground">completely free</strong>.
           Upgrade to cinematic animated invites for just{" "}
-          <strong className="text-foreground">₹3,000</strong>.
+          <strong className="text-foreground">C$49.99</strong>.
         </motion.p>
 
         <motion.div
@@ -486,7 +486,7 @@ function HeroSection() {
         >
           {[
             { icon: Zap, text: "5 Min Setup", color: "text-amber-500" },
-            { icon: Shield, text: "Razorpay Secure", color: "text-emerald-500" },
+            { icon: Shield, text: "Stripe Secure", color: "text-emerald-500" },
             { icon: Star, text: "50+ Templates", color: "text-violet-500" },
           ].map((item) => (
             <span
@@ -721,7 +721,7 @@ function PricingSection() {
             className="mx-auto mt-4 max-w-xl text-muted-foreground"
           >
             Business cards and wedding invitations are free forever.
-            Only animated invites require a one-time payment — no subscriptions.
+            Only animated invites require a one-time payment. No subscriptions.
           </motion.p>
         </div>
 
@@ -949,8 +949,8 @@ function AnimatedInviteHighlight() {
           >
             Go beyond static cards. Our animated invites feature background music,
             parallax scrolling, interactive RSVP, multi-event timelines, and
-            gorgeous scroll-triggered animations — all for just{" "}
-            <strong className="text-foreground">₹3,000</strong> one-time.
+            gorgeous scroll-triggered animations, all for just{" "}
+            <strong className="text-foreground">C$49.99</strong> one-time.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -1028,7 +1028,7 @@ function FinalCTA() {
           className="mx-auto mt-6 max-w-xl text-lg text-white/80"
         >
           Join thousands of users creating beautiful digital cards and
-          invitations. Start building yours today — it&apos;s free and takes just 5 minutes.
+          invitations. Start building yours today. It&apos;s free and takes just 5 minutes.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -1044,7 +1044,7 @@ function FinalCTA() {
                 variant="secondary"
                 className="min-w-[220px] gap-2 text-base"
               >
-                Create Your Card — Free
+                Create Your Card - Free
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>

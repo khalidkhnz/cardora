@@ -26,8 +26,8 @@ export const userProfile = createTable("user_profile", {
   fixedAmount: integer("fixed_amount"),
   interacEmail: text("interac_email"),
   theme: text("theme").default("default"),
-  country: text("country").default("IN"),
-  currency: text("currency").default("INR"),
+  country: text("country").default("CA"),
+  currency: text("currency").default("CAD"),
   profileImage: text("profile_image"),
   cardBackgroundImage: text("card_background_image"),
   createdAt: timestamp("created_at")
