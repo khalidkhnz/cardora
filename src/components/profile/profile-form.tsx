@@ -24,6 +24,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ImageUpload } from "@/components/shared/image-upload";
 import { COUNTRIES, type CountryCode } from "@/lib/constants";
 import { platform } from "@/lib/platform";
 
@@ -46,6 +47,7 @@ export function ProfileForm() {
     fixedAmount: null as number | null,
     interacEmail: null as string | null,
     socialLinks: {} as Record<string, string>,
+    profileImage: null as string | null,
   });
 
   useEffect(() => {
@@ -65,6 +67,7 @@ export function ProfileForm() {
         fixedAmount: profile.fixedAmount,
         interacEmail: profile.interacEmail,
         socialLinks: profile.socialLinks ?? {},
+        profileImage: profile.profileImage ?? null,
       });
     }
   }, [profile]);
@@ -104,6 +107,41 @@ export function ProfileForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Profile Image */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Profile Photo</CardTitle>
+          <CardDescription>
+            Upload a photo that will appear on your public profile
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-6">
+            {form.profileImage ? (
+              <div
+                className="h-20 w-20 shrink-0 rounded-full border-2 bg-cover bg-center"
+                style={{ backgroundImage: `url(${form.profileImage})` }}
+              />
+            ) : (
+              <div className="bg-muted text-muted-foreground flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 text-xl font-bold">
+                {profile?.name
+                  ?.split(" ")
+                  .map((w: string) => w[0])
+                  .join("")
+                  .toUpperCase()
+                  .slice(0, 2) ?? "?"}
+              </div>
+            )}
+            <ImageUpload
+              value={form.profileImage}
+              onChange={(url) => updateField("profileImage", url)}
+              type="profile"
+              className="flex-1"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Basic Info */}
       <Card>
         <CardHeader>

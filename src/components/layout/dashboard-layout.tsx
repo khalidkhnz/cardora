@@ -60,7 +60,7 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
       </aside>
 
       {/* Main content */}
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         {/* Header */}
         <header className="flex h-16 shrink-0 items-center justify-between border-b bg-card px-4 lg:px-6">
           <div className="flex items-center gap-4">

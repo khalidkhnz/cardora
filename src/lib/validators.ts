@@ -21,6 +21,7 @@ export const updateProfileSchema = z.object({
   theme: z.string().optional(),
   country: z.string().length(2).optional(),
   currency: z.string().length(3).optional(),
+  profileImage: z.string().url().optional().nullable(),
 });
 
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
