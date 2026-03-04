@@ -8,6 +8,7 @@ import {
 } from "@/lib/templates/business-card-templates";
 import { getTextColor, type UserCardData } from "./business-card-preview";
 import { platform } from "@/lib/platform";
+import { env } from "@/env";
 
 interface BusinessCardBackProps {
   user: UserCardData;
@@ -40,7 +41,7 @@ function BackLayout({
   const profileUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/u/${username ?? ""}`
-      : `/u/${username ?? ""}`;
+      : `${env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/u/${username ?? ""}`;
 
   const subtleColor =
     textColor === "#1F2937" ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.55)";

@@ -1,13 +1,14 @@
 "use client";
 
 import { QRCodeCard } from "@/components/shared/qr-code-card";
+import { env } from "@/env";
 
 interface ShareSectionProps {
   username: string;
 }
 
 export function ShareSection({ username }: ShareSectionProps) {
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : (env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000");
   const profileUrl = `${baseUrl}/u/${username}`;
 
   return (

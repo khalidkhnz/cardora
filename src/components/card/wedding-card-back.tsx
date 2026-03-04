@@ -8,6 +8,7 @@ import {
 } from "@/lib/templates/wedding-card-templates";
 import type { WeddingCardData } from "./wedding-card-preview";
 import { platform } from "@/lib/platform";
+import { env } from "@/env";
 
 interface WeddingCardBackProps {
   data: WeddingCardData;
@@ -50,7 +51,7 @@ function WeddingBackLayout({
   const rsvpUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/rsvp/${slug ?? ""}`
-      : `/rsvp/${slug ?? ""}`;
+      : `${env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/rsvp/${slug ?? ""}`;
 
   return (
     <div

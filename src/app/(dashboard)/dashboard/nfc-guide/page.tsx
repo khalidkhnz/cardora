@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useUserProfile } from "@/hooks/use-user";
+import { env } from "@/env";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Nfc,
@@ -99,7 +100,7 @@ export default function NfcGuidePage() {
   }
 
   const profileUrl = profile?.username
-    ? `${typeof window !== "undefined" ? window.location.origin : ""}/u/${profile.username}`
+    ? `${typeof window !== "undefined" ? window.location.origin : (env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000")}/u/${profile.username}`
     : null;
 
   return (
