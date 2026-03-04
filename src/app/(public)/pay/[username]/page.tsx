@@ -87,8 +87,8 @@ export default function PayPage() {
 
   const handlePay = useCallback(async () => {
     if (!profile) return;
-    const amountInPaise = Math.round(parseFloat(amount) * 100);
-    if (isNaN(amountInPaise) || amountInPaise <= 0) return;
+    const amountInCents = Math.round(parseFloat(amount) * 100);
+    if (isNaN(amountInCents) || amountInCents <= 0) return;
 
     setSubmitting(true);
     try {
@@ -98,7 +98,7 @@ export default function PayPage() {
           method: "POST",
           body: JSON.stringify({
             username: params.username,
-            amount: amountInPaise,
+            amount: amountInCents,
             currency: profile.currency ?? "CAD",
             payerEmail: payerEmail || undefined,
           }),
