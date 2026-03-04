@@ -46,7 +46,7 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
     .slice(0, 2);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="fixed inset-0 flex overflow-hidden">
       {/* Desktop sidebar */}
       <aside className="hidden w-64 shrink-0 flex-col border-r bg-card lg:flex">
         <div className="flex h-16 shrink-0 items-center border-b px-6">
