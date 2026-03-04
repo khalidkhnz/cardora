@@ -1,4 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiClient } from "@/lib/api-client";
 
 interface UploadResult {
   url: string;
@@ -6,7 +7,25 @@ interface UploadResult {
   size: number;
 }
 
+interface UserImage {
+  url: string;
+  filename: string;
+}
+
+export const uploadKeys = {
+  all: ["uploads"] as const,
+  images: () => [...uploadKeys.all, "images"] as const,
+};
+
+export function useUserImages() {
+  return useQuery({
+    queryKey: uploadKeys.images(),
+    queryFn: () => apiClient<UserImage[]>("/api/upload/image"),
+  });
+}
+
 export function useUploadImage() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({
       file,
@@ -33,6 +52,9 @@ export function useUploadImage() {
       }
 
       return res.json() as Promise<UploadResult>;
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: uploadKeys.images() });
     },
   });
 }

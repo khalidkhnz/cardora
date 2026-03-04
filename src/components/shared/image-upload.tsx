@@ -3,8 +3,9 @@
 import { useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useUploadImage } from "@/hooks/use-upload";
+import { ImagePickerDialog } from "@/components/shared/image-picker-dialog";
 import { toast } from "sonner";
-import { Upload, X, ImageIcon } from "lucide-react";
+import { Upload, X, ImageIcon, FolderOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ImageUploadProps {
@@ -16,6 +17,7 @@ interface ImageUploadProps {
 
 export function ImageUpload({ value, onChange, type, className }: ImageUploadProps) {
   const [dragOver, setDragOver] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const upload = useUploadImage();
 
@@ -50,9 +52,12 @@ export function ImageUpload({ value, onChange, type, className }: ImageUploadPro
     <div className={cn("space-y-2", className)}>
       {value ? (
         <div className="relative inline-block">
-          <div
-            className="h-32 w-32 rounded-lg border bg-cover bg-center"
+          <button
+            type="button"
+            onClick={() => setPickerOpen(true)}
+            className="block h-32 w-32 cursor-pointer rounded-lg border bg-cover bg-center transition-opacity hover:opacity-80"
             style={{ backgroundImage: `url(${value})` }}
+            title="Click to change image"
           />
           <button
             type="button"
@@ -107,17 +112,37 @@ export function ImageUpload({ value, onChange, type, className }: ImageUploadPro
       />
 
       {!value && (
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          disabled={upload.isPending}
-          onClick={() => inputRef.current?.click()}
-        >
-          <Upload className="mr-2 h-4 w-4" />
-          Upload Image
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={upload.isPending}
+            onClick={() => inputRef.current?.click()}
+          >
+            <Upload className="mr-2 h-4 w-4" />
+            Upload Image
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={upload.isPending}
+            onClick={() => setPickerOpen(true)}
+          >
+            <FolderOpen className="mr-2 h-4 w-4" />
+            Browse Library
+          </Button>
+        </div>
       )}
+
+      <ImagePickerDialog
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        onSelect={onChange}
+        currentValue={value}
+        type={type}
+      />
     </div>
   );
 }
