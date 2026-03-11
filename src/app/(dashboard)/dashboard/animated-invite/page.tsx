@@ -2,23 +2,25 @@
 
 import { useState } from "react";
 import confetti from "canvas-confetti";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AnimatedInviteEditor } from "@/components/animated-invite/animated-invite-editor";
-import {
-  useUserInvites,
-  useDeleteInvite,
-} from "@/hooks/use-wedding";
+import { useUserInvites, useDeleteInvite } from "@/hooks/use-wedding";
 import { useUserProfile } from "@/hooks/use-user";
-import { useCreateRazorpayOrder, useVerifyPayment, useRazorpayCheckout } from "@/hooks/use-payment";
+import {
+  useCreateRazorpayOrder,
+  useVerifyPayment,
+  useRazorpayCheckout,
+} from "@/hooks/use-payment";
 import { getAnimatedTemplate } from "@/lib/templates/animated-templates";
-import { getUnitPrice, formatCurrency, getCurrencyForCountry } from "@/lib/pricing";
+import {
+  getUnitPrice,
+  formatCurrency,
+  getCurrencyForCountry,
+} from "@/lib/pricing";
 import type { CountryCode } from "@/lib/constants";
 import { toast } from "sonner";
 import {
@@ -40,8 +42,18 @@ function fireConfetti() {
   const duration = 2000;
   const end = Date.now() + duration;
   const frame = () => {
-    void confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0, y: 0.6 } });
-    void confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1, y: 0.6 } });
+    void confetti({
+      particleCount: 3,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0, y: 0.6 },
+    });
+    void confetti({
+      particleCount: 3,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1, y: 0.6 },
+    });
     if (Date.now() < end) requestAnimationFrame(frame);
   };
   frame();
@@ -65,7 +77,7 @@ function InviteListView({
   const { openCheckout } = useRazorpayCheckout();
   const [activatingId, setActivatingId] = useState<string | null>(null);
 
-  const country = (profile?.country as CountryCode) ?? "IN";
+  const country = (profile?.country as CountryCode) ?? "CA";
   const currency = getCurrencyForCountry(country);
   const unitPrice = getUnitPrice(country, "animated_invite");
 
@@ -95,7 +107,9 @@ function InviteListView({
                   setActivatingId(null);
                 },
                 onError: () => {
-                  toast.error("Payment verification failed. Please contact support.");
+                  toast.error(
+                    "Payment verification failed. Please contact support.",
+                  );
                   setActivatingId(null);
                 },
               });
@@ -184,9 +198,13 @@ function InviteListView({
                       className="shrink-0 text-[10px]"
                     >
                       {invite.isPaid ? (
-                        <><Unlock className="mr-1 h-3 w-3" /> Active</>
+                        <>
+                          <Unlock className="mr-1 h-3 w-3" /> Active
+                        </>
                       ) : (
-                        <><Lock className="mr-1 h-3 w-3" /> Unpaid</>
+                        <>
+                          <Lock className="mr-1 h-3 w-3" /> Unpaid
+                        </>
                       )}
                     </Badge>
                   </div>
@@ -194,7 +212,9 @@ function InviteListView({
                     /wedding/{invite.slug}
                     {(invite.groomName ?? invite.brideName) && (
                       <span className="ml-2">
-                        {[invite.groomName, invite.brideName].filter(Boolean).join(" & ")}
+                        {[invite.groomName, invite.brideName]
+                          .filter(Boolean)
+                          .join(" & ")}
                       </span>
                     )}
                   </p>
@@ -252,9 +272,9 @@ function InviteListView({
                     onClick={(e) => {
                       e.stopPropagation();
                       if (confirm("Delete this invite and all its RSVPs?")) {
-                        void deleteInvite.mutateAsync(invite.id).then(() =>
-                          toast.success("Invite deleted"),
-                        );
+                        void deleteInvite
+                          .mutateAsync(invite.id)
+                          .then(() => toast.success("Invite deleted"));
                       }
                     }}
                   >

@@ -90,7 +90,9 @@ function CreateCardForm({ onCreated }: { onCreated: (id: string) => void }) {
     <Card>
       <CardHeader>
         <CardTitle>Create New Card</CardTitle>
-        <CardDescription>Add a new digital card to your profile</CardDescription>
+        <CardDescription>
+          Add a new digital card to your profile
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
@@ -112,10 +114,14 @@ function CreateCardForm({ onCreated }: { onCreated: (id: string) => void }) {
             />
           </div>
           <p className="text-muted-foreground text-xs">
-            Only lowercase letters, numbers, and hyphens. Use &quot;default&quot; for your main card.
+            Only lowercase letters, numbers, and hyphens. Use
+            &quot;default&quot; for your main card.
           </p>
         </div>
-        <Button onClick={() => void handleCreate()} disabled={createCard.isPending}>
+        <Button
+          onClick={() => void handleCreate()}
+          disabled={createCard.isPending}
+        >
           {createCard.isPending ? "Creating..." : "Create Card"}
         </Button>
       </CardContent>
@@ -175,7 +181,9 @@ function CardListView({
         <Card>
           <CardContent className="py-12 text-center">
             <CreditCard className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
-            <p className="text-muted-foreground mb-4">No cards yet. Create your first card!</p>
+            <p className="text-muted-foreground mb-4">
+              No cards yet. Create your first card!
+            </p>
             <Button onClick={onCreateCard}>
               <Plus className="mr-2 h-4 w-4" /> Create Card
             </Button>
@@ -218,9 +226,9 @@ function CardListView({
                     className="h-8 w-8"
                     onClick={(e) => {
                       e.stopPropagation();
-                      void setDefault.mutateAsync(card.id).then(() =>
-                        toast.success("Set as default"),
-                      );
+                      void setDefault
+                        .mutateAsync(card.id)
+                        .then(() => toast.success("Set as default"));
                     }}
                   >
                     <Star className="h-3.5 w-3.5" />
@@ -245,9 +253,9 @@ function CardListView({
                     onClick={(e) => {
                       e.stopPropagation();
                       if (confirm("Delete this card?")) {
-                        void deleteCard.mutateAsync(card.id).then(() =>
-                          toast.success("Card deleted"),
-                        );
+                        void deleteCard
+                          .mutateAsync(card.id)
+                          .then(() => toast.success("Card deleted"));
                       }
                     }}
                   >
@@ -278,25 +286,31 @@ function CardEditorView({
   const updateProfile = useUpdateProfile();
   const updateCard = useUpdateCard(cardId);
 
-  const [country, setCountry] = useState<CountryCode>("IN");
+  const [country, setCountry] = useState<CountryCode>("CA");
   const [cardType, setCardType] = useState<CardType>("business");
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(
+    null,
+  );
   const [modalOpen, setModalOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [orientation, setOrientation] = useState<"horizontal" | "vertical">("horizontal");
+  const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
+    "horizontal",
+  );
   const [cardSize, setCardSize] = useState<"standard" | "large">("standard");
   const [downloading, setDownloading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const weddingCardRef = useRef<HTMLDivElement>(null);
 
   const handleDownloadPDF = useCallback(async () => {
-    const ref = cardType === "business" ? cardRef.current : weddingCardRef.current;
+    const ref =
+      cardType === "business" ? cardRef.current : weddingCardRef.current;
     if (!ref) return;
     setDownloading(true);
     try {
-      const filename = cardType === "business"
-        ? `business-card-${profile?.username ?? "card"}`
-        : `${cardType}-card-${cardData?.groomName ?? "card"}`;
+      const filename =
+        cardType === "business"
+          ? `business-card-${profile?.username ?? "card"}`
+          : `${cardType}-card-${cardData?.groomName ?? "card"}`;
       await downloadCardAsPDF(ref, filename);
       toast.success("PDF downloaded!");
     } catch {
@@ -308,7 +322,7 @@ function CardEditorView({
 
   useEffect(() => {
     if (profile) {
-      setCountry((profile.country as CountryCode) ?? "IN");
+      setCountry((profile.country as CountryCode) ?? "CA");
     }
   }, [profile]);
 
@@ -377,7 +391,10 @@ function CardEditorView({
   }
 
   const isLoading = profileLoading || cardLoading;
-  const isWeddingType = cardType === "wedding" || cardType === "engagement" || cardType === "anniversary";
+  const isWeddingType =
+    cardType === "wedding" ||
+    cardType === "engagement" ||
+    cardType === "anniversary";
 
   if (isLoading) {
     return (
@@ -425,7 +442,9 @@ function CardEditorView({
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Cards
         </Button>
         <div>
-          <h2 className="text-xl font-semibold">{cardData?.name ?? cardData?.slug ?? "Edit Card"}</h2>
+          <h2 className="text-xl font-semibold">
+            {cardData?.name ?? cardData?.slug ?? "Edit Card"}
+          </h2>
           {cardData?.slug && (
             <p className="text-muted-foreground text-xs">/{cardData.slug}</p>
           )}
@@ -454,7 +473,9 @@ function CardEditorView({
       <Card>
         <CardHeader>
           <CardTitle>Card Type</CardTitle>
-          <CardDescription>Choose what kind of card you want to create</CardDescription>
+          <CardDescription>
+            Choose what kind of card you want to create
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <CardTypeSelector value={cardType} onChange={handleCardTypeChange} />
@@ -475,8 +496,24 @@ function CardEditorView({
               <div className="flex flex-col gap-6 lg:flex-row">
                 <div className="flex flex-1 items-center justify-center rounded-lg border bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
                   <FlippableCard
-                    width={cardSize === "standard" ? (orientation === "horizontal" ? 256 : 160) : (orientation === "horizontal" ? 320 : 208)}
-                    height={cardSize === "standard" ? (orientation === "horizontal" ? 160 : 256) : (orientation === "horizontal" ? 208 : 320)}
+                    width={
+                      cardSize === "standard"
+                        ? orientation === "horizontal"
+                          ? 256
+                          : 160
+                        : orientation === "horizontal"
+                          ? 320
+                          : 208
+                    }
+                    height={
+                      cardSize === "standard"
+                        ? orientation === "horizontal"
+                          ? 160
+                          : 256
+                        : orientation === "horizontal"
+                          ? 208
+                          : 320
+                    }
                     front={
                       <BusinessCardPreview
                         user={businessData}
@@ -496,7 +533,9 @@ function CardEditorView({
                       />
                     }
                   />
-                  <div style={{ position: "absolute", left: -9999, top: -9999 }}>
+                  <div
+                    style={{ position: "absolute", left: -9999, top: -9999 }}
+                  >
                     <BusinessCardPreview
                       ref={cardRef}
                       user={businessData}
@@ -511,24 +550,66 @@ function CardEditorView({
                   <div>
                     <p className="mb-2 text-sm font-medium">Orientation</p>
                     <div className="flex gap-2">
-                      <Button variant={orientation === "horizontal" ? "default" : "outline"} size="sm" onClick={() => handleOrientationChange("horizontal")}>Horizontal</Button>
-                      <Button variant={orientation === "vertical" ? "default" : "outline"} size="sm" onClick={() => handleOrientationChange("vertical")}>Vertical</Button>
+                      <Button
+                        variant={
+                          orientation === "horizontal" ? "default" : "outline"
+                        }
+                        size="sm"
+                        onClick={() => handleOrientationChange("horizontal")}
+                      >
+                        Horizontal
+                      </Button>
+                      <Button
+                        variant={
+                          orientation === "vertical" ? "default" : "outline"
+                        }
+                        size="sm"
+                        onClick={() => handleOrientationChange("vertical")}
+                      >
+                        Vertical
+                      </Button>
                     </div>
                   </div>
                   <div>
                     <p className="mb-2 text-sm font-medium">Size</p>
                     <div className="flex gap-2">
-                      <Button variant={cardSize === "standard" ? "default" : "outline"} size="sm" onClick={() => handleCardSizeChange("standard")}>Standard</Button>
-                      <Button variant={cardSize === "large" ? "default" : "outline"} size="sm" onClick={() => handleCardSizeChange("large")}>Large</Button>
+                      <Button
+                        variant={
+                          cardSize === "standard" ? "default" : "outline"
+                        }
+                        size="sm"
+                        onClick={() => handleCardSizeChange("standard")}
+                      >
+                        Standard
+                      </Button>
+                      <Button
+                        variant={cardSize === "large" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handleCardSizeChange("large")}
+                      >
+                        Large
+                      </Button>
                     </div>
                   </div>
                   <Separator />
-                  <Button className="w-full" onClick={() => setModalOpen(true)}>Change Template</Button>
-                  <Button className="w-full" variant="secondary" onClick={() => setPreviewOpen(true)}>
+                  <Button className="w-full" onClick={() => setModalOpen(true)}>
+                    Change Template
+                  </Button>
+                  <Button
+                    className="w-full"
+                    variant="secondary"
+                    onClick={() => setPreviewOpen(true)}
+                  >
                     <Eye className="mr-2 h-4 w-4" /> Preview
                   </Button>
-                  <Button className="w-full" variant="outline" onClick={() => void handleDownloadPDF()} disabled={downloading}>
-                    <Download className="mr-2 h-4 w-4" /> {downloading ? "Generating..." : "Download PDF"}
+                  <Button
+                    className="w-full"
+                    variant="outline"
+                    onClick={() => void handleDownloadPDF()}
+                    disabled={downloading}
+                  >
+                    <Download className="mr-2 h-4 w-4" />{" "}
+                    {downloading ? "Generating..." : "Download PDF"}
                   </Button>
                 </div>
               </div>
@@ -538,10 +619,15 @@ function CardEditorView({
           <Card>
             <CardHeader>
               <CardTitle>Business Card Templates</CardTitle>
-              <CardDescription>Choose from our collection of professionally designed templates</CardDescription>
+              <CardDescription>
+                Choose from our collection of professionally designed templates
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <TemplateGrid selectedId={selectedTemplateId} onSelect={handleBusinessTemplateSelect} />
+              <TemplateGrid
+                selectedId={selectedTemplateId}
+                onSelect={handleBusinessTemplateSelect}
+              />
             </CardContent>
           </Card>
         </>
@@ -554,24 +640,60 @@ function CardEditorView({
             <CardHeader>
               <CardTitle>Live Preview</CardTitle>
               <CardDescription>
-                See how your {cardTypeLabel.toLowerCase()} card looks with the selected template
+                See how your {cardTypeLabel.toLowerCase()} card looks with the
+                selected template
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-6 lg:flex-row">
                 <div className="flex flex-1 items-center justify-center rounded-lg border bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
                   <FlippableCard
-                    width={cardSize === "standard" ? (orientation === "horizontal" ? 256 : 192) : (orientation === "horizontal" ? 320 : 240)}
-                    height={cardSize === "standard" ? (orientation === "horizontal" ? 160 : 288) : (orientation === "horizontal" ? 208 : 352)}
+                    width={
+                      cardSize === "standard"
+                        ? orientation === "horizontal"
+                          ? 256
+                          : 192
+                        : orientation === "horizontal"
+                          ? 320
+                          : 240
+                    }
+                    height={
+                      cardSize === "standard"
+                        ? orientation === "horizontal"
+                          ? 160
+                          : 288
+                        : orientation === "horizontal"
+                          ? 208
+                          : 352
+                    }
                     front={
-                      <WeddingCardPreview data={weddingData} templateId={selectedTemplateId} orientation={orientation} size={cardSize} bare />
+                      <WeddingCardPreview
+                        data={weddingData}
+                        templateId={selectedTemplateId}
+                        orientation={orientation}
+                        size={cardSize}
+                        bare
+                      />
                     }
                     back={
-                      <WeddingCardBack data={weddingData} templateId={selectedTemplateId} orientation={orientation} size={cardSize} />
+                      <WeddingCardBack
+                        data={weddingData}
+                        templateId={selectedTemplateId}
+                        orientation={orientation}
+                        size={cardSize}
+                      />
                     }
                   />
-                  <div style={{ position: "absolute", left: -9999, top: -9999 }}>
-                    <WeddingCardPreview ref={weddingCardRef} data={weddingData} templateId={selectedTemplateId} orientation={orientation} size={cardSize} />
+                  <div
+                    style={{ position: "absolute", left: -9999, top: -9999 }}
+                  >
+                    <WeddingCardPreview
+                      ref={weddingCardRef}
+                      data={weddingData}
+                      templateId={selectedTemplateId}
+                      orientation={orientation}
+                      size={cardSize}
+                    />
                   </div>
                 </div>
 
@@ -579,29 +701,72 @@ function CardEditorView({
                   <div>
                     <p className="mb-2 text-sm font-medium">Orientation</p>
                     <div className="flex gap-2">
-                      <Button variant={orientation === "horizontal" ? "default" : "outline"} size="sm" onClick={() => handleOrientationChange("horizontal")}>Horizontal</Button>
-                      <Button variant={orientation === "vertical" ? "default" : "outline"} size="sm" onClick={() => handleOrientationChange("vertical")}>Vertical</Button>
+                      <Button
+                        variant={
+                          orientation === "horizontal" ? "default" : "outline"
+                        }
+                        size="sm"
+                        onClick={() => handleOrientationChange("horizontal")}
+                      >
+                        Horizontal
+                      </Button>
+                      <Button
+                        variant={
+                          orientation === "vertical" ? "default" : "outline"
+                        }
+                        size="sm"
+                        onClick={() => handleOrientationChange("vertical")}
+                      >
+                        Vertical
+                      </Button>
                     </div>
                   </div>
                   <div>
                     <p className="mb-2 text-sm font-medium">Size</p>
                     <div className="flex gap-2">
-                      <Button variant={cardSize === "standard" ? "default" : "outline"} size="sm" onClick={() => handleCardSizeChange("standard")}>Standard</Button>
-                      <Button variant={cardSize === "large" ? "default" : "outline"} size="sm" onClick={() => handleCardSizeChange("large")}>Large</Button>
+                      <Button
+                        variant={
+                          cardSize === "standard" ? "default" : "outline"
+                        }
+                        size="sm"
+                        onClick={() => handleCardSizeChange("standard")}
+                      >
+                        Standard
+                      </Button>
+                      <Button
+                        variant={cardSize === "large" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handleCardSizeChange("large")}
+                      >
+                        Large
+                      </Button>
                     </div>
                   </div>
                   <Separator />
-                  <Button className="w-full" onClick={() => setModalOpen(true)}>Change Template</Button>
-                  <Button className="w-full" variant="secondary" onClick={() => setPreviewOpen(true)}>
+                  <Button className="w-full" onClick={() => setModalOpen(true)}>
+                    Change Template
+                  </Button>
+                  <Button
+                    className="w-full"
+                    variant="secondary"
+                    onClick={() => setPreviewOpen(true)}
+                  >
                     <Eye className="mr-2 h-4 w-4" /> Preview
                   </Button>
-                  <Button className="w-full" variant="outline" onClick={() => void handleDownloadPDF()} disabled={downloading}>
-                    <Download className="mr-2 h-4 w-4" /> {downloading ? "Generating..." : "Download PDF"}
+                  <Button
+                    className="w-full"
+                    variant="outline"
+                    onClick={() => void handleDownloadPDF()}
+                    disabled={downloading}
+                  >
+                    <Download className="mr-2 h-4 w-4" />{" "}
+                    {downloading ? "Generating..." : "Download PDF"}
                   </Button>
                   <Separator />
                   <Button className="w-full" variant="outline" asChild>
                     <Link href="/dashboard/animated-invite">
-                      <Sparkles className="mr-2 h-4 w-4" /> Animated Invite Editor
+                      <Sparkles className="mr-2 h-4 w-4" /> Animated Invite
+                      Editor
                     </Link>
                   </Button>
                 </div>
@@ -613,11 +778,16 @@ function CardEditorView({
             <CardHeader>
               <CardTitle>{cardTypeLabel} Card Templates</CardTitle>
               <CardDescription>
-                Choose from {cardTypeLabel.toLowerCase() === "wedding" ? "27" : "our"} premium {cardTypeLabel.toLowerCase()} card templates
+                Choose from{" "}
+                {cardTypeLabel.toLowerCase() === "wedding" ? "27" : "our"}{" "}
+                premium {cardTypeLabel.toLowerCase()} card templates
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <WeddingTemplateGrid selectedId={selectedTemplateId} onSelect={handleWeddingTemplateSelect} />
+              <WeddingTemplateGrid
+                selectedId={selectedTemplateId}
+                onSelect={handleWeddingTemplateSelect}
+              />
             </CardContent>
           </Card>
         </>
@@ -628,7 +798,9 @@ function CardEditorView({
       <Card>
         <CardHeader>
           <CardTitle>Settings</CardTitle>
-          <CardDescription>Configure your profile and card settings</CardDescription>
+          <CardDescription>
+            Configure your profile and card settings
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <CardConfigForm cardType={cardType} />
@@ -636,12 +808,30 @@ function CardEditorView({
       </Card>
 
       {cardType === "business" && (
-        <TemplateSelectionModal open={modalOpen} onOpenChange={setModalOpen} selectedId={selectedTemplateId} onSelect={handleBusinessTemplateSelect} />
+        <TemplateSelectionModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          selectedId={selectedTemplateId}
+          onSelect={handleBusinessTemplateSelect}
+        />
       )}
       {isWeddingType && (
-        <WeddingTemplateSelectionModal open={modalOpen} onOpenChange={setModalOpen} selectedId={selectedTemplateId} onSelect={handleWeddingTemplateSelect} />
+        <WeddingTemplateSelectionModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          selectedId={selectedTemplateId}
+          onSelect={handleWeddingTemplateSelect}
+        />
       )}
-      <CardPreviewDialog open={previewOpen} onOpenChange={setPreviewOpen} cardType={cardType} businessData={businessData} weddingData={weddingData} templateId={selectedTemplateId} orientation={orientation} />
+      <CardPreviewDialog
+        open={previewOpen}
+        onOpenChange={setPreviewOpen}
+        cardType={cardType}
+        businessData={businessData}
+        weddingData={weddingData}
+        templateId={selectedTemplateId}
+        orientation={orientation}
+      />
     </div>
   );
 }
