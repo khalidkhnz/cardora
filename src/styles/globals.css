@@ -174,3 +174,33 @@
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
+
+/* ── Hero card marquee tracks ── */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+@keyframes card-bob-a {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+@keyframes card-bob-b {
+  0%, 100% { transform: translateY(0); }
+  33%      { transform: translateY(-8px); }
+  66%      { transform: translateY(5px); }
+}
+@keyframes card-bob-c {
+  0%, 100% { transform: translateY(0); }
+  40%      { transform: translateY(6px); }
+  75%      { transform: translateY(-10px); }
+}
+
+.animate-marquee-left  { animation: marquee-left  var(--marquee-dur, 40s) linear infinite; }
+.animate-marquee-right { animation: marquee-right var(--marquee-dur, 40s) linear infinite; }
+.animate-card-bob-a    { animation: card-bob-a 5s ease-in-out infinite; }
+.animate-card-bob-b    { animation: card-bob-b 6s ease-in-out infinite; }
+.animate-card-bob-c    { animation: card-bob-c 7s ease-in-out infinite; }

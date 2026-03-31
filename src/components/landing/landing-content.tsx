@@ -20,12 +20,10 @@ import {
   Sparkles,
   Globe,
   ArrowRight,
-  ChevronDown,
   Check,
   Clock,
   Layout,
   Shield,
-  Zap,
   Star,
   Music,
 } from "lucide-react";
@@ -36,6 +34,7 @@ import { StaggeredTextReveal } from "@/components/animated-invite/shared/stagger
 import { MagneticButton } from "@/components/animated-invite/shared/magnetic-button";
 import { TextParallaxMarquee } from "@/components/animated-invite/shared/text-parallax-marquee";
 import { Footer } from "@/components/landing/footer";
+import { FloatingCardsHero } from "@/components/landing/floating-cards-hero";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -320,201 +319,6 @@ function Navbar() {
         </div>
       </nav>
     </motion.header>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Hero Section                                                       */
-/* ------------------------------------------------------------------ */
-
-function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const smoothMouseX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const smoothMouseY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-
-  const orbX1 = useTransform(smoothMouseX, (v) => v * 0.02);
-  const orbY1 = useTransform(smoothMouseY, (v) => v * 0.02);
-  const orbX2 = useTransform(smoothMouseX, (v) => v * -0.015);
-  const orbY2 = useTransform(smoothMouseY, (v) => v * -0.015);
-  const orbX3 = useTransform(smoothMouseX, (v) => v * 0.01);
-  const orbY3 = useTransform(smoothMouseY, (v) => v * 0.01);
-
-  function handleMouseMove(e: React.MouseEvent) {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mouseX.set(e.clientX - rect.left - rect.width / 2);
-    mouseY.set(e.clientY - rect.top - rect.height / 2);
-  }
-
-  return (
-    <section
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-24 pb-16"
-    >
-      {/* Vibrant animated gradient mesh background */}
-      <div className="absolute inset-0 -z-10">
-        <div
-          className="animate-gradient-shift absolute inset-0"
-          style={{
-            background: `
-              radial-gradient(ellipse at 20% 50%, #667eea30 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 20%, #764ba230 0%, transparent 50%),
-              radial-gradient(ellipse at 40% 80%, #f093fb20 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 60%, #4facfe20 0%, transparent 50%)
-            `,
-            backgroundSize: "200% 200%",
-          }}
-        />
-      </div>
-
-      {/* Colorful floating orbs */}
-      <motion.div
-        style={{ x: orbX1, y: orbY1 }}
-        className="animate-float absolute top-1/4 left-[10%] -z-10 h-80 w-80 rounded-full opacity-40 blur-3xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
-        transition={{ duration: 2 }}
-      >
-        <div
-          className="h-full w-full rounded-full"
-          style={{
-            background: "radial-gradient(circle, #667eea60, transparent 70%)",
-          }}
-        />
-      </motion.div>
-      <motion.div
-        style={{ x: orbX2, y: orbY2 }}
-        className="animate-float absolute right-[10%] bottom-1/3 -z-10 h-72 w-72 rounded-full opacity-40 blur-3xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
-        transition={{ duration: 2, delay: 0.5 }}
-      >
-        <div
-          className="h-full w-full rounded-full"
-          style={{
-            background: "radial-gradient(circle, #f093fb60, transparent 70%)",
-          }}
-        />
-      </motion.div>
-      <motion.div
-        style={{ x: orbX3, y: orbY3 }}
-        className="animate-float absolute top-[60%] left-[40%] -z-10 h-64 w-64 rounded-full opacity-30 blur-3xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
-        transition={{ duration: 2, delay: 1 }}
-      >
-        <div
-          className="h-full w-full rounded-full"
-          style={{
-            background: "radial-gradient(circle, #4facfe50, transparent 70%)",
-          }}
-        />
-      </motion.div>
-
-      {/* Content */}
-      <div className="mx-auto max-w-4xl text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 text-sm font-medium text-violet-600 backdrop-blur-sm dark:text-violet-400">
-            <Sparkles className="h-3.5 w-3.5" />
-            100% Free Business Cards & Wedding Invitations
-          </span>
-        </motion.div>
-
-        <StaggeredTextReveal
-          text="Your Digital Identity, Beautifully Crafted"
-          as="h1"
-          splitBy="word"
-          className="justify-center text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
-        />
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mx-auto mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl"
-        >
-          Create stunning digital business cards and beautiful wedding
-          invitations, <strong className="text-foreground">completely free</strong>.
-          Upgrade to cinematic animated invites for just{" "}
-          <strong className="text-foreground">C$49.99</strong>.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
-        >
-          <MagneticButton strength={0.3}>
-            <Link href="/signup">
-              <Button
-                size="lg"
-                className="min-w-[200px] gap-2 bg-gradient-to-r from-violet-600 to-pink-500 text-base text-white hover:from-violet-700 hover:to-pink-600"
-              >
-                Get Started Free
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </MagneticButton>
-          <MagneticButton strength={0.2}>
-            <Link href="/login">
-              <Button
-                size="lg"
-                variant="outline"
-                className="min-w-[200px] border-violet-500/30 text-base hover:bg-violet-500/10"
-              >
-                Sign In
-              </Button>
-            </Link>
-          </MagneticButton>
-        </motion.div>
-
-        {/* Highlight badges */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.0 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4"
-        >
-          {[
-            { icon: Zap, text: "5 Min Setup", color: "text-amber-500" },
-            { icon: Shield, text: "Stripe Secure", color: "text-emerald-500" },
-            { icon: Star, text: "50+ Templates", color: "text-violet-500" },
-          ].map((item) => (
-            <span
-              key={item.text}
-              className="inline-flex items-center gap-2 rounded-full bg-muted/50 px-3 py-1.5 text-xs font-medium text-muted-foreground"
-            >
-              <item.icon className={`h-3.5 w-3.5 ${item.color}`} />
-              {item.text}
-            </span>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.6 }}
-        className="absolute bottom-8"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        >
-          <ChevronDown className="h-6 w-6 text-muted-foreground/50" />
-        </motion.div>
-      </motion.div>
-    </section>
   );
 }
 
@@ -990,15 +794,21 @@ function FinalCTA() {
           backgroundSize: "400% 400%",
         }}
       />
-      {/* Sparkle overlay */}
+      {/* Sparkle overlay — deterministic positions to avoid hydration mismatch */}
       <div className="absolute inset-0 -z-[5]">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {[
+          { l: 12, t: 8 },  { l: 45, t: 22 }, { l: 78, t: 15 }, { l: 23, t: 65 },
+          { l: 56, t: 42 }, { l: 89, t: 73 }, { l: 34, t: 88 }, { l: 67, t: 55 },
+          { l: 5, t: 35 },  { l: 91, t: 48 }, { l: 18, t: 92 }, { l: 72, t: 5 },
+          { l: 40, t: 78 }, { l: 60, t: 30 }, { l: 85, t: 90 }, { l: 15, t: 50 },
+          { l: 50, t: 12 }, { l: 30, t: 70 }, { l: 75, t: 38 }, { l: 8, t: 82 },
+        ].map((pos, i) => (
           <motion.div
             key={i}
             className="absolute h-1 w-1 rounded-full bg-white"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${pos.l}%`,
+              top: `${pos.t}%`,
             }}
             animate={{
               opacity: [0, 1, 0],
@@ -1006,8 +816,8 @@ function FinalCTA() {
             }}
             transition={{
               repeat: Infinity,
-              duration: 2 + Math.random() * 2,
-              delay: Math.random() * 3,
+              duration: 2 + (i % 5) * 0.4,
+              delay: (i % 7) * 0.4,
             }}
           />
         ))}
@@ -1063,7 +873,7 @@ export function LandingContent() {
   return (
     <main className="flex min-h-screen flex-col">
       <Navbar />
-      <HeroSection />
+      <FloatingCardsHero />
 
       {/* Marquee strip */}
       <TextParallaxMarquee
