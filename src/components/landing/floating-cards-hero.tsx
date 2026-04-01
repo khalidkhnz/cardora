@@ -139,7 +139,7 @@ function BusinessMinimal() {
   return (
     <div className="flex h-full w-full flex-col justify-between rounded-2xl bg-white p-7 shadow-inner">
       <div>
-        <div className="h-7 w-7 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 shadow-md shadow-violet-500/20" />
+        <div className="h-7 w-7 rounded-full bg-gradient-to-br from-[#B8860B] to-[#D4A843] shadow-md shadow-[#B8860B]/20" />
       </div>
       <div>
         <h3
@@ -149,12 +149,12 @@ function BusinessMinimal() {
           Sara Chen
         </h3>
         <p
-          className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-violet-600"
+          className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[#B8860B]"
           style={{ fontFamily: "var(--font-montserrat)" }}
         >
           Creative Director
         </p>
-        <div className="mt-3 h-px w-12 bg-gradient-to-r from-violet-300 to-transparent" />
+        <div className="mt-3 h-px w-12 bg-gradient-to-r from-[#D4A843] to-transparent" />
         <div className="mt-2 space-y-0.5">
           <p className="text-[9px] text-gray-400">sara@designhaus.co</p>
           <p className="text-[9px] text-gray-400">designhaus.co</p>
@@ -274,9 +274,9 @@ export function FloatingCardsHero() {
           className="absolute inset-0"
           style={{
             background: `
-              radial-gradient(ellipse 60% 50% at 50% 45%, rgba(139,92,246,0.10) 0%, transparent 70%),
-              radial-gradient(ellipse 40% 30% at 30% 35%, rgba(236,72,153,0.06) 0%, transparent 60%),
-              radial-gradient(ellipse 40% 30% at 70% 60%, rgba(56,189,248,0.05) 0%, transparent 60%)
+              radial-gradient(ellipse 60% 50% at 50% 45%, rgba(184,134,11,0.06) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 30% at 30% 35%, rgba(212,168,67,0.04) 0%, transparent 60%),
+              radial-gradient(ellipse 40% 30% at 70% 60%, rgba(26,26,26,0.03) 0%, transparent 60%)
             `,
           }}
         />
@@ -289,8 +289,8 @@ export function FloatingCardsHero() {
         transition={{ duration: 0.6 }}
         className="mb-5 px-6"
       >
-        <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 text-sm font-medium text-violet-600 backdrop-blur-sm dark:text-violet-400">
-          <Sparkles className="h-3.5 w-3.5" />
+        <span className="inline-flex items-center gap-2 rounded-full border border-[#B8860B]/20 bg-[#B8860B]/8 px-4 py-1.5 text-sm font-medium text-[#8B7355] backdrop-blur-sm">
+          <Sparkles className="h-3.5 w-3.5 text-[#B8860B]" />
           100% Free Business Cards &amp; Wedding Invitations
         </span>
       </motion.div>
@@ -304,7 +304,7 @@ export function FloatingCardsHero() {
         style={{ fontFamily: "var(--font-playfair)" }}
       >
         Your Digital Identity,{" "}
-        <span className="bg-gradient-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-[#B8860B] to-[#D4A843] bg-clip-text text-transparent">
           Beautifully Crafted
         </span>
       </motion.h1>
@@ -335,7 +335,7 @@ export function FloatingCardsHero() {
           style={{
             width: 400,
             height: 300,
-            background: "radial-gradient(ellipse, rgba(139,92,246,0.15) 0%, rgba(236,72,153,0.08) 40%, transparent 70%)",
+            background: "radial-gradient(ellipse, rgba(184,134,11,0.10) 0%, rgba(212,168,67,0.05) 40%, transparent 70%)",
             filter: "blur(50px)",
           }}
         />
@@ -381,8 +381,8 @@ export function FloatingCardsHero() {
               <div
                 className={`h-full w-full overflow-hidden rounded-2xl transition-shadow duration-500 ${
                   isFocused
-                    ? "shadow-[0_30px_80px_-10px_rgba(139,92,246,0.35)]"
-                    : "shadow-[0_12px_40px_-8px_rgba(0,0,0,0.25)]"
+                    ? "shadow-[0_30px_80px_-10px_rgba(184,134,11,0.25)]"
+                    : "shadow-[0_12px_40px_-8px_rgba(0,0,0,0.15)]"
                 } ${isHovered ? "ring-2 ring-white/20" : ""}`}
               >
                 <card.Component />
@@ -415,7 +415,7 @@ export function FloatingCardsHero() {
             onClick={() => setActiveIndex(card.id)}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               card.id === activeIndex
-                ? "w-6 bg-violet-500"
+                ? "w-6 bg-[#B8860B]"
                 : "w-1.5 bg-muted-foreground/25 hover:bg-muted-foreground/50"
             }`}
           />
@@ -433,7 +433,7 @@ export function FloatingCardsHero() {
           <Link href="/signup">
             <Button
               size="lg"
-              className="min-w-[200px] gap-2 bg-gradient-to-r from-violet-600 to-pink-500 text-base text-white hover:from-violet-700 hover:to-pink-600"
+              className="min-w-[200px] gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-base text-white hover:from-[#9A7209] hover:to-[#B8960B]"
             >
               Get Started Free
               <ArrowRight className="h-4 w-4" />
@@ -445,7 +445,7 @@ export function FloatingCardsHero() {
             <Button
               size="lg"
               variant="outline"
-              className="min-w-[200px] border-violet-500/30 text-base hover:bg-violet-500/10"
+              className="min-w-[200px] border-[#B8860B]/30 text-base text-[#1A1A1A] hover:bg-[#B8860B]/8"
             >
               Sign In
             </Button>
