@@ -8,212 +8,411 @@ import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/animated-invite/shared/magnetic-button";
 
 /* ================================================================== */
-/*  5 real-looking card designs                                       */
+/*  Gold accent color                                                 */
 /* ================================================================== */
 
-function WeddingElegance() {
+const G = "#C9A34E"; // primary gold
+
+/* ================================================================== */
+/*  Inline SVG helpers                                                */
+/* ================================================================== */
+
+function CoupleIllustration({ className }: { className?: string }) {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-[#fdf8f0] to-[#f5ead6] p-8 text-center">
-      {/* Ornamental top */}
-      <div className="mb-2 text-[#c9a96e] opacity-60">✦ ✦ ✦</div>
-      <p
-        className="text-[10px] uppercase tracking-[0.3em] text-[#9a8560]"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        Together with their families
-      </p>
-      <h3
-        className="mt-3 text-2xl leading-tight text-[#3d3427]"
-        style={{ fontFamily: "var(--font-great-vibes)" }}
-      >
-        Aarav & Priya
-      </h3>
-      <div className="my-3 h-px w-16 bg-gradient-to-r from-transparent via-[#c9a96e]/50 to-transparent" />
-      <p
-        className="text-[9px] uppercase tracking-[0.2em] text-[#9a8560]"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        Request the pleasure of your company
-      </p>
-      <p
-        className="mt-3 text-sm font-light text-[#5a4d3a]"
-        style={{ fontFamily: "var(--font-cormorant)" }}
-      >
-        Saturday, the Fifteenth of June
-      </p>
-      <p
-        className="text-xs text-[#9a8560]"
-        style={{ fontFamily: "var(--font-cormorant)" }}
-      >
-        Two Thousand Twenty Six
-      </p>
-      {/* Decorative bottom */}
-      <div className="mt-4 flex items-center gap-2 text-[#c9a96e] opacity-40">
-        <div className="h-px w-8 bg-[#c9a96e]" />
-        <span className="text-[8px]">❦</span>
-        <div className="h-px w-8 bg-[#c9a96e]" />
+    <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      {/* Groom silhouette */}
+      <circle cx="30" cy="16" r="7" fill={G} fillOpacity="0.2" />
+      <path d="M22 55 L22 30 Q22 22 30 22 Q38 22 38 30 L38 55" fill={G} fillOpacity="0.12" />
+      <rect x="26" y="30" width="8" height="1.5" rx="0.75" fill={G} fillOpacity="0.25" />
+      {/* Bride silhouette */}
+      <circle cx="50" cy="16" r="7" fill={G} fillOpacity="0.2" />
+      <path d="M40 55 L42 28 Q42 22 50 22 Q58 22 58 28 L60 55 Q50 50 40 55Z" fill={G} fillOpacity="0.12" />
+      {/* Veil hint */}
+      <path d="M50 10 Q58 8 60 16 Q56 14 50 16" fill={G} fillOpacity="0.08" />
+      {/* Connecting hearts */}
+      <path d="M38 35 Q40 32 42 35 Q40 38 38 35Z" fill={G} fillOpacity="0.3" />
+    </svg>
+  );
+}
+
+function EventIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <circle cx="20" cy="20" r="18" stroke={G} strokeOpacity="0.25" strokeWidth="0.5" />
+      <circle cx="20" cy="20" r="12" stroke={G} strokeOpacity="0.15" strokeWidth="0.5" />
+      <path d="M20 8 L22 16 L20 14 L18 16Z" fill={G} fillOpacity="0.35" />
+      <path d="M20 32 L18 24 L20 26 L22 24Z" fill={G} fillOpacity="0.35" />
+      <path d="M8 20 L16 18 L14 20 L16 22Z" fill={G} fillOpacity="0.35" />
+      <path d="M32 20 L24 22 L26 20 L24 18Z" fill={G} fillOpacity="0.35" />
+      <circle cx="20" cy="20" r="3" fill={G} fillOpacity="0.2" />
+    </svg>
+  );
+}
+
+/* ================================================================== */
+/*  5 premium card designs                                            */
+/* ================================================================== */
+
+/* ── Card 1: Wedding Invitation (HERO CARD) ── */
+function WeddingCard() {
+  return (
+    <div className="relative flex h-full w-full flex-col items-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#FBF7F0] via-[#F7EFDF] to-[#EDE4D0]">
+      {/* Paper grain */}
+      <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='0.3'/%3E%3C/g%3E%3C/svg%3E\")" }} />
+
+      {/* Outer gold frame */}
+      <div className="absolute inset-[10px] rounded-xl border border-[#C9A34E]/20" />
+      {/* Inner gold frame */}
+      <div className="absolute inset-[18px] rounded-lg border border-[#C9A34E]/10" />
+
+      {/* Corner ornaments */}
+      {[
+        "top-3 left-3",
+        "top-3 right-3 -scale-x-100",
+        "bottom-3 left-3 -scale-y-100",
+        "bottom-3 right-3 -scale-x-100 -scale-y-100",
+      ].map((pos) => (
+        <div key={pos} className={`absolute ${pos} text-[14px] leading-none text-[#C9A34E]/35`}>❧</div>
+      ))}
+
+      {/* Content */}
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 py-6">
+        {/* Top ornament */}
+        <div className="flex items-center gap-1 text-[#C9A34E]/40">
+          <span className="text-[6px]">✦</span>
+          <span className="text-[8px]">✦</span>
+          <span className="text-[10px]">✦</span>
+          <span className="text-[8px]">✦</span>
+          <span className="text-[6px]">✦</span>
+        </div>
+
+        <p className="mt-2 text-[7px] font-medium uppercase tracking-[0.35em] text-[#9A8560]" style={{ fontFamily: "var(--font-cinzel)" }}>
+          Together with their families
+        </p>
+
+        <div className="my-2 h-px w-24 bg-gradient-to-r from-transparent via-[#C9A34E]/30 to-transparent" />
+
+        {/* Couple illustration */}
+        <CoupleIllustration className="my-1 h-[52px] w-[70px]" />
+
+        <h3 className="text-[26px] leading-tight text-[#3D3427]" style={{ fontFamily: "var(--font-great-vibes)" }}>
+          Aarav <span className="text-[#C9A34E]">&</span> Priya
+        </h3>
+
+        {/* Decorative divider */}
+        <div className="my-2 flex items-center gap-3">
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#C9A34E]/25" />
+          <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-[#C9A34E]/25 bg-[#C9A34E]/5">
+            <span className="text-[6px] text-[#C9A34E]">❦</span>
+          </div>
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#C9A34E]/25" />
+        </div>
+
+        <p className="text-[7px] font-medium uppercase tracking-[0.2em] text-[#9A8560]" style={{ fontFamily: "var(--font-cinzel)" }}>
+          Request the pleasure of your company
+        </p>
+
+        {/* Date panel */}
+        <div className="mt-3 rounded-lg border border-[#C9A34E]/12 bg-[#C9A34E]/[0.04] px-5 py-2.5">
+          <p className="text-[12px] font-light text-[#5A4D3A]" style={{ fontFamily: "var(--font-cormorant)" }}>
+            Saturday, the Fifteenth of June
+          </p>
+          <p className="text-[9px] tracking-[0.1em] text-[#9A8560]" style={{ fontFamily: "var(--font-cormorant)" }}>
+            Two Thousand Twenty Six
+          </p>
+        </div>
+
+        <div className="mt-2 flex items-center gap-2">
+          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 text-[#C9A34E]/40" fill="currentColor"><path d="M6 1 L7 4.5 L11 5 L8 7.5 L9 11 L6 9 L3 11 L4 7.5 L1 5 L5 4.5Z" /></svg>
+          <p className="text-[7px] uppercase tracking-[0.15em] text-[#B8A080]" style={{ fontFamily: "var(--font-montserrat)" }}>
+            The Rosewater Estate, Toronto
+          </p>
+          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 text-[#C9A34E]/40" fill="currentColor"><path d="M6 1 L7 4.5 L11 5 L8 7.5 L9 11 L6 9 L3 11 L4 7.5 L1 5 L5 4.5Z" /></svg>
+        </div>
+
+        {/* Bottom ornament */}
+        <div className="mt-2 flex items-center gap-1 text-[#C9A34E]/25">
+          <div className="h-px w-8 bg-[#C9A34E]/20" />
+          <span className="text-[7px]">✦</span>
+          <div className="h-px w-8 bg-[#C9A34E]/20" />
+        </div>
       </div>
+
+      {/* Edge glow */}
+      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_0_40px_rgba(201,163,78,0.06),inset_0_1px_0_rgba(255,255,255,0.5)]" />
     </div>
   );
 }
 
-function BusinessModern() {
+/* ── Card 2: Business Card ── */
+function BusinessCard() {
   return (
-    <div className="flex h-full w-full flex-col justify-between rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#1e293b] p-7">
-      {/* Top */}
-      <div>
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-500/20" />
-          <span
-            className="text-[10px] font-semibold uppercase tracking-[0.15em] text-cyan-400"
-            style={{ fontFamily: "var(--font-montserrat)" }}
-          >
-            TechNova
-          </span>
+    <div className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-[#111111] via-[#1A1A1A] to-[#0A0A0A] p-7">
+      {/* Diagonal pinstripe texture */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 4px, #fff 4px, #fff 5px)" }} />
+
+      {/* Top gold line */}
+      <div className="absolute top-0 right-0 left-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A34E] to-transparent opacity-50" />
+      {/* Bottom subtle line */}
+      <div className="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-[#C9A34E]/15 to-transparent" />
+
+      {/* Content top */}
+      <div className="relative z-10">
+        <div className="flex items-center gap-3">
+          {/* Logo */}
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#C9A34E] to-[#DBBD6A] shadow-lg shadow-[#C9A34E]/20">
+            <span className="text-[14px] font-bold text-white" style={{ fontFamily: "var(--font-cinzel)" }}>A</span>
+          </div>
+          <div>
+            <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#DBBD6A]" style={{ fontFamily: "var(--font-cinzel)" }}>
+              Aurelius & Co.
+            </span>
+            <div className="mt-1 h-px w-14 bg-gradient-to-r from-[#C9A34E]/40 to-transparent" />
+          </div>
         </div>
       </div>
-      {/* Bottom */}
-      <div>
-        <h3
-          className="text-lg font-bold text-white"
-          style={{ fontFamily: "var(--font-raleway)" }}
-        >
+
+      {/* Content bottom */}
+      <div className="relative z-10">
+        <h3 className="text-[20px] font-bold tracking-wide text-white" style={{ fontFamily: "var(--font-playfair)" }}>
           Aman Gupta
         </h3>
-        <p
-          className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-cyan-400/70"
-          style={{ fontFamily: "var(--font-montserrat)" }}
-        >
-          Senior Product Designer
+        <p className="mt-1 text-[8px] font-medium uppercase tracking-[0.2em] text-[#C9A34E]" style={{ fontFamily: "var(--font-montserrat)" }}>
+          Managing Director
         </p>
-        <div className="mt-3 space-y-1">
-          <p className="text-[9px] text-slate-400">aman@technova.com</p>
-          <p className="text-[9px] text-slate-400">+1 (647) 555-0123</p>
+
+        <div className="mt-4 h-px w-full bg-gradient-to-r from-[#C9A34E]/20 via-[#C9A34E]/10 to-transparent" />
+
+        <div className="mt-3 grid grid-cols-[auto_1fr] gap-x-2.5 gap-y-2">
+          {[
+            { icon: "✉", text: "aman@aurelius.co" },
+            { icon: "☎", text: "+1 (647) 555-0123" },
+            { icon: "◎", text: "aurelius.co" },
+          ].map((item) => (
+            <div key={item.text} className="contents">
+              <span className="text-[7px] text-[#C9A34E]/50">{item.icon}</span>
+              <p className="text-[8px] tracking-wider text-[#999]">{item.text}</p>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Edge highlights */}
+      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_-1px_0_rgba(201,163,78,0.08)]" />
     </div>
   );
 }
 
-function WeddingRoyal() {
+/* ── Card 3: Event / Gala Card ── */
+function EventCard() {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#1a0a2e] to-[#2d1654] p-8 text-center">
-      {/* Corner accents */}
-      <div className="absolute top-3 left-3 h-8 w-8 border-t-2 border-l-2 border-amber-400/30 rounded-tl-sm" />
-      <div className="absolute right-3 bottom-3 h-8 w-8 border-r-2 border-b-2 border-amber-400/30 rounded-br-sm" />
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#0D1117] via-[#161B26] to-[#0A0E14] text-center">
+      {/* Radial glow */}
+      <div className="absolute top-[40%] left-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C9A34E]/6 blur-[70px]" />
+      {/* Secondary glow */}
+      <div className="absolute bottom-[20%] left-[30%] h-32 w-32 rounded-full bg-[#1A3A5C]/15 blur-[50px]" />
 
-      <p
-        className="text-[9px] uppercase tracking-[0.25em] text-amber-300/60"
-        style={{ fontFamily: "var(--font-cinzel)" }}
-      >
-        You are cordially invited
-      </p>
-      <h3
-        className="mt-2 text-[26px] leading-tight text-amber-100"
-        style={{ fontFamily: "var(--font-great-vibes)" }}
-      >
-        Rahul & Simran
-      </h3>
-      <div className="my-2 flex items-center gap-2">
-        <div className="h-px w-10 bg-gradient-to-r from-transparent to-amber-400/40" />
-        <span className="text-[10px] text-amber-400/50">⟡</span>
-        <div className="h-px w-10 bg-gradient-to-l from-transparent to-amber-400/40" />
-      </div>
-      <p
-        className="text-xs font-light text-purple-200/70"
-        style={{ fontFamily: "var(--font-cormorant)" }}
-      >
-        December 12, 2026
-      </p>
-      <p
-        className="mt-1 text-[9px] text-purple-300/50"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        The Grand Palace, Jaipur
-      </p>
-    </div>
-  );
-}
+      {/* Particle dots */}
+      {[
+        "top-[12%] left-[18%] h-1 w-1 opacity-30",
+        "top-[22%] right-[25%] h-0.5 w-0.5 opacity-20",
+        "top-[65%] left-[15%] h-0.5 w-0.5 opacity-25",
+        "bottom-[18%] right-[20%] h-1 w-1 opacity-20",
+        "top-[40%] right-[12%] h-0.5 w-0.5 opacity-15",
+        "bottom-[35%] left-[25%] h-0.5 w-0.5 opacity-20",
+      ].map((cls, i) => (
+        <div key={i} className={`absolute rounded-full bg-[#C9A34E] ${cls}`} />
+      ))}
 
-function BusinessMinimal() {
-  return (
-    <div className="flex h-full w-full flex-col justify-between rounded-2xl bg-white p-7 shadow-inner">
-      <div>
-        <div className="h-7 w-7 rounded-full bg-gradient-to-br from-[#B8860B] to-[#D4A843] shadow-md shadow-[#B8860B]/20" />
-      </div>
-      <div>
-        <h3
-          className="text-lg font-semibold text-gray-900"
-          style={{ fontFamily: "var(--font-raleway)" }}
-        >
-          Sara Chen
+      {/* Corner L-brackets */}
+      <div className="absolute top-4 left-4 h-8 w-8 border-t border-l border-[#C9A34E]/20" />
+      <div className="absolute top-4 right-4 h-8 w-8 border-t border-r border-[#C9A34E]/20" />
+      <div className="absolute bottom-4 left-4 h-8 w-8 border-b border-l border-[#C9A34E]/20" />
+      <div className="absolute right-4 bottom-4 h-8 w-8 border-r border-b border-[#C9A34E]/20" />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center px-5">
+        <EventIcon className="mb-2 h-10 w-10" />
+
+        <p className="text-[7px] font-medium uppercase tracking-[0.3em] text-[#C9A34E]/45" style={{ fontFamily: "var(--font-cinzel)" }}>
+          You are invited to
+        </p>
+
+        <div className="my-2 h-px w-20 bg-gradient-to-r from-transparent via-[#C9A34E]/20 to-transparent" />
+
+        <h3 className="text-[22px] font-bold tracking-wide text-white/90" style={{ fontFamily: "var(--font-playfair)" }}>
+          Midnight Gala
         </h3>
-        <p
-          className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[#B8860B]"
-          style={{ fontFamily: "var(--font-montserrat)" }}
-        >
-          Creative Director
+        <p className="mt-1 text-[9px] font-light tracking-[0.15em] text-[#C9A34E]/60" style={{ fontFamily: "var(--font-cormorant)" }}>
+          An Evening of Art & Elegance
         </p>
-        <div className="mt-3 h-px w-12 bg-gradient-to-r from-[#D4A843] to-transparent" />
-        <div className="mt-2 space-y-0.5">
-          <p className="text-[9px] text-gray-400">sara@designhaus.co</p>
-          <p className="text-[9px] text-gray-400">designhaus.co</p>
+
+        <div className="my-3 flex items-center gap-2">
+          <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#C9A34E]/20" />
+          <div className="h-1.5 w-1.5 rotate-45 border border-[#C9A34E]/30 bg-[#C9A34E]/10" />
+          <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#C9A34E]/20" />
         </div>
+
+        {/* Date & time panel */}
+        <div className="rounded-lg border border-[#C9A34E]/10 bg-[#C9A34E]/[0.04] px-5 py-2.5">
+          <p className="text-[11px] font-light tracking-wider text-[#C5D0E0]/60" style={{ fontFamily: "var(--font-cormorant)" }}>
+            November 28, 2026
+          </p>
+          <p className="mt-0.5 text-[8px] uppercase tracking-[0.15em] text-[#C9A34E]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
+            8:00 PM · Black Tie
+          </p>
+        </div>
+
+        <p className="mt-3 text-[7px] uppercase tracking-[0.15em] text-[#6A8AAE]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
+          The Crystal Pavilion · Vancouver
+        </p>
       </div>
+
+      {/* Edge light */}
+      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(201,163,78,0.08),inset_0_-1px_0_rgba(201,163,78,0.04)]" />
     </div>
   );
 }
 
-function WeddingFloral() {
+/* ── Card 4: Personal Identity Card ── */
+function PersonalCard() {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#fef7f0] to-[#fce4ec] p-8 text-center">
-      {/* Decorative flower hint corners */}
-      <div className="absolute top-2 right-2 text-lg text-rose-300/30">✿</div>
-      <div className="absolute bottom-2 left-2 text-lg text-rose-300/30">✿</div>
+    <div className="relative flex h-full w-full flex-col items-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#FDFBF7] via-[#F8F3EA] to-[#F0E8D8]">
+      {/* Texture */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='0.3'/%3E%3C/g%3E%3C/svg%3E\")" }} />
 
-      <p
-        className="text-[9px] uppercase tracking-[0.25em] text-rose-400/80"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        Save the Date
-      </p>
-      <h3
-        className="mt-2 text-[26px] leading-tight text-rose-800"
-        style={{ fontFamily: "var(--font-dancing-script)" }}
-      >
-        Arjun & Meera
-      </h3>
-      <div className="my-2 flex items-center gap-2">
-        <div className="h-px w-6 bg-rose-300/50" />
-        <span className="text-xs text-rose-400/60">♥</span>
-        <div className="h-px w-6 bg-rose-300/50" />
+      {/* Gold accent top */}
+      <div className="absolute top-0 right-0 left-0 h-[2px] bg-gradient-to-r from-[#C9A34E]/15 via-[#C9A34E]/40 to-[#C9A34E]/15" />
+
+      {/* Border */}
+      <div className="absolute inset-3 rounded-xl border border-[#C9A34E]/10" />
+
+      {/* Content */}
+      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 py-8">
+        {/* Avatar */}
+        <div className="relative mb-3">
+          <div className="h-16 w-16 rounded-full border-2 border-[#C9A34E]/25 bg-gradient-to-br from-[#C9A34E]/15 to-[#DBBD6A]/10 p-[3px]">
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-[#F8F3EA]">
+              <span className="text-[20px] font-bold text-[#C9A34E]/60" style={{ fontFamily: "var(--font-playfair)" }}>N</span>
+            </div>
+          </div>
+          {/* Online indicator */}
+          <div className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-[#F8F3EA] bg-[#4CAF50]" />
+        </div>
+
+        <h3 className="text-[18px] font-bold text-[#1A1A1A]" style={{ fontFamily: "var(--font-playfair)" }}>
+          Nisha Patel
+        </h3>
+        <p className="mt-0.5 text-[8px] font-medium uppercase tracking-[0.15em] text-[#C9A34E]" style={{ fontFamily: "var(--font-montserrat)" }}>
+          Brand Strategist
+        </p>
+
+        <div className="mt-3 h-px w-20 bg-gradient-to-r from-transparent via-[#C9A34E]/20 to-transparent" />
+
+        <p className="mt-3 max-w-[180px] text-center text-[8px] leading-relaxed text-[#8B7355]" style={{ fontFamily: "var(--font-cormorant)" }}>
+          Crafting narratives that connect brands with the people who matter most.
+        </p>
+
+        {/* Social row */}
+        <div className="mt-4 flex items-center gap-3">
+          {["in", "𝕏", "◉"].map((icon, i) => (
+            <div key={i} className="flex h-7 w-7 items-center justify-center rounded-full border border-[#C9A34E]/15 bg-[#C9A34E]/[0.04] text-[8px] font-bold text-[#C9A34E]/50">
+              {icon}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-3 flex items-center gap-2">
+          <div className="h-0.5 w-0.5 rounded-full bg-[#C9A34E]/30" />
+          <p className="text-[7px] tracking-wider text-[#8B7355]">nisha.patel.co</p>
+          <div className="h-0.5 w-0.5 rounded-full bg-[#C9A34E]/30" />
+        </div>
       </div>
-      <p
-        className="text-sm font-light text-rose-700/70"
-        style={{ fontFamily: "var(--font-cormorant)" }}
-      >
-        March 22, 2026
-      </p>
-      <p
-        className="mt-1 text-[9px] text-rose-500/50"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        Garden Estate, Toronto
-      </p>
+
+      {/* Edge glow */}
+      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_0_25px_rgba(201,163,78,0.05),inset_0_1px_0_rgba(255,255,255,0.6)]" />
+    </div>
+  );
+}
+
+/* ── Card 5: Royal Dark Wedding ── */
+function RoyalWeddingCard() {
+  return (
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#0C1520] via-[#101D2E] to-[#08101A] text-center">
+      {/* Center radial glow */}
+      <div className="absolute top-[45%] left-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C9A34E]/6 blur-[65px]" />
+
+      {/* Corner L-brackets */}
+      <div className="absolute top-4 left-4 h-10 w-10 border-t border-l border-[#C9A34E]/25" />
+      <div className="absolute top-4 right-4 h-10 w-10 border-t border-r border-[#C9A34E]/25" />
+      <div className="absolute bottom-4 left-4 h-10 w-10 border-b border-l border-[#C9A34E]/25" />
+      <div className="absolute right-4 bottom-4 h-10 w-10 border-r border-b border-[#C9A34E]/25" />
+
+      {/* Inner frame */}
+      <div className="absolute inset-6 rounded-lg border border-[#C9A34E]/8" />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center px-5">
+        {/* Crown */}
+        <div className="mb-1 text-[14px] text-[#C9A34E]/35">♛</div>
+
+        <p className="text-[7px] font-medium uppercase tracking-[0.3em] text-[#C9A34E]/40" style={{ fontFamily: "var(--font-cinzel)" }}>
+          You are cordially invited
+        </p>
+
+        <div className="my-2 flex items-center gap-2">
+          <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#C9A34E]/25" />
+          <div className="h-1 w-1 rotate-45 bg-[#C9A34E]/25" />
+          <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#C9A34E]/25" />
+        </div>
+
+        <p className="text-[7px] tracking-[0.12em] text-[#7A9CC6]/40" style={{ fontFamily: "var(--font-montserrat)" }}>
+          to the wedding celebration of
+        </p>
+
+        {/* Couple illustration */}
+        <CoupleIllustration className="my-1 h-[40px] w-[55px] opacity-70" />
+
+        <h3 className="text-[26px] leading-tight text-[#E8DCC8]" style={{ fontFamily: "var(--font-great-vibes)" }}>
+          Rahul <span className="text-[#DBBD6A]">&</span> Simran
+        </h3>
+
+        <div className="my-2 flex items-center gap-2">
+          <div className="h-px w-14 bg-gradient-to-r from-transparent to-[#C9A34E]/20" />
+          <span className="text-[7px] text-[#C9A34E]/30">⟡</span>
+          <div className="h-px w-14 bg-gradient-to-l from-transparent to-[#C9A34E]/20" />
+        </div>
+
+        <div className="rounded-lg border border-[#C9A34E]/8 bg-[#C9A34E]/[0.04] px-4 py-2">
+          <p className="text-[11px] font-light tracking-wider text-[#C5D5E8]/60" style={{ fontFamily: "var(--font-cormorant)" }}>
+            December 12, 2026
+          </p>
+          <p className="mt-0.5 text-[7px] uppercase tracking-[0.12em] text-[#7A9CC6]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
+            at Five O&apos;Clock in the Evening
+          </p>
+        </div>
+
+        <p className="mt-2.5 text-[7px] uppercase tracking-[0.12em] text-[#C9A34E]/30" style={{ fontFamily: "var(--font-montserrat)" }}>
+          The Grand Palace · Jaipur
+        </p>
+      </div>
+
+      {/* Edge glow */}
+      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(201,163,78,0.08),inset_0_-1px_0_rgba(201,163,78,0.04)]" />
     </div>
   );
 }
 
 /* ================================================================== */
-/*  Card configs — position, depth, size                              */
+/*  Card configs                                                      */
 /* ================================================================== */
 
 const SHOWCASE_CARDS = [
-  { id: 0, Component: WeddingElegance, title: "Wedding Invitation" },
-  { id: 1, Component: BusinessModern,  title: "Business Card" },
-  { id: 2, Component: WeddingRoyal,    title: "Royal Invitation" },
-  { id: 3, Component: BusinessMinimal, title: "Minimal Business" },
-  { id: 4, Component: WeddingFloral,   title: "Floral Save-the-Date" },
+  { id: 0, Component: WeddingCard,      title: "Wedding Invitation" },
+  { id: 1, Component: BusinessCard,     title: "Business Card" },
+  { id: 2, Component: EventCard,        title: "Event Invitation" },
+  { id: 3, Component: PersonalCard,     title: "Personal Card" },
+  { id: 4, Component: RoyalWeddingCard, title: "Royal Wedding" },
 ];
 
 /* Position configs for each card relative to spotlight (center = focused) */
@@ -335,7 +534,7 @@ export function FloatingCardsHero() {
           style={{
             width: 400,
             height: 300,
-            background: "radial-gradient(ellipse, rgba(184,134,11,0.10) 0%, rgba(212,168,67,0.05) 40%, transparent 70%)",
+            background: "radial-gradient(ellipse, rgba(201,163,78,0.12) 0%, rgba(219,189,106,0.05) 40%, transparent 70%)",
             filter: "blur(50px)",
           }}
         />
@@ -357,7 +556,7 @@ export function FloatingCardsHero() {
               }}
               animate={{
                 x: pos.x,
-                y: pos.y,
+                y: isFocused ? [0, -6, 0] : pos.y,
                 scale: isHovered && !isFocused ? pos.scale * 1.08 : pos.scale,
                 rotate: pos.rotate,
                 opacity: pos.opacity,
@@ -368,22 +567,29 @@ export function FloatingCardsHero() {
                 stiffness: 80,
                 damping: 20,
                 mass: 1,
+                ...(isFocused && {
+                  y: {
+                    repeat: Infinity,
+                    duration: 3.5,
+                    ease: "easeInOut",
+                  },
+                }),
               }}
               onClick={() => handleCardClick(card.id)}
               onHoverStart={() => setHoveredId(card.id)}
               onHoverEnd={() => setHoveredId(null)}
               whileHover={
                 isFocused
-                  ? { y: -8, transition: { type: "spring", stiffness: 200, damping: 15 } }
+                  ? { y: -12, scale: 1.02, transition: { type: "spring", stiffness: 200, damping: 15 } }
                   : undefined
               }
             >
               <div
-                className={`h-full w-full overflow-hidden rounded-2xl transition-shadow duration-500 ${
+                className={`h-full w-full overflow-hidden rounded-2xl border transition-all duration-500 ${
                   isFocused
-                    ? "shadow-[0_30px_80px_-10px_rgba(184,134,11,0.25)]"
-                    : "shadow-[0_12px_40px_-8px_rgba(0,0,0,0.15)]"
-                } ${isHovered ? "ring-2 ring-white/20" : ""}`}
+                    ? "border-[#C9A34E]/25 shadow-[0_30px_90px_-10px_rgba(201,163,78,0.35),0_0_0_1px_rgba(201,163,78,0.12)]"
+                    : "border-[#E8E4DE]/40 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25),0_0_0_1px_rgba(0,0,0,0.05)]"
+                } ${isHovered && !isFocused ? "border-[#C9A34E]/15 shadow-[0_25px_70px_-10px_rgba(201,163,78,0.2)]" : ""}`}
               >
                 <card.Component />
               </div>
@@ -415,7 +621,7 @@ export function FloatingCardsHero() {
             onClick={() => setActiveIndex(card.id)}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               card.id === activeIndex
-                ? "w-6 bg-[#B8860B]"
+                ? "w-6 bg-[#C9A34E]"
                 : "w-1.5 bg-muted-foreground/25 hover:bg-muted-foreground/50"
             }`}
           />
