@@ -8,397 +8,393 @@ import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/animated-invite/shared/magnetic-button";
 
 /* ================================================================== */
-/*  Gold accent color                                                 */
+/*  5 artwork-level cards — each a different Cardora capability       */
 /* ================================================================== */
 
-const G = "#C9A34E"; // primary gold
+/* noise texture as inline data URI — shared across cards */
+const GRAIN = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")";
 
-/* ================================================================== */
-/*  Inline SVG helpers                                                */
-/* ================================================================== */
-
-function CoupleIllustration({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      {/* Groom silhouette */}
-      <circle cx="30" cy="16" r="7" fill={G} fillOpacity="0.2" />
-      <path d="M22 55 L22 30 Q22 22 30 22 Q38 22 38 30 L38 55" fill={G} fillOpacity="0.12" />
-      <rect x="26" y="30" width="8" height="1.5" rx="0.75" fill={G} fillOpacity="0.25" />
-      {/* Bride silhouette */}
-      <circle cx="50" cy="16" r="7" fill={G} fillOpacity="0.2" />
-      <path d="M40 55 L42 28 Q42 22 50 22 Q58 22 58 28 L60 55 Q50 50 40 55Z" fill={G} fillOpacity="0.12" />
-      {/* Veil hint */}
-      <path d="M50 10 Q58 8 60 16 Q56 14 50 16" fill={G} fillOpacity="0.08" />
-      {/* Connecting hearts */}
-      <path d="M38 35 Q40 32 42 35 Q40 38 38 35Z" fill={G} fillOpacity="0.3" />
-    </svg>
-  );
-}
-
-function EventIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <circle cx="20" cy="20" r="18" stroke={G} strokeOpacity="0.25" strokeWidth="0.5" />
-      <circle cx="20" cy="20" r="12" stroke={G} strokeOpacity="0.15" strokeWidth="0.5" />
-      <path d="M20 8 L22 16 L20 14 L18 16Z" fill={G} fillOpacity="0.35" />
-      <path d="M20 32 L18 24 L20 26 L22 24Z" fill={G} fillOpacity="0.35" />
-      <path d="M8 20 L16 18 L14 20 L16 22Z" fill={G} fillOpacity="0.35" />
-      <path d="M32 20 L24 22 L26 20 L24 18Z" fill={G} fillOpacity="0.35" />
-      <circle cx="20" cy="20" r="3" fill={G} fillOpacity="0.2" />
-    </svg>
-  );
-}
-
-/* ================================================================== */
-/*  5 premium card designs                                            */
-/* ================================================================== */
-
-/* ── Card 1: Wedding Invitation (HERO CARD) ── */
+/* ─── 1. WEDDING — Cinematic night scene (HERO) ─── */
 function WeddingCard() {
   return (
-    <div className="relative flex h-full w-full flex-col items-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#FBF7F0] via-[#F7EFDF] to-[#EDE4D0]">
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px] border border-[#D4AF37]/15 shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
+      {/* Warm peach base — darker than before */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#F6E3D7] via-[#F0D4C2] via-[50%] to-[#E8C1B0]" />
+      {/* Subtle warm bloom */}
+      <div className="absolute top-[8%] left-1/2 h-36 w-48 -translate-x-1/2 rounded-full bg-[#FFF5EC]/40 blur-[45px]" />
+      {/* Vignette — stronger deep brown edges */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_48%,transparent_40%,rgba(58,31,26,0.14)_100%)]" />
       {/* Paper grain */}
-      <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='0.3'/%3E%3C/g%3E%3C/svg%3E\")" }} />
+      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: GRAIN }} />
 
-      {/* Outer gold frame */}
-      <div className="absolute inset-[10px] rounded-xl border border-[#C9A34E]/20" />
-      {/* Inner gold frame */}
-      <div className="absolute inset-[18px] rounded-lg border border-[#C9A34E]/10" />
+      {/* ── Top floral — LEFT ── */}
+      <svg viewBox="0 0 100 130" className="absolute -top-1 -left-1 h-[34%] w-auto" fill="none">
+        <circle cx="28" cy="30" r="16" fill="#D45570" fillOpacity="0.55" />
+        <circle cx="28" cy="30" r="10" fill="#B83E55" fillOpacity="0.35" />
+        <circle cx="28" cy="30" r="4" fill="#9A2840" fillOpacity="0.22" />
+        <circle cx="52" cy="50" r="11" fill="#E8826A" fillOpacity="0.45" />
+        <circle cx="52" cy="50" r="6" fill="#D06850" fillOpacity="0.25" />
+        <circle cx="15" cy="55" r="7" fill="#F4A0B0" fillOpacity="0.38" />
+        <path d="M60 28 Q72 22 68 42 Q62 36 60 28Z" fill="#5A7A4E" fillOpacity="0.32" />
+        <path d="M5 38 Q-2 30 10 24 Q14 32 5 38Z" fill="#5A7A4E" fillOpacity="0.25" />
+        <path d="M38 65 Q48 58 48 72 Q40 68 38 65Z" fill="#6B8F5E" fillOpacity="0.20" />
+      </svg>
 
-      {/* Corner ornaments */}
+      {/* ── Top floral — RIGHT ── */}
+      <svg viewBox="0 0 100 130" className="absolute -top-1 -right-1 h-[34%] w-auto -scale-x-100" fill="none">
+        <circle cx="28" cy="30" r="16" fill="#E8826A" fillOpacity="0.50" />
+        <circle cx="28" cy="30" r="10" fill="#D06850" fillOpacity="0.28" />
+        <circle cx="28" cy="30" r="4" fill="#B85040" fillOpacity="0.20" />
+        <circle cx="52" cy="50" r="11" fill="#F4A0B0" fillOpacity="0.42" />
+        <circle cx="52" cy="50" r="6" fill="#D87888" fillOpacity="0.22" />
+        <circle cx="15" cy="55" r="7" fill="#FFAB91" fillOpacity="0.32" />
+        <path d="M60 28 Q72 22 68 42 Q62 36 60 28Z" fill="#6B8F5E" fillOpacity="0.26" />
+        <path d="M5 38 Q-2 30 10 24 Q14 32 5 38Z" fill="#6B8F5E" fillOpacity="0.22" />
+        <path d="M38 65 Q48 58 48 72 Q40 68 38 65Z" fill="#5A7A4E" fillOpacity="0.18" />
+      </svg>
+
+      {/* ── Bottom florals ── */}
+      <svg viewBox="0 0 300 50" preserveAspectRatio="xMidYMax slice" className="absolute bottom-0 left-0 w-full" fill="none">
+        <circle cx="25" cy="38" r="12" fill="#D45570" fillOpacity="0.40" />
+        <circle cx="25" cy="38" r="6" fill="#B83E55" fillOpacity="0.20" />
+        <circle cx="55" cy="44" r="7" fill="#FFAB91" fillOpacity="0.30" />
+        <circle cx="275" cy="38" r="12" fill="#E8826A" fillOpacity="0.38" />
+        <circle cx="275" cy="38" r="6" fill="#D06850" fillOpacity="0.18" />
+        <circle cx="245" cy="44" r="7" fill="#F4A0B0" fillOpacity="0.28" />
+        <path d="M42 30 Q50 24 50 38 Q44 35 42 30Z" fill="#5A7A4E" fillOpacity="0.25" />
+        <path d="M258 30 Q266 24 266 38 Q260 35 258 30Z" fill="#6B8F5E" fillOpacity="0.22" />
+      </svg>
+
+      {/* ── Petals ── */}
       {[
-        "top-3 left-3",
-        "top-3 right-3 -scale-x-100",
-        "bottom-3 left-3 -scale-y-100",
-        "bottom-3 right-3 -scale-x-100 -scale-y-100",
-      ].map((pos) => (
-        <div key={pos} className={`absolute ${pos} text-[14px] leading-none text-[#C9A34E]/35`}>❧</div>
+        { l: 10, t: 42, c: "#D45570", r: 25, sz: 9 },
+        { l: 86, t: 46, c: "#E8826A", r: -18, sz: 8 },
+        { l: 20, t: 56, c: "#F4A0B0", r: 35, sz: 7 },
+        { l: 78, t: 52, c: "#FFAB91", r: -28, sz: 8 },
+      ].map((p, i) => (
+        <svg key={`petal${i}`} viewBox="0 0 12 16" className="absolute" style={{ left: `${p.l}%`, top: `${p.t}%`, width: p.sz, height: p.sz * 1.3, opacity: 0.30, transform: `rotate(${p.r}deg)` }}>
+          <path d="M6 0 Q10 4 10 10 Q8 14 6 16 Q4 14 2 10 Q2 4 6 0Z" fill={p.c} />
+        </svg>
       ))}
 
-      {/* Content */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 py-6">
-        {/* Top ornament */}
-        <div className="flex items-center gap-1 text-[#C9A34E]/40">
-          <span className="text-[6px]">✦</span>
-          <span className="text-[8px]">✦</span>
-          <span className="text-[10px]">✦</span>
-          <span className="text-[8px]">✦</span>
-          <span className="text-[6px]">✦</span>
-        </div>
+      {/* ── Gold arch frame — slightly stronger ── */}
+      <svg viewBox="0 0 200 320" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 h-full w-full" fill="none">
+        <path d="M40 310 L40 120 Q40 50 100 40 Q160 50 160 120 L160 310" stroke="#D4AF37" strokeWidth="0.6" strokeOpacity="0.28" />
+        <path d="M50 305 L50 125 Q50 60 100 50 Q150 60 150 125 L150 305" stroke="#D4AF37" strokeWidth="0.35" strokeOpacity="0.15" />
+        {/* Arch fill — very subtle tinted shape for depth */}
+        <path d="M50 305 L50 125 Q50 60 100 50 Q150 60 150 125 L150 305Z" fill="#3A1F1A" fillOpacity="0.015" />
+        <circle cx="100" cy="38" r="3.5" fill="#D4AF37" fillOpacity="0.22" />
+        <path d="M92 40 L100 33 L108 40" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.20" fill="none" />
+        {/* Small gold dots on arch */}
+        <circle cx="40" cy="200" r="1.5" fill="#D4AF37" fillOpacity="0.12" />
+        <circle cx="160" cy="200" r="1.5" fill="#D4AF37" fillOpacity="0.12" />
+      </svg>
 
-        <p className="mt-2 text-[7px] font-medium uppercase tracking-[0.35em] text-[#9A8560]" style={{ fontFamily: "var(--font-cinzel)" }}>
+      {/* ── Couple silhouette ── */}
+      <svg viewBox="0 0 120 130" className="absolute bottom-[14%] left-1/2 h-[120px] -translate-x-1/2">
+        <ellipse cx="60" cy="126" rx="35" ry="3" fill="#3A1F1A" fillOpacity="0.06" />
+        {/* Groom */}
+        <circle cx="44" cy="28" r="12" fill="#3A1F1A" fillOpacity="0.55" />
+        <path d="M28 125 L32 55 Q32 40 44 40 Q56 40 56 55 L60 125" fill="#3A1F1A" fillOpacity="0.50" />
+        <path d="M35 22 Q44 14 53 22 Q53 28 44 30 Q35 28 35 22Z" fill="#D4AF37" fillOpacity="0.35" />
+        <path d="M38 58 L50 58 L48 68 L40 68Z" fill="#D4AF37" fillOpacity="0.20" />
+        {/* Bride */}
+        <circle cx="76" cy="28" r="12" fill="#4A1525" fillOpacity="0.50" />
+        <path d="M56 125 L60 52 Q60 40 76 40 Q92 40 92 52 L100 125 Q76 115 56 125Z" fill="#4A1525" fillOpacity="0.45" />
+        <path d="M76 18 Q95 14 100 42 Q90 34 76 28" fill="#D45570" fillOpacity="0.20" />
+        <circle cx="76" cy="24" r="1.5" fill="#D4AF37" fillOpacity="0.50" />
+        {/* Garland */}
+        <path d="M56 62 Q68 76 80 62" stroke="#D45570" strokeOpacity="0.45" strokeWidth="1" fill="none" />
+        <circle cx="62" cy="71" r="1.8" fill="#E8826A" fillOpacity="0.38" />
+        <circle cx="68" cy="74" r="2" fill="#D45570" fillOpacity="0.32" />
+        <circle cx="74" cy="71" r="1.8" fill="#F4A0B0" fillOpacity="0.35" />
+      </svg>
+
+      {/* ── Content ── */}
+      <div className="relative z-10 mt-auto flex w-full flex-col items-center px-5 pb-5">
+        <p className="text-[7px] font-medium uppercase tracking-[0.4em] text-[#3A1F1A]/55" style={{ fontFamily: "var(--font-cinzel)" }}>
           Together with their families
         </p>
-
-        <div className="my-2 h-px w-24 bg-gradient-to-r from-transparent via-[#C9A34E]/30 to-transparent" />
-
-        {/* Couple illustration */}
-        <CoupleIllustration className="my-1 h-[52px] w-[70px]" />
-
-        <h3 className="text-[26px] leading-tight text-[#3D3427]" style={{ fontFamily: "var(--font-great-vibes)" }}>
-          Aarav <span className="text-[#C9A34E]">&</span> Priya
+        <h3 className="mt-2 text-[30px] leading-tight text-[#2A0E0E]" style={{ fontFamily: "var(--font-great-vibes)" }}>
+          Aarav <span className="text-[#D4AF37]">&</span> Priya
         </h3>
-
-        {/* Decorative divider */}
-        <div className="my-2 flex items-center gap-3">
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#C9A34E]/25" />
-          <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-[#C9A34E]/25 bg-[#C9A34E]/5">
-            <span className="text-[6px] text-[#C9A34E]">❦</span>
-          </div>
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#C9A34E]/25" />
+        <div className="my-1.5 flex items-center gap-2">
+          <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#D4AF37]/45" />
+          <span className="text-[7px] text-[#D4AF37]/65">✦</span>
+          <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#D4AF37]/45" />
         </div>
-
-        <p className="text-[7px] font-medium uppercase tracking-[0.2em] text-[#9A8560]" style={{ fontFamily: "var(--font-cinzel)" }}>
-          Request the pleasure of your company
+        <p className="rounded-full border border-[#D4AF37]/25 bg-white/45 px-5 py-1.5 text-[10px] font-light tracking-wider text-[#3A1F1A]/70 shadow-[0_2px_10px_rgba(58,31,26,0.06)] backdrop-blur-sm" style={{ fontFamily: "var(--font-cormorant)" }}>
+          June 15, 2026 · Six in the Evening
         </p>
-
-        {/* Date panel */}
-        <div className="mt-3 rounded-lg border border-[#C9A34E]/12 bg-[#C9A34E]/[0.04] px-5 py-2.5">
-          <p className="text-[12px] font-light text-[#5A4D3A]" style={{ fontFamily: "var(--font-cormorant)" }}>
-            Saturday, the Fifteenth of June
-          </p>
-          <p className="text-[9px] tracking-[0.1em] text-[#9A8560]" style={{ fontFamily: "var(--font-cormorant)" }}>
-            Two Thousand Twenty Six
-          </p>
-        </div>
-
-        <div className="mt-2 flex items-center gap-2">
-          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 text-[#C9A34E]/40" fill="currentColor"><path d="M6 1 L7 4.5 L11 5 L8 7.5 L9 11 L6 9 L3 11 L4 7.5 L1 5 L5 4.5Z" /></svg>
-          <p className="text-[7px] uppercase tracking-[0.15em] text-[#B8A080]" style={{ fontFamily: "var(--font-montserrat)" }}>
-            The Rosewater Estate, Toronto
-          </p>
-          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 text-[#C9A34E]/40" fill="currentColor"><path d="M6 1 L7 4.5 L11 5 L8 7.5 L9 11 L6 9 L3 11 L4 7.5 L1 5 L5 4.5Z" /></svg>
-        </div>
-
-        {/* Bottom ornament */}
-        <div className="mt-2 flex items-center gap-1 text-[#C9A34E]/25">
-          <div className="h-px w-8 bg-[#C9A34E]/20" />
-          <span className="text-[7px]">✦</span>
-          <div className="h-px w-8 bg-[#C9A34E]/20" />
-        </div>
+        <p className="mt-2 text-[7px] uppercase tracking-[0.15em] text-[#3A1F1A]/40" style={{ fontFamily: "var(--font-montserrat)" }}>
+          The Rosewater Estate · Toronto
+        </p>
       </div>
 
-      {/* Edge glow */}
-      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_0_40px_rgba(201,163,78,0.06),inset_0_1px_0_rgba(255,255,255,0.5)]" />
+      {/* Inner edge highlight */}
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(255,255,255,0.4),inset_0_-1px_0_rgba(58,31,26,0.06)]" />
     </div>
   );
 }
 
-/* ── Card 2: Business Card ── */
+/* ─── 2. BUSINESS CARD — Marble & gold texture ─── */
 function BusinessCard() {
   return (
-    <div className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-[#111111] via-[#1A1A1A] to-[#0A0A0A] p-7">
-      {/* Diagonal pinstripe texture */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 4px, #fff 4px, #fff 5px)" }} />
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px]">
+      {/* Dark marble base */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1A1A1A] via-[#222] to-[#111]" />
+      {/* Marble veins */}
+      <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full opacity-[0.04]">
+        <path d="M-20 50 Q80 80 150 30 Q220 -10 320 60" stroke="white" strokeWidth="0.8" fill="none" />
+        <path d="M-20 120 Q100 160 180 100 Q260 50 340 130" stroke="white" strokeWidth="0.5" fill="none" />
+        <path d="M-10 220 Q90 190 170 240 Q250 280 330 210" stroke="white" strokeWidth="0.6" fill="none" />
+        <path d="M-20 320 Q70 290 160 340 Q250 380 340 310" stroke="white" strokeWidth="0.4" fill="none" />
+      </svg>
+      {/* Gold edge accent */}
+      <div className="absolute top-0 right-0 left-0 h-[2.5px] bg-gradient-to-r from-[#C9A34E]/0 via-[#C9A34E]/60 to-[#C9A34E]/0" />
+      <div className="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-[#C9A34E]/12 to-transparent" />
+      {/* Grain */}
+      <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: GRAIN }} />
+      {/* Corner glow */}
+      <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-[#C9A34E]/[0.04] blur-[40px]" />
 
-      {/* Top gold line */}
-      <div className="absolute top-0 right-0 left-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A34E] to-transparent opacity-50" />
-      {/* Bottom subtle line */}
-      <div className="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-[#C9A34E]/15 to-transparent" />
-
-      {/* Content top */}
-      <div className="relative z-10">
+      {/* Content */}
+      <div className="relative z-10 flex h-full flex-col justify-between p-7">
         <div className="flex items-center gap-3">
-          {/* Logo */}
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#C9A34E] to-[#DBBD6A] shadow-lg shadow-[#C9A34E]/20">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#C9A34E] to-[#DBBD6A] shadow-[0_4px_20px_rgba(201,163,78,0.25)]">
             <span className="text-[14px] font-bold text-white" style={{ fontFamily: "var(--font-cinzel)" }}>A</span>
           </div>
           <div>
-            <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#DBBD6A]" style={{ fontFamily: "var(--font-cinzel)" }}>
-              Aurelius & Co.
-            </span>
-            <div className="mt-1 h-px w-14 bg-gradient-to-r from-[#C9A34E]/40 to-transparent" />
+            <p className="text-[8px] font-semibold uppercase tracking-[0.22em] text-[#DBBD6A]" style={{ fontFamily: "var(--font-cinzel)" }}>Aurelius & Co.</p>
+            <div className="mt-0.5 h-px w-14 bg-gradient-to-r from-[#C9A34E]/35 to-transparent" />
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-[20px] font-bold tracking-wide text-white/95" style={{ fontFamily: "var(--font-playfair)" }}>Aman Gupta</h3>
+          <p className="mt-0.5 text-[7px] font-medium uppercase tracking-[0.22em] text-[#C9A34E]/80" style={{ fontFamily: "var(--font-montserrat)" }}>Managing Director</p>
+          <div className="mt-4 h-px w-full bg-gradient-to-r from-[#C9A34E]/15 via-[#C9A34E]/8 to-transparent" />
+          <div className="mt-3 space-y-1.5">
+            {[
+              { i: "✉", t: "aman@aurelius.co" },
+              { i: "☎", t: "+1 (647) 555-0123" },
+              { i: "◎", t: "aurelius.co" },
+            ].map((c) => (
+              <div key={c.t} className="flex items-center gap-2">
+                <span className="text-[6px] text-[#C9A34E]/35">{c.i}</span>
+                <p className="text-[7px] tracking-wider text-white/35">{c.t}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Content bottom */}
-      <div className="relative z-10">
-        <h3 className="text-[20px] font-bold tracking-wide text-white" style={{ fontFamily: "var(--font-playfair)" }}>
-          Aman Gupta
-        </h3>
-        <p className="mt-1 text-[8px] font-medium uppercase tracking-[0.2em] text-[#C9A34E]" style={{ fontFamily: "var(--font-montserrat)" }}>
-          Managing Director
-        </p>
-
-        <div className="mt-4 h-px w-full bg-gradient-to-r from-[#C9A34E]/20 via-[#C9A34E]/10 to-transparent" />
-
-        <div className="mt-3 grid grid-cols-[auto_1fr] gap-x-2.5 gap-y-2">
-          {[
-            { icon: "✉", text: "aman@aurelius.co" },
-            { icon: "☎", text: "+1 (647) 555-0123" },
-            { icon: "◎", text: "aurelius.co" },
-          ].map((item) => (
-            <div key={item.text} className="contents">
-              <span className="text-[7px] text-[#C9A34E]/50">{item.icon}</span>
-              <p className="text-[8px] tracking-wider text-[#999]">{item.text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Edge highlights */}
-      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_-1px_0_rgba(201,163,78,0.08)]" />
+      {/* Edge glow */}
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_-1px_0_rgba(201,163,78,0.06)]" />
     </div>
   );
 }
 
-/* ── Card 3: Event / Gala Card ── */
-function EventCard() {
+/* ─── 3. ANIMATED INVITE — Aurora / northern lights ─── */
+function AnimatedInviteCard() {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#0D1117] via-[#161B26] to-[#0A0E14] text-center">
-      {/* Radial glow */}
-      <div className="absolute top-[40%] left-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C9A34E]/6 blur-[70px]" />
-      {/* Secondary glow */}
-      <div className="absolute bottom-[20%] left-[30%] h-32 w-32 rounded-full bg-[#1A3A5C]/15 blur-[50px]" />
-
-      {/* Particle dots */}
-      {[
-        "top-[12%] left-[18%] h-1 w-1 opacity-30",
-        "top-[22%] right-[25%] h-0.5 w-0.5 opacity-20",
-        "top-[65%] left-[15%] h-0.5 w-0.5 opacity-25",
-        "bottom-[18%] right-[20%] h-1 w-1 opacity-20",
-        "top-[40%] right-[12%] h-0.5 w-0.5 opacity-15",
-        "bottom-[35%] left-[25%] h-0.5 w-0.5 opacity-20",
-      ].map((cls, i) => (
-        <div key={i} className={`absolute rounded-full bg-[#C9A34E] ${cls}`} />
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[18px]">
+      {/* Deep space base */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#06001A] via-[#0D0833] to-[#030012]" />
+      {/* Aurora layers */}
+      <div className="absolute top-0 left-0 right-0 h-[60%] bg-gradient-to-b from-[#7B2FF7]/[0.12] via-[#2DD4BF]/[0.06] to-transparent" />
+      <div className="absolute top-[5%] left-[10%] h-[40%] w-[80%] rounded-full bg-gradient-to-r from-[#C084FC]/[0.08] via-[#22D3EE]/[0.05] to-[#F472B6]/[0.06] blur-[50px]" />
+      <div className="absolute top-[15%] left-[20%] h-[25%] w-[60%] rounded-full bg-gradient-to-r from-[#34D399]/[0.06] to-[#818CF8]/[0.04] blur-[40px]" />
+      {/* Stars */}
+      {[[15, 10], [40, 6], [70, 14], [85, 8], [55, 18], [25, 22], [90, 20]].map(([l, t], i) => (
+        <div key={i} className="absolute h-px w-px rounded-full bg-white" style={{ left: `${l}%`, top: `${t}%`, opacity: 0.15 + (i % 4) * 0.08 }} />
       ))}
+      {/* Grain */}
+      <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: GRAIN }} />
 
-      {/* Corner L-brackets */}
-      <div className="absolute top-4 left-4 h-8 w-8 border-t border-l border-[#C9A34E]/20" />
-      <div className="absolute top-4 right-4 h-8 w-8 border-t border-r border-[#C9A34E]/20" />
-      <div className="absolute bottom-4 left-4 h-8 w-8 border-b border-l border-[#C9A34E]/20" />
-      <div className="absolute right-4 bottom-4 h-8 w-8 border-r border-b border-[#C9A34E]/20" />
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center px-5">
-        <EventIcon className="mb-2 h-10 w-10" />
-
-        <p className="text-[7px] font-medium uppercase tracking-[0.3em] text-[#C9A34E]/45" style={{ fontFamily: "var(--font-cinzel)" }}>
-          You are invited to
-        </p>
-
-        <div className="my-2 h-px w-20 bg-gradient-to-r from-transparent via-[#C9A34E]/20 to-transparent" />
-
-        <h3 className="text-[22px] font-bold tracking-wide text-white/90" style={{ fontFamily: "var(--font-playfair)" }}>
-          Midnight Gala
-        </h3>
-        <p className="mt-1 text-[9px] font-light tracking-[0.15em] text-[#C9A34E]/60" style={{ fontFamily: "var(--font-cormorant)" }}>
-          An Evening of Art & Elegance
-        </p>
-
-        <div className="my-3 flex items-center gap-2">
-          <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#C9A34E]/20" />
-          <div className="h-1.5 w-1.5 rotate-45 border border-[#C9A34E]/30 bg-[#C9A34E]/10" />
-          <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#C9A34E]/20" />
-        </div>
-
-        {/* Date & time panel */}
-        <div className="rounded-lg border border-[#C9A34E]/10 bg-[#C9A34E]/[0.04] px-5 py-2.5">
-          <p className="text-[11px] font-light tracking-wider text-[#C5D0E0]/60" style={{ fontFamily: "var(--font-cormorant)" }}>
-            November 28, 2026
-          </p>
-          <p className="mt-0.5 text-[8px] uppercase tracking-[0.15em] text-[#C9A34E]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
-            8:00 PM · Black Tie
-          </p>
-        </div>
-
-        <p className="mt-3 text-[7px] uppercase tracking-[0.15em] text-[#6A8AAE]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
-          The Crystal Pavilion · Vancouver
-        </p>
-      </div>
-
-      {/* Edge light */}
-      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(201,163,78,0.08),inset_0_-1px_0_rgba(201,163,78,0.04)]" />
-    </div>
-  );
-}
-
-/* ── Card 4: Personal Identity Card ── */
-function PersonalCard() {
-  return (
-    <div className="relative flex h-full w-full flex-col items-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#FDFBF7] via-[#F8F3EA] to-[#F0E8D8]">
-      {/* Texture */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='0.3'/%3E%3C/g%3E%3C/svg%3E\")" }} />
-
-      {/* Gold accent top */}
-      <div className="absolute top-0 right-0 left-0 h-[2px] bg-gradient-to-r from-[#C9A34E]/15 via-[#C9A34E]/40 to-[#C9A34E]/15" />
-
-      {/* Border */}
-      <div className="absolute inset-3 rounded-xl border border-[#C9A34E]/10" />
+      {/* Animated wave lines */}
+      <svg viewBox="0 0 280 100" preserveAspectRatio="none" className="absolute top-[8%] left-0 h-[35%] w-full opacity-[0.06]" fill="none">
+        <path d="M0 50 Q70 20 140 50 Q210 80 280 50" stroke="#C084FC" strokeWidth="1" />
+        <path d="M0 60 Q70 35 140 60 Q210 85 280 60" stroke="#22D3EE" strokeWidth="0.7" />
+        <path d="M0 70 Q70 45 140 70 Q210 95 280 70" stroke="#34D399" strokeWidth="0.5" />
+      </svg>
 
       {/* Content */}
-      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-6 py-8">
-        {/* Avatar */}
-        <div className="relative mb-3">
-          <div className="h-16 w-16 rounded-full border-2 border-[#C9A34E]/25 bg-gradient-to-br from-[#C9A34E]/15 to-[#DBBD6A]/10 p-[3px]">
-            <div className="flex h-full w-full items-center justify-center rounded-full bg-[#F8F3EA]">
-              <span className="text-[20px] font-bold text-[#C9A34E]/60" style={{ fontFamily: "var(--font-playfair)" }}>N</span>
-            </div>
+      <div className="relative z-10 flex flex-col items-center px-5 text-center">
+        {/* Play button with glow */}
+        <div className="relative mb-4">
+          <div className="absolute inset-0 scale-150 rounded-full bg-[#7B2FF7]/10 blur-[15px]" />
+          <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] backdrop-blur-md">
+            <svg viewBox="0 0 16 16" className="ml-0.5 h-4 w-4 text-white/80" fill="currentColor"><path d="M4 2 L14 8 L4 14Z" /></svg>
           </div>
-          {/* Online indicator */}
-          <div className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-[#F8F3EA] bg-[#4CAF50]" />
         </div>
 
-        <h3 className="text-[18px] font-bold text-[#1A1A1A]" style={{ fontFamily: "var(--font-playfair)" }}>
-          Nisha Patel
+        <p className="text-[6px] font-bold uppercase tracking-[0.5em] text-[#C084FC]/50" style={{ fontFamily: "var(--font-montserrat)" }}>
+          Animated Invitation
+        </p>
+        <h3 className="mt-2 text-[24px] font-bold text-white/90" style={{ fontFamily: "var(--font-playfair)" }}>
+          Cinematic
         </h3>
-        <p className="mt-0.5 text-[8px] font-medium uppercase tracking-[0.15em] text-[#C9A34E]" style={{ fontFamily: "var(--font-montserrat)" }}>
-          Brand Strategist
+        <p className="mt-0.5 text-[9px] font-light italic tracking-wider text-[#C084FC]/35" style={{ fontFamily: "var(--font-cormorant)" }}>
+          Music · Parallax · Interactive RSVP
         </p>
 
-        <div className="mt-3 h-px w-20 bg-gradient-to-r from-transparent via-[#C9A34E]/20 to-transparent" />
-
-        <p className="mt-3 max-w-[180px] text-center text-[8px] leading-relaxed text-[#8B7355]" style={{ fontFamily: "var(--font-cormorant)" }}>
-          Crafting narratives that connect brands with the people who matter most.
-        </p>
-
-        {/* Social row */}
-        <div className="mt-4 flex items-center gap-3">
-          {["in", "𝕏", "◉"].map((icon, i) => (
-            <div key={i} className="flex h-7 w-7 items-center justify-center rounded-full border border-[#C9A34E]/15 bg-[#C9A34E]/[0.04] text-[8px] font-bold text-[#C9A34E]/50">
-              {icon}
+        <div className="mt-5 flex items-center gap-2">
+          {[
+            { icon: "♫", color: "from-[#7B2FF7]/15 to-[#7B2FF7]/5", border: "border-[#7B2FF7]/15" },
+            { icon: "✦", color: "from-[#22D3EE]/15 to-[#22D3EE]/5", border: "border-[#22D3EE]/15" },
+            { icon: "↗", color: "from-[#F472B6]/15 to-[#F472B6]/5", border: "border-[#F472B6]/15" },
+          ].map((b, i) => (
+            <div key={i} className={`flex h-7 w-7 items-center justify-center rounded-full border bg-gradient-to-b ${b.color} ${b.border} text-[8px] text-white/40`}>
+              {b.icon}
             </div>
           ))}
         </div>
-
-        <div className="mt-3 flex items-center gap-2">
-          <div className="h-0.5 w-0.5 rounded-full bg-[#C9A34E]/30" />
-          <p className="text-[7px] tracking-wider text-[#8B7355]">nisha.patel.co</p>
-          <div className="h-0.5 w-0.5 rounded-full bg-[#C9A34E]/30" />
-        </div>
+        <p className="mt-3 text-[6.5px] tracking-[0.1em] text-white/20" style={{ fontFamily: "var(--font-montserrat)" }}>17 cinematic templates</p>
       </div>
-
-      {/* Edge glow */}
-      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_0_25px_rgba(201,163,78,0.05),inset_0_1px_0_rgba(255,255,255,0.6)]" />
     </div>
   );
 }
 
-/* ── Card 5: Royal Dark Wedding ── */
-function RoyalWeddingCard() {
+/* ─── 4. ANALYTICS — Emerald dashboard in glass card ─── */
+function AnalyticsCard() {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#0C1520] via-[#101D2E] to-[#08101A] text-center">
-      {/* Center radial glow */}
-      <div className="absolute top-[45%] left-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C9A34E]/6 blur-[65px]" />
-
-      {/* Corner L-brackets */}
-      <div className="absolute top-4 left-4 h-10 w-10 border-t border-l border-[#C9A34E]/25" />
-      <div className="absolute top-4 right-4 h-10 w-10 border-t border-r border-[#C9A34E]/25" />
-      <div className="absolute bottom-4 left-4 h-10 w-10 border-b border-l border-[#C9A34E]/25" />
-      <div className="absolute right-4 bottom-4 h-10 w-10 border-r border-b border-[#C9A34E]/25" />
-
-      {/* Inner frame */}
-      <div className="absolute inset-6 rounded-lg border border-[#C9A34E]/8" />
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px]">
+      {/* Rich dark green base */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#071A12] via-[#0D2818] to-[#061210]" />
+      {/* Ambient glow */}
+      <div className="absolute top-[20%] left-[30%] h-40 w-40 rounded-full bg-emerald-500/[0.06] blur-[50px]" />
+      <div className="absolute bottom-[10%] right-[20%] h-28 w-28 rounded-full bg-[#C9A34E]/[0.04] blur-[40px]" />
+      {/* Grain */}
+      <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: GRAIN }} />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center px-5">
-        {/* Crown */}
-        <div className="mb-1 text-[14px] text-[#C9A34E]/35">♛</div>
-
-        <p className="text-[7px] font-medium uppercase tracking-[0.3em] text-[#C9A34E]/40" style={{ fontFamily: "var(--font-cinzel)" }}>
-          You are cordially invited
-        </p>
-
-        <div className="my-2 flex items-center gap-2">
-          <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#C9A34E]/25" />
-          <div className="h-1 w-1 rotate-45 bg-[#C9A34E]/25" />
-          <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#C9A34E]/25" />
+      <div className="relative z-10 flex h-full flex-col p-5">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-emerald-400/70 shadow-[0_0_6px_rgba(52,211,153,0.3)]" />
+            <p className="text-[7px] font-semibold uppercase tracking-[0.18em] text-emerald-300/50" style={{ fontFamily: "var(--font-montserrat)" }}>Analytics</p>
+          </div>
+          <div className="rounded-full bg-emerald-500/[0.08] px-2 py-0.5 text-[5px] font-medium uppercase tracking-[0.15em] text-emerald-300/40" style={{ fontFamily: "var(--font-montserrat)" }}>Live</div>
         </div>
 
-        <p className="text-[7px] tracking-[0.12em] text-[#7A9CC6]/40" style={{ fontFamily: "var(--font-montserrat)" }}>
-          to the wedding celebration of
-        </p>
-
-        {/* Couple illustration */}
-        <CoupleIllustration className="my-1 h-[40px] w-[55px] opacity-70" />
-
-        <h3 className="text-[26px] leading-tight text-[#E8DCC8]" style={{ fontFamily: "var(--font-great-vibes)" }}>
-          Rahul <span className="text-[#DBBD6A]">&</span> Simran
-        </h3>
-
-        <div className="my-2 flex items-center gap-2">
-          <div className="h-px w-14 bg-gradient-to-r from-transparent to-[#C9A34E]/20" />
-          <span className="text-[7px] text-[#C9A34E]/30">⟡</span>
-          <div className="h-px w-14 bg-gradient-to-l from-transparent to-[#C9A34E]/20" />
+        {/* Big stat */}
+        <div className="mt-4">
+          <p className="text-[6px] uppercase tracking-[0.15em] text-white/25" style={{ fontFamily: "var(--font-montserrat)" }}>Total Views</p>
+          <div className="flex items-end gap-2">
+            <p className="text-[30px] font-bold leading-none text-white/90" style={{ fontFamily: "var(--font-raleway)" }}>2,847</p>
+            <span className="mb-1 text-[8px] font-medium text-emerald-400/60">↑ 24%</span>
+          </div>
         </div>
 
-        <div className="rounded-lg border border-[#C9A34E]/8 bg-[#C9A34E]/[0.04] px-4 py-2">
-          <p className="text-[11px] font-light tracking-wider text-[#C5D5E8]/60" style={{ fontFamily: "var(--font-cormorant)" }}>
-            December 12, 2026
-          </p>
-          <p className="mt-0.5 text-[7px] uppercase tracking-[0.12em] text-[#7A9CC6]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
-            at Five O&apos;Clock in the Evening
-          </p>
+        {/* Chart — organic curve */}
+        <div className="mt-3 flex-1">
+          <svg viewBox="0 0 220 60" preserveAspectRatio="none" className="h-full w-full">
+            <defs>
+              <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#34D399" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#34D399" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M0 45 Q20 40 40 38 Q60 36 80 28 Q100 20 120 22 Q140 24 160 15 Q180 8 200 12 Q210 14 220 10 L220 60 L0 60Z" fill="url(#cg)" />
+            <path d="M0 45 Q20 40 40 38 Q60 36 80 28 Q100 20 120 22 Q140 24 160 15 Q180 8 200 12 Q210 14 220 10" stroke="#34D399" strokeWidth="1.5" strokeOpacity="0.5" fill="none" />
+            <circle cx="220" cy="10" r="2.5" fill="#34D399" fillOpacity="0.6" />
+          </svg>
         </div>
 
-        <p className="mt-2.5 text-[7px] uppercase tracking-[0.12em] text-[#C9A34E]/30" style={{ fontFamily: "var(--font-montserrat)" }}>
-          The Grand Palace · Jaipur
-        </p>
+        {/* Stat pills */}
+        <div className="mt-2 grid grid-cols-3 gap-1.5">
+          {[
+            { l: "QR Scans", v: "342", c: "text-emerald-300/60" },
+            { l: "NFC Taps", v: "128", c: "text-[#C9A34E]/60" },
+            { l: "Shares", v: "89", c: "text-cyan-300/50" },
+          ].map((s) => (
+            <div key={s.l} className="rounded-lg bg-white/[0.03] px-2 py-2 text-center">
+              <p className={`text-[11px] font-bold ${s.c}`} style={{ fontFamily: "var(--font-raleway)" }}>{s.v}</p>
+              <p className="mt-0.5 text-[4.5px] uppercase tracking-[0.12em] text-white/20" style={{ fontFamily: "var(--font-montserrat)" }}>{s.l}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Edge glow */}
-      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(201,163,78,0.08),inset_0_-1px_0_rgba(201,163,78,0.04)]" />
+      {/* Edge */}
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(52,211,153,0.06)]" />
+    </div>
+  );
+}
+
+/* ─── 5. QR/NFC — Warm sunset paper feel ─── */
+function QrShareCard() {
+  return (
+    <div className="relative flex h-full w-full flex-col items-center overflow-hidden rounded-[18px]">
+      {/* Warm paper gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#F8E8D0] via-[#F0D8B8] to-[#E8C8A0]" />
+      {/* Warm glow */}
+      <div className="absolute top-[30%] left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#FF8C42]/[0.08] blur-[40px]" />
+      {/* Paper grain */}
+      <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: GRAIN }} />
+      {/* Subtle watercolor wash */}
+      <div className="absolute top-0 right-0 h-[45%] w-[50%] rounded-bl-full bg-[#E8A060]/[0.08] blur-[30px]" />
+      <div className="absolute bottom-0 left-0 h-[35%] w-[45%] rounded-tr-full bg-[#C08050]/[0.06] blur-[25px]" />
+
+      {/* Content */}
+      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-5">
+        {/* Phone mockup with QR */}
+        <div className="relative rounded-2xl border border-[#1A1A1A]/[0.06] bg-white/80 p-1 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+          {/* Phone screen */}
+          <div className="rounded-xl bg-gradient-to-b from-[#FDFAF5] to-white p-3">
+            {/* Mini header */}
+            <div className="mb-2 flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <div className="h-4 w-4 rounded-full bg-gradient-to-br from-[#C9A34E] to-[#DBBD6A]" />
+                <p className="text-[5px] font-bold text-[#1A1A1A]/60" style={{ fontFamily: "var(--font-montserrat)" }}>Aman Gupta</p>
+              </div>
+              <div className="rounded-full bg-[#C9A34E]/10 px-1.5 py-0.5 text-[4px] font-bold text-[#C9A34E]">PRO</div>
+            </div>
+            {/* QR */}
+            <svg viewBox="0 0 70 70" className="h-[62px] w-[62px]">
+              <rect x="3" y="3" width="17" height="17" rx="2" fill="#1A1A1A" /><rect x="6" y="6" width="11" height="11" rx="1" fill="white" /><rect x="8.5" y="8.5" width="6" height="6" rx="0.5" fill="#1A1A1A" />
+              <rect x="50" y="3" width="17" height="17" rx="2" fill="#1A1A1A" /><rect x="53" y="6" width="11" height="11" rx="1" fill="white" /><rect x="55.5" y="8.5" width="6" height="6" rx="0.5" fill="#1A1A1A" />
+              <rect x="3" y="50" width="17" height="17" rx="2" fill="#1A1A1A" /><rect x="6" y="53" width="11" height="11" rx="1" fill="white" /><rect x="8.5" y="55.5" width="6" height="6" rx="0.5" fill="#1A1A1A" />
+              {[[25, 5], [31, 5], [37, 5], [43, 5], [25, 11], [37, 11], [43, 11], [5, 25], [11, 25], [5, 31], [11, 31], [5, 37], [11, 37], [5, 43], [25, 25], [31, 25], [37, 25], [43, 25], [49, 25], [25, 31], [37, 31], [49, 31], [25, 37], [31, 37], [43, 37], [49, 37], [25, 43], [37, 43], [49, 49], [55, 49], [61, 49], [49, 55], [61, 55], [49, 61], [55, 61]].map(([x, y], i) => (
+                <rect key={i} x={x} y={y} width="4" height="4" rx="0.5" fill="#1A1A1A" />
+              ))}
+              <circle cx="35" cy="35" r="5.5" fill="#C9A34E" /><circle cx="35" cy="35" r="2.5" fill="white" />
+            </svg>
+          </div>
+        </div>
+
+        {/* NFC waves underneath */}
+        <div className="relative mt-4">
+          {[30, 42, 54].map((s, i) => (
+            <div key={i} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#1A1A1A]" style={{ width: s, height: s, opacity: 0.05 - i * 0.012 }} />
+          ))}
+          <p className="relative text-[7px] font-semibold uppercase tracking-[0.35em] text-[#5A4030]/45" style={{ fontFamily: "var(--font-montserrat)" }}>
+            Scan · Tap · Share
+          </p>
+        </div>
+
+        <p className="mt-2 text-[8px] font-light text-[#7A6040]/50" style={{ fontFamily: "var(--font-cormorant)" }}>
+          One tap to share your identity
+        </p>
+
+        {/* Feature pills */}
+        <div className="mt-3 flex items-center gap-2">
+          {[
+            { label: "NFC", icon: "⊙" },
+            { label: "QR", icon: "⊞" },
+            { label: "Link", icon: "↗" },
+          ].map((f) => (
+            <div key={f.label} className="flex items-center gap-1 rounded-full border border-[#1A1A1A]/[0.06] bg-white/60 px-2.5 py-1 text-[5.5px] font-medium uppercase tracking-[0.12em] text-[#5A4030]/50" style={{ fontFamily: "var(--font-montserrat)" }}>
+              <span className="text-[7px]">{f.icon}</span> {f.label}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Edge */}
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]" />
     </div>
   );
 }
@@ -408,11 +404,11 @@ function RoyalWeddingCard() {
 /* ================================================================== */
 
 const SHOWCASE_CARDS = [
-  { id: 0, Component: WeddingCard,      title: "Wedding Invitation" },
-  { id: 1, Component: BusinessCard,     title: "Business Card" },
-  { id: 2, Component: EventCard,        title: "Event Invitation" },
-  { id: 3, Component: PersonalCard,     title: "Personal Card" },
-  { id: 4, Component: RoyalWeddingCard, title: "Royal Wedding" },
+  { id: 0, Component: WeddingCard,        title: "Wedding Invitation" },
+  { id: 1, Component: BusinessCard,       title: "Business Card" },
+  { id: 2, Component: AnimatedInviteCard, title: "Animated Invite" },
+  { id: 3, Component: AnalyticsCard,      title: "Analytics Dashboard" },
+  { id: 4, Component: QrShareCard,        title: "QR & NFC Sharing" },
 ];
 
 /* Position configs for each card relative to spotlight (center = focused) */
