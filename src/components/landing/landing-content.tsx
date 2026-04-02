@@ -322,10 +322,11 @@ function Navbar() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link href="/login">
-            <Button variant="ghost" size="sm" className="text-[#1A1A1A] hover:bg-[#F3F0EB] dark:text-[#E0D8C8] dark:hover:bg-white/10">
-              Sign in
-            </Button>
+          <Link
+            href="/login"
+            className="rounded-md px-3 py-1.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-[#F3F0EB] dark:text-[#F5ECD7] dark:hover:bg-white/10"
+          >
+            Sign in
           </Link>
           <MagneticButton strength={0.2}>
             <Link href="/signup">

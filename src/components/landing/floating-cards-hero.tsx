@@ -658,7 +658,7 @@ export function FloatingCardsHero() {
             <Button
               size="lg"
               variant="outline"
-              className="min-w-[200px] border-[#B8860B]/30 text-base text-[#1A1A1A] hover:bg-[#B8860B]/8"
+              className="min-w-[200px] border-[#D4AF37]/30 text-base text-[#1A1A1A] hover:bg-[#D4AF37]/8 dark:border-[#D4AF37]/40 dark:text-[#F5ECD7] dark:hover:bg-[#D4AF37]/15"
             >
               Sign In
             </Button>

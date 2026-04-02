@@ -121,10 +121,10 @@ export const platform = {
 // Helper functions
 // ---------------------------------------------------------------------------
 
-/** Generate a consistent page title like "Dashboard — Cardora" */
+/** Generate a consistent page title like "Dashboard - Cardora" */
 export function pageTitle(subtitle?: string): string {
-  if (!subtitle) return `${platform.name} — ${platform.tagline}`;
-  return `${subtitle} — ${platform.name}`;
+  if (!subtitle) return `${platform.name} - ${platform.tagline}`;
+  return `${subtitle} - ${platform.name}`;
 }
 
 /** Generate the email "from" field like '"Cardora" <user@smtp.com>' */
