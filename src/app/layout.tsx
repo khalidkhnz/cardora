@@ -34,7 +34,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <ThemeProvider>
           <QueryProvider>
             {children}
