@@ -3,137 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { type Template, CATEGORIES, TEMPLATES } from "@/lib/template-data";
 
-/* ================================================================== */
-/*  Template data                                                     */
-/* ================================================================== */
-
-interface Template {
-  id: string;
-  name: string;
-  category: string;
-  price: string;
-  priceNote?: string;
-  colors: { bg: string; accent: string; text: string };
-  style: "wedding" | "business" | "animated" | "dashboard" | "qr" | "global";
-}
-
-const CATEGORIES = [
-  "All",
-  "Wedding Invitations",
-  "Business Cards",
-  "Animated Invites",
-  "Analytics Dashboard",
-  "QR & NFC Sharing",
-  "Multi-Country Support",
-];
-
-const TEMPLATES: Template[] = [
-  // Wedding Invitations
-  {
-    id: "w1",
-    name: "Royal Palace",
-    category: "Wedding Invitations",
-    price: "₹2,999",
-    colors: { bg: "from-[#1A0E12] to-[#2A1420]", accent: "#D4AF37", text: "#F0E8D8" },
-    style: "wedding",
-  },
-  {
-    id: "w2",
-    name: "Garden Romance",
-    category: "Wedding Invitations",
-    price: "₹1,999",
-    colors: { bg: "from-[#0C1A18] to-[#142A25]", accent: "#7CB68A", text: "#E0EDE4" },
-    style: "wedding",
-  },
-  {
-    id: "w3",
-    name: "Ivory Elegance",
-    category: "Wedding Invitations",
-    price: "₹2,499",
-    colors: { bg: "from-[#E8DCC8] to-[#DDD0BC]", accent: "#8B6B4A", text: "#2A1810" },
-    style: "wedding",
-  },
-  // Business Cards
-  {
-    id: "b1",
-    name: "Executive Dark",
-    category: "Business Cards",
-    price: "₹999",
-    colors: { bg: "from-[#1A1A1A] to-[#0F0F10]", accent: "#C6A85A", text: "#E8E4DC" },
-    style: "business",
-  },
-  {
-    id: "b2",
-    name: "Minimal Ivory",
-    category: "Business Cards",
-    price: "₹799",
-    colors: { bg: "from-[#EDE4D4] to-[#DDD0BC]", accent: "#3A2A1A", text: "#1A1A1A" },
-    style: "business",
-  },
-  // Animated Invites
-  {
-    id: "a1",
-    name: "Cinematic Gold",
-    category: "Animated Invites",
-    price: "₹4,999",
-    priceNote: "one-time",
-    colors: { bg: "from-[#1A0E1E] to-[#0F0620]", accent: "#D4AF37", text: "#F0E8D8" },
-    style: "animated",
-  },
-  {
-    id: "a2",
-    name: "Sunset Parallax",
-    category: "Animated Invites",
-    price: "₹3,999",
-    priceNote: "one-time",
-    colors: { bg: "from-[#2A1005] to-[#1A0A02]", accent: "#FF8C6A", text: "#FFE0C8" },
-    style: "animated",
-  },
-  // Analytics Dashboard
-  {
-    id: "d1",
-    name: "Insights Pro",
-    category: "Analytics Dashboard",
-    price: "₹1,499",
-    colors: { bg: "from-[#0D1A12] to-[#071210]", accent: "#34D399", text: "#C5E8D0" },
-    style: "dashboard",
-  },
-  // QR & NFC
-  {
-    id: "q1",
-    name: "Smart Card",
-    category: "QR & NFC Sharing",
-    price: "₹1,299",
-    colors: { bg: "from-[#ECE6DC] to-[#DDD4C6]", accent: "#3A2A1A", text: "#1A1A1A" },
-    style: "qr",
-  },
-  {
-    id: "q2",
-    name: "NFC Tap Pro",
-    category: "QR & NFC Sharing",
-    price: "₹1,999",
-    colors: { bg: "from-[#1A1C20] to-[#101214]", accent: "#60A0D0", text: "#D0E0F0" },
-    style: "qr",
-  },
-  // Multi-Country
-  {
-    id: "m1",
-    name: "Canada Edition",
-    category: "Multi-Country Support",
-    price: "₹1,499",
-    colors: { bg: "from-[#E8DCC8] to-[#DDD0BC]", accent: "#B03030", text: "#2A1810" },
-    style: "global",
-  },
-  {
-    id: "m2",
-    name: "Global Connect",
-    category: "Multi-Country Support",
-    price: "₹2,499",
-    colors: { bg: "from-[#162030] to-[#0E1620]", accent: "#4A90D0", text: "#D0E0F0" },
-    style: "global",
-  },
-];
+/* Data imported from @/lib/template-data */
 
 /* ================================================================== */
 /*  Template card preview renderers                                   */
@@ -298,7 +170,7 @@ function TemplateCard({ template, index }: { template: Template; index: number }
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
     >
-      <Link href="/signup" className="group block">
+      <Link href={`/templates/${template.id}`} className="group block">
         <div className="overflow-hidden rounded-xl border border-[#E8E4DE]/60 bg-card shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.10)] dark:border-white/8 dark:shadow-[0_2px_12px_rgba(0,0,0,0.2)] dark:group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
           {/* Preview */}
           <div className="relative aspect-[4/3] overflow-hidden">
