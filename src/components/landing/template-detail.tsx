@@ -16,24 +16,102 @@ import { Footer } from "@/components/landing/footer";
 
 function LargePreview({ template: t }: { template: Template }) {
   if (t.style === "wedding") {
-    return (
-      <div className={`flex h-full w-full flex-col items-center justify-center bg-gradient-to-b ${t.colors.bg} p-10 text-center`}>
-        <p className="text-[9px] font-medium uppercase tracking-[0.3em]" style={{ color: `${t.colors.accent}80`, fontFamily: "var(--font-cinzel)" }}>You are invited</p>
-        <div className="my-3 h-px w-20" style={{ background: `linear-gradient(to right, transparent, ${t.colors.accent}40, transparent)` }} />
-        <svg viewBox="0 0 80 70" className="my-2 h-16 w-auto" fill="none">
-          <circle cx="30" cy="15" r="8" fill={t.colors.accent} fillOpacity="0.25" />
-          <path d="M18 65 L22 32 Q22 22 30 22 Q38 22 38 32 L42 65" fill={t.colors.accent} fillOpacity="0.15" />
-          <circle cx="50" cy="15" r="8" fill={t.colors.accent} fillOpacity="0.25" />
-          <path d="M38 65 L42 30 Q42 22 50 22 Q58 22 58 30 L65 65 Q50 58 38 65Z" fill={t.colors.accent} fillOpacity="0.15" />
-        </svg>
-        <h3 className="text-[24px] leading-tight" style={{ color: t.colors.text, fontFamily: "var(--font-great-vibes)" }}>Aarav & Priya</h3>
-        <div className="my-2 flex items-center gap-2">
-          <div className="h-px w-10" style={{ background: `${t.colors.accent}30` }} />
-          <span className="text-[8px]" style={{ color: `${t.colors.accent}50` }}>✦</span>
-          <div className="h-px w-10" style={{ background: `${t.colors.accent}30` }} />
+    // ── ENCHANTED EVERGREEN — dark emerald garden ──
+    if (t.id === "enchanted-evergreen") {
+      return (
+        <div className={`relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b ${t.colors.bg} p-8 text-center`}>
+          <div className="absolute top-[20%] left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#7CB68A]/[0.08] blur-[50px]" />
+          <svg viewBox="0 0 180 220" className="relative my-2 h-[200px] w-auto" fill="none">
+            <path d="M20 210 Q20 50 90 20 Q160 50 160 210" stroke="#7CB68A" strokeWidth="0.8" strokeOpacity="0.25" />
+            <path d="M35 200 Q10 160 40 120 Q50 145 35 200Z" fill="#7CB68A" fillOpacity="0.20" />
+            <path d="M30 170 Q8 140 35 105 Q42 128 30 170Z" fill="#7CB68A" fillOpacity="0.14" />
+            <path d="M145 200 Q170 160 140 120 Q130 145 145 200Z" fill="#7CB68A" fillOpacity="0.20" />
+            <path d="M150 170 Q172 140 145 105 Q138 128 150 170Z" fill="#7CB68A" fillOpacity="0.14" />
+            <circle cx="90" cy="24" r="7" fill="#7CB68A" fillOpacity="0.22" />
+            <circle cx="80" cy="30" r="5" fill="#F0E0D0" fillOpacity="0.18" />
+            <circle cx="100" cy="30" r="5" fill="#F0E0D0" fillOpacity="0.18" />
+            <path d="M72 22 Q65 15 75 12" stroke="#7CB68A" strokeWidth="0.5" strokeOpacity="0.20" />
+            <path d="M108 22 Q115 15 105 12" stroke="#7CB68A" strokeWidth="0.5" strokeOpacity="0.20" />
+            <circle cx="75" cy="85" r="10" fill="#D0E8D4" fillOpacity="0.28" />
+            <path d="M62 185 L66 105 Q66 92 75 92 Q84 92 84 105 L88 185" fill="#D0E8D4" fillOpacity="0.20" />
+            <circle cx="105" cy="85" r="10" fill="#F0E0D0" fillOpacity="0.25" />
+            <path d="M88 185 L93 103 Q93 92 105 92 Q117 92 117 103 L128 185 Q105 178 88 185Z" fill="#F0E0D0" fillOpacity="0.18" />
+            <path d="M84 112 Q95 125 105 112" stroke="#7CB68A" strokeOpacity="0.25" strokeWidth="0.8" />
+            <circle cx="90" cy="116" r="2" fill="#F0E0D0" fillOpacity="0.20" />
+            <circle cx="98" cy="120" r="2" fill="#7CB68A" fillOpacity="0.15" />
+          </svg>
+          <h3 className="relative text-[22px] leading-tight text-[#E0EDE4]" style={{ fontFamily: "var(--font-great-vibes)" }}>Arjun <span className="text-[#7CB68A]">&</span> Meera</h3>
+          <div className="relative my-2 flex items-center gap-2"><div className="h-px w-10 bg-gradient-to-r from-transparent to-[#7CB68A]/25" /><span className="text-[7px] text-[#7CB68A]/40">❧</span><div className="h-px w-10 bg-gradient-to-l from-transparent to-[#7CB68A]/25" /></div>
+          <p className="relative text-[10px] text-[#7CB68A]/55" style={{ fontFamily: "var(--font-cormorant)" }}>March 22, 2026</p>
+          <p className="relative mt-1 text-[8px] uppercase tracking-[0.12em] text-[#7CB68A]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Botanical Gardens · Toronto</p>
         </div>
-        <p className="text-[10px]" style={{ color: `${t.colors.accent}60`, fontFamily: "var(--font-cormorant)" }}>June 15, 2026 · Six in the Evening</p>
-        <p className="mt-2 text-[8px] uppercase tracking-[0.15em]" style={{ color: `${t.colors.accent}40`, fontFamily: "var(--font-montserrat)" }}>The Rosewater Estate · Toronto</p>
+      );
+    }
+
+    // ── VELVET HEIRLOOM — dark burgundy, gold mandala ──
+    if (t.id === "velvet-heirloom") {
+      return (
+        <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#2A0E12] via-[#1E0A0E] to-[#140608] p-8 text-center">
+          <div className="absolute top-[25%] left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.06] blur-[45px]" />
+          <svg viewBox="0 0 180 220" className="relative my-2 h-[200px] w-auto" fill="none">
+            <circle cx="90" cy="100" r="70" stroke="#D4AF37" strokeWidth="0.4" strokeOpacity="0.08" />
+            <circle cx="90" cy="100" r="55" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.06" />
+            <path d="M80 15 Q90 8 100 15 Q100 22 90 24 Q80 22 80 15Z" fill="#D4AF37" fillOpacity="0.14" />
+            <circle cx="90" cy="15" r="2.5" fill="#D4AF37" fillOpacity="0.22" />
+            <path d="M25 25 L25 40" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" /><path d="M25 25 L40 25" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+            <path d="M155 25 L155 40" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" /><path d="M155 25 L140 25" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+            <path d="M25 200 L25 185" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" /><path d="M25 200 L40 200" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+            <path d="M155 200 L155 185" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" /><path d="M155 200 L140 200" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+            <circle cx="75" cy="85" r="11" fill="#D4AF37" fillOpacity="0.18" />
+            <path d="M60 190 L65 105 Q65 92 75 92 Q85 92 85 105 L90 190" fill="#D4AF37" fillOpacity="0.12" />
+            <path d="M68 80 Q75 72 82 80 Q82 87 75 88 Q68 87 68 80Z" fill="#D4AF37" fillOpacity="0.16" />
+            <circle cx="105" cy="85" r="11" fill="#D4AF37" fillOpacity="0.16" />
+            <path d="M85 190 L90 103 Q90 92 105 92 Q120 92 120 103 L130 190 Q105 182 85 190Z" fill="#D4AF37" fillOpacity="0.10" />
+            <path d="M105 78 Q115 76 118 100 Q114 90 105 85" fill="#D4AF37" fillOpacity="0.06" />
+            <circle cx="105" cy="82" r="1.5" fill="#D4AF37" fillOpacity="0.30" />
+            <path d="M85 110 Q95 122 105 110" stroke="#D4AF37" strokeOpacity="0.22" strokeWidth="0.8" />
+            <circle cx="90" cy="114" r="2" fill="#D4AF37" fillOpacity="0.18" />
+            <circle cx="98" cy="118" r="2" fill="#D4AF37" fillOpacity="0.14" />
+            <path d="M45 185 Q47 180 49 185" fill="#FFB347" fillOpacity="0.12" /><circle cx="47" cy="180" r="1" fill="#FFD700" fillOpacity="0.12" />
+            <path d="M131 185 Q133 180 135 185" fill="#FFB347" fillOpacity="0.12" /><circle cx="133" cy="180" r="1" fill="#FFD700" fillOpacity="0.12" />
+          </svg>
+          <h3 className="relative text-[22px] leading-tight text-[#F0E8D8]" style={{ fontFamily: "var(--font-great-vibes)" }}>Vikram <span className="text-[#D4AF37]">&</span> Ananya</h3>
+          <div className="relative my-2 flex items-center gap-2"><div className="h-px w-10 bg-gradient-to-r from-transparent to-[#D4AF37]/22" /><span className="text-[7px] text-[#D4AF37]/35">✦</span><div className="h-px w-10 bg-gradient-to-l from-transparent to-[#D4AF37]/22" /></div>
+          <p className="relative text-[10px] text-[#D4AF37]/50" style={{ fontFamily: "var(--font-cormorant)" }}>February 14, 2026</p>
+          <p className="relative mt-1 text-[8px] uppercase tracking-[0.12em] text-[#D4AF37]/30" style={{ fontFamily: "var(--font-montserrat)" }}>Heritage Palace · Udaipur</p>
+        </div>
+      );
+    }
+
+    // ── THE MAHARANI — default warm peach, floral arch ──
+    return (
+      <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#F8EAD8] via-[#F2DCCA] to-[#EACEBC] p-8 text-center">
+        <div className="absolute top-[15%] left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.06] blur-[50px]" />
+        <div className="absolute top-[8%] left-[10%] h-20 w-20 rounded-full bg-[#E88090]/[0.06] blur-[25px]" />
+        <div className="absolute top-[10%] right-[10%] h-20 w-20 rounded-full bg-[#FFB0A0]/[0.05] blur-[22px]" />
+        <svg viewBox="0 0 180 220" className="relative my-2 h-[200px] w-auto" fill="none">
+          <path d="M15 210 L15 75 Q15 25 90 12 Q165 25 165 75 L165 210" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.20" />
+          <circle cx="90" cy="18" r="8" fill="#E88090" fillOpacity="0.30" /><circle cx="90" cy="18" r="5" fill="#FF9BAA" fillOpacity="0.22" />
+          <circle cx="78" cy="24" r="6" fill="#FFB0A0" fillOpacity="0.25" /><circle cx="102" cy="24" r="6" fill="#FF8C6A" fillOpacity="0.22" />
+          <path d="M68 28 Q62 22 72 18" fill="#5A8A50" fillOpacity="0.18" /><path d="M112 28 Q118 22 108 18" fill="#5A8A50" fillOpacity="0.18" />
+          <circle cx="20" cy="60" r="5" fill="#E88090" fillOpacity="0.20" /><circle cx="160" cy="60" r="5" fill="#FFB0A0" fillOpacity="0.20" />
+          <circle cx="18" cy="75" r="3.5" fill="#FFCCC0" fillOpacity="0.14" /><circle cx="162" cy="75" r="3.5" fill="#FFCCC0" fillOpacity="0.14" />
+          <line x1="45" y1="28" x2="45" y2="45" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.15" /><circle cx="45" cy="46" r="1.5" fill="#D4AF37" fillOpacity="0.12" />
+          <line x1="135" y1="28" x2="135" y2="45" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.15" /><circle cx="135" cy="46" r="1.5" fill="#D4AF37" fillOpacity="0.12" />
+          <circle cx="75" cy="80" r="11" fill="#5A3020" fillOpacity="0.50" />
+          <path d="M60 190 L65 100 Q65 88 75 88 Q85 88 85 100 L90 190" fill="#5A3020" fillOpacity="0.40" />
+          <path d="M68 74 Q75 66 82 74 Q82 82 75 83 Q68 82 68 74Z" fill="#D4AF37" fillOpacity="0.30" />
+          <circle cx="105" cy="80" r="11" fill="#6A2030" fillOpacity="0.45" />
+          <path d="M85 190 L90 98 Q90 88 105 88 Q120 88 120 98 L130 190 Q105 182 85 190Z" fill="#8A2040" fillOpacity="0.32" />
+          <path d="M105 72 Q118 70 120 95 Q116 85 105 80" fill="#E88090" fillOpacity="0.15" />
+          <circle cx="105" cy="76" r="1.5" fill="#D4AF37" fillOpacity="0.38" />
+          <path d="M85 106 Q95 120 105 106" stroke="#D4AF37" strokeOpacity="0.28" strokeWidth="0.8" />
+          <circle cx="88" cy="110" r="2" fill="#E88090" fillOpacity="0.28" /><circle cx="95" cy="115" r="2.5" fill="#D4AF37" fillOpacity="0.20" /><circle cx="102" cy="110" r="2" fill="#FFB0A0" fillOpacity="0.28" />
+        </svg>
+        <h3 className="relative text-[22px] leading-tight text-[#3A1A10]" style={{ fontFamily: "var(--font-great-vibes)" }}>Aarav <span className="text-[#D4AF37]">&</span> Priya</h3>
+        <div className="relative my-2 flex items-center gap-2"><div className="h-px w-10 bg-gradient-to-r from-transparent to-[#D4AF37]/30" /><span className="text-[7px] text-[#D4AF37]/45">✦</span><div className="h-px w-10 bg-gradient-to-l from-transparent to-[#D4AF37]/30" /></div>
+        <p className="relative text-[10px] text-[#8B6040]/60" style={{ fontFamily: "var(--font-cormorant)" }}>June 15, 2026 · Six in the Evening</p>
+        <p className="relative mt-1 text-[8px] uppercase tracking-[0.12em] text-[#8B6040]/40" style={{ fontFamily: "var(--font-montserrat)" }}>The Royal Palace · Jaipur</p>
       </div>
     );
   }
@@ -198,13 +276,26 @@ export function TemplateDetailContent({ template }: { template: Template }) {
 
             {/* CTA buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button
-                size="lg"
-                className="gap-2 bg-gradient-to-r from-[#D4AF37] to-[#C6A85A] text-base text-white hover:from-[#C09A2F] hover:to-[#B89848]"
-              >
-                <Eye className="h-4 w-4" />
-                Preview Template
-              </Button>
+              {template.id === "the-maharani" ? (
+                <Link href={`/templates/${template.id}/preview`}>
+                  <Button
+                    size="lg"
+                    className="gap-2 bg-gradient-to-r from-[#D4AF37] to-[#C6A85A] text-base text-white hover:from-[#C09A2F] hover:to-[#B89848]"
+                  >
+                    <Eye className="h-4 w-4" />
+                    Preview Template
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  size="lg"
+                  disabled
+                  className="gap-2 bg-[#D4AF37]/20 text-base text-[#D4AF37]/60 cursor-not-allowed"
+                >
+                  <Eye className="h-4 w-4" />
+                  Preview Coming Soon
+                </Button>
+              )}
               <Button
                 size="lg"
                 variant="outline"
@@ -324,13 +415,26 @@ export function TemplateDetailContent({ template }: { template: Template }) {
             Get started with {template.name} today.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            <Button
-              size="lg"
-              className="gap-2 bg-gradient-to-r from-[#D4AF37] to-[#C6A85A] text-base text-white hover:from-[#C09A2F] hover:to-[#B89848]"
-            >
-              Preview Template
-              <ArrowLeft className="h-4 w-4 rotate-180" />
-            </Button>
+            {template.id === "the-maharani" ? (
+              <Link href={`/templates/${template.id}/preview`}>
+                <Button
+                  size="lg"
+                  className="gap-2 bg-gradient-to-r from-[#D4AF37] to-[#C6A85A] text-base text-white hover:from-[#C09A2F] hover:to-[#B89848]"
+                >
+                  Preview Template
+                  <ArrowLeft className="h-4 w-4 rotate-180" />
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                size="lg"
+                disabled
+                className="gap-2 bg-[#D4AF37]/20 text-base text-[#D4AF37]/60 cursor-not-allowed"
+              >
+                Preview Coming Soon
+                <ArrowLeft className="h-4 w-4 rotate-180" />
+              </Button>
+            )}
           </div>
         </div>
       </section>

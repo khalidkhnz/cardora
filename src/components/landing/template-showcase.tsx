@@ -12,25 +12,129 @@ import { type Template, CATEGORIES, TEMPLATES } from "@/lib/template-data";
 /* ================================================================== */
 
 function WeddingPreview({ t }: { t: Template }) {
+  const isDark = t.colors.bg.includes("0F1") || t.colors.bg.includes("1A3") || t.colors.bg.includes("0C1") || t.colors.bg.includes("142");
+  const isIvory = t.colors.bg.includes("F0E") || t.colors.bg.includes("E4D");
+
+  // THE MAHARANI — warm peach, floral arch, chandeliers
+  if (t.id === "the-maharani") {
+    return (
+      <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#F8EAD8] via-[#F2DCCA] to-[#EACEBC] p-4 text-center">
+        <div className="absolute top-[20%] left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.06] blur-[30px]" />
+        <svg viewBox="0 0 140 130" className="relative my-1 h-[85px] w-auto" fill="none">
+          <path d="M15 125 L15 55 Q15 18 70 10 Q125 18 125 55 L125 125" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.18" />
+          <circle cx="70" cy="14" r="7" fill="#E88090" fillOpacity="0.30" />
+          <circle cx="70" cy="14" r="4" fill="#FF9BAA" fillOpacity="0.22" />
+          <circle cx="60" cy="18" r="5" fill="#FFB0A0" fillOpacity="0.25" />
+          <circle cx="80" cy="18" r="5" fill="#FF8C6A" fillOpacity="0.22" />
+          <path d="M48 22 Q44 18 50 16 Q51 20 48 22Z" fill="#5A8A50" fillOpacity="0.18" />
+          <path d="M92 22 Q96 18 90 16 Q89 20 92 22Z" fill="#5A8A50" fillOpacity="0.18" />
+          <circle cx="20" cy="50" r="4" fill="#E88090" fillOpacity="0.18" />
+          <circle cx="120" cy="50" r="4" fill="#FFB0A0" fillOpacity="0.18" />
+          <line x1="42" y1="22" x2="42" y2="34" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.15" />
+          <circle cx="42" cy="35" r="1.5" fill="#D4AF37" fillOpacity="0.12" />
+          <line x1="98" y1="22" x2="98" y2="34" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.15" />
+          <circle cx="98" cy="35" r="1.5" fill="#D4AF37" fillOpacity="0.12" />
+          <circle cx="58" cy="52" r="8" fill="#5A3020" fillOpacity="0.50" />
+          <path d="M47 115 L50 68 Q50 58 58 58 Q66 58 66 68 L69 115" fill="#5A3020" fillOpacity="0.40" />
+          <path d="M52 48 Q58 42 64 48 Q64 53 58 54 Q52 53 52 48Z" fill="#D4AF37" fillOpacity="0.30" />
+          <circle cx="82" cy="52" r="8" fill="#6A2030" fillOpacity="0.45" />
+          <path d="M66 115 L70 66 Q70 58 82 58 Q94 58 94 66 L102 115 Q82 108 66 115Z" fill="#8A2040" fillOpacity="0.32" />
+          <path d="M82 46 Q92 44 94 62 Q90 54 82 52" fill="#E88090" fillOpacity="0.15" />
+          <path d="M66 74 Q74 84 82 74" stroke="#D4AF37" strokeOpacity="0.28" strokeWidth="0.8" />
+          <circle cx="69" cy="77" r="1.5" fill="#E88090" fillOpacity="0.28" />
+          <circle cx="74" cy="80" r="1.8" fill="#D4AF37" fillOpacity="0.20" />
+          <circle cx="79" cy="77" r="1.5" fill="#FFB0A0" fillOpacity="0.28" />
+        </svg>
+        <h4 className="relative text-[13px] leading-tight text-[#3A1A10]" style={{ fontFamily: "var(--font-great-vibes)" }}>Aarav <span className="text-[#D4AF37]">&</span> Priya</h4>
+        <div className="relative my-1 flex items-center gap-1"><div className="h-px w-6 bg-gradient-to-r from-transparent to-[#D4AF37]/25" /><span className="text-[5px] text-[#D4AF37]/35">✦</span><div className="h-px w-6 bg-gradient-to-l from-transparent to-[#D4AF37]/25" /></div>
+        <p className="relative text-[6px] text-[#8B6040]/50" style={{ fontFamily: "var(--font-montserrat)" }}>June 15, 2026</p>
+      </div>
+    );
+  }
+
+  // ENCHANTED EVERGREEN — dark emerald, botanical leaves, garden feel
+  if (isDark) {
+    return (
+      <div className={`relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b ${t.colors.bg} p-4 text-center`}>
+        <div className="absolute top-[25%] left-1/2 h-28 w-28 -translate-x-1/2 rounded-full bg-[#7CB68A]/[0.08] blur-[35px]" />
+        <svg viewBox="0 0 140 130" className="relative my-1 h-[85px] w-auto" fill="none">
+          {/* Botanical leaf arch */}
+          <path d="M20 120 Q20 40 70 15 Q120 40 120 120" stroke={t.colors.accent} strokeWidth="0.6" strokeOpacity="0.22" />
+          {/* Large leaves */}
+          <path d="M30 80 Q15 65 35 55 Q40 70 30 80Z" fill={t.colors.accent} fillOpacity="0.18" />
+          <path d="M25 95 Q12 82 30 74 Q34 88 25 95Z" fill={t.colors.accent} fillOpacity="0.12" />
+          <path d="M110 80 Q125 65 105 55 Q100 70 110 80Z" fill={t.colors.accent} fillOpacity="0.18" />
+          <path d="M115 95 Q128 82 110 74 Q106 88 115 95Z" fill={t.colors.accent} fillOpacity="0.12" />
+          {/* Top flower cluster */}
+          <circle cx="70" cy="18" r="5" fill={t.colors.accent} fillOpacity="0.22" />
+          <circle cx="62" cy="22" r="3.5" fill="#F0E0D0" fillOpacity="0.18" />
+          <circle cx="78" cy="22" r="3.5" fill="#F0E0D0" fillOpacity="0.18" />
+          {/* Fern fronds */}
+          <path d="M55 15 Q48 8 52 5" stroke={t.colors.accent} strokeWidth="0.5" strokeOpacity="0.20" />
+          <path d="M85 15 Q92 8 88 5" stroke={t.colors.accent} strokeWidth="0.5" strokeOpacity="0.20" />
+          {/* Couple */}
+          <circle cx="58" cy="52" r="7" fill="#D0E8D4" fillOpacity="0.30" />
+          <path d="M48 110 L52 68 Q52 60 58 60 Q64 60 64 68 L68 110" fill="#D0E8D4" fillOpacity="0.20" />
+          <circle cx="82" cy="52" r="7" fill="#F0E0D0" fillOpacity="0.25" />
+          <path d="M68 110 L72 66 Q72 60 82 60 Q92 60 92 66 L100 110 Q82 104 68 110Z" fill="#F0E0D0" fillOpacity="0.18" />
+          {/* Garland — leaves */}
+          <path d="M64 72 Q73 82 82 72" stroke={t.colors.accent} strokeOpacity="0.28" strokeWidth="0.8" />
+          <circle cx="70" cy="76" r="1.5" fill="#F0E0D0" fillOpacity="0.22" />
+          <circle cx="76" cy="78" r="1.5" fill={t.colors.accent} fillOpacity="0.18" />
+        </svg>
+        <h4 className="relative text-[13px] leading-tight" style={{ color: t.colors.text, fontFamily: "var(--font-great-vibes)" }}>
+          Arjun <span style={{ color: t.colors.accent }}>&</span> Meera
+        </h4>
+        <div className="relative my-1 flex items-center gap-1"><div className="h-px w-6" style={{ background: `linear-gradient(to right, transparent, ${t.colors.accent}30)` }} /><span className="text-[5px]" style={{ color: `${t.colors.accent}50` }}>❧</span><div className="h-px w-6" style={{ background: `linear-gradient(to left, transparent, ${t.colors.accent}30)` }} /></div>
+        <p className="relative text-[6px]" style={{ color: `${t.colors.accent}60`, fontFamily: "var(--font-montserrat)" }}>March 22, 2026</p>
+      </div>
+    );
+  }
+
+  // VELVET HEIRLOOM — deep maroon/burgundy, royal mandala, dark luxury
   return (
-    <div className={`flex h-full w-full flex-col items-center justify-center bg-gradient-to-b ${t.colors.bg} p-5 text-center`}>
-      <p className="text-[6px] font-medium uppercase tracking-[0.3em]" style={{ color: `${t.colors.accent}80`, fontFamily: "var(--font-cinzel)" }}>
-        You are invited
-      </p>
-      <div className="my-2 h-px w-12 bg-gradient-to-r from-transparent" style={{ borderColor: t.colors.accent, background: `linear-gradient(to right, transparent, ${t.colors.accent}40, transparent)` }} />
-      {/* Couple silhouette */}
-      <svg viewBox="0 0 60 55" className="my-1 h-10 w-auto" fill="none">
-        <circle cx="22" cy="12" r="6" fill={t.colors.accent} fillOpacity="0.25" />
-        <path d="M14 50 L16 26 Q16 18 22 18 Q28 18 28 26 L30 50" fill={t.colors.accent} fillOpacity="0.15" />
-        <circle cx="38" cy="12" r="6" fill={t.colors.accent} fillOpacity="0.25" />
-        <path d="M28 50 L31 24 Q31 18 38 18 Q45 18 45 24 L50 50 Q38 44 28 50Z" fill={t.colors.accent} fillOpacity="0.15" />
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#2A0E12] via-[#1E0A0E] to-[#140608] p-4 text-center">
+      {/* Warm gold glow */}
+      <div className="absolute top-[30%] left-1/2 h-28 w-28 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.06] blur-[30px]" />
+      <svg viewBox="0 0 140 130" className="relative my-1 h-[85px] w-auto" fill="none">
+        {/* Mandala circles */}
+        <circle cx="70" cy="55" r="50" stroke="#D4AF37" strokeWidth="0.4" strokeOpacity="0.08" />
+        <circle cx="70" cy="55" r="40" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.06" />
+        {/* Top ornamental motif */}
+        <path d="M60 8 Q70 2 80 8 Q80 14 70 16 Q60 14 60 8Z" fill="#D4AF37" fillOpacity="0.12" />
+        <circle cx="70" cy="8" r="2" fill="#D4AF37" fillOpacity="0.18" />
+        {/* Corner L-brackets */}
+        <path d="M18 15 L18 25" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+        <path d="M18 15 L28 15" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+        <path d="M122 15 L122 25" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+        <path d="M122 15 L112 15" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+        <path d="M18 120 L18 110" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+        <path d="M18 120 L28 120" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+        <path d="M122 120 L122 110" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+        <path d="M122 120 L112 120" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
+        {/* Couple — gold silhouettes on dark */}
+        <circle cx="58" cy="48" r="8" fill="#D4AF37" fillOpacity="0.18" />
+        <path d="M47 110 L50 65 Q50 55 58 55 Q66 55 66 65 L69 110" fill="#D4AF37" fillOpacity="0.12" />
+        <path d="M52 43 Q58 37 64 43 Q64 49 58 50 Q52 49 52 43Z" fill="#D4AF37" fillOpacity="0.15" />
+        <circle cx="82" cy="48" r="8" fill="#D4AF37" fillOpacity="0.16" />
+        <path d="M66 110 L70 63 Q70 55 82 55 Q94 55 94 63 L102 110 Q82 104 66 110Z" fill="#D4AF37" fillOpacity="0.10" />
+        <path d="M82 42 Q92 40 94 58 Q90 50 82 48" fill="#D4AF37" fillOpacity="0.06" />
+        <circle cx="82" cy="45" r="1.2" fill="#D4AF37" fillOpacity="0.30" />
+        {/* Varmala */}
+        <path d="M66 70 Q74 80 82 70" stroke="#D4AF37" strokeOpacity="0.22" strokeWidth="0.8" />
+        <circle cx="70" cy="74" r="1.5" fill="#D4AF37" fillOpacity="0.18" />
+        <circle cx="76" cy="76" r="1.5" fill="#D4AF37" fillOpacity="0.14" />
+        {/* Small diyas at bottom */}
+        <path d="M30 108 Q32 104 34 108" fill="#FFB347" fillOpacity="0.15" />
+        <circle cx="32" cy="104" r="1" fill="#FFD700" fillOpacity="0.15" />
+        <path d="M106 108 Q108 104 110 108" fill="#FFB347" fillOpacity="0.15" />
+        <circle cx="108" cy="104" r="1" fill="#FFD700" fillOpacity="0.15" />
       </svg>
-      <h4 className="text-[14px] leading-tight" style={{ color: t.colors.text, fontFamily: "var(--font-great-vibes)" }}>
-        Aarav & Priya
+      <h4 className="relative text-[13px] leading-tight text-[#F0E8D8]" style={{ fontFamily: "var(--font-great-vibes)" }}>
+        Vikram <span className="text-[#D4AF37]">&</span> Ananya
       </h4>
-      <p className="mt-1 text-[6px]" style={{ color: `${t.colors.accent}60`, fontFamily: "var(--font-montserrat)" }}>
-        June 15, 2026
-      </p>
+      <div className="relative my-1 flex items-center gap-1"><div className="h-px w-6 bg-gradient-to-r from-transparent to-[#D4AF37]/20" /><span className="text-[5px] text-[#D4AF37]/35">✦</span><div className="h-px w-6 bg-gradient-to-l from-transparent to-[#D4AF37]/20" /></div>
+      <p className="relative text-[6px] text-[#D4AF37]/45" style={{ fontFamily: "var(--font-montserrat)" }}>Feb 14, 2026</p>
     </div>
   );
 }
