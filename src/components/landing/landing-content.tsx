@@ -273,14 +273,23 @@ function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="flex items-center gap-2.5"
+          className="flex items-center gap-0.5"
         >
+          {/* Light mode logo */}
           <Image
-            src="/favicon.ico"
+            src="/cardora-logo.png"
             alt="Cardora"
-            width={28}
-            height={28}
-            className="h-7 w-7"
+            width={30}
+            height={30}
+            className="h-[30px] w-[30px] object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:hidden"
+          />
+          {/* Dark mode logo — original colors + white outline glow to pop */}
+          <Image
+            src="/cardora-logo.png"
+            alt="Cardora"
+            width={30}
+            height={30}
+            className="hidden h-[30px] w-[30px] object-contain drop-shadow-[0_0_1px_rgba(255,255,255,0.8)] [filter:drop-shadow(0_0_2px_rgba(255,255,255,0.4))_drop-shadow(0_0_1px_rgba(255,255,255,0.6))] dark:block"
           />
           <span
             className="text-xl font-bold tracking-wide text-[#1A1A1A] dark:text-[#F0E8D8]"
