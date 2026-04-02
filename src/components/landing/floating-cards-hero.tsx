@@ -608,7 +608,7 @@ export function FloatingCardsHero() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 4 }}
                     transition={{ duration: 0.3 }}
-                    className="mt-4 text-center text-xs font-medium text-muted-foreground"
+                    className="mt-5 text-center text-xs font-medium text-muted-foreground"
                     style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {card.title}
@@ -621,7 +621,7 @@ export function FloatingCardsHero() {
       </motion.div>
 
       {/* Dot indicators */}
-      <div className="mt-6 flex items-center gap-2">
+      <div className="mt-10 flex items-center gap-2">
         {SHOWCASE_CARDS.map((card) => (
           <button
             key={card.id}

@@ -268,7 +268,7 @@ function Navbar() {
   return (
     <motion.header
       style={{ y: smoothNavY }}
-      className="fixed top-0 right-0 left-0 z-50 border-b border-[#E8E4DE]/60 bg-[#FAF8F5]/80 backdrop-blur-xl"
+      className="fixed top-0 right-0 left-0 z-50 border-b border-[#E8E4DE]/60 bg-[#FAF8F5]/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#141414]/80"
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
@@ -283,7 +283,7 @@ function Navbar() {
             className="h-7 w-7"
           />
           <span
-            className="text-xl font-bold tracking-wide text-[#1A1A1A]"
+            className="text-xl font-bold tracking-wide text-[#1A1A1A] dark:text-[#F0E8D8]"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
             {APP_NAME}
@@ -293,19 +293,19 @@ function Navbar() {
         <div className="hidden items-center gap-8 md:flex">
           <a
             href="#features"
-            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A]"
+            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A] dark:text-[#A09888] dark:hover:text-[#F0E8D8]"
           >
             Features
           </a>
           <a
             href="#pricing"
-            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A]"
+            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A] dark:text-[#A09888] dark:hover:text-[#F0E8D8]"
           >
             Pricing
           </a>
           <Link
             href="/about"
-            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A]"
+            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A] dark:text-[#A09888] dark:hover:text-[#F0E8D8]"
           >
             About
           </Link>
@@ -314,7 +314,7 @@ function Navbar() {
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <Link href="/login">
-            <Button variant="ghost" size="sm" className="text-[#1A1A1A] hover:bg-[#F3F0EB]">
+            <Button variant="ghost" size="sm" className="text-[#1A1A1A] hover:bg-[#F3F0EB] dark:text-[#E0D8C8] dark:hover:bg-white/10">
               Sign in
             </Button>
           </Link>
