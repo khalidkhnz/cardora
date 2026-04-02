@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   motion,
   useScroll,
@@ -46,54 +47,54 @@ const features = [
     title: "Business Cards",
     description:
       "10+ professionally designed templates with live preview. Customize every detail to match your brand.",
-    gradient: "from-blue-500 to-cyan-400",
-    bgGradient: "from-blue-500/20 to-cyan-400/20",
-    iconColor: "text-blue-500",
+    gradient: "from-[#B8860B] to-[#D4A843]",
+    bgGradient: "from-[#B8860B]/10 to-[#D4A843]/10",
+    iconColor: "text-[#B8860B]",
   },
   {
     icon: Heart,
     title: "Wedding Invitations",
     description:
       "30+ stunning static templates. Beautiful designs crafted for your most special day, completely free.",
-    gradient: "from-rose-500 to-pink-400",
-    bgGradient: "from-rose-500/20 to-pink-400/20",
-    iconColor: "text-rose-500",
+    gradient: "from-[#8B7355] to-[#B8860B]",
+    bgGradient: "from-[#8B7355]/10 to-[#B8860B]/10",
+    iconColor: "text-[#8B7355]",
   },
   {
     icon: Sparkles,
     title: "Animated Invites",
     description:
       "Cinematic invitations with music, parallax animations, and interactive RSVP. Truly unforgettable.",
-    gradient: "from-amber-500 to-orange-400",
-    bgGradient: "from-amber-500/20 to-orange-400/20",
-    iconColor: "text-amber-500",
+    gradient: "from-[#D4A843] to-[#C9A96E]",
+    bgGradient: "from-[#D4A843]/10 to-[#C9A96E]/10",
+    iconColor: "text-[#D4A843]",
   },
   {
     icon: BarChart3,
     title: "Analytics Dashboard",
     description:
       "Track profile views, QR scans, and NFC taps. Understand your audience with real-time insights.",
-    gradient: "from-emerald-500 to-green-400",
-    bgGradient: "from-emerald-500/20 to-green-400/20",
-    iconColor: "text-emerald-500",
+    gradient: "from-[#1A1A1A] to-[#3D3D3D]",
+    bgGradient: "from-[#1A1A1A]/8 to-[#3D3D3D]/8",
+    iconColor: "text-[#1A1A1A]",
   },
   {
     icon: QrCode,
     title: "QR & NFC Sharing",
     description:
       "Share your card instantly via QR code, NFC tap, or a unique link. One tap is all it takes.",
-    gradient: "from-violet-500 to-purple-400",
-    bgGradient: "from-violet-500/20 to-purple-400/20",
-    iconColor: "text-violet-500",
+    gradient: "from-[#B8860B] to-[#8B7355]",
+    bgGradient: "from-[#B8860B]/10 to-[#8B7355]/10",
+    iconColor: "text-[#B8860B]",
   },
   {
     icon: Globe,
     title: "Multi-Country Support",
     description:
       "Stripe-powered secure payments in Canadian Dollars. Built for Canada.",
-    gradient: "from-cyan-500 to-teal-400",
-    bgGradient: "from-cyan-500/20 to-teal-400/20",
-    iconColor: "text-cyan-500",
+    gradient: "from-[#C9A96E] to-[#D4A843]",
+    bgGradient: "from-[#C9A96E]/10 to-[#D4A843]/10",
+    iconColor: "text-[#C9A96E]",
   },
 ];
 
@@ -101,12 +102,12 @@ const pricingCards = [
   {
     title: "Business Cards & Wedding Cards",
     icon: CreditCard,
-    iconColor: "text-emerald-500",
+    iconColor: "text-[#1A1A1A]",
     price: "Free",
     priceSubtext: "forever",
     badge: null,
-    accentColor: "emerald",
-    gradient: "from-emerald-500 to-teal-400",
+    accentColor: "charcoal",
+    gradient: "from-[#1A1A1A] to-[#3D3D3D]",
     features: [
       "10+ business card templates",
       "30+ wedding card templates",
@@ -119,12 +120,12 @@ const pricingCards = [
   {
     title: "Animated Invites",
     icon: Sparkles,
-    iconColor: "text-amber-500",
+    iconColor: "text-[#B8860B]",
     price: "C$49.99",
     priceSubtext: "one-time",
     badge: "Premium",
-    accentColor: "amber",
-    gradient: "from-amber-500 to-orange-400",
+    accentColor: "gold",
+    gradient: "from-[#B8860B] to-[#D4A843]",
     features: [
       "17 cinematic animated templates",
       "Background music & gallery",
@@ -137,9 +138,9 @@ const pricingCards = [
 ];
 
 const stats = [
-  { label: "Setup Time", value: "5", suffix: "min", icon: Clock },
-  { label: "Templates", value: "50", suffix: "+", icon: Layout },
-  { label: "Secure Payments", value: "100", suffix: "%", icon: Shield },
+  { label: "Setup Time", value: "5", suffix: "min", icon: Clock, color: "text-[#B8860B]", bg: "bg-[#B8860B]/10" },
+  { label: "Templates", value: "50", suffix: "+", icon: Layout, color: "text-[#1A1A1A]", bg: "bg-[#1A1A1A]/8" },
+  { label: "Secure Payments", value: "100", suffix: "%", icon: Shield, color: "text-[#8B7355]", bg: "bg-[#8B7355]/10" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -267,33 +268,53 @@ function Navbar() {
   return (
     <motion.header
       style={{ y: smoothNavY }}
-      className="fixed top-0 right-0 left-0 z-50 border-b border-white/10 bg-background/60 backdrop-blur-xl"
+      className="fixed top-0 right-0 left-0 z-50 border-b border-[#E8E4DE]/60 bg-[#FAF8F5]/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#141414]/80"
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="bg-gradient-to-r from-violet-600 to-pink-500 bg-clip-text text-xl font-bold text-transparent"
-          style={{ fontFamily: "var(--font-playfair)" }}
+          className="flex items-center gap-0.5"
         >
-          {APP_NAME}
+          {/* Light mode logo */}
+          <Image
+            src="/cardora-logo.png"
+            alt="Cardora"
+            width={30}
+            height={30}
+            className="h-[30px] w-[30px] object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:hidden"
+          />
+          {/* Dark mode logo — original colors + white outline glow to pop */}
+          <Image
+            src="/cardora-logo.png"
+            alt="Cardora"
+            width={30}
+            height={30}
+            className="hidden h-[30px] w-[30px] object-contain drop-shadow-[0_0_1px_rgba(255,255,255,0.8)] [filter:drop-shadow(0_0_2px_rgba(255,255,255,0.4))_drop-shadow(0_0_1px_rgba(255,255,255,0.6))] dark:block"
+          />
+          <span
+            className="text-xl font-bold tracking-wide text-[#1A1A1A] dark:text-[#F0E8D8]"
+            style={{ fontFamily: "var(--font-playfair)" }}
+          >
+            {APP_NAME}
+          </span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
           <a
             href="#features"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A] dark:text-[#A09888] dark:hover:text-[#F0E8D8]"
           >
             Features
           </a>
           <a
             href="#pricing"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A] dark:text-[#A09888] dark:hover:text-[#F0E8D8]"
           >
             Pricing
           </a>
           <Link
             href="/about"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-sm text-[#6B6560] transition-colors hover:text-[#1A1A1A] dark:text-[#A09888] dark:hover:text-[#F0E8D8]"
           >
             About
           </Link>
@@ -301,16 +322,17 @@ function Navbar() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link href="/login">
-            <Button variant="ghost" size="sm">
-              Sign in
-            </Button>
+          <Link
+            href="/login"
+            className="rounded-md px-3 py-1.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-[#F3F0EB] dark:text-[#F5ECD7] dark:hover:bg-white/10"
+          >
+            Sign in
           </Link>
           <MagneticButton strength={0.2}>
             <Link href="/signup">
               <Button
                 size="sm"
-                className="bg-gradient-to-r from-violet-600 to-pink-500 text-white hover:from-violet-700 hover:to-pink-600"
+                className="bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]"
               >
                 Get Started
               </Button>
@@ -329,8 +351,8 @@ function Navbar() {
 function FeaturesSection() {
   return (
     <section id="features" className="relative scroll-mt-20 px-6 py-24">
-      {/* Subtle colorful background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-violet-500/5 via-transparent to-pink-500/5" />
+      {/* Subtle warm background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#B8860B]/3 via-transparent to-[#D4A843]/3" />
 
       <div className="mx-auto max-w-6xl">
         <div className="mb-16 text-center">
@@ -338,7 +360,7 @@ function FeaturesSection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mb-4 inline-block rounded-full bg-emerald-500/10 px-4 py-1 text-sm font-medium text-emerald-600 dark:text-emerald-400"
+            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
           >
             Packed with Features
           </motion.span>
@@ -378,7 +400,7 @@ function TemplateShowcase() {
   return (
     <section className="relative overflow-hidden px-6 py-24">
       {/* Colorful background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-amber-500/5 via-rose-500/5 to-violet-500/5" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#B8860B]/3 via-[#D4A843]/3 to-[#C9A96E]/3" />
 
       <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
         {/* Left — text */}
@@ -392,7 +414,7 @@ function TemplateShowcase() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mb-4 inline-block rounded-full bg-rose-500/10 px-4 py-1 text-sm font-medium text-rose-600 dark:text-rose-400"
+            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
           >
             Beautiful Templates
           </motion.span>
@@ -417,9 +439,9 @@ function TemplateShowcase() {
           {/* Animated stat counters */}
           <div className="mt-10 grid grid-cols-3 gap-6">
             {[
-              { label: "Business Templates", count: 10, suffix: "+", color: "text-blue-500" },
-              { label: "Wedding Templates", count: 30, suffix: "+", color: "text-rose-500" },
-              { label: "Animated Invites", count: 17, suffix: "", color: "text-amber-500" },
+              { label: "Business Templates", count: 10, suffix: "+", color: "text-[#B8860B]" },
+              { label: "Wedding Templates", count: 30, suffix: "+", color: "text-[#8B7355]" },
+              { label: "Animated Invites", count: 17, suffix: "", color: "text-[#D4A843]" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -455,19 +477,19 @@ function TemplateShowcase() {
         >
           <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
             {/* Colorful gradient card mockup */}
-            <div className="aspect-[4/3] bg-gradient-to-br from-violet-500/10 via-pink-500/10 to-amber-500/10 p-8">
+            <div className="aspect-[4/3] bg-gradient-to-br from-[#B8860B]/8 via-[#D4A843]/6 to-[#C9A96E]/8 p-8">
               <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-violet-500/30 to-pink-500/30" />
-                <div className="h-3 w-40 rounded-full bg-gradient-to-r from-violet-500/20 to-pink-500/20" />
+                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[#B8860B]/25 to-[#D4A843]/25" />
+                <div className="h-3 w-40 rounded-full bg-gradient-to-r from-[#B8860B]/15 to-[#D4A843]/15" />
                 <div className="h-2 w-24 rounded-full bg-muted/60" />
                 <div className="mt-4 grid w-full max-w-xs grid-cols-3 gap-3">
                   {[
-                    "from-blue-500/20 to-cyan-400/20",
-                    "from-rose-500/20 to-pink-400/20",
-                    "from-amber-500/20 to-orange-400/20",
-                    "from-emerald-500/20 to-green-400/20",
-                    "from-violet-500/20 to-purple-400/20",
-                    "from-cyan-500/20 to-teal-400/20",
+                    "from-[#B8860B]/15 to-[#D4A843]/15",
+                    "from-[#8B7355]/15 to-[#B8860B]/15",
+                    "from-[#D4A843]/15 to-[#C9A96E]/15",
+                    "from-[#1A1A1A]/8 to-[#3D3D3D]/8",
+                    "from-[#B8860B]/10 to-[#8B7355]/10",
+                    "from-[#C9A96E]/15 to-[#D4A843]/15",
                   ].map((grad, i) => (
                     <div
                       key={i}
@@ -479,10 +501,10 @@ function TemplateShowcase() {
             </div>
           </div>
           {/* Decorative floating card behind */}
-          <div className="animate-float absolute -right-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-violet-500/15 to-pink-500/15" />
+          <div className="animate-float absolute -right-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-[#B8860B]/12 to-[#D4A843]/12" />
           {/* Second decorative layer */}
           <div
-            className="animate-float absolute -right-8 -bottom-8 -z-20 h-full w-full rounded-2xl bg-gradient-to-br from-amber-500/10 to-rose-500/10"
+            className="animate-float absolute -right-8 -bottom-8 -z-20 h-full w-full rounded-2xl bg-gradient-to-br from-[#C9A96E]/8 to-[#B8860B]/8"
             style={{ animationDelay: "2s" }}
           />
         </motion.div>
@@ -499,7 +521,7 @@ function PricingSection() {
   return (
     <section id="pricing" className="relative scroll-mt-20 px-6 py-24">
       {/* Background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-500/5 via-transparent to-amber-500/5" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#B8860B]/3 via-transparent to-[#1A1A1A]/3" />
 
       <div className="mx-auto max-w-4xl">
         <div className="mb-16 text-center">
@@ -507,7 +529,7 @@ function PricingSection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mb-4 inline-block rounded-full bg-violet-500/10 px-4 py-1 text-sm font-medium text-violet-600 dark:text-violet-400"
+            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
           >
             Pricing
           </motion.span>
@@ -539,7 +561,7 @@ function PricingSection() {
               transition={{ duration: 0.5, delay: i * 0.15 }}
               whileHover={{ y: -4 }}
               className={`relative overflow-hidden rounded-2xl border bg-card p-8 shadow-sm transition-shadow hover:shadow-xl ${
-                card.badge ? "ring-2 ring-amber-500/30" : ""
+                card.badge ? "ring-2 ring-[#B8860B]/30" : ""
               }`}
             >
               {/* Colorful top gradient bar */}
@@ -551,7 +573,7 @@ function PricingSection() {
                 <motion.span
                   animate={{ opacity: [0.7, 1, 0.7] }}
                   transition={{ repeat: Infinity, duration: 2 }}
-                  className="absolute top-4 right-4 rounded-full bg-gradient-to-r from-amber-500 to-orange-400 px-3 py-1 text-xs font-medium text-white"
+                  className="absolute top-4 right-4 rounded-full bg-gradient-to-r from-[#B8860B] to-[#D4A843] px-3 py-1 text-xs font-medium text-white"
                 >
                   {card.badge}
                 </motion.span>
@@ -570,8 +592,8 @@ function PricingSection() {
                 <span
                   className={`text-4xl font-bold ${
                     card.price === "Free"
-                      ? "bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent"
-                      : "bg-gradient-to-r from-amber-500 to-orange-400 bg-clip-text text-transparent"
+                      ? "text-[#1A1A1A]"
+                      : "bg-gradient-to-r from-[#B8860B] to-[#D4A843] bg-clip-text text-transparent"
                   }`}
                   style={{ fontFamily: "var(--font-playfair)" }}
                 >
@@ -592,7 +614,7 @@ function PricingSection() {
                     transition={{ delay: 0.3 + fi * 0.08 }}
                     className="flex items-center gap-3 text-sm text-muted-foreground"
                   >
-                    <Check className="h-4 w-4 shrink-0 text-emerald-500" />
+                    <Check className="h-4 w-4 shrink-0 text-[#B8860B]" />
                     {feature}
                   </motion.li>
                 ))}
@@ -603,8 +625,8 @@ function PricingSection() {
                   <Button
                     className={`w-full ${
                       card.badge
-                        ? "bg-gradient-to-r from-amber-500 to-orange-400 text-white hover:from-amber-600 hover:to-orange-500"
-                        : "bg-gradient-to-r from-emerald-500 to-teal-400 text-white hover:from-emerald-600 hover:to-teal-500"
+                        ? "bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]"
+                        : "bg-[#1A1A1A] text-white hover:bg-[#2D2D2D]"
                     }`}
                   >
                     {card.price === "Free" ? "Start Free" : "Get Started"}
@@ -626,7 +648,7 @@ function PricingSection() {
 function WhatsIncluded() {
   return (
     <section className="relative overflow-hidden px-6 py-24">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-rose-500/5 via-transparent to-violet-500/5" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#D4A843]/3 via-transparent to-[#B8860B]/3" />
 
       <div className="mx-auto max-w-5xl">
         <div className="mb-16 text-center">
@@ -640,8 +662,8 @@ function WhatsIncluded() {
 
         <div className="grid gap-8 sm:grid-cols-3">
           {stats.map((stat, i) => {
-            const colors = ["text-amber-500", "text-violet-500", "text-emerald-500"];
-            const bgColors = ["bg-amber-500/10", "bg-violet-500/10", "bg-emerald-500/10"];
+            const colors = ["text-[#B8860B]", "text-[#1A1A1A]", "text-[#8B7355]"];
+            const bgColors = ["bg-[#B8860B]/10", "bg-[#1A1A1A]/8", "bg-[#8B7355]/10"];
             return (
               <motion.div
                 key={stat.label}
@@ -684,7 +706,7 @@ function WhatsIncluded() {
 function AnimatedInviteHighlight() {
   return (
     <section className="relative overflow-hidden px-6 py-24">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-amber-500/5 via-rose-500/5 to-violet-500/5" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#B8860B]/3 via-[#D4A843]/3 to-[#C9A96E]/3" />
 
       <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
         {/* Left — visual */}
@@ -696,19 +718,19 @@ function AnimatedInviteHighlight() {
           className="relative"
         >
           <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
-            <div className="aspect-[4/3] bg-gradient-to-br from-amber-500/10 via-rose-500/10 to-violet-500/10 p-8">
+            <div className="aspect-[4/3] bg-gradient-to-br from-[#B8860B]/8 via-[#D4A843]/6 to-[#C9A96E]/8 p-8">
               <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
                 <motion.div
                   animate={{ rotate: [0, 5, -5, 0] }}
                   transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                  className="rounded-full bg-gradient-to-br from-amber-500/20 to-rose-500/20 p-6"
+                  className="rounded-full bg-gradient-to-br from-[#B8860B]/15 to-[#D4A843]/15 p-6"
                 >
-                  <Music className="h-10 w-10 text-amber-500" />
+                  <Music className="h-10 w-10 text-[#B8860B]" />
                 </motion.div>
-                <div className="h-3 w-48 rounded-full bg-gradient-to-r from-amber-500/20 to-rose-500/20" />
+                <div className="h-3 w-48 rounded-full bg-gradient-to-r from-[#B8860B]/15 to-[#D4A843]/15" />
                 <div className="h-2 w-32 rounded-full bg-muted/40" />
                 <div className="flex gap-2">
-                  {["from-amber-500/20 to-orange-400/20", "from-rose-500/20 to-pink-400/20", "from-violet-500/20 to-purple-400/20"].map((g, i) => (
+                  {["from-[#B8860B]/15 to-[#D4A843]/15", "from-[#8B7355]/15 to-[#B8860B]/15", "from-[#1A1A1A]/8 to-[#3D3D3D]/8"].map((g, i) => (
                     <motion.div
                       key={i}
                       animate={{ y: [0, -5, 0] }}
@@ -720,7 +742,7 @@ function AnimatedInviteHighlight() {
               </div>
             </div>
           </div>
-          <div className="animate-float absolute -left-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-amber-500/15 to-rose-500/15" />
+          <div className="animate-float absolute -left-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-[#B8860B]/10 to-[#D4A843]/10" />
         </motion.div>
 
         {/* Right — text */}
@@ -734,7 +756,7 @@ function AnimatedInviteHighlight() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mb-4 inline-block rounded-full bg-amber-500/10 px-4 py-1 text-sm font-medium text-amber-600 dark:text-amber-400"
+            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
           >
             Premium Feature
           </motion.span>
@@ -765,7 +787,7 @@ function AnimatedInviteHighlight() {
           >
             <MagneticButton strength={0.2}>
               <Link href="/signup">
-                <Button className="gap-2 bg-gradient-to-r from-amber-500 to-orange-400 text-white hover:from-amber-600 hover:to-orange-500">
+                <Button className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]">
                   Explore Animated Invites
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -787,11 +809,10 @@ function FinalCTA() {
     <section className="relative overflow-hidden px-6 py-24">
       {/* Vibrant gradient background */}
       <div
-        className="animate-gradient-shift absolute inset-0 -z-10"
+        className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #667eea 100%)",
-          backgroundSize: "400% 400%",
+            "linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 30%, #1A1A1A 60%, #2D2D2D 100%)",
         }}
       />
       {/* Sparkle overlay — deterministic positions to avoid hydration mismatch */}
@@ -805,7 +826,7 @@ function FinalCTA() {
         ].map((pos, i) => (
           <motion.div
             key={i}
-            className="absolute h-1 w-1 rounded-full bg-white"
+            className="absolute h-1 w-1 rounded-full bg-[#D4A843]"
             style={{
               left: `${pos.l}%`,
               top: `${pos.t}%`,
@@ -851,8 +872,7 @@ function FinalCTA() {
             <Link href="/signup">
               <Button
                 size="lg"
-                variant="secondary"
-                className="min-w-[220px] gap-2 text-base"
+                className="min-w-[220px] gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-base text-white hover:from-[#9A7209] hover:to-[#B8960B]"
               >
                 Create Your Card - Free
                 <ArrowRight className="h-4 w-4" />

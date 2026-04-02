@@ -13,7 +13,10 @@ import { platform, pageTitle } from "@/lib/platform";
 export const metadata: Metadata = {
   title: pageTitle(),
   description: platform.description,
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [
+    { rel: "icon", url: "/favicon.ico" },
+    { rel: "apple-touch-icon", url: "/cardora-logo.png" },
+  ],
 };
 
 const geist = Geist({
@@ -34,7 +37,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <ThemeProvider>
           <QueryProvider>
             {children}

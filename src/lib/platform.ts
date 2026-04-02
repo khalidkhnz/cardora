@@ -52,10 +52,14 @@ export const platform = {
 
   /** Brand colors used in emails and branded UI */
   brand: {
-    primaryColor: "#667eea",
-    secondaryColor: "#764ba2",
+    primaryColor: "#1A1A1A",
+    secondaryColor: "#B8860B",
+    gold: "#B8860B",
+    goldLight: "#D4A843",
+    charcoal: "#1A1A1A",
+    ivory: "#FAF8F5",
     get gradient() {
-      return `linear-gradient(135deg, ${this.primaryColor} 0%, ${this.secondaryColor} 100%)`;
+      return `linear-gradient(135deg, ${this.secondaryColor} 0%, ${this.goldLight} 100%)`;
     },
   },
 
@@ -117,10 +121,10 @@ export const platform = {
 // Helper functions
 // ---------------------------------------------------------------------------
 
-/** Generate a consistent page title like "Dashboard — Cardora" */
+/** Generate a consistent page title like "Dashboard - Cardora" */
 export function pageTitle(subtitle?: string): string {
-  if (!subtitle) return `${platform.name} — ${platform.tagline}`;
-  return `${subtitle} — ${platform.name}`;
+  if (!subtitle) return `${platform.name} - ${platform.tagline}`;
+  return `${subtitle} - ${platform.name}`;
 }
 
 /** Generate the email "from" field like '"Cardora" <user@smtp.com>' */

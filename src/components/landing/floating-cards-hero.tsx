@@ -8,212 +8,418 @@ import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/animated-invite/shared/magnetic-button";
 
 /* ================================================================== */
-/*  5 real-looking card designs                                       */
+/*  5 crafted cards — L/D/L/D/L alternating                          */
 /* ================================================================== */
 
-function WeddingElegance() {
-  return (
-    <div className="flex h-full w-full flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-[#fdf8f0] to-[#f5ead6] p-8 text-center">
-      {/* Ornamental top */}
-      <div className="mb-2 text-[#c9a96e] opacity-60">✦ ✦ ✦</div>
-      <p
-        className="text-[10px] uppercase tracking-[0.3em] text-[#9a8560]"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        Together with their families
-      </p>
-      <h3
-        className="mt-3 text-2xl leading-tight text-[#3d3427]"
-        style={{ fontFamily: "var(--font-great-vibes)" }}
-      >
-        Aarav & Priya
-      </h3>
-      <div className="my-3 h-px w-16 bg-gradient-to-r from-transparent via-[#c9a96e]/50 to-transparent" />
-      <p
-        className="text-[9px] uppercase tracking-[0.2em] text-[#9a8560]"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        Request the pleasure of your company
-      </p>
-      <p
-        className="mt-3 text-sm font-light text-[#5a4d3a]"
-        style={{ fontFamily: "var(--font-cormorant)" }}
-      >
-        Saturday, the Fifteenth of June
-      </p>
-      <p
-        className="text-xs text-[#9a8560]"
-        style={{ fontFamily: "var(--font-cormorant)" }}
-      >
-        Two Thousand Twenty Six
-      </p>
-      {/* Decorative bottom */}
-      <div className="mt-4 flex items-center gap-2 text-[#c9a96e] opacity-40">
-        <div className="h-px w-8 bg-[#c9a96e]" />
-        <span className="text-[8px]">❦</span>
-        <div className="h-px w-8 bg-[#c9a96e]" />
-      </div>
-    </div>
-  );
-}
+const GRAIN = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")";
 
-function BusinessModern() {
+/* ─── 1. WEDDING — Cinematic night scene (HERO) ─── */
+/* ─── CARD 1: INDIAN WEDDING (Light) — Back-view couple ─── */
+function WeddingCard() {
   return (
-    <div className="flex h-full w-full flex-col justify-between rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#1e293b] p-7">
-      {/* Top */}
-      <div>
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-500/20" />
-          <span
-            className="text-[10px] font-semibold uppercase tracking-[0.15em] text-cyan-400"
-            style={{ fontFamily: "var(--font-montserrat)" }}
-          >
-            TechNova
-          </span>
-        </div>
-      </div>
-      {/* Bottom */}
-      <div>
-        <h3
-          className="text-lg font-bold text-white"
-          style={{ fontFamily: "var(--font-raleway)" }}
-        >
-          Aman Gupta
-        </h3>
-        <p
-          className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-cyan-400/70"
-          style={{ fontFamily: "var(--font-montserrat)" }}
-        >
-          Senior Product Designer
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px] shadow-[0_8px_40px_rgba(40,20,10,0.10)]">
+      {/* Warm ivory base — darker than page bg to pop */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EDE4D4] via-[#E6DAC8] to-[#DDD0BC]" />
+      {/* Soft center warmth */}
+      <div className="absolute top-[30%] left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.05] blur-[50px]" />
+      {/* Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_45%,rgba(60,35,20,0.10)_100%)]" />
+      <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: GRAIN }} />
+
+      {/* Mandap arch — soft, charcoal + gold */}
+      <svg viewBox="0 0 220 130" preserveAspectRatio="xMidYMid meet" className="absolute top-[3%] left-1/2 w-[85%] -translate-x-1/2" fill="none">
+        <path d="M20 130 L20 55 Q20 15 110 10 Q200 15 200 55 L200 130" stroke="#3A2A1A" strokeWidth="0.8" strokeOpacity="0.12" />
+        <path d="M35 130 L35 60 Q35 25 110 18 Q185 25 185 60 L185 130" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.15" />
+        {/* Dome ornament */}
+        <circle cx="110" cy="8" r="3" fill="#D4AF37" fillOpacity="0.18" />
+        {/* Small pillar caps */}
+        <circle cx="20" cy="52" r="2" fill="#3A2A1A" fillOpacity="0.08" />
+        <circle cx="200" cy="52" r="2" fill="#3A2A1A" fillOpacity="0.08" />
+      </svg>
+
+      {/* Minimal florals — top corners only */}
+      <svg viewBox="0 0 60 70" className="absolute top-0 left-0 h-[18%] w-auto" fill="none">
+        <circle cx="15" cy="18" r="10" fill="#C08060" fillOpacity="0.15" />
+        <circle cx="30" cy="32" r="7" fill="#D4AF37" fillOpacity="0.08" />
+        <path d="M35 15 Q42 10 40 25 Q36 20 35 15Z" fill="#5A7A4E" fillOpacity="0.15" />
+      </svg>
+      <svg viewBox="0 0 60 70" className="absolute top-0 right-0 h-[18%] w-auto -scale-x-100" fill="none">
+        <circle cx="15" cy="18" r="10" fill="#C08060" fillOpacity="0.12" />
+        <circle cx="30" cy="32" r="7" fill="#D4AF37" fillOpacity="0.06" />
+        <path d="M35 15 Q42 10 40 25 Q36 20 35 15Z" fill="#5A7A4E" fillOpacity="0.12" />
+      </svg>
+
+      {/* ── Names at top ── */}
+      <div className="relative z-10 mt-[15%] flex flex-col items-center px-5">
+        <p className="text-[6.5px] font-medium uppercase tracking-[0.4em] text-[#3A2A1A]/45" style={{ fontFamily: "var(--font-cinzel)" }}>
+          Together with their families
         </p>
-        <div className="mt-3 space-y-1">
-          <p className="text-[9px] text-slate-400">aman@technova.com</p>
-          <p className="text-[9px] text-slate-400">+1 (647) 555-0123</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function WeddingRoyal() {
-  return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#1a0a2e] to-[#2d1654] p-8 text-center">
-      {/* Corner accents */}
-      <div className="absolute top-3 left-3 h-8 w-8 border-t-2 border-l-2 border-amber-400/30 rounded-tl-sm" />
-      <div className="absolute right-3 bottom-3 h-8 w-8 border-r-2 border-b-2 border-amber-400/30 rounded-br-sm" />
-
-      <p
-        className="text-[9px] uppercase tracking-[0.25em] text-amber-300/60"
-        style={{ fontFamily: "var(--font-cinzel)" }}
-      >
-        You are cordially invited
-      </p>
-      <h3
-        className="mt-2 text-[26px] leading-tight text-amber-100"
-        style={{ fontFamily: "var(--font-great-vibes)" }}
-      >
-        Rahul & Simran
-      </h3>
-      <div className="my-2 flex items-center gap-2">
-        <div className="h-px w-10 bg-gradient-to-r from-transparent to-amber-400/40" />
-        <span className="text-[10px] text-amber-400/50">⟡</span>
-        <div className="h-px w-10 bg-gradient-to-l from-transparent to-amber-400/40" />
-      </div>
-      <p
-        className="text-xs font-light text-purple-200/70"
-        style={{ fontFamily: "var(--font-cormorant)" }}
-      >
-        December 12, 2026
-      </p>
-      <p
-        className="mt-1 text-[9px] text-purple-300/50"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        The Grand Palace, Jaipur
-      </p>
-    </div>
-  );
-}
-
-function BusinessMinimal() {
-  return (
-    <div className="flex h-full w-full flex-col justify-between rounded-2xl bg-white p-7 shadow-inner">
-      <div>
-        <div className="h-7 w-7 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 shadow-md shadow-violet-500/20" />
-      </div>
-      <div>
-        <h3
-          className="text-lg font-semibold text-gray-900"
-          style={{ fontFamily: "var(--font-raleway)" }}
-        >
-          Sara Chen
+        <h3 className="mt-2 text-[28px] leading-tight text-[#2A1810]" style={{ fontFamily: "var(--font-great-vibes)" }}>
+          Aarav <span className="text-[#D4AF37]">&</span> Priya
         </h3>
-        <p
-          className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-violet-600"
-          style={{ fontFamily: "var(--font-montserrat)" }}
-        >
-          Creative Director
-        </p>
-        <div className="mt-3 h-px w-12 bg-gradient-to-r from-violet-300 to-transparent" />
-        <div className="mt-2 space-y-0.5">
-          <p className="text-[9px] text-gray-400">sara@designhaus.co</p>
-          <p className="text-[9px] text-gray-400">designhaus.co</p>
+        <div className="mt-1 flex items-center gap-2">
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#D4AF37]/30" />
+          <span className="text-[5px] text-[#D4AF37]/45">✦</span>
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#D4AF37]/30" />
         </div>
       </div>
+
+      {/* ── Couple from BACK VIEW — center visual ── */}
+      <svg viewBox="0 0 140 160" className="relative z-10 mx-auto mt-2 h-[140px] w-auto">
+        {/* Soft ground shadow */}
+        <ellipse cx="70" cy="155" rx="45" ry="4" fill="#3A2A1A" fillOpacity="0.05" />
+        {/* Varmala garland connecting them */}
+        <path d="M55 65 Q70 78 85 65" stroke="#D4AF37" strokeOpacity="0.25" strokeWidth="1" fill="none" />
+        <path d="M58 68 Q70 75 82 68" stroke="#C08060" strokeOpacity="0.15" strokeWidth="0.6" fill="none" />
+        {/* Groom — back view, sherwani */}
+        <circle cx="55" cy="35" r="13" fill="#3A2A1A" fillOpacity="0.50" />
+        <path d="M38 150 L42 62 Q42 48 55 48 Q68 48 68 62 L72 150" fill="#3A2A1A" fillOpacity="0.45" />
+        {/* Sherwani collar detail */}
+        <path d="M48 55 L62 55 L60 48 L50 48Z" fill="#D4AF37" fillOpacity="0.12" />
+        {/* Turban */}
+        <path d="M44 30 Q55 20 66 30 Q66 38 55 40 Q44 38 44 30Z" fill="#C08060" fillOpacity="0.25" />
+        <path d="M60 25 Q64 22 66 30" stroke="#D4AF37" strokeOpacity="0.15" strokeWidth="0.5" fill="none" />
+        {/* Bride — back view, lehenga */}
+        <circle cx="85" cy="35" r="13" fill="#5A2030" fillOpacity="0.40" />
+        <path d="M68 150 L72 60 Q72 48 85 48 Q98 48 98 60 L108 150 Q88 140 68 150Z" fill="#5A2030" fillOpacity="0.35" />
+        {/* Lehenga border detail */}
+        <path d="M72 135 Q88 128 108 135" stroke="#D4AF37" strokeOpacity="0.12" strokeWidth="0.5" fill="none" />
+        <path d="M74 140 Q88 133 106 140" stroke="#D4AF37" strokeOpacity="0.08" strokeWidth="0.3" fill="none" />
+        {/* Dupatta flowing down back */}
+        <path d="M85 28 Q100 25 105 55 Q98 45 85 38" fill="#D45570" fillOpacity="0.12" />
+        {/* Jewelry — maang tikka */}
+        <circle cx="85" cy="26" r="1.5" fill="#D4AF37" fillOpacity="0.30" />
+        {/* Garland flowers */}
+        <circle cx="60" cy="72" r="1.5" fill="#C08060" fillOpacity="0.20" />
+        <circle cx="70" cy="76" r="1.8" fill="#D4AF37" fillOpacity="0.15" />
+        <circle cx="80" cy="72" r="1.5" fill="#C08060" fillOpacity="0.20" />
+      </svg>
+
+      {/* ── Bottom details ── */}
+      <div className="relative z-10 mt-auto flex w-full flex-col items-center px-5 pb-5">
+        <p className="rounded-full bg-[#3A2A1A]/[0.04] px-4 py-1 text-[9px] font-light tracking-wider text-[#3A2A1A]/55" style={{ fontFamily: "var(--font-cormorant)" }}>
+          June 15, 2026 · Six in the Evening
+        </p>
+        <p className="mt-1.5 text-[6.5px] uppercase tracking-[0.15em] text-[#3A2A1A]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
+          The Rosewater Estate · Toronto
+        </p>
+      </div>
+
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]" />
     </div>
   );
 }
 
-function WeddingFloral() {
+/* ─── 2. BUSINESS CARD — Marble & gold texture ─── */
+/* ─── CARD 2: BUSINESS (Dark) — Vintage car brand ─── */
+function BusinessCard() {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-[#fef7f0] to-[#fce4ec] p-8 text-center">
-      {/* Decorative flower hint corners */}
-      <div className="absolute top-2 right-2 text-lg text-rose-300/30">✿</div>
-      <div className="absolute bottom-2 left-2 text-lg text-rose-300/30">✿</div>
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px]">
+      {/* Deep olive-charcoal — NOT pure black */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#22241E] via-[#1A1C16] to-[#141610]" />
+      {/* Matte brushed texture */}
+      <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: GRAIN }} />
+      <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: "repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(255,255,255,0.3) 2px,rgba(255,255,255,0.3) 3px)" }} />
+      {/* Warm metallic sheen — top */}
+      <div className="absolute -top-10 right-[10%] h-36 w-36 rounded-full bg-[#C6A85A]/[0.04] blur-[45px]" />
 
-      <p
-        className="text-[9px] uppercase tracking-[0.25em] text-rose-400/80"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        Save the Date
-      </p>
-      <h3
-        className="mt-2 text-[26px] leading-tight text-rose-800"
-        style={{ fontFamily: "var(--font-dancing-script)" }}
-      >
-        Arjun & Meera
-      </h3>
-      <div className="my-2 flex items-center gap-2">
-        <div className="h-px w-6 bg-rose-300/50" />
-        <span className="text-xs text-rose-400/60">♥</span>
-        <div className="h-px w-6 bg-rose-300/50" />
+      {/* Vintage car silhouette — background */}
+      <svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMax meet" className="absolute bottom-[30%] left-1/2 w-[95%] -translate-x-1/2 opacity-[0.04]" fill="#C6A85A">
+        {/* Body */}
+        <path d="M40 90 L40 65 Q40 50 70 45 L100 42 Q120 35 140 32 L200 32 Q230 35 240 42 L260 50 Q280 55 280 70 L280 90Z" />
+        {/* Wheels */}
+        <circle cx="85" cy="92" r="14" /><circle cx="85" cy="92" r="8" fill="#22241E" />
+        <circle cx="235" cy="92" r="14" /><circle cx="235" cy="92" r="8" fill="#22241E" />
+        {/* Windshield */}
+        <path d="M120 42 L135 28 L195 28 L210 42" fill="#22241E" fillOpacity="0.5" />
+        {/* Hood ornament */}
+        <circle cx="55" cy="58" r="2" />
+      </svg>
+
+      {/* Gold accent line — top */}
+      <div className="absolute top-0 right-[18%] left-[18%] h-px bg-gradient-to-r from-transparent via-[#C6A85A]/30 to-transparent" />
+
+      {/* Content */}
+      <div className="relative z-10 flex h-full flex-col justify-between p-7 pb-6">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#C6A85A]/15 bg-[#C6A85A]/[0.06]">
+            <span className="text-[13px] font-semibold text-[#C6A85A]/80" style={{ fontFamily: "var(--font-cinzel)" }}>R</span>
+          </div>
+          <div>
+            <p className="text-[7.5px] font-medium uppercase tracking-[0.25em] text-[#C6A85A]/55" style={{ fontFamily: "var(--font-cinzel)" }}>Regent Motors</p>
+            <div className="mt-1 h-px w-12 bg-gradient-to-r from-[#C6A85A]/15 to-transparent" />
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-[20px] font-bold tracking-wide text-[#E8E4DC]/85" style={{ fontFamily: "var(--font-playfair)" }}>Aman Gupta</h3>
+          <p className="mt-1 text-[7px] font-medium uppercase tracking-[0.25em] text-[#C6A85A]/45" style={{ fontFamily: "var(--font-montserrat)" }}>Chief Executive</p>
+          <div className="mt-5 h-px w-full bg-gradient-to-r from-[#C6A85A]/10 to-transparent" />
+          <div className="mt-4 space-y-2">
+            {[
+              { i: "✉", t: "aman@regentmotors.co" },
+              { i: "☎", t: "+1 (647) 555-0123" },
+              { i: "◎", t: "regentmotors.co" },
+            ].map((c) => (
+              <div key={c.t} className="flex items-center gap-2.5">
+                <span className="text-[5px] text-[#C6A85A]/20">{c.i}</span>
+                <p className="text-[7px] tracking-[0.04em] text-[#E8E4DC]/25" style={{ fontFamily: "var(--font-montserrat)" }}>{c.t}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      <p
-        className="text-sm font-light text-rose-700/70"
-        style={{ fontFamily: "var(--font-cormorant)" }}
-      >
-        March 22, 2026
-      </p>
-      <p
-        className="mt-1 text-[9px] text-rose-500/50"
-        style={{ fontFamily: "var(--font-montserrat)" }}
-      >
-        Garden Estate, Toronto
-      </p>
+
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]" />
+    </div>
+  );
+}
+
+/* ─── 3. ANIMATED INVITE — Aurora / northern lights ─── */
+/* ─── CARD 3: ANIMATED INVITE (Light) — Layered depth, no play button ─── */
+function AnimatedInviteCard() {
+  return (
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[18px] shadow-[0_6px_30px_rgba(40,20,10,0.08)]">
+      {/* Cream base — darker than page bg */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EBE2D4] via-[#E4DAC8] to-[#DCD0BE]" />
+      {/* Coral wash */}
+      <div className="absolute top-[5%] right-[5%] h-36 w-36 rounded-full bg-[#FF8C6A]/[0.06] blur-[40px]" />
+      {/* Plum wash */}
+      <div className="absolute bottom-[10%] left-[8%] h-28 w-28 rounded-full bg-[#7A5C61]/[0.04] blur-[30px]" />
+      {/* Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_45%,rgba(50,30,20,0.08)_100%)]" />
+      <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: GRAIN }} />
+
+      {/* ── Layered card frames — implying animation/parallax ── */}
+      {/* Back layer */}
+      <div className="absolute top-[18%] left-1/2 h-[52%] w-[72%] -translate-x-[46%] rotate-[-3deg] rounded-xl border border-[#D4AF37]/12 bg-[#E0D6C6]/70 shadow-[0_3px_12px_rgba(0,0,0,0.05)]" />
+      {/* Mid layer */}
+      <div className="absolute top-[15%] left-1/2 h-[54%] w-[74%] -translate-x-[50%] rotate-[1deg] rounded-xl border border-[#D4AF37]/15 bg-[#E8DED0]/75 shadow-[0_4px_16px_rgba(0,0,0,0.06)]" />
+      {/* Front layer — main card */}
+      <div className="absolute top-[12%] left-1/2 h-[56%] w-[76%] -translate-x-[54%] rotate-[-1deg] rounded-xl border border-[#D4AF37]/18 bg-[#F0E8DA]/85 shadow-[0_5px_22px_rgba(0,0,0,0.08)]">
+        {/* Content inside front card */}
+        <div className="flex h-full flex-col items-center justify-center p-4">
+          <p className="text-[5px] font-medium uppercase tracking-[0.35em] text-[#7A5C61]/40" style={{ fontFamily: "var(--font-cinzel)" }}>You&apos;re Invited</p>
+          <h4 className="mt-1 text-[14px] text-[#2A1A15]/80" style={{ fontFamily: "var(--font-great-vibes)" }}>Rahul & Simran</h4>
+          <div className="mt-1 h-px w-12 bg-gradient-to-r from-transparent via-[#D4AF37]/25 to-transparent" />
+          <p className="mt-1 text-[5px] text-[#7A5C61]/35" style={{ fontFamily: "var(--font-cormorant)" }}>Dec 12, 2026</p>
+        </div>
+      </div>
+
+      {/* Motion trail curves */}
+      <svg viewBox="0 0 280 420" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" fill="none">
+        <path d="M-20 90 Q60 55 140 85 Q220 115 300 75" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.10" />
+        <path d="M-20 110 Q70 75 150 105 Q230 135 310 95" stroke="#FF8C6A" strokeWidth="0.6" strokeOpacity="0.07" />
+        <path d="M-20 330 Q80 300 170 330 Q260 360 340 320" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.06" strokeDasharray="4 6" />
+      </svg>
+
+      {/* Sparkle particles */}
+      {[
+        { l: 15, t: 15, s: 3, c: "#D4AF37", o: 0.28 },
+        { l: 80, t: 12, s: 2, c: "#FF8C6A", o: 0.22 },
+        { l: 12, t: 70, s: 2.5, c: "#D4AF37", o: 0.25 },
+        { l: 85, t: 72, s: 2, c: "#7A5C61", o: 0.18 },
+        { l: 50, t: 8, s: 2, c: "#FF8C6A", o: 0.20 },
+      ].map((p, i) => (
+        <div key={i} className="absolute rounded-full" style={{ left: `${p.l}%`, top: `${p.t}%`, width: p.s, height: p.s, background: p.c, opacity: p.o }} />
+      ))}
+
+      {/* Bottom text */}
+      <div className="relative z-10 mt-auto mb-5 flex flex-col items-center px-5 text-center">
+        <p className="text-[6px] font-bold uppercase tracking-[0.4em] text-[#7A5C61]/40" style={{ fontFamily: "var(--font-montserrat)" }}>
+          Animated Invites
+        </p>
+        <div className="mt-1.5 flex items-center gap-2">
+          <div className="h-px w-8 bg-gradient-to-r from-transparent to-[#D4AF37]/20" />
+          <span className="text-[5px] text-[#D4AF37]/40">✦</span>
+          <div className="h-px w-8 bg-gradient-to-l from-transparent to-[#D4AF37]/20" />
+        </div>
+        <p className="mt-1 text-[7px] font-light text-[#7A5C61]/40" style={{ fontFamily: "var(--font-cormorant)" }}>
+          Cinematic · Music · Parallax
+        </p>
+      </div>
+
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]" />
+    </div>
+  );
+}
+
+/* ─── CARD 4: CHRISTIAN WEDDING (Dark) — Garden ring scene ─── */
+function ChristianWeddingCard() {
+  return (
+    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px]">
+      {/* Deep navy-teal — NOT too dark */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#162030] via-[#1A2838] to-[#122028]" />
+      {/* Warm glow center */}
+      <div className="absolute top-[25%] left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.07] blur-[60px]" />
+      {/* Teal accent */}
+      <div className="absolute bottom-[15%] left-[20%] h-32 w-32 rounded-full bg-[#2A6060]/[0.10] blur-[40px]" />
+      {/* Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,transparent_30%,rgba(10,15,25,0.45)_100%)]" />
+      <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: GRAIN }} />
+
+      {/* ── Glowing ring in sky ── */}
+      <div className="absolute top-[12%] left-1/2 -translate-x-1/2">
+        {/* Outer glow */}
+        <div className="absolute top-1/2 left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D4AF37]/[0.08] blur-[20px]" />
+        <svg viewBox="0 0 50 50" className="relative h-12 w-12">
+          <circle cx="25" cy="25" r="18" stroke="#D4AF37" strokeWidth="2.5" strokeOpacity="0.30" fill="none" />
+          <circle cx="25" cy="25" r="18" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.10" fill="none" strokeDasharray="2 3" />
+          {/* Diamond on ring */}
+          <path d="M25 5 L28 10 L25 8 L22 10Z" fill="#D4AF37" fillOpacity="0.45" />
+          <circle cx="25" cy="7" r="1.5" fill="#F5ECD7" fillOpacity="0.30" />
+        </svg>
+      </div>
+
+      {/* ── Garden ground with florals ── */}
+      <svg viewBox="0 0 300 80" preserveAspectRatio="xMidYMax slice" className="absolute bottom-[15%] left-0 w-full" fill="none">
+        {/* Ground line */}
+        <path d="M0 50 Q75 42 150 48 Q225 54 300 46" stroke="#2A6060" strokeWidth="0.5" strokeOpacity="0.15" />
+        {/* Soft bushes */}
+        <ellipse cx="40" cy="48" rx="25" ry="12" fill="#1A3530" fillOpacity="0.30" />
+        <ellipse cx="150" cy="45" rx="30" ry="14" fill="#1A3530" fillOpacity="0.25" />
+        <ellipse cx="260" cy="48" rx="25" ry="12" fill="#1A3530" fillOpacity="0.30" />
+        {/* Small flowers */}
+        <circle cx="55" cy="40" r="2.5" fill="#D4AF37" fillOpacity="0.12" />
+        <circle cx="140" cy="38" r="2" fill="#F5ECD7" fillOpacity="0.10" />
+        <circle cx="245" cy="40" r="2.5" fill="#D4AF37" fillOpacity="0.12" />
+      </svg>
+
+      {/* ── Couple — looking towards ring ── */}
+      <svg viewBox="0 0 120 130" className="absolute bottom-[12%] left-1/2 h-[120px] -translate-x-1/2">
+        <ellipse cx="60" cy="126" rx="35" ry="3" fill="#D4AF37" fillOpacity="0.03" />
+        {/* Groom — three-piece suit */}
+        <circle cx="48" cy="32" r="11" fill="#101820" fillOpacity="0.55" />
+        <path d="M34 125 L38 58 Q38 45 48 45 Q58 45 58 58 L62 125" fill="#101820" fillOpacity="0.50" />
+        {/* Suit lapel hint */}
+        <path d="M43 55 L48 50 L53 55" stroke="#D4AF37" strokeOpacity="0.10" strokeWidth="0.5" fill="none" />
+        {/* Bride — white gown */}
+        <circle cx="72" cy="32" r="11" fill="#C8C0B0" fillOpacity="0.35" />
+        <path d="M58 125 L62 56 Q62 45 72 45 Q82 45 82 56 L92 125 Q72 118 58 125Z" fill="#C8C0B0" fillOpacity="0.28" />
+        {/* Gown detail */}
+        <path d="M62 110 Q72 105 92 110" stroke="#D4AF37" strokeOpacity="0.06" strokeWidth="0.4" fill="none" />
+        {/* Veil */}
+        <path d="M72 24 Q86 20 90 42 Q84 35 72 32" fill="#E8E0D4" fillOpacity="0.12" />
+        {/* Bouquet */}
+        <circle cx="68" cy="70" r="4" fill="#D4AF37" fillOpacity="0.08" />
+        <circle cx="68" cy="70" r="2" fill="#F5ECD7" fillOpacity="0.06" />
+      </svg>
+
+      {/* Content */}
+      <div className="relative z-10 mt-auto flex w-full flex-col items-center bg-gradient-to-t from-[#0E1820]/50 to-transparent px-5 pt-12 pb-5">
+        <p className="text-[6.5px] font-medium uppercase tracking-[0.4em] text-[#D4AF37]/40" style={{ fontFamily: "var(--font-cinzel)" }}>
+          You are invited to celebrate
+        </p>
+        <h3 className="mt-2 text-[28px] leading-tight text-[#E8E0D4]/85" style={{ fontFamily: "var(--font-great-vibes)" }}>
+          James <span className="text-[#D4AF37]/70">&</span> Rose
+        </h3>
+        <div className="mt-1 flex items-center gap-2">
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#D4AF37]/20" />
+          <span className="text-[5px] text-[#D4AF37]/35">✦</span>
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#D4AF37]/20" />
+        </div>
+        <p className="mt-1.5 rounded-full bg-[#D4AF37]/[0.06] px-4 py-1 text-[9px] font-light tracking-wider text-[#C8C0B0]/55" style={{ fontFamily: "var(--font-cormorant)" }}>
+          October 8, 2026 · Four in the Afternoon
+        </p>
+        <p className="mt-1.5 text-[6.5px] uppercase tracking-[0.15em] text-[#D4AF37]/22" style={{ fontFamily: "var(--font-montserrat)" }}>
+          St. Andrew&apos;s Cathedral · Vancouver
+        </p>
+      </div>
+
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(212,175,55,0.04)]" />
+    </div>
+  );
+}
+
+/* ─── CARD 5: QR/NFC SHARING (Light) — Scattered mini QR pattern ─── */
+function QrShareCard() {
+  return (
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[18px] shadow-[0_6px_30px_rgba(40,20,10,0.08)]">
+      {/* Ivory base — darker than page bg */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#ECE6DC] via-[#E5DDD0] to-[#DDD4C6]" />
+      {/* Soft warmth */}
+      <div className="absolute top-[20%] left-1/2 h-36 w-36 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.04] blur-[40px]" />
+      {/* Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_50%,rgba(50,30,20,0.06)_100%)]" />
+      <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: GRAIN }} />
+
+      {/* ── Scattered mini QR codes — pattern across card ── */}
+      <svg viewBox="0 0 280 400" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" fill="none">
+        {/* Mini QR blocks scattered aesthetically */}
+        {[
+          { x: 25, y: 40, s: 22, o: 0.06 },
+          { x: 200, y: 60, s: 18, o: 0.05 },
+          { x: 60, y: 300, s: 20, o: 0.05 },
+          { x: 220, y: 320, s: 16, o: 0.04 },
+          { x: 30, y: 170, s: 14, o: 0.03 },
+          { x: 240, y: 180, s: 15, o: 0.04 },
+          { x: 140, y: 50, s: 12, o: 0.03 },
+          { x: 120, y: 340, s: 14, o: 0.03 },
+        ].map((q, i) => (
+          <g key={i} opacity={q.o}>
+            <rect x={q.x} y={q.y} width={q.s} height={q.s} rx="2" stroke="#3A2A1A" strokeWidth="0.5" />
+            <rect x={q.x + 2} y={q.y + 2} width={q.s * 0.35} height={q.s * 0.35} rx="1" fill="#3A2A1A" />
+            <rect x={q.x + q.s - q.s * 0.35 - 2} y={q.y + 2} width={q.s * 0.35} height={q.s * 0.35} rx="1" fill="#3A2A1A" />
+            <rect x={q.x + 2} y={q.y + q.s - q.s * 0.35 - 2} width={q.s * 0.35} height={q.s * 0.35} rx="1" fill="#3A2A1A" />
+          </g>
+        ))}
+        {/* Connecting line pattern */}
+        <path d="M50 55 Q140 80 210 68" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.08" strokeDasharray="3 5" />
+        <path d="M70 310 Q140 290 230 328" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.06" strokeDasharray="3 5" />
+      </svg>
+
+      {/* NFC concentric waves — center */}
+      {[48, 64, 80].map((s, i) => (
+        <div key={i} className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#D4AF37]" style={{ width: s, height: s, opacity: 0.06 - i * 0.015 }} />
+      ))}
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center px-5 text-center">
+        {/* NFC icon */}
+        <svg viewBox="0 0 24 24" className="mb-3 h-6 w-6 text-[#D4AF37]/40" fill="currentColor">
+          <path d="M4 12 Q4 6 12 6 Q20 6 20 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.5" />
+          <path d="M7 12 Q7 8 12 8 Q17 8 17 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4" />
+          <path d="M10 12 Q10 10 12 10 Q14 10 14 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+          <circle cx="12" cy="13" r="1.5" />
+        </svg>
+
+        <h3 className="text-[18px] font-bold text-[#2A1A10]/80" style={{ fontFamily: "var(--font-playfair)" }}>
+          Smart Sharing
+        </h3>
+        <div className="mt-1.5 flex items-center gap-2">
+          <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#D4AF37]/25" />
+          <span className="text-[5px] text-[#D4AF37]/40">✦</span>
+          <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#D4AF37]/25" />
+        </div>
+        <p className="mt-1.5 text-[7px] font-light text-[#3A2A1A]/40" style={{ fontFamily: "var(--font-cormorant)" }}>
+          QR Code · NFC Tap · Direct Link
+        </p>
+
+        {/* Mini feature tags */}
+        <div className="mt-4 flex items-center gap-2">
+          {["Instant", "Secure", "Trackable"].map((t) => (
+            <span key={t} className="rounded-full bg-[#3A2A1A]/[0.04] px-2.5 py-0.5 text-[5px] font-medium uppercase tracking-[0.1em] text-[#3A2A1A]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="absolute inset-0 rounded-[18px] shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]" />
     </div>
   );
 }
 
 /* ================================================================== */
-/*  Card configs — position, depth, size                              */
+/*  Card configs — L/D/L/D/L                                         */
 /* ================================================================== */
 
 const SHOWCASE_CARDS = [
-  { id: 0, Component: WeddingElegance, title: "Wedding Invitation" },
-  { id: 1, Component: BusinessModern,  title: "Business Card" },
-  { id: 2, Component: WeddingRoyal,    title: "Royal Invitation" },
-  { id: 3, Component: BusinessMinimal, title: "Minimal Business" },
-  { id: 4, Component: WeddingFloral,   title: "Floral Save-the-Date" },
+  { id: 0, Component: WeddingCard,          title: "Wedding Invitation" },
+  { id: 1, Component: BusinessCard,         title: "Business Card" },
+  { id: 2, Component: AnimatedInviteCard,   title: "Animated Invite" },
+  { id: 3, Component: ChristianWeddingCard, title: "Evening Wedding" },
+  { id: 4, Component: QrShareCard,          title: "Smart Sharing" },
 ];
 
 /* Position configs for each card relative to spotlight (center = focused) */
@@ -274,9 +480,9 @@ export function FloatingCardsHero() {
           className="absolute inset-0"
           style={{
             background: `
-              radial-gradient(ellipse 60% 50% at 50% 45%, rgba(139,92,246,0.10) 0%, transparent 70%),
-              radial-gradient(ellipse 40% 30% at 30% 35%, rgba(236,72,153,0.06) 0%, transparent 60%),
-              radial-gradient(ellipse 40% 30% at 70% 60%, rgba(56,189,248,0.05) 0%, transparent 60%)
+              radial-gradient(ellipse 60% 50% at 50% 45%, rgba(184,134,11,0.06) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 30% at 30% 35%, rgba(212,168,67,0.04) 0%, transparent 60%),
+              radial-gradient(ellipse 40% 30% at 70% 60%, rgba(26,26,26,0.03) 0%, transparent 60%)
             `,
           }}
         />
@@ -289,8 +495,8 @@ export function FloatingCardsHero() {
         transition={{ duration: 0.6 }}
         className="mb-5 px-6"
       >
-        <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 text-sm font-medium text-violet-600 backdrop-blur-sm dark:text-violet-400">
-          <Sparkles className="h-3.5 w-3.5" />
+        <span className="inline-flex items-center gap-2 rounded-full border border-[#B8860B]/20 bg-[#B8860B]/8 px-4 py-1.5 text-sm font-medium text-[#8B7355] backdrop-blur-sm">
+          <Sparkles className="h-3.5 w-3.5 text-[#B8860B]" />
           100% Free Business Cards &amp; Wedding Invitations
         </span>
       </motion.div>
@@ -304,7 +510,7 @@ export function FloatingCardsHero() {
         style={{ fontFamily: "var(--font-playfair)" }}
       >
         Your Digital Identity,{" "}
-        <span className="bg-gradient-to-r from-violet-600 to-pink-500 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-[#B8860B] to-[#D4A843] bg-clip-text text-transparent">
           Beautifully Crafted
         </span>
       </motion.h1>
@@ -335,7 +541,7 @@ export function FloatingCardsHero() {
           style={{
             width: 400,
             height: 300,
-            background: "radial-gradient(ellipse, rgba(139,92,246,0.15) 0%, rgba(236,72,153,0.08) 40%, transparent 70%)",
+            background: "radial-gradient(ellipse, rgba(201,163,78,0.12) 0%, rgba(219,189,106,0.05) 40%, transparent 70%)",
             filter: "blur(50px)",
           }}
         />
@@ -357,7 +563,7 @@ export function FloatingCardsHero() {
               }}
               animate={{
                 x: pos.x,
-                y: pos.y,
+                y: isFocused ? [0, -6, 0] : pos.y,
                 scale: isHovered && !isFocused ? pos.scale * 1.08 : pos.scale,
                 rotate: pos.rotate,
                 opacity: pos.opacity,
@@ -368,22 +574,29 @@ export function FloatingCardsHero() {
                 stiffness: 80,
                 damping: 20,
                 mass: 1,
+                ...(isFocused && {
+                  y: {
+                    repeat: Infinity,
+                    duration: 3.5,
+                    ease: "easeInOut",
+                  },
+                }),
               }}
               onClick={() => handleCardClick(card.id)}
               onHoverStart={() => setHoveredId(card.id)}
               onHoverEnd={() => setHoveredId(null)}
               whileHover={
                 isFocused
-                  ? { y: -8, transition: { type: "spring", stiffness: 200, damping: 15 } }
+                  ? { y: -12, scale: 1.02, transition: { type: "spring", stiffness: 200, damping: 15 } }
                   : undefined
               }
             >
               <div
-                className={`h-full w-full overflow-hidden rounded-2xl transition-shadow duration-500 ${
+                className={`h-full w-full overflow-hidden rounded-2xl border transition-all duration-500 ${
                   isFocused
-                    ? "shadow-[0_30px_80px_-10px_rgba(139,92,246,0.35)]"
-                    : "shadow-[0_12px_40px_-8px_rgba(0,0,0,0.25)]"
-                } ${isHovered ? "ring-2 ring-white/20" : ""}`}
+                    ? "border-[#C9A34E]/25 shadow-[0_30px_90px_-10px_rgba(201,163,78,0.35),0_0_0_1px_rgba(201,163,78,0.12)]"
+                    : "border-[#E8E4DE]/40 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.25),0_0_0_1px_rgba(0,0,0,0.05)]"
+                } ${isHovered && !isFocused ? "border-[#C9A34E]/15 shadow-[0_25px_70px_-10px_rgba(201,163,78,0.2)]" : ""}`}
               >
                 <card.Component />
               </div>
@@ -395,7 +608,7 @@ export function FloatingCardsHero() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 4 }}
                     transition={{ duration: 0.3 }}
-                    className="mt-4 text-center text-xs font-medium text-muted-foreground"
+                    className="mt-5 text-center text-xs font-medium text-muted-foreground"
                     style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {card.title}
@@ -408,14 +621,14 @@ export function FloatingCardsHero() {
       </motion.div>
 
       {/* Dot indicators */}
-      <div className="mt-6 flex items-center gap-2">
+      <div className="mt-10 flex items-center gap-2">
         {SHOWCASE_CARDS.map((card) => (
           <button
             key={card.id}
             onClick={() => setActiveIndex(card.id)}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               card.id === activeIndex
-                ? "w-6 bg-violet-500"
+                ? "w-6 bg-[#C9A34E]"
                 : "w-1.5 bg-muted-foreground/25 hover:bg-muted-foreground/50"
             }`}
           />
@@ -433,7 +646,7 @@ export function FloatingCardsHero() {
           <Link href="/signup">
             <Button
               size="lg"
-              className="min-w-[200px] gap-2 bg-gradient-to-r from-violet-600 to-pink-500 text-base text-white hover:from-violet-700 hover:to-pink-600"
+              className="min-w-[200px] gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-base text-white hover:from-[#9A7209] hover:to-[#B8960B]"
             >
               Get Started Free
               <ArrowRight className="h-4 w-4" />
@@ -445,7 +658,7 @@ export function FloatingCardsHero() {
             <Button
               size="lg"
               variant="outline"
-              className="min-w-[200px] border-violet-500/30 text-base hover:bg-violet-500/10"
+              className="min-w-[200px] border-[#D4AF37]/30 text-base text-[#1A1A1A] hover:bg-[#D4AF37]/8 dark:border-[#D4AF37]/40 dark:text-[#F5ECD7] dark:hover:bg-[#D4AF37]/15"
             >
               Sign In
             </Button>

@@ -136,7 +136,7 @@ export function Footer() {
             &copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.
           </p>
           <p className="flex items-center gap-1.5">
-            Made with <Heart className="h-3.5 w-3.5 fill-rose-500 text-rose-500" /> by the {APP_NAME} team
+            Made with <Heart className="h-3.5 w-3.5 fill-[#B8860B] text-[#B8860B]" /> by the {APP_NAME} team
           </p>
         </motion.div>
       </div>
