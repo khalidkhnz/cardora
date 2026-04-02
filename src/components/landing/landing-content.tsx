@@ -36,6 +36,7 @@ import { MagneticButton } from "@/components/animated-invite/shared/magnetic-but
 import { TextParallaxMarquee } from "@/components/animated-invite/shared/text-parallax-marquee";
 import { Footer } from "@/components/landing/footer";
 import { FloatingCardsHero } from "@/components/landing/floating-cards-hero";
+import { TemplateBrowseSection } from "@/components/landing/template-showcase";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -387,127 +388,6 @@ function FeaturesSection() {
             <FeatureCard key={feature.title} feature={feature} index={i} />
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Template Showcase                                                  */
-/* ------------------------------------------------------------------ */
-
-function TemplateShowcase() {
-  return (
-    <section className="relative overflow-hidden px-6 py-24">
-      {/* Colorful background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#B8860B]/3 via-[#D4A843]/3 to-[#C9A96E]/3" />
-
-      <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
-        {/* Left — text */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
-          >
-            Beautiful Templates
-          </motion.span>
-          <StaggeredTextReveal
-            text="Templates that leave a lasting impression"
-            as="h2"
-            splitBy="word"
-            className="text-3xl font-bold md:text-4xl lg:text-5xl"
-          />
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="mt-6 max-w-md text-muted-foreground"
-          >
-            Choose from dozens of professionally crafted templates. From
-            minimalist business cards to cinematic wedding invitations with
-            music, RSVP, and parallax animations.
-          </motion.p>
-
-          {/* Animated stat counters */}
-          <div className="mt-10 grid grid-cols-3 gap-6">
-            {[
-              { label: "Business Templates", count: 10, suffix: "+", color: "text-[#B8860B]" },
-              { label: "Wedding Templates", count: 30, suffix: "+", color: "text-[#8B7355]" },
-              { label: "Animated Invites", count: 17, suffix: "", color: "text-[#D4A843]" },
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 + i * 0.15, duration: 0.5 }}
-              >
-                <div
-                  className={`text-3xl font-bold md:text-4xl ${stat.color}`}
-                  style={{ fontFamily: "var(--font-playfair)" }}
-                >
-                  <AnimatedCounter
-                    target={stat.count}
-                    suffix={stat.suffix}
-                  />
-                </div>
-                <div className="mt-1 text-xs text-muted-foreground">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Right — preview mockup */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative"
-        >
-          <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
-            {/* Colorful gradient card mockup */}
-            <div className="aspect-[4/3] bg-gradient-to-br from-[#B8860B]/8 via-[#D4A843]/6 to-[#C9A96E]/8 p-8">
-              <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-                <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[#B8860B]/25 to-[#D4A843]/25" />
-                <div className="h-3 w-40 rounded-full bg-gradient-to-r from-[#B8860B]/15 to-[#D4A843]/15" />
-                <div className="h-2 w-24 rounded-full bg-muted/60" />
-                <div className="mt-4 grid w-full max-w-xs grid-cols-3 gap-3">
-                  {[
-                    "from-[#B8860B]/15 to-[#D4A843]/15",
-                    "from-[#8B7355]/15 to-[#B8860B]/15",
-                    "from-[#D4A843]/15 to-[#C9A96E]/15",
-                    "from-[#1A1A1A]/8 to-[#3D3D3D]/8",
-                    "from-[#B8860B]/10 to-[#8B7355]/10",
-                    "from-[#C9A96E]/15 to-[#D4A843]/15",
-                  ].map((grad, i) => (
-                    <div
-                      key={i}
-                      className={`aspect-square rounded-lg bg-gradient-to-br ${grad}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Decorative floating card behind */}
-          <div className="animate-float absolute -right-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-[#B8860B]/12 to-[#D4A843]/12" />
-          {/* Second decorative layer */}
-          <div
-            className="animate-float absolute -right-8 -bottom-8 -z-20 h-full w-full rounded-2xl bg-gradient-to-br from-[#C9A96E]/8 to-[#B8860B]/8"
-            style={{ animationDelay: "2s" }}
-          />
-        </motion.div>
       </div>
     </section>
   );
@@ -904,7 +784,7 @@ export function LandingContent() {
       />
 
       <FeaturesSection />
-      <TemplateShowcase />
+      <TemplateBrowseSection />
       <AnimatedInviteHighlight />
       <PricingSection />
       <WhatsIncluded />
