@@ -437,7 +437,7 @@ export function TemplateBrowseSection() {
   }
 
   return (
-    <section className="relative px-6 py-24">
+    <section id="templates" className="relative scroll-mt-20 px-6 py-24">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-10 text-center">
