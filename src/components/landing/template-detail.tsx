@@ -209,21 +209,66 @@ function LargePreview({ template: t }: { template: Template }) {
     );
   }
   if (t.style === "business") {
-    const isDark = t.colors.bg.includes("1A1A1A") || t.colors.bg.includes("0F0F");
     return (
-      <div className={`flex h-full w-full flex-col justify-between bg-gradient-to-b ${t.colors.bg} p-8`}>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: `${t.colors.accent}18`, border: `1px solid ${t.colors.accent}25` }}>
-            <span className="text-[12px] font-bold" style={{ color: t.colors.accent, fontFamily: "var(--font-cinzel)" }}>A</span>
-          </div>
-          <span className="text-[9px] font-semibold uppercase tracking-[0.15em]" style={{ color: `${t.colors.accent}90`, fontFamily: "var(--font-cinzel)" }}>Aurelius & Co.</span>
-        </div>
-        <div>
-          <h3 className="text-[18px] font-bold" style={{ color: `${t.colors.text}${isDark ? "E0" : ""}`, fontFamily: "var(--font-playfair)" }}>Aman Gupta</h3>
-          <p className="mt-1 text-[8px] uppercase tracking-[0.15em]" style={{ color: `${t.colors.accent}70`, fontFamily: "var(--font-montserrat)" }}>Managing Director</p>
-          <div className="mt-4 h-px w-full" style={{ background: `linear-gradient(to right, ${t.colors.accent}15, transparent)` }} />
-          <p className="mt-2 text-[7px]" style={{ color: `${t.colors.text}50` }}>aman@aurelius.co · aurelius.co</p>
-        </div>
+      <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#1E2028] via-[#1A1C24] to-[#14161C]">
+        {/* Radial glow */}
+        <div className="absolute top-[25%] left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#C6A85A]/[0.05] blur-[50px]" />
+        {/* Diagonal texture */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "repeating-linear-gradient(135deg,transparent,transparent 3px,rgba(255,255,255,0.3) 3px,rgba(255,255,255,0.3) 4px)" }} />
+        {/* Grain */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")" }} />
+
+        {/* Floating cards in perspective */}
+        <svg viewBox="0 0 240 200" className="relative h-[240px] w-auto" fill="none">
+          {/* Shadow under cards */}
+          <ellipse cx="120" cy="185" rx="80" ry="6" fill="#000" fillOpacity="0.15" />
+
+          {/* Back card — tilted left */}
+          <rect x="30" y="35" width="150" height="90" rx="6" fill="#252830" stroke="#C6A85A" strokeWidth="0.4" strokeOpacity="0.18" transform="rotate(-8 105 80)" />
+          <line x1="40" y1="42" x2="170" y2="35" stroke="#C6A85A" strokeWidth="1" strokeOpacity="0.15" transform="rotate(-8 105 38)" />
+          <rect x="45" y="52" width="18" height="18" rx="3" fill="#C6A85A" fillOpacity="0.12" transform="rotate(-8 54 61)" />
+          <line x1="70" y1="60" x2="120" y2="55" stroke="#E8E4DC" strokeWidth="0.3" strokeOpacity="0.08" transform="rotate(-8 95 57)" />
+          <line x1="70" y1="68" x2="105" y2="63" stroke="#E8E4DC" strokeWidth="0.2" strokeOpacity="0.05" transform="rotate(-8 87 65)" />
+
+          {/* Front card — main, slight tilt right */}
+          <rect x="35" y="55" width="170" height="100" rx="6" fill="#22252E" stroke="#C6A85A" strokeWidth="0.5" strokeOpacity="0.22" transform="rotate(4 120 105)" />
+          {/* Gold top line */}
+          <line x1="42" y1="60" x2="198" y2="65" stroke="#C6A85A" strokeWidth="1.2" strokeOpacity="0.30" transform="rotate(4 120 62)" />
+          {/* Logo */}
+          <rect x="50" y="72" width="22" height="22" rx="4" fill="#C6A85A" fillOpacity="0.15" stroke="#C6A85A" strokeWidth="0.4" strokeOpacity="0.15" transform="rotate(4 61 83)" />
+          <text x="61" y="87" textAnchor="middle" fill="#C6A85A" fillOpacity="0.55" fontSize="10" fontWeight="bold" transform="rotate(4 61 87)" style={{ fontFamily: "serif" }}>N</text>
+          {/* Name */}
+          <text x="82" y="84" fill="#E8E4DC" fillOpacity="0.65" fontSize="12" fontWeight="bold" transform="rotate(4 82 84)" style={{ fontFamily: "serif" }}>Aman Gupta</text>
+          <text x="82" y="96" fill="#C6A85A" fillOpacity="0.40" fontSize="5.5" transform="rotate(4 82 96)" letterSpacing="1.5">MANAGING DIRECTOR</text>
+          {/* Divider */}
+          <line x1="50" y1="106" x2="140" y2="110" stroke="#C6A85A" strokeWidth="0.4" strokeOpacity="0.15" transform="rotate(4 95 108)" />
+          {/* Contact */}
+          <text x="52" y="120" fill="#E8E4DC" fillOpacity="0.25" fontSize="5" transform="rotate(4 52 120)">aman@aurelius.co</text>
+          <text x="52" y="128" fill="#E8E4DC" fillOpacity="0.20" fontSize="5" transform="rotate(4 52 128)">+1 (647) 555-0123</text>
+          <text x="52" y="136" fill="#E8E4DC" fillOpacity="0.18" fontSize="5" transform="rotate(4 52 136)">aurelius.co</text>
+          {/* QR */}
+          <rect x="165" y="112" width="22" height="22" rx="2" fill="#C6A85A" fillOpacity="0.08" stroke="#C6A85A" strokeWidth="0.3" strokeOpacity="0.12" transform="rotate(4 176 123)" />
+          <rect x="168" y="115" width="5" height="5" rx="0.5" fill="#C6A85A" fillOpacity="0.15" transform="rotate(4 170 117)" />
+          <rect x="178" y="115" width="5" height="5" rx="0.5" fill="#C6A85A" fillOpacity="0.15" transform="rotate(4 180 117)" />
+          <rect x="168" y="125" width="5" height="5" rx="0.5" fill="#C6A85A" fillOpacity="0.15" transform="rotate(4 170 127)" />
+          <circle cx="176" cy="123" r="2.5" fill="#C6A85A" fillOpacity="0.12" transform="rotate(4 176 123)" />
+        </svg>
+
+        {/* Vintage car silhouette */}
+        <svg viewBox="0 0 220 55" className="relative mt-4 w-[180px]" fill="none">
+          <path d="M20 42 L20 30 Q20 22 38 20 L60 18 Q72 12 85 10 L165 10 Q180 12 188 18 L200 22 Q210 25 210 32 L210 42" fill="#C6A85A" fillOpacity="0.05" stroke="#C6A85A" strokeWidth="0.5" strokeOpacity="0.12" />
+          <path d="M78 18 L88 8 L155 8 L168 18" fill="#1E2028" fillOpacity="0.4" stroke="#C6A85A" strokeWidth="0.3" strokeOpacity="0.08" />
+          <circle cx="52" cy="44" r="8" fill="#1E2028" stroke="#C6A85A" strokeWidth="0.4" strokeOpacity="0.15" />
+          <circle cx="52" cy="44" r="4" fill="#C6A85A" fillOpacity="0.04" />
+          <circle cx="178" cy="44" r="8" fill="#1E2028" stroke="#C6A85A" strokeWidth="0.4" strokeOpacity="0.15" />
+          <circle cx="178" cy="44" r="4" fill="#C6A85A" fillOpacity="0.04" />
+          <circle cx="28" cy="28" r="1.5" fill="#C6A85A" fillOpacity="0.18" />
+          <line x1="32" y1="32" x2="205" y2="32" stroke="#C6A85A" strokeWidth="0.2" strokeOpacity="0.06" />
+        </svg>
+
+        {/* Label */}
+        <p className="relative mt-3 text-[8px] font-semibold uppercase tracking-[0.3em] text-[#C6A85A]/40" style={{ fontFamily: "var(--font-cinzel)" }}>Regent Motors</p>
+        <p className="relative mt-1 text-[7px] text-[#E8E4DC]/20" style={{ fontFamily: "var(--font-cormorant)" }}>Luxury Automotive Identity</p>
       </div>
     );
   }
@@ -369,7 +414,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
 
             {/* CTA buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" ? (
+              {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" ? (
                 <Link href={`/templates/${template.id}/preview`}>
                   <Button
                     size="lg"
@@ -508,7 +553,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
             Get started with {template.name} today.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" ? (
+            {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" ? (
               <Link href={`/templates/${template.id}/preview`}>
                 <Button
                   size="lg"

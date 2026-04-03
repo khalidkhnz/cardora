@@ -161,21 +161,73 @@ function WeddingPreview({ t }: { t: Template }) {
 }
 
 function BusinessPreview({ t }: { t: Template }) {
-  const isDark = t.colors.bg.includes("1A1A1A") || t.colors.bg.includes("0F0F");
-  return (
-    <div className={`flex h-full w-full flex-col justify-between bg-gradient-to-b ${t.colors.bg} p-5`}>
-      <div className="flex items-center gap-2">
-        <div className="flex h-7 w-7 items-center justify-center rounded-md" style={{ background: `${t.colors.accent}20`, border: `1px solid ${t.colors.accent}25` }}>
-          <span className="text-[9px] font-bold" style={{ color: t.colors.accent, fontFamily: "var(--font-cinzel)" }}>A</span>
+  // NOIR ATELIER — dark luxury car brand card
+  if (t.id === "noir-atelier") {
+    return (
+      <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-gradient-to-b from-[#1E2028] via-[#1A1C24] to-[#14161C] p-4">
+        <div className="absolute top-[35%] left-1/2 h-28 w-40 -translate-x-1/2 rounded-full bg-[#C6A85A]/[0.04] blur-[30px]" />
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "repeating-linear-gradient(135deg,transparent,transparent 3px,rgba(255,255,255,0.3) 3px,rgba(255,255,255,0.3) 4px)" }} />
+
+        {/* Top — brand */}
+        <div className="relative z-10 flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#C6A85A]/15 bg-[#C6A85A]/[0.06]">
+            <span className="text-[8px] font-bold text-[#C6A85A]/55" style={{ fontFamily: "serif" }}>R</span>
+          </div>
+          <span className="text-[6px] uppercase tracking-[0.18em] text-[#C6A85A]/45" style={{ fontFamily: "var(--font-cinzel)" }}>Regent Motors</span>
         </div>
-        <span className="text-[6px] font-semibold uppercase tracking-[0.15em]" style={{ color: `${t.colors.accent}90`, fontFamily: "var(--font-cinzel)" }}>Aurelius</span>
+
+        {/* Center — vintage car silhouette */}
+        <svg viewBox="0 0 160 55" className="relative z-10 mx-auto w-[85%]" fill="none">
+          <path d="M20 42 L20 30 Q20 22 35 20 L55 18 Q65 12 78 10 L120 10 Q135 12 140 18 L148 22 Q155 25 155 32 L155 42" fill="#C6A85A" fillOpacity="0.06" stroke="#C6A85A" strokeWidth="0.5" strokeOpacity="0.15" />
+          {/* Windshield */}
+          <path d="M68 18 L78 8 L115 8 L125 18" fill="#1E2028" fillOpacity="0.4" stroke="#C6A85A" strokeWidth="0.3" strokeOpacity="0.10" />
+          {/* Wheels */}
+          <circle cx="48" cy="44" r="8" fill="#1E2028" stroke="#C6A85A" strokeWidth="0.4" strokeOpacity="0.18" />
+          <circle cx="48" cy="44" r="4" fill="#C6A85A" fillOpacity="0.06" />
+          <circle cx="130" cy="44" r="8" fill="#1E2028" stroke="#C6A85A" strokeWidth="0.4" strokeOpacity="0.18" />
+          <circle cx="130" cy="44" r="4" fill="#C6A85A" fillOpacity="0.06" />
+          {/* Hood ornament */}
+          <circle cx="28" cy="26" r="1.5" fill="#C6A85A" fillOpacity="0.25" />
+          {/* Headlight glow */}
+          <circle cx="22" cy="32" r="3" fill="#C6A85A" fillOpacity="0.08" />
+          <circle cx="22" cy="32" r="6" fill="#C6A85A" fillOpacity="0.03" />
+          {/* Chrome trim */}
+          <line x1="30" y1="30" x2="150" y2="30" stroke="#C6A85A" strokeWidth="0.3" strokeOpacity="0.10" />
+        </svg>
+
+        {/* Bottom — name + role */}
+        <div className="relative z-10">
+          <h4 className="text-[12px] font-bold text-[#E8E4DC]/70" style={{ fontFamily: "var(--font-playfair)" }}>Aman Gupta</h4>
+          <p className="mt-0.5 text-[5px] uppercase tracking-[0.15em] text-[#C6A85A]/40" style={{ fontFamily: "var(--font-montserrat)" }}>Chief Executive</p>
+          <div className="mt-2 h-px bg-gradient-to-r from-[#C6A85A]/12 to-transparent" />
+          <p className="mt-1 text-[4px] text-[#E8E4DC]/20">regentmotors.co</p>
+        </div>
       </div>
-      <div>
-        <h4 className="text-[12px] font-bold" style={{ color: `${t.colors.text}${isDark ? "E0" : ""}`, fontFamily: "var(--font-playfair)" }}>Aman Gupta</h4>
-        <p className="mt-0.5 text-[6px] uppercase tracking-[0.15em]" style={{ color: `${t.colors.accent}70`, fontFamily: "var(--font-montserrat)" }}>Director</p>
-        <div className="mt-2 h-px w-full" style={{ background: `linear-gradient(to right, ${t.colors.accent}15, transparent)` }} />
-        <p className="mt-1.5 text-[5px]" style={{ color: `${t.colors.text}50` }}>aman@aurelius.co</p>
-      </div>
+    );
+  }
+
+  // MAISON BLANCHE — light ivory, clean minimal card
+  return (
+    <div className={`relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b ${t.colors.bg} p-4`}>
+      <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")" }} />
+      <svg viewBox="0 0 140 110" className="relative h-[80px] w-auto" fill="none">
+        {/* Back card */}
+        <rect x="28" y="15" width="84" height="52" rx="3" fill="#FFFFFF" fillOpacity="0.60" stroke="#3A2A1A" strokeWidth="0.3" strokeOpacity="0.08" transform="rotate(-4 70 41)" />
+        {/* Front card — ivory, clean */}
+        <rect x="22" y="28" width="96" height="60" rx="4" fill="#FDFAF5" stroke="#3A2A1A" strokeWidth="0.4" strokeOpacity="0.10" transform="rotate(2 70 58)" />
+        {/* Thin top line */}
+        <line x1="28" y1="32" x2="112" y2="33" stroke="#3A2A1A" strokeWidth="0.5" strokeOpacity="0.08" transform="rotate(2 70 32)" />
+        {/* Logo dot */}
+        <circle cx="35" cy="44" r="5" fill="#3A2A1A" fillOpacity="0.08" stroke="#3A2A1A" strokeWidth="0.3" strokeOpacity="0.10" transform="rotate(2 35 44)" />
+        <text x="35" y="46.5" textAnchor="middle" fill="#3A2A1A" fillOpacity="0.30" fontSize="5" fontWeight="bold" transform="rotate(2 35 46)" style={{ fontFamily: "serif" }}>M</text>
+        {/* Name */}
+        <text x="48" y="46" fill="#1A1A1A" fillOpacity="0.55" fontSize="8" fontWeight="bold" transform="rotate(2 48 46)" style={{ fontFamily: "serif" }}>Sara Chen</text>
+        <text x="48" y="54" fill="#3A2A1A" fillOpacity="0.30" fontSize="4" transform="rotate(2 48 54)" letterSpacing="1">CREATIVE DIRECTOR</text>
+        <line x1="28" y1="62" x2="75" y2="63" stroke="#3A2A1A" strokeWidth="0.2" strokeOpacity="0.06" transform="rotate(2 51 62)" />
+        <text x="30" y="72" fill="#3A2A1A" fillOpacity="0.20" fontSize="3.5" transform="rotate(2 30 72)">sara@designhaus.co</text>
+        <text x="30" y="78" fill="#3A2A1A" fillOpacity="0.15" fontSize="3.5" transform="rotate(2 30 78)">designhaus.co</text>
+      </svg>
+      <p className="relative mt-2 text-[6px] font-semibold uppercase tracking-[0.25em] text-[#3A2A1A]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Maison Blanche</p>
     </div>
   );
 }
