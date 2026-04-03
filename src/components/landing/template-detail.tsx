@@ -208,6 +208,50 @@ function LargePreview({ template: t }: { template: Template }) {
       </div>
     );
   }
+  if (t.style === "business" && t.id === "maison-blanche") {
+    return (
+      <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#E8E5E0] via-[#E0DCDA] to-[#D4D0CC]">
+        {/* Studio light */}
+        <div className="absolute top-[8%] right-[12%] h-28 w-28 rounded-full bg-white/20 blur-[35px]" />
+        <div className="absolute bottom-[15%] left-[15%] h-20 w-20 rounded-full bg-[#8A8A90]/[0.05] blur-[25px]" />
+        {/* Grain */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")" }} />
+
+        <svg viewBox="0 0 220 260" className="relative h-[240px] w-auto" fill="none">
+          {/* Photo backdrop */}
+          <rect x="45" y="10" width="130" height="85" rx="5" fill="#B0B0B5" fillOpacity="0.08" />
+          <rect x="52" y="18" width="116" height="68" rx="3" fill="#A0A0A5" fillOpacity="0.06" />
+          {/* Portrait hint */}
+          <circle cx="110" cy="38" r="14" fill="#8A8A90" fillOpacity="0.08" />
+          <path d="M92 82 L98 55 Q98 45 110 45 Q122 45 122 55 L128 82" fill="#8A8A90" fillOpacity="0.05" />
+
+          {/* Back card */}
+          <rect x="40" y="95" width="140" height="85" rx="5" fill="#F5F3F0" stroke="#2A2828" strokeWidth="0.4" strokeOpacity="0.10" transform="rotate(-4 110 137)" />
+
+          {/* Front card — editorial photographer */}
+          <rect x="35" y="108" width="150" height="90" rx="5" fill="#FAFAF8" stroke="#2A2828" strokeWidth="0.5" strokeOpacity="0.15" transform="rotate(2 110 153)" />
+          {/* Charcoal left bar */}
+          <rect x="35" y="108" width="5" height="90" rx="2.5" fill="#2A2828" fillOpacity="0.65" transform="rotate(2 37 153)" />
+          {/* Name */}
+          <text x="50" y="135" fill="#1A1818" fillOpacity="0.75" fontSize="14" fontWeight="bold" transform="rotate(2 50 135)" style={{ fontFamily: "serif" }}>Elena Rossi</text>
+          <text x="50" y="148" fill="#2A2828" fillOpacity="0.35" fontSize="6" transform="rotate(2 50 148)" letterSpacing="2">PHOTOGRAPHER</text>
+          {/* Divider */}
+          <line x1="50" y1="158" x2="120" y2="159" stroke="#2A2828" strokeWidth="0.3" strokeOpacity="0.10" transform="rotate(2 85 158)" />
+          {/* Contact */}
+          <text x="50" y="172" fill="#2A2828" fillOpacity="0.22" fontSize="5" transform="rotate(2 50 172)">elena@rossi.studio</text>
+          <text x="50" y="182" fill="#2A2828" fillOpacity="0.18" fontSize="5" transform="rotate(2 50 182)">+1 (416) 555-0198</text>
+          <text x="50" y="192" fill="#2A2828" fillOpacity="0.15" fontSize="5" transform="rotate(2 50 192)">rossi.studio</text>
+          {/* Camera icon */}
+          <circle cx="160" cy="172" r="10" stroke="#2A2828" strokeWidth="0.4" strokeOpacity="0.12" fill="none" transform="rotate(2 160 172)" />
+          <circle cx="160" cy="172" r="4" fill="#2A2828" fillOpacity="0.06" transform="rotate(2 160 172)" />
+          <rect x="155" y="162" width="10" height="3" rx="1" fill="#2A2828" fillOpacity="0.04" transform="rotate(2 160 163)" />
+        </svg>
+
+        <p className="relative mt-2 text-[8px] font-semibold uppercase tracking-[0.3em] text-[#2A2828]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Maison Blanche</p>
+        <p className="relative mt-1 text-[7px] text-[#2A2828]/20" style={{ fontFamily: "var(--font-cormorant)" }}>Luxury Photography Identity</p>
+      </div>
+    );
+  }
   if (t.style === "business") {
     return (
       <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#1E2028] via-[#1A1C24] to-[#14161C]">
@@ -414,7 +458,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
 
             {/* CTA buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" ? (
+              {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" || template.id === "maison-blanche" ? (
                 <Link href={`/templates/${template.id}/preview`}>
                   <Button
                     size="lg"
@@ -553,7 +597,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
             Get started with {template.name} today.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" ? (
+            {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" || template.id === "maison-blanche" ? (
               <Link href={`/templates/${template.id}/preview`}>
                 <Button
                   size="lg"

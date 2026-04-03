@@ -6,9 +6,10 @@ import { MaharaniExperience } from "@/components/landing/maharani-experience";
 import { AzureVowsExperience } from "@/components/landing/azure-vows-experience";
 import { VintageAffairExperience } from "@/components/landing/whispered-vows-experience";
 import { NoirAtelierExperience } from "@/components/landing/noir-atelier-experience";
+import { MaisonBlancheExperience } from "@/components/landing/maison-blanche-experience";
 
 // Only these templates have a live preview built
-const LIVE_PREVIEW_IDS = ["the-maharani", "azure-vows", "whispered-vows", "noir-atelier"];
+const LIVE_PREVIEW_IDS = ["the-maharani", "azure-vows", "whispered-vows", "noir-atelier", "maison-blanche"];
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -38,6 +39,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
   if (id === "azure-vows") return <AzureVowsExperience />;
   if (id === "whispered-vows") return <VintageAffairExperience />;
   if (id === "noir-atelier") return <NoirAtelierExperience />;
+  if (id === "maison-blanche") return <MaisonBlancheExperience />;
 
   // Others redirect back to detail page
   redirect(`/templates/${id}`);

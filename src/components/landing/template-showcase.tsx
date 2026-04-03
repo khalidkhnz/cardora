@@ -206,28 +206,56 @@ function BusinessPreview({ t }: { t: Template }) {
     );
   }
 
-  // MAISON BLANCHE — light ivory, clean minimal card
+  // MAISON BLANCHE — photographer, camera-first layout (NOT floating cards like Noir)
   return (
-    <div className={`relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b ${t.colors.bg} p-4`}>
-      <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")" }} />
-      <svg viewBox="0 0 140 110" className="relative h-[80px] w-auto" fill="none">
-        {/* Back card */}
-        <rect x="28" y="15" width="84" height="52" rx="3" fill="#FFFFFF" fillOpacity="0.60" stroke="#3A2A1A" strokeWidth="0.3" strokeOpacity="0.08" transform="rotate(-4 70 41)" />
-        {/* Front card — ivory, clean */}
-        <rect x="22" y="28" width="96" height="60" rx="4" fill="#FDFAF5" stroke="#3A2A1A" strokeWidth="0.4" strokeOpacity="0.10" transform="rotate(2 70 58)" />
-        {/* Thin top line */}
-        <line x1="28" y1="32" x2="112" y2="33" stroke="#3A2A1A" strokeWidth="0.5" strokeOpacity="0.08" transform="rotate(2 70 32)" />
-        {/* Logo dot */}
-        <circle cx="35" cy="44" r="5" fill="#3A2A1A" fillOpacity="0.08" stroke="#3A2A1A" strokeWidth="0.3" strokeOpacity="0.10" transform="rotate(2 35 44)" />
-        <text x="35" y="46.5" textAnchor="middle" fill="#3A2A1A" fillOpacity="0.30" fontSize="5" fontWeight="bold" transform="rotate(2 35 46)" style={{ fontFamily: "serif" }}>M</text>
-        {/* Name */}
-        <text x="48" y="46" fill="#1A1A1A" fillOpacity="0.55" fontSize="8" fontWeight="bold" transform="rotate(2 48 46)" style={{ fontFamily: "serif" }}>Sara Chen</text>
-        <text x="48" y="54" fill="#3A2A1A" fillOpacity="0.30" fontSize="4" transform="rotate(2 48 54)" letterSpacing="1">CREATIVE DIRECTOR</text>
-        <line x1="28" y1="62" x2="75" y2="63" stroke="#3A2A1A" strokeWidth="0.2" strokeOpacity="0.06" transform="rotate(2 51 62)" />
-        <text x="30" y="72" fill="#3A2A1A" fillOpacity="0.20" fontSize="3.5" transform="rotate(2 30 72)">sara@designhaus.co</text>
-        <text x="30" y="78" fill="#3A2A1A" fillOpacity="0.15" fontSize="3.5" transform="rotate(2 30 78)">designhaus.co</text>
-      </svg>
-      <p className="relative mt-2 text-[6px] font-semibold uppercase tracking-[0.25em] text-[#3A2A1A]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Maison Blanche</p>
+    <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-gradient-to-b from-[#D8D5D0] via-[#D0CCC8] to-[#C8C4BE] p-4">
+      {/* Studio light */}
+      <div className="absolute top-[5%] right-[12%] h-16 w-16 rounded-full bg-white/30 blur-[18px]" />
+
+      {/* Top — brand + camera icon */}
+      <div className="relative z-10 flex items-center gap-2">
+        {/* Camera icon — visible */}
+        <svg viewBox="0 0 24 20" className="h-5 w-5" fill="none" stroke="#2A2828" strokeWidth="1.2" strokeOpacity="0.35" strokeLinecap="round">
+          <rect x="2" y="6" width="20" height="13" rx="3" />
+          <path d="M7 6 L9 3 L15 3 L17 6" />
+          <circle cx="12" cy="12.5" r="4" />
+          <circle cx="12" cy="12.5" r="1.5" fill="#2A2828" fillOpacity="0.10" />
+        </svg>
+        <span className="text-[7px] uppercase tracking-[0.15em] text-[#2A2828]/40" style={{ fontFamily: "var(--font-cinzel)" }}>Maison Blanche</span>
+      </div>
+
+      {/* Center — large camera lens as hero visual */}
+      <div className="relative z-10 mx-auto my-2">
+        <svg viewBox="0 0 80 80" className="h-[65px] w-[65px]" fill="none">
+          {/* Outer ring */}
+          <circle cx="40" cy="40" r="36" stroke="#2A2828" strokeWidth="1.5" strokeOpacity="0.15" />
+          <circle cx="40" cy="40" r="30" stroke="#2A2828" strokeWidth="0.8" strokeOpacity="0.12" />
+          {/* Lens elements */}
+          <circle cx="40" cy="40" r="22" fill="#2A2828" fillOpacity="0.05" stroke="#2A2828" strokeWidth="0.5" strokeOpacity="0.10" />
+          <circle cx="40" cy="40" r="14" fill="#2A2828" fillOpacity="0.08" />
+          <circle cx="40" cy="40" r="8" fill="#D0CCC8" stroke="#2A2828" strokeWidth="0.3" strokeOpacity="0.08" />
+          {/* Light reflection */}
+          <circle cx="32" cy="34" r="3" fill="white" fillOpacity="0.15" />
+          <circle cx="34" cy="36" r="1.5" fill="white" fillOpacity="0.10" />
+          {/* Aperture blades hint */}
+          {[0, 60, 120, 180, 240, 300].map((a) => {
+            const rad = (a * Math.PI) / 180;
+            const x1 = 40 + 18 * Math.cos(rad);
+            const y1 = 40 + 18 * Math.sin(rad);
+            const x2 = 40 + 24 * Math.cos(rad);
+            const y2 = 40 + 24 * Math.sin(rad);
+            return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#2A2828" strokeWidth="0.4" strokeOpacity="0.06" />;
+          })}
+        </svg>
+      </div>
+
+      {/* Bottom — name + role */}
+      <div className="relative z-10">
+        <h4 className="text-[13px] font-bold text-[#1A1818]/70" style={{ fontFamily: "var(--font-playfair)" }}>Elena Rossi</h4>
+        <p className="mt-0.5 text-[5px] uppercase tracking-[0.15em] text-[#2A2828]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Photographer</p>
+        <div className="mt-1.5 h-px w-12 bg-[#2A2828]/8" />
+        <p className="mt-1 text-[4.5px] text-[#2A2828]/22">rossi.studio</p>
+      </div>
     </div>
   );
 }
