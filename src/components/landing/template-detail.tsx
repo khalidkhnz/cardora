@@ -72,37 +72,106 @@ function LargePreview({ template: t }: { template: Template }) {
       );
     }
 
-    // ── VELVET HEIRLOOM — dark burgundy, gold mandala ──
-    if (t.id === "velvet-heirloom") {
+    // ── WHISPERED VOWS — warm brown, invitation letter scene ──
+    if (t.id === "whispered-vows") {
       return (
-        <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#2A0E12] via-[#1E0A0E] to-[#140608] p-8 text-center">
-          <div className="absolute top-[25%] left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.06] blur-[45px]" />
-          <svg viewBox="0 0 180 220" className="relative my-2 h-[200px] w-auto" fill="none">
-            <circle cx="90" cy="100" r="70" stroke="#D4AF37" strokeWidth="0.4" strokeOpacity="0.08" />
-            <circle cx="90" cy="100" r="55" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.06" />
-            <path d="M80 15 Q90 8 100 15 Q100 22 90 24 Q80 22 80 15Z" fill="#D4AF37" fillOpacity="0.14" />
-            <circle cx="90" cy="15" r="2.5" fill="#D4AF37" fillOpacity="0.22" />
-            <path d="M25 25 L25 40" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" /><path d="M25 25 L40 25" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
-            <path d="M155 25 L155 40" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" /><path d="M155 25 L140 25" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
-            <path d="M25 200 L25 185" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" /><path d="M25 200 L40 200" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
-            <path d="M155 200 L155 185" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" /><path d="M155 200 L140 200" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.12" />
-            <circle cx="75" cy="85" r="11" fill="#D4AF37" fillOpacity="0.18" />
-            <path d="M60 190 L65 105 Q65 92 75 92 Q85 92 85 105 L90 190" fill="#D4AF37" fillOpacity="0.12" />
-            <path d="M68 80 Q75 72 82 80 Q82 87 75 88 Q68 87 68 80Z" fill="#D4AF37" fillOpacity="0.16" />
-            <circle cx="105" cy="85" r="11" fill="#D4AF37" fillOpacity="0.16" />
-            <path d="M85 190 L90 103 Q90 92 105 92 Q120 92 120 103 L130 190 Q105 182 85 190Z" fill="#D4AF37" fillOpacity="0.10" />
-            <path d="M105 78 Q115 76 118 100 Q114 90 105 85" fill="#D4AF37" fillOpacity="0.06" />
-            <circle cx="105" cy="82" r="1.5" fill="#D4AF37" fillOpacity="0.30" />
-            <path d="M85 110 Q95 122 105 110" stroke="#D4AF37" strokeOpacity="0.22" strokeWidth="0.8" />
-            <circle cx="90" cy="114" r="2" fill="#D4AF37" fillOpacity="0.18" />
-            <circle cx="98" cy="118" r="2" fill="#D4AF37" fillOpacity="0.14" />
-            <path d="M45 185 Q47 180 49 185" fill="#FFB347" fillOpacity="0.12" /><circle cx="47" cy="180" r="1" fill="#FFD700" fillOpacity="0.12" />
-            <path d="M131 185 Q133 180 135 185" fill="#FFB347" fillOpacity="0.12" /><circle cx="133" cy="180" r="1" fill="#FFD700" fillOpacity="0.12" />
+        <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden">
+          {/* Rich brown gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#C8B898] via-[#B8A882] to-[#A89870]" />
+          {/* Paper grain — heavier */}
+          <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")" }} />
+          {/* Warm glow spots */}
+          <div className="absolute top-[8%] left-[20%] h-20 w-20 rounded-full bg-[#FFE0A0]/20 blur-[25px]" />
+          <div className="absolute top-[12%] right-[22%] h-16 w-16 rounded-full bg-[#FFE0A0]/15 blur-[20px]" />
+          <div className="absolute top-[5%] left-1/2 h-12 w-12 -translate-x-1/2 rounded-full bg-[#FFE0A0]/18 blur-[15px]" />
+
+          {/* Full scene SVG */}
+          <svg viewBox="0 0 220 320" className="relative h-[280px] w-auto" fill="none">
+            {/* Fairy light string across top */}
+            <path d="M15 30 Q55 15 110 25 Q165 15 205 30" stroke="#5A4830" strokeWidth="0.4" strokeOpacity="0.12" />
+            <circle cx="35" cy="22" r="2" fill="#FFE8A0" fillOpacity="0.40" />
+            <circle cx="65" cy="18" r="2" fill="#FFE8A0" fillOpacity="0.35" />
+            <circle cx="95" cy="22" r="2" fill="#FFE8A0" fillOpacity="0.38" />
+            <circle cx="125" cy="18" r="2" fill="#FFE8A0" fillOpacity="0.32" />
+            <circle cx="155" cy="20" r="2" fill="#FFE8A0" fillOpacity="0.35" />
+            <circle cx="185" cy="26" r="2" fill="#FFE8A0" fillOpacity="0.30" />
+            {/* Light glow halos */}
+            <circle cx="65" cy="18" r="6" fill="#FFE8A0" fillOpacity="0.06" />
+            <circle cx="125" cy="18" r="6" fill="#FFE8A0" fillOpacity="0.05" />
+
+            {/* Main invitation card — center, large */}
+            <rect x="45" y="50" width="130" height="170" rx="4" fill="#F0E8D4" fillOpacity="0.80" stroke="#5A4830" strokeWidth="0.6" strokeOpacity="0.15" />
+            {/* Inner border */}
+            <rect x="52" y="57" width="116" height="156" rx="2" fill="none" stroke="#5A4830" strokeWidth="0.3" strokeOpacity="0.08" />
+            {/* Decorative top flourish */}
+            <path d="M90 65 Q100 58 110 65 Q110 70 100 72 Q90 70 90 65Z" fill="#5A4830" fillOpacity="0.10" />
+            <circle cx="100" cy="65" r="2" fill="#5A4830" fillOpacity="0.12" />
+            {/* Text lines */}
+            <line x1="70" y1="82" x2="150" y2="82" stroke="#5A4830" strokeWidth="0.3" strokeOpacity="0.08" />
+            {/* Names — represented as elegant text area */}
+            <text x="110" y="108" textAnchor="middle" fill="#3A2818" fillOpacity="0.60" fontSize="18" style={{ fontFamily: "cursive" }}>R &amp; A</text>
+            {/* Date line */}
+            <line x1="80" y1="120" x2="140" y2="120" stroke="#5A4830" strokeWidth="0.3" strokeOpacity="0.06" />
+            <text x="110" y="136" textAnchor="middle" fill="#5A4830" fillOpacity="0.30" fontSize="6">November 20, 2026</text>
+            {/* Decorative bottom */}
+            <path d="M85 160 Q100 155 115 160" stroke="#5A4830" strokeWidth="0.4" strokeOpacity="0.10" />
+            <circle cx="100" cy="165" r="1.5" fill="#5A4830" fillOpacity="0.10" />
+            {/* Wax seal */}
+            <circle cx="110" cy="195" r="10" fill="#8B4040" fillOpacity="0.25" />
+            <circle cx="110" cy="195" r="6" fill="#A05050" fillOpacity="0.18" />
+            <text x="110" y="198" textAnchor="middle" fill="#F0E0D0" fillOpacity="0.40" fontSize="5" fontWeight="bold">R&amp;A</text>
+
+            {/* Second card — behind, tilted left */}
+            <rect x="25" y="60" width="80" height="105" rx="3" fill="#E8DCC4" fillOpacity="0.45" stroke="#5A4830" strokeWidth="0.3" strokeOpacity="0.08" transform="rotate(-8 65 112)" />
+
+            {/* Photo frame — behind right, tilted */}
+            <rect x="130" y="55" width="55" height="70" rx="3" fill="#D4C4A0" fillOpacity="0.40" stroke="#5A4830" strokeWidth="0.4" strokeOpacity="0.12" transform="rotate(6 157 90)" />
+            <rect x="135" y="60" width="45" height="52" rx="1.5" fill="#C8B898" fillOpacity="0.30" transform="rotate(6 157 86)" />
+
+            {/* Flowers — bottom left cluster */}
+            <circle cx="30" cy="248" r="12" fill="#C09080" fillOpacity="0.35" />
+            <circle cx="30" cy="248" r="7" fill="#D4A090" fillOpacity="0.25" />
+            <circle cx="45" cy="258" r="9" fill="#B88070" fillOpacity="0.28" />
+            <circle cx="18" cy="260" r="7" fill="#D4B0A0" fillOpacity="0.22" />
+            <circle cx="55" cy="248" r="6" fill="#E8C8B0" fillOpacity="0.20" />
+            <path d="M12 252 Q5 244 15 240 Q18 248 12 252Z" fill="#6A7A50" fillOpacity="0.22" />
+            <path d="M60 244 Q66 238 58 235 Q55 242 60 244Z" fill="#6A7A50" fillOpacity="0.18" />
+
+            {/* Flowers — bottom right */}
+            <circle cx="185" cy="250" r="10" fill="#C09080" fillOpacity="0.30" />
+            <circle cx="185" cy="250" r="6" fill="#D4A090" fillOpacity="0.22" />
+            <circle cx="172" cy="258" r="7" fill="#B88070" fillOpacity="0.25" />
+            <circle cx="196" cy="260" r="6" fill="#E8C8B0" fillOpacity="0.18" />
+            <path d="M200 252 Q206 244 198 240 Q195 248 200 252Z" fill="#6A7A50" fillOpacity="0.20" />
+
+            {/* Wooden table surface at bottom */}
+            <rect x="5" y="270" width="210" height="45" rx="3" fill="#6A5030" fillOpacity="0.12" />
+            <line x1="10" y1="280" x2="210" y2="280" stroke="#6A5030" strokeWidth="0.3" strokeOpacity="0.06" />
+            <line x1="10" y1="290" x2="210" y2="290" stroke="#6A5030" strokeWidth="0.2" strokeOpacity="0.04" />
+
+            {/* Glass bottle — left */}
+            <rect x="168" y="230" width="7" height="30" rx="3" fill="#7A9A70" fillOpacity="0.15" />
+            <path d="M169 230 Q171.5 222 174 230" fill="#7A9A70" fillOpacity="0.10" />
+            {/* Small flower in bottle */}
+            <circle cx="171.5" cy="220" r="3" fill="#D4A090" fillOpacity="0.18" />
+
+            {/* Vintage key */}
+            <path d="M80 278 L95 278 M95 275 Q100 275 100 278 Q100 281 95 281 Z" stroke="#5A4830" strokeWidth="0.5" strokeOpacity="0.10" fill="none" />
+            <circle cx="80" cy="278" r="3" stroke="#5A4830" strokeWidth="0.4" strokeOpacity="0.08" fill="none" />
           </svg>
-          <h3 className="relative text-[22px] leading-tight text-[#F0E8D8]" style={{ fontFamily: "var(--font-great-vibes)" }}>Vikram <span className="text-[#D4AF37]">&</span> Ananya</h3>
-          <div className="relative my-2 flex items-center gap-2"><div className="h-px w-10 bg-gradient-to-r from-transparent to-[#D4AF37]/22" /><span className="text-[7px] text-[#D4AF37]/35">✦</span><div className="h-px w-10 bg-gradient-to-l from-transparent to-[#D4AF37]/22" /></div>
-          <p className="relative text-[10px] text-[#D4AF37]/50" style={{ fontFamily: "var(--font-cormorant)" }}>February 14, 2026</p>
-          <p className="relative mt-1 text-[8px] uppercase tracking-[0.12em] text-[#D4AF37]/30" style={{ fontFamily: "var(--font-montserrat)" }}>Heritage Palace · Udaipur</p>
+
+          {/* Names overlay at bottom */}
+          <div className="relative z-10 mt-2 text-center">
+            <h3 className="text-[22px] leading-tight text-[#F0E4D0]" style={{ fontFamily: "var(--font-dancing-script)" }}>
+              Rohan & Aisha
+            </h3>
+            <div className="mt-1 flex items-center justify-center gap-2">
+              <div className="h-px w-8 bg-[#F0E4D0]/20" />
+              <p className="text-[8px] italic text-[#F0E4D0]/40" style={{ fontFamily: "var(--font-cormorant)" }}>Whispered Vows</p>
+              <div className="h-px w-8 bg-[#F0E4D0]/20" />
+            </div>
+            <p className="mt-1 text-[7px] text-[#F0E4D0]/30" style={{ fontFamily: "var(--font-montserrat)" }}>Nov 20, 2026</p>
+          </div>
         </div>
       );
     }
@@ -300,7 +369,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
 
             {/* CTA buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {template.id === "the-maharani" || template.id === "azure-vows" ? (
+              {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" ? (
                 <Link href={`/templates/${template.id}/preview`}>
                   <Button
                     size="lg"
@@ -439,7 +508,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
             Get started with {template.name} today.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            {template.id === "the-maharani" || template.id === "azure-vows" ? (
+            {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" ? (
               <Link href={`/templates/${template.id}/preview`}>
                 <Button
                   size="lg"
