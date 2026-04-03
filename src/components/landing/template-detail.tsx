@@ -16,34 +16,58 @@ import { Footer } from "@/components/landing/footer";
 
 function LargePreview({ template: t }: { template: Template }) {
   if (t.style === "wedding") {
-    // ── ENCHANTED EVERGREEN — dark emerald garden ──
-    if (t.id === "enchanted-evergreen") {
+    // ── AZURE VOWS — open beach landscape, no arch ──
+    if (t.id === "azure-vows") {
       return (
-        <div className={`relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b ${t.colors.bg} p-8 text-center`}>
-          <div className="absolute top-[20%] left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#7CB68A]/[0.08] blur-[50px]" />
-          <svg viewBox="0 0 180 220" className="relative my-2 h-[200px] w-auto" fill="none">
-            <path d="M20 210 Q20 50 90 20 Q160 50 160 210" stroke="#7CB68A" strokeWidth="0.8" strokeOpacity="0.25" />
-            <path d="M35 200 Q10 160 40 120 Q50 145 35 200Z" fill="#7CB68A" fillOpacity="0.20" />
-            <path d="M30 170 Q8 140 35 105 Q42 128 30 170Z" fill="#7CB68A" fillOpacity="0.14" />
-            <path d="M145 200 Q170 160 140 120 Q130 145 145 200Z" fill="#7CB68A" fillOpacity="0.20" />
-            <path d="M150 170 Q172 140 145 105 Q138 128 150 170Z" fill="#7CB68A" fillOpacity="0.14" />
-            <circle cx="90" cy="24" r="7" fill="#7CB68A" fillOpacity="0.22" />
-            <circle cx="80" cy="30" r="5" fill="#F0E0D0" fillOpacity="0.18" />
-            <circle cx="100" cy="30" r="5" fill="#F0E0D0" fillOpacity="0.18" />
-            <path d="M72 22 Q65 15 75 12" stroke="#7CB68A" strokeWidth="0.5" strokeOpacity="0.20" />
-            <path d="M108 22 Q115 15 105 12" stroke="#7CB68A" strokeWidth="0.5" strokeOpacity="0.20" />
-            <circle cx="75" cy="85" r="10" fill="#D0E8D4" fillOpacity="0.28" />
-            <path d="M62 185 L66 105 Q66 92 75 92 Q84 92 84 105 L88 185" fill="#D0E8D4" fillOpacity="0.20" />
-            <circle cx="105" cy="85" r="10" fill="#F0E0D0" fillOpacity="0.25" />
-            <path d="M88 185 L93 103 Q93 92 105 92 Q117 92 117 103 L128 185 Q105 178 88 185Z" fill="#F0E0D0" fillOpacity="0.18" />
-            <path d="M84 112 Q95 125 105 112" stroke="#7CB68A" strokeOpacity="0.25" strokeWidth="0.8" />
-            <circle cx="90" cy="116" r="2" fill="#F0E0D0" fillOpacity="0.20" />
-            <circle cx="98" cy="120" r="2" fill="#7CB68A" fillOpacity="0.15" />
+        <div className="relative flex h-full w-full flex-col justify-end overflow-hidden">
+          {/* Sky */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#B8D8F0] via-[#D0E8F8] to-[#E0EEF5]" />
+          {/* Sun glow */}
+          <div className="absolute top-[8%] right-[12%] h-24 w-24 rounded-full bg-[#FFF0D0]/40 blur-[35px]" />
+          <div className="absolute top-[10%] right-[15%] h-12 w-12 rounded-full bg-[#FFF8E8]/50 blur-[15px]" />
+          {/* Horizon */}
+          <div className="absolute bottom-[28%] left-0 right-0 h-[10%] bg-gradient-to-b from-[#6AACCC]/18 to-transparent" />
+          {/* Sand */}
+          <div className="absolute bottom-0 left-0 right-0 h-[28%] bg-gradient-to-t from-[#F0E4D0] via-[#EEE0CC] to-[#E8DCCA]/40" />
+          {/* Waves */}
+          <svg viewBox="0 0 200 10" preserveAspectRatio="none" className="absolute bottom-[26%] left-0 w-full">
+            <path d="M0 5 Q20 2 40 5 Q60 8 80 5 Q100 2 120 5 Q140 8 160 5 Q180 2 200 5" stroke="#5A9CC0" strokeWidth="0.5" strokeOpacity="0.12" fill="none" />
           </svg>
-          <h3 className="relative text-[22px] leading-tight text-[#E0EDE4]" style={{ fontFamily: "var(--font-great-vibes)" }}>Arjun <span className="text-[#7CB68A]">&</span> Meera</h3>
-          <div className="relative my-2 flex items-center gap-2"><div className="h-px w-10 bg-gradient-to-r from-transparent to-[#7CB68A]/25" /><span className="text-[7px] text-[#7CB68A]/40">❧</span><div className="h-px w-10 bg-gradient-to-l from-transparent to-[#7CB68A]/25" /></div>
-          <p className="relative text-[10px] text-[#7CB68A]/55" style={{ fontFamily: "var(--font-cormorant)" }}>March 22, 2026</p>
-          <p className="relative mt-1 text-[8px] uppercase tracking-[0.12em] text-[#7CB68A]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Botanical Gardens · Toronto</p>
+
+          {/* Couple — off-center right */}
+          <svg viewBox="0 0 80 110" className="absolute bottom-[22%] right-[18%] h-[120px]" fill="none">
+            <circle cx="28" cy="22" r="10" fill="#2A4050" fillOpacity="0.50" />
+            <path d="M16 100 L20 42 Q20 30 28 30 Q36 30 36 42 L40 100" fill="#2A4050" fillOpacity="0.40" />
+            <path d="M25 40 L28 34 L31 40" fill="#4A7A98" fillOpacity="0.15" />
+            <circle cx="52" cy="22" r="10" fill="#7A6050" fillOpacity="0.35" />
+            <path d="M38 100 L42 40 Q42 30 52 30 Q62 30 62 40 L72 100 Q52 92 38 100Z" fill="#FFFFFF" fillOpacity="0.55" />
+            <path d="M52 15 Q66 12 70 35 Q64 26 52 22" fill="#FFFFFF" fillOpacity="0.18" />
+            <circle cx="42" cy="58" r="3" fill="#FFD0D0" fillOpacity="0.35" />
+            <circle cx="42" cy="58" r="1.5" fill="#FFFFFF" fillOpacity="0.30" />
+            <path d="M36 55 L42 55" stroke="#7A6050" strokeWidth="0.8" strokeOpacity="0.12" />
+          </svg>
+
+          {/* Loose flowers — left */}
+          <svg viewBox="0 0 40 50" className="absolute bottom-[25%] left-[10%] h-12 opacity-30" fill="none">
+            <circle cx="20" cy="12" r="6" fill="#FFFFFF" fillOpacity="0.55" />
+            <circle cx="20" cy="12" r="3" fill="#FFD8D0" fillOpacity="0.35" />
+            <circle cx="12" cy="18" r="4" fill="#FFE8E0" fillOpacity="0.30" />
+            <circle cx="28" cy="18" r="4" fill="#FFFFFF" fillOpacity="0.35" />
+            <path d="M18 22 L19 45" stroke="#8BC4A0" strokeWidth="0.5" strokeOpacity="0.20" />
+            <path d="M22 22 L24 40" stroke="#8BC4A0" strokeWidth="0.4" strokeOpacity="0.15" />
+          </svg>
+
+          {/* Text — bottom left */}
+          <div className="relative z-10 p-8 pb-10">
+            <h3 className="text-[26px] leading-tight text-[#1A3A4A]" style={{ fontFamily: "var(--font-great-vibes)" }}>
+              James <span className="text-[#5B9EC4]">&</span> Rose
+            </h3>
+            <div className="mt-2 flex items-center gap-2">
+              <div className="h-px w-10 bg-[#5B9EC4]/20" />
+              <p className="text-[9px] text-[#4A7A98]/50" style={{ fontFamily: "var(--font-cormorant)" }}>October 8, 2026</p>
+            </div>
+            <p className="mt-1 text-[7px] uppercase tracking-[0.1em] text-[#4A7A98]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Sunset Beach · Malibu</p>
+          </div>
         </div>
       );
     }
@@ -276,7 +300,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
 
             {/* CTA buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {template.id === "the-maharani" ? (
+              {template.id === "the-maharani" || template.id === "azure-vows" ? (
                 <Link href={`/templates/${template.id}/preview`}>
                   <Button
                     size="lg"
@@ -415,7 +439,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
             Get started with {template.name} today.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            {template.id === "the-maharani" ? (
+            {template.id === "the-maharani" || template.id === "azure-vows" ? (
               <Link href={`/templates/${template.id}/preview`}>
                 <Button
                   size="lg"

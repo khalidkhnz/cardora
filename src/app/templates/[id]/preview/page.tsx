@@ -3,9 +3,10 @@ import { type Metadata } from "next";
 import { getTemplateById, TEMPLATES } from "@/lib/template-data";
 import { pageTitle } from "@/lib/platform";
 import { MaharaniExperience } from "@/components/landing/maharani-experience";
+import { AzureVowsExperience } from "@/components/landing/azure-vows-experience";
 
 // Only these templates have a live preview built
-const LIVE_PREVIEW_IDS = ["the-maharani"];
+const LIVE_PREVIEW_IDS = ["the-maharani", "azure-vows"];
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -30,11 +31,10 @@ export default async function TemplatePreviewPage({ params }: Props) {
   const template = getTemplateById(id);
   if (!template) notFound();
 
-  // Only The Maharani has a live preview — others redirect back
-  if (id === "the-maharani") {
-    return <MaharaniExperience />;
-  }
+  // Route to the correct experience
+  if (id === "the-maharani") return <MaharaniExperience />;
+  if (id === "azure-vows") return <AzureVowsExperience />;
 
-  // Redirect other templates back to their detail page
+  // Others redirect back to detail page
   redirect(`/templates/${id}`);
 }
