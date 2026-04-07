@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
+import { useTemplateMusic } from "@/hooks/use-template-music";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
@@ -66,18 +67,7 @@ export function MaisonBlancheExperience() {
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
   const [revealedFeatures, setRevealedFeatures] = useState<Set<number>>(new Set());
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const toggleMusic = useCallback(() => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio("https://cdn.pixabay.com/audio/2024/11/28/audio_3e3e0e82a9.mp3");
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.2;
-    }
-    if (isMusicPlaying) { audioRef.current.pause(); } else { void audioRef.current.play().catch(() => {}); }
-    setIsMusicPlaying(!isMusicPlaying);
-  }, [isMusicPlaying]);
+  const { isPlaying: isMusicPlaying, toggle: toggleMusic } = useTemplateMusic("elegant");
 
   // ── ENTRY — shutter click reveal (unique to photography) ──
   if (!hasEntered) {
