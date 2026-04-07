@@ -1,8 +1,10 @@
 "use client";
 
+import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowLeft, MapPin, Calendar, Clock, Heart } from "lucide-react";
+import Image from "next/image";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowLeft, MapPin, Calendar, Clock, Heart, Volume2, VolumeX, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { platform } from "@/lib/platform";
 
@@ -11,380 +13,432 @@ import { platform } from "@/lib/platform";
 /* ================================================================== */
 
 const CSS = `
-@keyframes vintage-dust {
+@keyframes wv-dust {
   0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
-  50% { opacity: 1; transform: translateY(-15px) scale(1); }
+  50% { opacity: 1; transform: translateY(-12px) scale(1); }
 }
-@keyframes vintage-glow {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.30; }
+@keyframes wv-glow {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.25; }
 }
 `;
 
+const GRAIN = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")";
+const A = "#5A4830";
+const T = "#2A1E14";
+
 /* ================================================================== */
-/*  Shared constants                                                  */
+/*  Data                                                              */
 /* ================================================================== */
 
-const GRAIN = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")";
-const ACCENT = "#5A4830";
-const TEXT = "#2A1E14";
+const EVENTS = [
+  { name: "Engagement", date: "Nov 15", time: "11 AM", venue: "Garden Terrace", note: "Where it all began, again" },
+  { name: "Haldi", date: "Nov 18", time: "10 AM", venue: "Courtyard Lawn", note: "Golden blessings under the sun" },
+  { name: "Wedding", date: "Nov 20", time: "5 PM", venue: "Heritage Pavilion", note: "Two hearts, one promise" },
+  { name: "Reception", date: "Nov 20", time: "8 PM", venue: "Grand Ballroom", note: "A night to remember forever" },
+];
+
+const STORY_PAGES = [
+  { title: "The Bookshop", text: "A quiet autumn evening, a little bookshop on the corner of Maple Street. He reached for the same book she did.", year: "2022" },
+  { title: "First Letter", text: "He left a handwritten note in her favorite book. She found it three days later and smiled for hours.", year: "2023" },
+  { title: "The Question", text: "On a garden bench, surrounded by fairy lights and old roses, he asked the only question that mattered.", year: "2024" },
+  { title: "Forever Begins", text: "November 20, 2026 — at the Heritage Garden Estate, two stories become one.", year: "2026" },
+];
+
+const GALLERY = [
+  { label: "Garden Aisle", src: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?w=500&h=500&fit=crop&q=80" },
+  { label: "The Promise", src: "https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=500&h=500&fit=crop&q=80" },
+  { label: "Golden Hour", src: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=500&h=500&fit=crop&q=80" },
+  { label: "Forever", src: "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=500&h=500&fit=crop&q=80" },
+];
 
 /* ================================================================== */
 /*  Helpers                                                           */
 /* ================================================================== */
 
-function VintageDivider() {
+function VDivider() {
   return (
     <div className="flex items-center justify-center gap-3 py-1">
-      <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#5A4830]/20" />
-      <span className="text-[8px] text-[#5A4830]/30">❧</span>
-      <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#5A4830]/20" />
-    </div>
-  );
-}
-
-function Watermark() {
-  return (
-    <div className="pointer-events-none fixed inset-0 z-[95] overflow-hidden">
-      <span className="absolute top-[22%] right-[6%] -rotate-[25deg] text-xl font-semibold tracking-[0.5em] text-[#5A4830]/[0.03] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
-      <span className="absolute bottom-[28%] left-[10%] -rotate-[25deg] text-xl font-semibold tracking-[0.5em] text-[#5A4830]/[0.03] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
+      <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#5A4830]/15" />
+      <span className="text-[8px] text-[#5A4830]/25">❧</span>
+      <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#5A4830]/15" />
     </div>
   );
 }
 
 /* ================================================================== */
-/*  Events                                                            */
-/* ================================================================== */
-
-const EVENTS = [
-  { name: "Engagement", date: "Nov 15, 2026", time: "11 AM", venue: "The Garden Terrace", motif: "Where it all began, again" },
-  { name: "Haldi", date: "Nov 18, 2026", time: "10 AM", venue: "Courtyard Lawn", motif: "Golden blessings under the sun" },
-  { name: "Wedding", date: "Nov 20, 2026", time: "5 PM", venue: "The Heritage Pavilion", motif: "Two hearts, one promise" },
-  { name: "Reception", date: "Nov 20, 2026", time: "8 PM", venue: "Grand Ballroom", motif: "A night to remember forever" },
-];
-
-/* ================================================================== */
-/*  Main experience                                                   */
+/*  Main                                                              */
 /* ================================================================== */
 
 export function VintageAffairExperience() {
   const { scrollYProgress } = useScroll();
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0]);
 
+  const [isBookOpen, setIsBookOpen] = useState(false);
+  const [storyPage, setStoryPage] = useState(0);
+  const [revealedEvents, setRevealedEvents] = useState<Set<number>>(new Set());
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const toggleMusic = useCallback(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio("https://cdn.pixabay.com/audio/2024/09/10/audio_6e9cdbc40c.mp3");
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.2;
+    }
+    if (isMusicPlaying) { audioRef.current.pause(); } else { void audioRef.current.play().catch(() => {}); }
+    setIsMusicPlaying(!isMusicPlaying);
+  }, [isMusicPlaying]);
+
+  const revealEvent = useCallback((idx: number) => {
+    setRevealedEvents(prev => { const n = new Set(prev); n.add(idx); return n; });
+  }, []);
+
+  // ── ENTRY — "Open the Book" (unique — NOT envelope, NOT horizon) ──
+  if (!isBookOpen) {
+    return (
+      <>
+        <style dangerouslySetInnerHTML={{ __html: CSS }} />
+        <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#D4C8AE]">
+          <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: GRAIN }} />
+          {/* Fairy lights */}
+          {[20, 40, 60, 80].map((l, i) => (
+            <div key={i} className="absolute h-[3px] w-[3px] rounded-full bg-[#FFE8A0]" style={{ left: `${l}%`, top: `${15 + i * 5}%`, animation: `wv-glow ${3 + i}s ease-in-out ${i}s infinite` }} />
+          ))}
+          {/* Dust */}
+          {[15, 45, 70, 88].map((l, i) => (
+            <div key={`d${i}`} className="absolute h-[2px] w-[2px] rounded-full bg-[#C8B898]" style={{ left: `${l}%`, top: `${30 + i * 12}%`, animation: `wv-dust ${5 + i}s ease-in-out ${i * 1.5}s infinite` }} />
+          ))}
+
+          <motion.button
+            onClick={() => setIsBookOpen(true)}
+            className="group relative z-10 flex flex-col items-center gap-5"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {/* Book icon */}
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[#5A4830]/12 bg-[#EDE4D0]/60 shadow-[0_4px_20px_rgba(60,40,20,0.08)] transition-all group-hover:shadow-[0_8px_30px_rgba(60,40,20,0.12)]">
+              <BookOpen className="h-7 w-7 text-[#5A4830]/45" />
+            </div>
+            <div className="text-center">
+              <p className="text-[9px] uppercase tracking-[0.5em] text-[#5A4830]/45" style={{ fontFamily: "var(--font-cinzel)" }}>A Love Story</p>
+              <p className="mt-2 text-3xl text-[#2A1E14]/65" style={{ fontFamily: "var(--font-dancing-script)" }}>Rohan & Aisha</p>
+            </div>
+            <motion.div animate={{ y: [0, 3, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
+              <p className="text-[8px] uppercase tracking-[0.3em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Open the Book</p>
+            </motion.div>
+          </motion.button>
+
+          <Link href="/templates/whispered-vows" className="fixed top-5 left-5 z-[101] flex items-center gap-1.5 rounded-full border border-[#5A4830]/8 bg-[#E5DCC8]/60 px-4 py-2 text-xs font-medium text-[#3A2818]/50 shadow-sm backdrop-blur-md hover:bg-[#E5DCC8]">
+            <ArrowLeft className="h-3.5 w-3.5" /> Back
+          </Link>
+        </div>
+      </>
+    );
+  }
+
+  // ── MAIN EXPERIENCE ──
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="relative min-h-screen overflow-x-hidden bg-[#D8CCAE]">
-        {/* Paper texture over entire page */}
         <div className="pointer-events-none fixed inset-0 z-[1] opacity-[0.05]" style={{ backgroundImage: GRAIN }} />
-        <Watermark />
-
-        {/* Dust particles */}
+        {/* Watermark */}
+        <div className="pointer-events-none fixed inset-0 z-[95]">
+          <span className="absolute top-[28%] right-[6%] -rotate-[25deg] text-lg font-semibold tracking-[0.5em] text-[#5A4830]/[0.025] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
+        </div>
+        {/* Progress */}
+        <motion.div className="fixed top-0 right-0 left-0 z-[102] h-[2px] origin-left bg-gradient-to-r from-[#8B7040] to-[#C8A870]" style={{ scaleX: scrollYProgress }} />
+        {/* Dust */}
         <div className="pointer-events-none fixed inset-0 z-[90]">
-          {[12, 30, 50, 70, 85, 42].map((l, i) => (
-            <div key={i} className="absolute h-[2px] w-[2px] rounded-full bg-[#D4C8A0]" style={{ left: `${l}%`, top: `${20 + i * 12}%`, animation: `vintage-dust ${5 + i}s ease-in-out ${i * 1.5}s infinite` }} />
+          {[12, 35, 55, 78].map((l, i) => (
+            <div key={i} className="absolute h-[2px] w-[2px] rounded-full bg-[#C8B898]" style={{ left: `${l}%`, top: `${25 + i * 15}%`, animation: `wv-dust ${5 + i}s ease-in-out ${i * 1.2}s infinite` }} />
           ))}
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  HERO — vintage table, letter style                       */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
-          {/* Background */}
+        {/* ── HERO — letter card ── */}
+        <motion.section className="relative flex min-h-screen flex-col items-center justify-center px-6" initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }}>
           <div className="absolute inset-0 bg-gradient-to-b from-[#D4C8AE] via-[#CCBC9C] to-[#C0B090]" />
-          {/* Warm light — like fairy lights */}
-          <div className="absolute top-[12%] left-[30%] h-20 w-20 rounded-full bg-[#FFE8C0]/20 blur-[25px]" style={{ animation: "vintage-glow 4s ease-in-out infinite" }} />
-          <div className="absolute top-[15%] right-[25%] h-16 w-16 rounded-full bg-[#FFE8C0]/15 blur-[20px]" style={{ animation: "vintage-glow 5s ease-in-out 1s infinite" }} />
-          <div className="absolute top-[10%] left-1/2 h-14 w-14 -translate-x-1/2 rounded-full bg-[#FFE8C0]/18 blur-[18px]" style={{ animation: "vintage-glow 4.5s ease-in-out 0.5s infinite" }} />
+          {/* Fairy lights */}
+          {[25, 45, 65, 85].map((l, i) => (
+            <div key={i} className="absolute h-[3px] w-[3px] rounded-full bg-[#FFE8A0]" style={{ left: `${l}%`, top: `${10 + i * 4}%`, animation: `wv-glow ${3.5 + i * 0.5}s ease-in-out ${i * 0.8}s infinite` }} />
+          ))}
 
-          {/* Content — letter style */}
-          <motion.div
-            className="relative z-10 max-w-sm text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            style={{ opacity: heroOpacity }}
-          >
-            {/* Paper card */}
-            <div className="rounded-lg border border-[#B8A888]/30 bg-[#EDE4D0]/70 px-10 py-14 shadow-[0_8px_30px_rgba(80,60,30,0.08)] backdrop-blur-sm">
-              <p className="text-[9px] uppercase tracking-[0.5em] text-[#5A4830]/40" style={{ fontFamily: "var(--font-montserrat)" }}>
-                You are cordially invited
-              </p>
-              <VintageDivider />
-              <p className="mt-2 text-xs italic text-[#5A4830]/35" style={{ fontFamily: "var(--font-cormorant)" }}>
-                to the wedding celebration of
-              </p>
-              <h1 className="mt-4 text-5xl leading-tight text-[#2A1E14] md:text-6xl" style={{ fontFamily: "var(--font-dancing-script)" }}>
-                Rohan & Aisha
-              </h1>
-              <VintageDivider />
-              <p className="mt-2 text-sm text-[#5A4830]/50" style={{ fontFamily: "var(--font-cormorant)" }}>
-                November 20, 2026
-              </p>
-              <p className="mt-1 text-[9px] uppercase tracking-[0.15em] text-[#5A4830]/30" style={{ fontFamily: "var(--font-montserrat)" }}>
-                The Heritage Garden Estate
-              </p>
+          <motion.div className="relative z-10 max-w-sm" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
+            <div className="rounded-lg border border-[#B8A888]/30 bg-[#EDE4D0]/70 px-10 py-14 shadow-[0_8px_30px_rgba(60,40,20,0.08)] backdrop-blur-sm">
+              <p className="text-center text-[9px] uppercase tracking-[0.5em] text-[#5A4830]/45" style={{ fontFamily: "var(--font-montserrat)" }}>You are invited</p>
+              <VDivider />
+              <p className="mt-2 text-center text-xs italic text-[#5A4830]/40" style={{ fontFamily: "var(--font-cormorant)" }}>to the wedding of</p>
+              <h1 className="mt-4 text-center text-5xl text-[#2A1E14]/75 md:text-6xl" style={{ fontFamily: "var(--font-dancing-script)" }}>Rohan & Aisha</h1>
+              <VDivider />
+              <p className="mt-2 text-center text-sm text-[#5A4830]/55" style={{ fontFamily: "var(--font-cormorant)" }}>November 20, 2026</p>
+              <p className="mt-1 text-center text-[9px] uppercase tracking-[0.12em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Heritage Garden Estate</p>
             </div>
-
-            {/* Wax seal below card */}
-            <div className="mx-auto mt-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#8B5040]/15 shadow-[inset_0_1px_3px_rgba(0,0,0,0.08)]">
-              <span className="text-[10px] font-bold text-[#8B5040]/40" style={{ fontFamily: "var(--font-cinzel)" }}>R&A</span>
+            {/* Wax seal */}
+            <div className="mx-auto mt-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#8B4040]/15 shadow-inner">
+              <span className="text-[9px] font-bold text-[#8B4040]/40" style={{ fontFamily: "var(--font-cinzel)" }}>R&A</span>
             </div>
           </motion.div>
 
-          {/* Scroll hint */}
-          <motion.div className="absolute bottom-6" animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 2.5 }}>
-            <p className="text-[7px] uppercase tracking-[0.2em] text-[#5A4830]/20" style={{ fontFamily: "var(--font-montserrat)" }}>Scroll</p>
+          <motion.div className="absolute bottom-6" animate={{ y: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 2.5 }}>
+            <p className="text-[7px] uppercase tracking-[0.2em] text-[#5A4830]/25" style={{ fontFamily: "var(--font-montserrat)" }}>Scroll</p>
             <div className="mx-auto mt-1 h-4 w-px bg-gradient-to-b from-[#5A4830]/15 to-transparent" />
           </motion.div>
-        </section>
+        </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  LOVE STORY — handwritten letter style                    */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <motion.section className="relative px-6 py-28" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+        {/* ── FAMILY BLESSINGS ── */}
+        <motion.section className="px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+          <div className="mx-auto max-w-lg text-center">
+            <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/40" style={{ fontFamily: "var(--font-montserrat)" }}>With Blessings Of</p>
+            <VDivider />
+            <h2 className="mt-2 text-2xl text-[#2A1E14]/65" style={{ fontFamily: "var(--font-dancing-script)" }}>Our Families</h2>
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              {[
+                { side: "Groom's Family", parents: "Mr. Arjun & Mrs. Priya Mehta" },
+                { side: "Bride's Family", parents: "Mr. Sameer & Mrs. Kavita Shah" },
+              ].map((f, i) => (
+                <motion.div key={f.side} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.1 }}
+                  className="rounded-lg border border-[#B8A888]/20 bg-[#EDE4D0]/50 p-5" style={{ transform: `rotate(${i === 0 ? "-0.5" : "0.5"}deg)` }}>
+                  <p className="text-[8px] uppercase tracking-[0.3em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>{f.side}</p>
+                  <div className="my-2 h-px bg-[#5A4830]/8" />
+                  <p className="text-sm text-[#2A1E14]/55" style={{ fontFamily: "var(--font-cormorant)" }}>{f.parents}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
+        {/* ── LOVE STORY — page-by-page journal (UNIQUE — not tap-reveal or step-nav) ── */}
+        <section className="px-6 py-24">
           <div className="mx-auto max-w-md">
-            {/* Letter paper */}
-            <motion.div initial={{ opacity: 0, y: 15, rotate: -1 }} whileInView={{ opacity: 1, y: 0, rotate: -1 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-              className="rounded-lg border border-[#B8A888]/25 bg-[#EDE4D0]/60 p-8 shadow-[0_4px_20px_rgba(80,60,30,0.06)]"
-              style={{ transform: "rotate(-1deg)" }}
-            >
+            <div className="mb-6 text-center">
               <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Our Story</p>
-              <div className="mt-2 h-px w-10 bg-[#5A4830]/12" />
-              <p className="mt-6 text-base leading-[2.4] text-[#3A2818]/45" style={{ fontFamily: "var(--font-cormorant)" }}>
-                Dear friends and family, we met on a quiet autumn evening at a
-                little bookshop on the corner of Maple Street. What started as a
-                shared love for old stories turned into a love story of our own.
-                Three years, countless sunsets, and one unforgettable question later —
-                here we are, ready to write our next chapter.
-              </p>
-              <p className="mt-6 text-right text-sm italic text-[#5A4830]/35" style={{ fontFamily: "var(--font-dancing-script)" }}>
-                With love, Rohan & Aisha
-              </p>
-            </motion.div>
-          </div>
-        </motion.section>
-
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  EVENTS — paper tag style, vertical                       */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative px-6 py-20">
-          <div className="mx-auto max-w-lg">
-            <div className="mb-14 text-center">
-              <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>The Celebrations</p>
-              <VintageDivider />
-              <h2 className="mt-2 text-3xl text-[#2A1E14]" style={{ fontFamily: "var(--font-dancing-script)" }}>Wedding Events</h2>
+              <VDivider />
             </div>
 
-            <div className="space-y-6">
-              {EVENTS.map((event, i) => (
-                <motion.div
-                  key={event.name}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -15 : 15 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.5 }}
-                  className="relative overflow-hidden rounded-lg border border-[#B8A888]/20 bg-[#EDE4D0]/50 p-5 shadow-[0_2px_10px_rgba(80,60,30,0.04)]"
-                  style={{ transform: `rotate(${i % 2 === 0 ? "-0.5" : "0.5"}deg)` }}
-                >
-                  {/* Torn edge hint — top */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-[#B8A888]/15 via-[#B8A888]/25 to-[#B8A888]/15" />
+            {/* Journal page */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={storyPage}
+                initial={{ opacity: 0, rotateY: 30 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: -30 }}
+                transition={{ duration: 0.4 }}
+                className="rounded-lg border border-[#B8A888]/20 bg-[#EDE4D0]/60 p-8"
+                style={{ transform: `rotate(${storyPage % 2 === 0 ? "-0.5" : "0.5"}deg)` }}
+              >
+                <p className="text-[9px] font-bold text-[#5A4830]/40" style={{ fontFamily: "var(--font-montserrat)" }}>
+                  Page {storyPage + 1} of {STORY_PAGES.length} · {STORY_PAGES[storyPage]!.year}
+                </p>
+                <div className="my-3 h-px bg-[#5A4830]/8" />
+                <h3 className="text-xl text-[#2A1E14]/65" style={{ fontFamily: "var(--font-dancing-script)" }}>{STORY_PAGES[storyPage]!.title}</h3>
+                <p className="mt-3 text-sm leading-[2] text-[#3A2818]/50" style={{ fontFamily: "var(--font-cormorant)" }}>{STORY_PAGES[storyPage]!.text}</p>
+                {/* Handwritten signature on last page */}
+                {storyPage === STORY_PAGES.length - 1 && (
+                  <p className="mt-4 text-right text-sm italic text-[#5A4830]/35" style={{ fontFamily: "var(--font-dancing-script)" }}>With love, R & A</p>
+                )}
+              </motion.div>
+            </AnimatePresence>
 
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-xl text-[#2A1E14]" style={{ fontFamily: "var(--font-dancing-script)" }}>{event.name}</h3>
-                      <p className="mt-1 text-[10px] italic text-[#5A4830]/40" style={{ fontFamily: "var(--font-cormorant)" }}>{event.motif}</p>
-                    </div>
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#5A4830]/10 bg-[#5A4830]/[0.04]">
-                      <span className="text-[9px] font-semibold text-[#5A4830]/40" style={{ fontFamily: "var(--font-cinzel)" }}>{i + 1}</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 h-px bg-gradient-to-r from-[#5A4830]/8 to-transparent" />
-
-                  <div className="mt-3 flex flex-wrap gap-4 text-[11px] text-[#3A2818]/40">
-                    <span className="flex items-center gap-1.5"><Calendar className="h-3 w-3 text-[#5A4830]/30" />{event.date}</span>
-                    <span className="flex items-center gap-1.5"><Clock className="h-3 w-3 text-[#5A4830]/30" />{event.time}</span>
-                    <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3 text-[#5A4830]/30" />{event.venue}</span>
-                  </div>
-                </motion.div>
-              ))}
+            {/* Page turn buttons — book-style */}
+            <div className="mt-4 flex items-center justify-between">
+              <button onClick={() => setStoryPage(Math.max(0, storyPage - 1))}
+                className={`text-[9px] uppercase tracking-[0.12em] text-[#5A4830]/40 transition-opacity ${storyPage === 0 ? "opacity-0" : "hover:text-[#5A4830]/60"}`}
+                style={{ fontFamily: "var(--font-montserrat)" }}>← Prev Page</button>
+              {/* Page dots */}
+              <div className="flex gap-1.5">
+                {STORY_PAGES.map((_, i) => (
+                  <button key={i} onClick={() => setStoryPage(i)}
+                    className={`h-1.5 rounded-full transition-all ${i === storyPage ? "w-4 bg-[#5A4830]/35" : "w-1.5 bg-[#5A4830]/12"}`} />
+                ))}
+              </div>
+              <button onClick={() => setStoryPage(Math.min(STORY_PAGES.length - 1, storyPage + 1))}
+                className={`text-[9px] uppercase tracking-[0.12em] text-[#5A4830]/40 transition-opacity ${storyPage === STORY_PAGES.length - 1 ? "opacity-0" : "hover:text-[#5A4830]/60"}`}
+                style={{ fontFamily: "var(--font-montserrat)" }}>Next Page →</button>
             </div>
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  MEMORIES — polaroid style                                */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <motion.section className="relative px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
-          <div className="mx-auto max-w-2xl">
-            <div className="mb-14 text-center">
-              <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Captured Moments</p>
-              <VintageDivider />
-              <h2 className="mt-2 text-3xl text-[#2A1E14]" style={{ fontFamily: "var(--font-dancing-script)" }}>Our Memories</h2>
+        {/* ── EVENTS — sealed cards, tap to unseal (UNIQUE — not accordion, not tabs) ── */}
+        <section className="px-6 py-24">
+          <div className="mx-auto max-w-lg">
+            <div className="mb-10 text-center">
+              <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>The Celebrations</p>
+              <VDivider />
+              <h2 className="mt-2 text-2xl text-[#2A1E14]/65" style={{ fontFamily: "var(--font-dancing-script)" }}>Wedding Events</h2>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-5">
-              {[
-                { label: "First Date", rotate: "-3deg", scene: (
-                  <svg viewBox="0 0 96 112" className="h-full w-full" fill="none">
-                    <rect width="96" height="112" rx="2" fill="#C8B898" fillOpacity="0.4" />
-                    {/* Coffee cups */}
-                    <rect x="25" y="60" width="18" height="20" rx="3" fill="#8B6040" fillOpacity="0.25" />
-                    <path d="M43 68 Q48 68 48 74 Q48 80 43 80" stroke="#8B6040" strokeWidth="0.8" strokeOpacity="0.15" />
-                    <rect x="53" y="62" width="18" height="18" rx="3" fill="#8B6040" fillOpacity="0.20" />
-                    <path d="M71 69 Q76 69 76 74 Q76 79 71 79" stroke="#8B6040" strokeWidth="0.8" strokeOpacity="0.12" />
-                    {/* Steam */}
-                    <path d="M34 56 Q36 50 34 44" stroke="#8B6040" strokeWidth="0.5" strokeOpacity="0.10" />
-                    <path d="M62 58 Q64 52 62 46" stroke="#8B6040" strokeWidth="0.5" strokeOpacity="0.08" />
-                    {/* Table */}
-                    <line x1="10" y1="82" x2="86" y2="82" stroke="#8B6040" strokeWidth="0.5" strokeOpacity="0.12" />
-                    {/* Book */}
-                    <rect x="30" y="86" width="20" height="14" rx="1" fill="#A08060" fillOpacity="0.15" />
-                    <line x1="40" y1="86" x2="40" y2="100" stroke="#8B6040" strokeWidth="0.3" strokeOpacity="0.10" />
-                  </svg>
-                )},
-                { label: "The Proposal", rotate: "2deg", scene: (
-                  <svg viewBox="0 0 96 112" className="h-full w-full" fill="none">
-                    <rect width="96" height="112" rx="2" fill="#C8B898" fillOpacity="0.4" />
-                    {/* Ring box */}
-                    <rect x="30" y="50" width="36" height="28" rx="3" fill="#5A4830" fillOpacity="0.20" />
-                    <rect x="33" y="53" width="30" height="22" rx="2" fill="#8B6040" fillOpacity="0.12" />
-                    {/* Ring */}
-                    <circle cx="48" cy="62" r="6" stroke="#D4AF37" strokeWidth="1.2" strokeOpacity="0.35" fill="none" />
-                    <circle cx="48" cy="57" r="2" fill="#D4AF37" fillOpacity="0.30" />
-                    {/* Stars */}
-                    <circle cx="25" cy="30" r="1" fill="#D4AF37" fillOpacity="0.20" />
-                    <circle cx="70" cy="25" r="1" fill="#D4AF37" fillOpacity="0.15" />
-                    <circle cx="48" cy="20" r="1.5" fill="#D4AF37" fillOpacity="0.18" />
-                    {/* Ground */}
-                    <line x1="15" y1="85" x2="80" y2="85" stroke="#8B6040" strokeWidth="0.4" strokeOpacity="0.10" />
-                  </svg>
-                )},
-                { label: "Together", rotate: "-1deg", scene: (
-                  <svg viewBox="0 0 96 112" className="h-full w-full" fill="none">
-                    <rect width="96" height="112" rx="2" fill="#C8B898" fillOpacity="0.4" />
-                    {/* Two silhouettes walking */}
-                    <circle cx="38" cy="40" r="6" fill="#5A4830" fillOpacity="0.25" />
-                    <path d="M30 85 L33 55 Q33 48 38 48 Q43 48 43 55 L46 85" fill="#5A4830" fillOpacity="0.20" />
-                    <circle cx="55" cy="40" r="6" fill="#5A4830" fillOpacity="0.22" />
-                    <path d="M47 85 L50 53 Q50 48 55 48 Q60 48 60 53 L66 85 Q55 80 47 85Z" fill="#5A4830" fillOpacity="0.18" />
-                    {/* Held hands */}
-                    <path d="M43 60 L50 60" stroke="#5A4830" strokeWidth="0.8" strokeOpacity="0.15" />
-                    {/* Trees/path */}
-                    <path d="M10 88 Q48 82 86 88" stroke="#7A8A60" strokeWidth="0.5" strokeOpacity="0.12" />
-                    <path d="M15 75 Q12 65 18 60" stroke="#7A8A60" strokeWidth="0.5" strokeOpacity="0.10" />
-                    <circle cx="15" cy="58" r="5" fill="#7A8A60" fillOpacity="0.10" />
-                    <path d="M78 75 Q82 65 76 60" stroke="#7A8A60" strokeWidth="0.5" strokeOpacity="0.10" />
-                    <circle cx="79" cy="58" r="5" fill="#7A8A60" fillOpacity="0.10" />
-                  </svg>
-                )},
-              ].map((photo, i) => (
-                <motion.div
-                  key={photo.label}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.15 }}
-                  className="rounded-sm bg-[#F0E8D4] p-2.5 shadow-[0_3px_12px_rgba(60,40,20,0.10)]"
-                  style={{ transform: `rotate(${photo.rotate})` }}
-                >
-                  <div className="h-28 w-24 overflow-hidden rounded-sm">{photo.scene}</div>
-                  <p className="mt-2 text-center text-[9px] text-[#5A4830]/50" style={{ fontFamily: "var(--font-dancing-script)" }}>{photo.label}</p>
-                </motion.div>
-              ))}
+            <div className="space-y-4">
+              {EVENTS.map((ev, i) => {
+                const isRevealed = revealedEvents.has(i);
+                return (
+                  <motion.div key={ev.name} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+                    {!isRevealed ? (
+                      /* Sealed card — tap to reveal */
+                      <motion.button onClick={() => revealEvent(i)} className="group w-full rounded-lg border border-[#B8A888]/15 bg-[#EDE4D0]/40 p-5 text-center transition-all hover:border-[#B8A888]/25 hover:shadow-sm"
+                        whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} style={{ transform: `rotate(${i % 2 === 0 ? "-0.3" : "0.3"}deg)` }}>
+                        <div className="flex items-center justify-center gap-3">
+                          <div className="h-6 w-6 rounded-full bg-[#8B4040]/12" />
+                          <p className="text-sm text-[#5A4830]/50" style={{ fontFamily: "var(--font-dancing-script)" }}>{ev.name}</p>
+                          <p className="text-[8px] text-[#5A4830]/25" style={{ fontFamily: "var(--font-montserrat)" }}>tap to unseal</p>
+                        </div>
+                      </motion.button>
+                    ) : (
+                      /* Revealed card */
+                      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}
+                        className="rounded-lg border border-[#B8A888]/20 bg-[#EDE4D0]/50 p-5" style={{ transform: `rotate(${i % 2 === 0 ? "-0.5" : "0.5"}deg)` }}>
+                        <h3 className="text-lg text-[#2A1E14]/65" style={{ fontFamily: "var(--font-dancing-script)" }}>{ev.name}</h3>
+                        <p className="mt-1 text-[10px] italic text-[#5A4830]/40" style={{ fontFamily: "var(--font-cormorant)" }}>{ev.note}</p>
+                        <div className="mt-3 h-px bg-[#5A4830]/6" />
+                        <div className="mt-3 flex flex-wrap gap-4 text-[11px] text-[#3A2818]/45">
+                          <span className="flex items-center gap-1.5"><Calendar className="h-3 w-3 text-[#5A4830]/30" />{ev.date}</span>
+                          <span className="flex items-center gap-1.5"><Clock className="h-3 w-3 text-[#5A4830]/30" />{ev.time}</span>
+                          <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3 text-[#5A4830]/30" />{ev.venue}</span>
+                        </div>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
-        </motion.section>
+        </section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  SPECIAL ELEMENTS                                          */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <motion.section className="relative px-6 py-20" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+        {/* ── DRESS CODE ── */}
+        <motion.section className="px-6 py-20" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
           <div className="mx-auto max-w-md text-center">
-            <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Details</p>
-            <VintageDivider />
-            <h2 className="mt-2 text-3xl text-[#2A1E14]" style={{ fontFamily: "var(--font-dancing-script)" }}>The Little Things</h2>
+            <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>What to Wear</p>
+            <VDivider />
+            <h2 className="mt-2 text-xl text-[#2A1E14]/60" style={{ fontFamily: "var(--font-dancing-script)" }}>Vintage Garden Attire</h2>
+            <p className="mt-4 text-sm text-[#3A2818]/40" style={{ fontFamily: "var(--font-cormorant)" }}>Earthy tones · Florals · Smart casuals · Comfortable shoes for the garden</p>
+          </div>
+        </motion.section>
 
-            <div className="mt-10 grid grid-cols-2 gap-4">
+        {/* ── TRAVEL ── */}
+        <motion.section className="px-6 py-20" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+          <div className="mx-auto max-w-md">
+            <div className="text-center">
+              <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Getting There</p>
+              <VDivider />
+            </div>
+            <div className="mt-8 space-y-3">
               {[
-                { label: "Vintage Décor", desc: "Garden roses & fairy lights" },
-                { label: "Live Music", desc: "Acoustic & gramophone" },
-                { label: "Wine & Dine", desc: "Curated vintage menu" },
-                { label: "Photo Booth", desc: "Polaroid memories" },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="rounded-lg border border-[#B8A888]/15 bg-[#E5DCC8]/40 p-4"
-                >
-                  <p className="text-xs font-medium text-[#2A1E14]/55" style={{ fontFamily: "var(--font-montserrat)" }}>{item.label}</p>
-                  <p className="mt-0.5 text-[10px] italic text-[#5A4830]/40" style={{ fontFamily: "var(--font-cormorant)" }}>{item.desc}</p>
+                { title: "From Airport", desc: "45 minutes from the city airport", icon: "M2 16 L10 12 L10 6 Q10 2 12 2 Q14 2 14 6 L14 12 L22 16 L22 18 L14 15 L14 18 L16 20 L16 22 L12 20 L8 22 L8 20 L10 18 L10 15 L2 18Z" },
+                { title: "Accommodation", desc: "The Garden Inn — special guest rates", icon: "M3 20 L3 10 L12 4 L21 10 L21 20 M8 20 L8 14 L16 14 L16 20" },
+              ].map((t, i) => (
+                <motion.div key={t.title} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                  className="flex items-start gap-3 rounded-lg border border-[#B8A888]/12 bg-[#EDE4D0]/40 p-4 text-left">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#5A4830]/10 bg-[#5A4830]/[0.04]">
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="#5A4830" strokeWidth="1.2" strokeOpacity="0.45" strokeLinecap="round"><path d={t.icon} /></svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[#2A1E14]/55" style={{ fontFamily: "var(--font-playfair)" }}>{t.title}</p>
+                    <p className="mt-0.5 text-xs text-[#5A4830]/40" style={{ fontFamily: "var(--font-cormorant)" }}>{t.desc}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  VENUE                                                     */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <motion.section className="relative px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+        {/* ── VENUE ── */}
+        <motion.section className="px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
           <div className="mx-auto max-w-md text-center">
             <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>The Venue</p>
-            <VintageDivider />
-            <h2 className="mt-2 text-3xl text-[#2A1E14]" style={{ fontFamily: "var(--font-dancing-script)" }}>Heritage Garden Estate</h2>
-            <p className="mt-6 text-base leading-relaxed text-[#3A2818]/40" style={{ fontFamily: "var(--font-cormorant)" }}>
-              A century-old estate wrapped in ivy and memories — where every corner
-              tells a story and every garden path leads to something beautiful.
+            <VDivider />
+            <h2 className="mt-2 text-2xl text-[#2A1E14]/60" style={{ fontFamily: "var(--font-dancing-script)" }}>Heritage Garden Estate</h2>
+            <p className="mt-5 text-base leading-relaxed text-[#3A2818]/45" style={{ fontFamily: "var(--font-cormorant)" }}>
+              A century-old estate wrapped in ivy and memories.
             </p>
-            <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#B8A888]/20 bg-[#E5DCC8]/40 px-5 py-2">
-              <MapPin className="h-3.5 w-3.5 text-[#5A4830]/40" />
-              <span className="text-xs text-[#3A2818]/40" style={{ fontFamily: "var(--font-montserrat)" }}>Heritage Lane, Garden District</span>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#B8A888]/15 bg-[#EDE4D0]/40 px-5 py-2">
+              <MapPin className="h-3.5 w-3.5 text-[#5A4830]/35" /><span className="text-xs text-[#3A2818]/40">Heritage Lane, Garden District</span>
             </div>
           </div>
         </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  RSVP                                                      */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <motion.section className="relative px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
-          <div className="mx-auto max-w-sm text-center">
-            <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>We await your presence</p>
-            <VintageDivider />
-            <h2 className="mt-2 text-3xl text-[#2A1E14]" style={{ fontFamily: "var(--font-dancing-script)" }}>Will you join us?</h2>
-            <p className="mt-4 text-sm text-[#3A2818]/40" style={{ fontFamily: "var(--font-cormorant)" }}>
-              Your presence would be the greatest gift.
-            </p>
-            <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="mt-8">
-              <Button size="lg" className="gap-2 bg-[#5A4830] px-10 text-base text-[#EDE4D0] hover:bg-[#5A5035]">
-                <Heart className="h-4 w-4" /> RSVP
-              </Button>
-            </motion.div>
-          </div>
-        </motion.section>
+        {/* ── GALLERY — tap to open book of memories (UNIQUE) ── */}
+        <section className="px-6 py-24">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Captured Moments</p>
+            <VDivider />
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  CLOSING — thank you card                                  */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="px-6 pb-16 pt-8">
-          <div className="mx-auto max-w-xs text-center">
-            <div className="rounded-lg border border-[#B8A888]/20 bg-[#EDE4D0]/50 px-6 py-8">
-              <p className="text-xs italic text-[#5A4830]/35" style={{ fontFamily: "var(--font-cormorant)" }}>Thank you for being part of our story</p>
-              <h3 className="mt-3 text-2xl text-[#2A1E14]" style={{ fontFamily: "var(--font-dancing-script)" }}>Rohan & Aisha</h3>
-              <p className="mt-1 text-[9px] text-[#5A4830]/30" style={{ fontFamily: "var(--font-montserrat)" }}>November 20, 2026</p>
-            </div>
-            <p className="mt-6 text-[9px] text-[#5A4830]/18" style={{ fontFamily: "var(--font-montserrat)" }}>{platform.watermarkText}</p>
+            {!isGalleryOpen ? (
+              <motion.button onClick={() => setIsGalleryOpen(true)} className="group mx-auto mt-6 flex flex-col items-center gap-3"
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-[#5A4830]/10 bg-[#EDE4D0]/50 transition-all group-hover:bg-[#EDE4D0]/70">
+                  <BookOpen className="h-5 w-5 text-[#5A4830]/40" />
+                </div>
+                <p className="text-[9px] uppercase tracking-[0.3em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Open Photo Album</p>
+              </motion.button>
+            ) : (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mx-auto mt-6 grid max-w-sm grid-cols-2 gap-2.5">
+                {GALLERY.map((p, i) => (
+                  <motion.button key={p.label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.1 }}
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => setSelectedPhoto(i)}
+                    className="group relative overflow-hidden rounded-lg border border-[#B8A888]/10 shadow-sm transition-shadow hover:shadow-md">
+                    <div className="relative aspect-square">
+                      <Image src={p.src} alt={p.label} fill className="object-cover brightness-[0.95] sepia-[0.15] transition-transform duration-500 group-hover:scale-105" sizes="180px" />
+                    </div>
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#2A1E14]/50 to-transparent p-2 pt-6">
+                      <p className="text-[10px] text-[#F0E8D8]/80" style={{ fontFamily: "var(--font-dancing-script)" }}>{p.label}</p>
+                    </div>
+                  </motion.button>
+                ))}
+              </motion.div>
+            )}
           </div>
         </section>
 
-        {/* Back */}
-        <Link href="/templates/whispered-vows" className="fixed top-5 left-5 z-[101] flex items-center gap-1.5 rounded-full border border-[#B8A888]/25 bg-[#E5DCC8]/70 px-4 py-2 text-xs font-medium text-[#3A2818]/55 shadow-sm backdrop-blur-md transition-all hover:bg-[#E5DCC8] hover:text-[#2A1E14]">
+        {/* Lightbox */}
+        <AnimatePresence>
+          {selectedPhoto !== null && (
+            <motion.div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#2A1E14]/60 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedPhoto(null)}>
+              <motion.div className="relative mx-6 max-w-lg overflow-hidden rounded-xl shadow-2xl" initial={{ scale: 0.85 }} animate={{ scale: 1 }} exit={{ scale: 0.85 }} onClick={e => e.stopPropagation()}>
+                <div className="relative aspect-[4/3]"><Image src={GALLERY[selectedPhoto]!.src} alt={GALLERY[selectedPhoto]!.label} fill className="object-cover" sizes="500px" /></div>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#2A1E14]/50 to-transparent p-4 pt-10">
+                  <p className="text-lg text-white/90" style={{ fontFamily: "var(--font-dancing-script)" }}>{GALLERY[selectedPhoto]!.label}</p>
+                </div>
+                <button onClick={() => setSelectedPhoto(null)} className="absolute top-3 right-3 flex h-7 w-7 items-center justify-center rounded-full bg-[#EDE4D0]/50 text-[#2A1E14]/50 backdrop-blur-sm hover:bg-[#EDE4D0]/80">✕</button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── RSVP ── */}
+        <motion.section className="px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+          <div className="mx-auto max-w-sm text-center">
+            <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>We await you</p>
+            <VDivider />
+            <h2 className="mt-2 text-2xl text-[#2A1E14]/55" style={{ fontFamily: "var(--font-dancing-script)" }}>Will you join us?</h2>
+            <div className="mt-8">
+              <Button size="lg" className="gap-2 bg-[#5A4830] px-10 text-base text-[#EDE4D0] hover:bg-[#4A3820]"><Heart className="h-4 w-4" /> RSVP</Button>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* ── CLOSING ── */}
+        <motion.section className="px-6 py-20" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1 }}>
+          <div className="mx-auto max-w-xs text-center">
+            <div className="rounded-lg border border-[#B8A888]/15 bg-[#EDE4D0]/50 px-6 py-8">
+              <p className="text-xs italic text-[#5A4830]/40" style={{ fontFamily: "var(--font-cormorant)" }}>Thank you for being part of our story</p>
+              <h3 className="mt-3 text-2xl text-[#2A1E14]/60" style={{ fontFamily: "var(--font-dancing-script)" }}>Rohan & Aisha</h3>
+              <p className="mt-1 text-[9px] text-[#5A4830]/30" style={{ fontFamily: "var(--font-montserrat)" }}>November 20, 2026</p>
+            </div>
+            <p className="mt-6 text-[9px] text-[#5A4830]/18">{platform.watermarkText}</p>
+          </div>
+        </motion.section>
+
+        {/* Nav */}
+        <Link href="/templates/whispered-vows" className="fixed top-5 left-5 z-[101] flex items-center gap-1.5 rounded-full border border-[#B8A888]/15 bg-[#E5DCC8]/60 px-4 py-2 text-xs font-medium text-[#3A2818]/50 shadow-sm backdrop-blur-md hover:bg-[#E5DCC8]">
           <ArrowLeft className="h-3.5 w-3.5" /> Back
         </Link>
+        <button onClick={toggleMusic} className="fixed top-5 right-5 z-[101] flex h-9 w-9 items-center justify-center rounded-full border border-[#B8A888]/12 bg-[#E5DCC8]/60 shadow-sm backdrop-blur-md hover:bg-[#E5DCC8]">
+          {isMusicPlaying ? <Volume2 className="h-4 w-4 text-[#5A4830]/50" /> : <VolumeX className="h-4 w-4 text-[#5A4830]/30" />}
+        </button>
       </div>
     </>
   );
