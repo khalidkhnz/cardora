@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useInView } from "framer-motion";
-import { ArrowLeft, MapPin, Calendar, Clock, Heart, Volume2, VolumeX } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowLeft, MapPin, Calendar, Clock, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { platform } from "@/lib/platform";
 
@@ -27,8 +27,8 @@ const INJECTED_CSS = `
   100% { background-position: 200% center; }
 }
 @keyframes maharani-glow-pulse {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.05); }
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
 }
 @keyframes maharani-elephant-walk {
   0%, 100% { transform: translateX(0); }
@@ -39,17 +39,17 @@ const INJECTED_CSS = `
   50% { opacity: 1; transform: scale(1); }
 }
 .maharani-shimmer-text {
-  background: linear-gradient(90deg, #D4AF37 0%, #FFE8A0 25%, #D4AF37 50%, #FFE8A0 75%, #D4AF37 100%);
+  background: linear-gradient(90deg, #9A7A1A 0%, #C8A830 30%, #9A7A1A 50%, #C8A830 70%, #9A7A1A 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: maharani-shimmer 4s linear infinite;
+  animation: maharani-shimmer 12s linear infinite;
 }
 .maharani-shimmer-line {
-  background: linear-gradient(90deg, transparent 0%, #D4AF37 30%, #FFE8A0 50%, #D4AF37 70%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #9A7A1A 30%, #C8A830 50%, #9A7A1A 70%, transparent 100%);
   background-size: 200% 100%;
-  animation: maharani-shimmer 3s ease-in-out infinite;
+  animation: maharani-shimmer 10s ease-in-out infinite;
 }
 `;
 
@@ -311,7 +311,7 @@ function GoldDivider() {
   return (
     <div className="flex items-center justify-center gap-3 py-1">
       <div className="maharani-shimmer-line h-px w-14" />
-      <span className="text-[10px] text-[#D4AF37]/40" style={{ animation: "maharani-glow-pulse 3s ease-in-out infinite" }}>✦</span>
+      <span className="text-[10px] text-[#B8960A]/55" style={{ animation: "maharani-glow-pulse 3s ease-in-out infinite" }}>✦</span>
       <div className="maharani-shimmer-line h-px w-14" />
     </div>
   );
@@ -320,7 +320,7 @@ function GoldDivider() {
 function SectionHeading({ label, title }: { label: string; title: string }) {
   return (
     <div className="mb-12 text-center">
-      <p className="text-[9px] font-medium uppercase tracking-[0.4em] text-[#D4AF37]/50" style={{ fontFamily: "var(--font-cinzel)" }}>{label}</p>
+      <p className="text-[9px] font-medium uppercase tracking-[0.4em] text-[#B8960A]/65" style={{ fontFamily: "var(--font-cinzel)" }}>{label}</p>
       <GoldDivider />
       <h2 className="maharani-shimmer-text mt-3 inline-block text-3xl md:text-4xl" style={{ fontFamily: "var(--font-great-vibes)" }}>{title}</h2>
     </div>
@@ -473,7 +473,7 @@ export function MaharaniExperience() {
             transition={{ duration: 0.8, delay: 0.6 }}
             style={{ opacity: heroOpacity }}
           >
-            <p className="text-[9px] font-medium uppercase tracking-[0.5em] text-[#8B6040]/50 md:text-[10px]" style={{ fontFamily: "var(--font-cinzel)" }}>
+            <p className="text-[9px] font-medium uppercase tracking-[0.5em] text-[#6B4A28]/70 md:text-[10px]" style={{ fontFamily: "var(--font-cinzel)" }}>
               A Royal Celebration of Love
             </p>
             <GoldDivider />
@@ -482,17 +482,17 @@ export function MaharaniExperience() {
             </h1>
             <div className="mt-3 flex items-center gap-3">
               <div className="maharani-shimmer-line h-px w-16" />
-              <p className="text-xs tracking-[0.15em] text-[#8B6040]/55" style={{ fontFamily: "var(--font-cormorant)" }}>June 15, 2026</p>
+              <p className="text-xs tracking-[0.15em] text-[#6B4A28]/75" style={{ fontFamily: "var(--font-cormorant)" }}>June 15, 2026</p>
               <div className="maharani-shimmer-line h-px w-16" />
             </div>
-            <p className="mt-1.5 text-[9px] tracking-[0.1em] text-[#8B6040]/35" style={{ fontFamily: "var(--font-montserrat)" }}>
+            <p className="mt-1.5 text-[9px] tracking-[0.1em] text-[#6B4A28]/50" style={{ fontFamily: "var(--font-montserrat)" }}>
               The Royal Palace · Jaipur, Rajasthan
             </p>
           </motion.div>
 
           {/* Scroll hint */}
           <motion.div className="absolute bottom-6" animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
-            <div className="flex flex-col items-center gap-1 text-[#8B6040]/25">
+            <div className="flex flex-col items-center gap-1 text-[#6B4A28]/40">
               <p className="text-[7px] uppercase tracking-[0.2em]" style={{ fontFamily: "var(--font-montserrat)" }}>Scroll</p>
               <div className="h-5 w-px bg-gradient-to-b from-[#8B6040]/20 to-transparent" />
             </div>
@@ -506,13 +506,13 @@ export function MaharaniExperience() {
           <div className="mx-auto max-w-2xl text-center">
             <SectionHeading label="Our Story" title="Written in the Stars" />
             <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.6 }}
-              className="text-base leading-[2] text-[#5A3A28]/55 md:text-lg" style={{ fontFamily: "var(--font-cormorant)" }}>
+              className="text-base leading-[2] text-[#3A2418]/65 md:text-lg" style={{ fontFamily: "var(--font-cormorant)" }}>
               We met at a coffee shop on a rainy afternoon. What started as a conversation
               over chai turned into a lifetime of love. Three years later, here we are —
               ready to begin our forever together.
             </motion.p>
             <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.4, type: "spring" }}>
-              <Heart className="mx-auto mt-8 h-5 w-5 text-[#D4AF37]/30" style={{ animation: "maharani-glow-pulse 2.5s ease-in-out infinite" }} />
+              <Heart className="mx-auto mt-8 h-5 w-5 text-[#B8960A]/42" style={{ animation: "maharani-glow-pulse 2.5s ease-in-out infinite" }} />
             </motion.div>
           </div>
         </ParallaxSection>
@@ -570,7 +570,7 @@ export function MaharaniExperience() {
                 className={`w-full md:w-3/5 ${i % 2 === 1 ? "md:text-right" : ""} max-md:text-center`}
               >
                 {/* Tag */}
-                <span className="inline-block rounded-full border border-[#D4AF37]/10 bg-[#D4AF37]/[0.04] px-4 py-1 text-[8px] font-semibold uppercase tracking-[0.15em] text-[#8B6040]/55" style={{ fontFamily: "var(--font-montserrat)" }}>
+                <span className="inline-block rounded-full border border-[#D4AF37]/10 bg-[#D4AF37]/[0.04] px-4 py-1 text-[8px] font-semibold uppercase tracking-[0.15em] text-[#6B4A28]/75" style={{ fontFamily: "var(--font-montserrat)" }}>
                   {event.name}
                 </span>
 
@@ -578,7 +578,7 @@ export function MaharaniExperience() {
                 <h3 className="mt-4 text-3xl text-[#3A1A10] md:text-4xl" style={{ fontFamily: "var(--font-great-vibes)" }}>{event.name}</h3>
 
                 {/* Motif */}
-                <p className="mt-2 text-sm italic text-[#8B6040]/50" style={{ fontFamily: "var(--font-cormorant)" }}>{event.motif}</p>
+                <p className="mt-2 text-sm italic text-[#6B4A28]/70" style={{ fontFamily: "var(--font-cormorant)" }}>{event.motif}</p>
 
                 {/* Gold divider */}
                 <div className={`my-5 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/15 to-transparent ${i % 2 === 1 ? "md:ml-auto md:w-48" : "md:w-48"}`} />
@@ -586,16 +586,16 @@ export function MaharaniExperience() {
                 {/* Details */}
                 <div className={`space-y-2.5 ${i % 2 === 1 ? "md:ml-auto" : ""}`}>
                   <div className={`flex items-center gap-3 ${i % 2 === 1 ? "md:justify-end" : ""} max-md:justify-center`}>
-                    <Calendar className="h-4 w-4 text-[#D4AF37]/45" />
-                    <span className="text-sm text-[#3A1A10]/55" style={{ fontFamily: "var(--font-montserrat)" }}>{event.date}</span>
+                    <Calendar className="h-4 w-4 text-[#9A7A0A]/65" />
+                    <span className="text-sm text-[#2A1208]/78" style={{ fontFamily: "var(--font-montserrat)" }}>{event.date}</span>
                   </div>
                   <div className={`flex items-center gap-3 ${i % 2 === 1 ? "md:justify-end" : ""} max-md:justify-center`}>
-                    <Clock className="h-4 w-4 text-[#D4AF37]/45" />
-                    <span className="text-sm text-[#3A1A10]/45" style={{ fontFamily: "var(--font-montserrat)" }}>{event.time}</span>
+                    <Clock className="h-4 w-4 text-[#9A7A0A]/65" />
+                    <span className="text-sm text-[#2A1208]/68" style={{ fontFamily: "var(--font-montserrat)" }}>{event.time}</span>
                   </div>
                   <div className={`flex items-center gap-3 ${i % 2 === 1 ? "md:justify-end" : ""} max-md:justify-center`}>
-                    <MapPin className="h-4 w-4 text-[#D4AF37]/45" />
-                    <span className="text-sm text-[#3A1A10]/40" style={{ fontFamily: "var(--font-montserrat)" }}>{event.venue}</span>
+                    <MapPin className="h-4 w-4 text-[#9A7A0A]/65" />
+                    <span className="text-sm text-[#2A1208]/60" style={{ fontFamily: "var(--font-montserrat)" }}>{event.venue}</span>
                   </div>
                 </div>
               </motion.div>
@@ -668,7 +668,7 @@ export function MaharaniExperience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="text-base leading-[2] text-[#5A3A28]/50"
+              className="text-base leading-[2] text-[#3A2418]/60"
               style={{ fontFamily: "var(--font-cormorant)" }}
             >
               From the sound of shehnai to the shower of petals, from the warmth
@@ -696,8 +696,8 @@ export function MaharaniExperience() {
                       <path d={m.iconPath} fill={i === 2 ? "#D4AF37" : "none"} fillOpacity={i === 2 ? "0.15" : "0"} />
                     </svg>
                   </div>
-                  <p className="text-xs font-semibold text-[#3A1A10]/60" style={{ fontFamily: "var(--font-montserrat)" }}>{m.label}</p>
-                  <p className="mt-0.5 text-[10px] text-[#8B6040]/40" style={{ fontFamily: "var(--font-cormorant)" }}>{m.detail}</p>
+                  <p className="text-xs font-semibold text-[#2A1208]/72" style={{ fontFamily: "var(--font-montserrat)" }}>{m.label}</p>
+                  <p className="mt-0.5 text-[10px] text-[#6B4A28]/55" style={{ fontFamily: "var(--font-cormorant)" }}>{m.detail}</p>
                 </motion.div>
               ))}
             </div>
@@ -751,14 +751,14 @@ export function MaharaniExperience() {
           <div className="mx-auto max-w-2xl text-center">
             <SectionHeading label="The Venue" title="The Royal Palace" />
             <motion.p initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-              className="text-base leading-relaxed text-[#5A3A28]/50" style={{ fontFamily: "var(--font-cormorant)" }}>
+              className="text-base leading-relaxed text-[#3A2418]/60" style={{ fontFamily: "var(--font-cormorant)" }}>
               Nestled in the heart of Jaipur, our celebration unfolds within the majestic walls
               of a heritage palace — where every arch tells a story.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#D4AF37]/[0.08] px-6 py-2.5">
               <MapPin className="h-4 w-4 text-[#D4AF37]/60" />
-              <span className="text-sm text-[#5A3A28]/50" style={{ fontFamily: "var(--font-montserrat)" }}>Palace Road, Jaipur, Rajasthan</span>
+              <span className="text-sm text-[#3A2418]/60" style={{ fontFamily: "var(--font-montserrat)" }}>Palace Road, Jaipur, Rajasthan</span>
             </motion.div>
           </div>
         </ParallaxSection>
@@ -769,7 +769,7 @@ export function MaharaniExperience() {
         <motion.section className="relative px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
           <div className="mx-auto max-w-lg text-center">
             <SectionHeading label="We await your presence" title="Kindly Respond" />
-            <p className="text-base text-[#5A3A28]/45" style={{ fontFamily: "var(--font-cormorant)" }}>
+            <p className="text-base text-[#3A2418]/55" style={{ fontFamily: "var(--font-cormorant)" }}>
               Your presence would make our celebration truly complete.
             </p>
             <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="mt-8">
@@ -786,14 +786,14 @@ export function MaharaniExperience() {
         <section className="border-t border-[#D4AF37]/10 px-6 py-12">
           <div className="mx-auto max-w-2xl text-center">
             <h3 className="maharani-shimmer-text inline-block text-2xl" style={{ fontFamily: "var(--font-great-vibes)" }}>Aarav & Priya</h3>
-            <p className="mt-1 text-xs text-[#8B6040]/35" style={{ fontFamily: "var(--font-montserrat)" }}>June 15, 2026 · Jaipur, Rajasthan</p>
+            <p className="mt-1 text-xs text-[#6B4A28]/50" style={{ fontFamily: "var(--font-montserrat)" }}>June 15, 2026 · Jaipur, Rajasthan</p>
             <GoldDivider />
-            <p className="mt-3 text-[10px] text-[#8B6040]/20" style={{ fontFamily: "var(--font-montserrat)" }}>{platform.watermarkText}</p>
+            <p className="mt-3 text-[10px] text-[#6B4A28]/30" style={{ fontFamily: "var(--font-montserrat)" }}>{platform.watermarkText}</p>
           </div>
         </section>
 
         {/* Back button */}
-        <Link href="/templates/the-maharani" className="fixed top-5 left-5 z-[101] flex items-center gap-1.5 rounded-full bg-white/70 px-4 py-2 text-xs font-medium text-[#3A1A10]/60 shadow-sm backdrop-blur-md transition-all hover:bg-white/90 hover:text-[#3A1A10]">
+        <Link href="/templates/the-maharani" className="fixed top-5 left-5 z-[101] flex items-center gap-1.5 rounded-full bg-white/70 px-4 py-2 text-xs font-medium text-[#2A1208]/72 shadow-sm backdrop-blur-md transition-all hover:bg-white/90 hover:text-[#3A1A10]">
           <ArrowLeft className="h-3.5 w-3.5" /> Back
         </Link>
       </div>
