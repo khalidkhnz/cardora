@@ -75,9 +75,9 @@ const features = [
     title: "Analytics Dashboard",
     description:
       "Track profile views, QR scans, and NFC taps. Understand your audience with real-time insights.",
-    gradient: "from-[#1A1A1A] to-[#3D3D3D]",
-    bgGradient: "from-[#1A1A1A]/8 to-[#3D3D3D]/8",
-    iconColor: "text-[#1A1A1A]",
+    gradient: "from-[#8B7355] to-[#B8960A]",
+    bgGradient: "from-[#8B7355]/10 to-[#B8960A]/10",
+    iconColor: "text-[#8B7355]",
   },
   {
     icon: QrCode,
