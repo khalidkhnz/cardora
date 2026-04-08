@@ -13,6 +13,7 @@ const createOrderSchema = z.object({
     "invite_unlock",
     "animated_invite",
     "cart_checkout",
+    "template_purchase",
     "payment",
   ]),
   inviteId: z.string().optional(),

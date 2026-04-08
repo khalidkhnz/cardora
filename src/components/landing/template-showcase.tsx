@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { type Template, CATEGORIES, TEMPLATES } from "@/lib/template-data";
+import { BuyButtonSmall } from "@/components/landing/buy-flow";
 
 /* Data imported from @/lib/template-data */
 
@@ -395,16 +396,19 @@ function TemplateCard({ template, index }: { template: Template; index: number }
                 {template.category}
               </p>
             </div>
-            <div className="text-right">
-              <span
-                className="text-[13px] font-bold text-[#D4AF37]"
-                style={{ fontFamily: "var(--font-montserrat)" }}
-              >
-                {template.price}
-              </span>
-              {template.priceNote && (
-                <p className="text-[8px] text-muted-foreground">{template.priceNote}</p>
-              )}
+            <div className="flex items-center gap-2">
+              <div className="text-right">
+                <span
+                  className="text-[13px] font-bold text-[#D4AF37]"
+                  style={{ fontFamily: "var(--font-montserrat)" }}
+                >
+                  {template.price}
+                </span>
+                {template.priceNote && (
+                  <p className="text-[8px] text-muted-foreground">{template.priceNote}</p>
+                )}
+              </div>
+              <BuyButtonSmall template={template} />
             </div>
           </div>
         </div>

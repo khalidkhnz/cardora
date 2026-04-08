@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Home,
   LayoutDashboard,
   CreditCard,
   BarChart3,
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { NAV_ITEMS } from "@/lib/constants";
 
 const iconMap = {
+  Home,
   LayoutDashboard,
   CreditCard,
   BarChart3,
@@ -37,7 +39,7 @@ export function DashboardSidebar() {
         const Icon = iconMap[item.icon];
         const isActive =
           pathname === item.href ||
-          (item.href !== "/dashboard" && pathname.startsWith(item.href));
+          (item.href !== "/dashboard" && item.href !== "/" && pathname.startsWith(item.href));
 
         return (
           <Link

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/card";
 import { platform } from "@/lib/platform";
 
-export function LoginForm() {
+export function LoginForm({ callbackUrl }: { callbackUrl?: string } = {}) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +40,7 @@ export function LoginForm() {
       }
 
       toast.success("Logged in successfully");
-      router.push("/dashboard");
+      router.push(callbackUrl ?? "/dashboard");
       router.refresh();
     } catch {
       toast.error("Something went wrong");
@@ -95,7 +95,7 @@ export function LoginForm() {
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="font-medium text-primary hover:underline">
+          <Link href={callbackUrl ? `/signup?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/signup"} className="font-medium text-primary hover:underline">
             Sign up
           </Link>
         </p>

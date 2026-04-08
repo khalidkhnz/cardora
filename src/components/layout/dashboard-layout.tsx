@@ -50,7 +50,7 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
       {/* Desktop sidebar */}
       <aside className="hidden w-64 shrink-0 flex-col border-r bg-card lg:flex">
         <div className="flex h-16 shrink-0 items-center border-b px-6">
-          <Link href="/dashboard" className="text-xl font-bold">
+          <Link href="/" className="text-xl font-bold">
             {APP_NAME}
           </Link>
         </div>
