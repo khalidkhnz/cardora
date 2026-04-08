@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowLeft, QrCode, Wifi, Share2, BarChart3, Palette, Smartphone, Volume2, VolumeX, ChevronRight, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { platform } from "@/lib/platform";
+import { TemplateWatermark } from "@/components/landing/template-watermark";
 
 /* ================================================================== */
 /*  CSS                                                               */
@@ -122,10 +123,7 @@ export function NoirAtelierExperience() {
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="relative min-h-screen overflow-x-hidden bg-[#14161C]">
-        {/* Watermark */}
-        <div className="pointer-events-none fixed inset-0 z-[95]">
-          <span className="absolute top-[30%] right-[5%] -rotate-[25deg] text-lg font-semibold tracking-[0.5em] text-[#C6A85A]/[0.02] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
-        </div>
+        <TemplateWatermark color="#C6A85A" />
         {/* Progress */}
         <motion.div className="fixed top-0 right-0 left-0 z-[102] h-[2px] origin-left bg-gradient-to-r from-[#C6A85A] to-[#E8D088]" style={{ scaleX: scrollYProgress }} />
 

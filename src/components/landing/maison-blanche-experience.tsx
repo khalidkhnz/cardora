@@ -8,6 +8,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowLeft, QrCode, Wifi, Share2, BarChart3, Camera, Smartphone, Volume2, VolumeX, Aperture } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { platform } from "@/lib/platform";
+import { TemplateWatermark } from "@/components/landing/template-watermark";
 
 /* ================================================================== */
 /*  CSS                                                               */
@@ -114,10 +115,7 @@ export function MaisonBlancheExperience() {
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="relative min-h-screen overflow-x-hidden bg-[#E8E5E0]">
-        {/* Watermark */}
-        <div className="pointer-events-none fixed inset-0 z-[95]">
-          <span className="absolute top-[28%] right-[5%] -rotate-[25deg] text-lg font-semibold tracking-[0.5em] text-[#2A2828]/[0.02] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
-        </div>
+        <TemplateWatermark color="#2A2828" />
         {/* Progress */}
         <motion.div className="fixed top-0 right-0 left-0 z-[102] h-[2px] origin-left bg-gradient-to-r from-[#2A2828]/40 to-[#2A2828]/20" style={{ scaleX: scrollYProgress }} />
 

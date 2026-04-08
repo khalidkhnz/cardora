@@ -8,6 +8,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowLeft, MapPin, Heart, Volume2, VolumeX, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { platform } from "@/lib/platform";
+import { TemplateWatermark } from "@/components/landing/template-watermark";
 
 /* ================================================================== */
 /*  CSS                                                               */
@@ -143,10 +144,7 @@ export function AzureVowsExperience() {
     <>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="relative min-h-screen overflow-x-hidden bg-[#F0F6FA]">
-        {/* Watermark */}
-        <div className="pointer-events-none fixed inset-0 z-[95]">
-          <span className="absolute top-[30%] right-[5%] -rotate-[25deg] text-xl font-semibold tracking-[0.5em] text-[#4A90B8]/[0.025] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
-        </div>
+        <TemplateWatermark color="#4A90B8" />
         {/* Progress */}
         <motion.div className="fixed top-0 right-0 left-0 z-[102] h-[2px] origin-left bg-gradient-to-r from-[#4A90B8] to-[#6AACCC]" style={{ scaleX: scrollYProgress }} />
 

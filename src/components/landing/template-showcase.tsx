@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { type Template, CATEGORIES, TEMPLATES } from "@/lib/template-data";
-import { BuyButtonSmall } from "@/components/landing/buy-flow";
+
 
 /* Data imported from @/lib/template-data */
 
@@ -408,7 +408,6 @@ function TemplateCard({ template, index }: { template: Template; index: number }
                   <p className="text-[8px] text-muted-foreground">{template.priceNote}</p>
                 )}
               </div>
-              <BuyButtonSmall template={template} />
             </div>
           </div>
         </div>

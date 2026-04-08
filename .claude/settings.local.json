@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npx tsc:*)",
       "Bash(node -e \"const ts = require\\('typescript'\\); console.log\\('TS version:', ts.version\\)\")",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")"
     ]
   }
 }

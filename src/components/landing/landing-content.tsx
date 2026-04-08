@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -31,6 +31,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { APP_NAME } from "@/lib/constants";
+import { authClient } from "@/server/better-auth/client";
 import { StaggeredTextReveal } from "@/components/animated-invite/shared/staggered-text-reveal";
 import { MagneticButton } from "@/components/animated-invite/shared/magnetic-button";
 import { TextParallaxMarquee } from "@/components/animated-invite/shared/text-parallax-marquee";
@@ -251,6 +252,13 @@ function Navbar() {
   const { scrollY } = useScroll();
   const navY = useMotionValue(0);
   const prevScroll = useRef(0);
+  const [user, setUser] = useState<{ name: string; email: string; image?: string | null } | null>(null);
+
+  useEffect(() => {
+    void authClient.getSession().then((res) => {
+      if (res.data?.user) setUser(res.data.user);
+    }).catch(() => { /* not logged in */ });
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const diff = latest - prevScroll.current;
@@ -323,22 +331,40 @@ function Navbar() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link
-            href="/login"
-            className="rounded-md px-3 py-1.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-[#F3F0EB] dark:text-[#F5ECD7] dark:hover:bg-white/10"
-          >
-            Sign in
-          </Link>
-          <MagneticButton strength={0.2}>
-            <Link href="/signup">
-              <Button
-                size="sm"
-                className="bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]"
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-[#1A1A1A] dark:text-[#F5ECD7]">
+                Hi, {user.name?.split(" ")[0]}
+              </span>
+              <Link href="/dashboard">
+                <Button
+                  size="sm"
+                  className="bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]"
+                >
+                  Dashboard
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="rounded-md px-3 py-1.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-[#F3F0EB] dark:text-[#F5ECD7] dark:hover:bg-white/10"
               >
-                Get Started
-              </Button>
-            </Link>
-          </MagneticButton>
+                Sign in
+              </Link>
+              <MagneticButton strength={0.2}>
+                <Link href="/signup">
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]"
+                  >
+                    Get Started
+                  </Button>
+                </Link>
+              </MagneticButton>
+            </>
+          )}
         </div>
       </nav>
     </motion.header>
