@@ -164,7 +164,7 @@ export function useTemplateMusic(mood: Mood = "warm") {
       setTimeout(() => {
         allOscs.forEach(o => { try { o.stop(); } catch {} });
         try { filterLfo.stop(); } catch {}
-        try { ctx.close(); } catch {}
+        try { void ctx.close(); } catch {}
         ctxRef.current = null;
       }, 2500);
     }];
@@ -216,7 +216,7 @@ export function useTemplateMusic(mood: Mood = "warm") {
     return () => {
       if (audioRef.current) { audioRef.current.pause(); audioRef.current = null; }
       stoppers.current.forEach(fn => fn());
-      if (ctxRef.current) { try { ctxRef.current.close(); } catch {} ctxRef.current = null; }
+      if (ctxRef.current) { try { void ctxRef.current.close(); } catch {} ctxRef.current = null; }
     };
   }, []);
 
