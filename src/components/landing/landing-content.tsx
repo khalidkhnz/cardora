@@ -420,6 +420,152 @@ function FeaturesSection() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Free Cards Section                                                 */
+/* ------------------------------------------------------------------ */
+
+const FREE_CARDS = [
+  {
+    type: "Business",
+    title: "Professional",
+    description: "Modern business card with contact info, social links & QR sharing.",
+    gradient: "from-[#1A1A1A] via-[#2A2A2A] to-[#1A1A1A]",
+    accent: "#D4AF37",
+    icon: "◆",
+    pattern: "radial-gradient(ellipse at 30% 0%, rgba(212,175,55,0.15) 0%, transparent 60%)",
+  },
+  {
+    type: "Wedding",
+    title: "Elegant Invite",
+    description: "Digital wedding invitation with RSVP tracking & event details.",
+    gradient: "from-[#F8F0E3] via-[#F5EBDB] to-[#EDE3D3]",
+    accent: "#B8860B",
+    icon: "♥",
+    pattern: "radial-gradient(ellipse at 70% 100%, rgba(184,134,11,0.1) 0%, transparent 60%)",
+  },
+  {
+    type: "Engagement",
+    title: "Save the Date",
+    description: "Announce your engagement with a beautiful countdown card.",
+    gradient: "from-[#FDF6F0] via-[#FAF0EA] to-[#F5E8DE]",
+    accent: "#C09060",
+    icon: "✦",
+    pattern: "radial-gradient(ellipse at 50% 0%, rgba(192,144,96,0.12) 0%, transparent 60%)",
+  },
+  {
+    type: "Anniversary",
+    title: "Celebration",
+    description: "Mark milestones with a shareable digital anniversary card.",
+    gradient: "from-[#F0EDE8] via-[#EAE6E0] to-[#E5E0D8]",
+    accent: "#8B7355",
+    icon: "★",
+    pattern: "radial-gradient(ellipse at 30% 100%, rgba(139,115,85,0.1) 0%, transparent 60%)",
+  },
+];
+
+function FreeCardsSection() {
+  return (
+    <section className="relative px-6 py-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-16 text-center">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
+          >
+            100% Free · No Credit Card Required
+          </motion.span>
+          <StaggeredTextReveal
+            text="Free digital cards"
+            as="h2"
+            splitBy="word"
+            className="justify-center text-3xl font-bold md:text-5xl"
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="mx-auto mt-4 max-w-xl text-muted-foreground"
+          >
+            Create stunning digital business cards and wedding invitations — completely free, forever.
+            No hidden fees, no watermarks, no limits.
+          </motion.p>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {FREE_CARDS.map((card, i) => (
+            <motion.div
+              key={card.type}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="group"
+            >
+              <div className="overflow-hidden rounded-xl border border-[#E8E4DE] bg-white transition-all duration-300 hover:shadow-lg dark:border-white/10 dark:bg-[#141414]">
+                {/* Card Preview */}
+                <div className={`relative flex h-36 items-center justify-center bg-gradient-to-br ${card.gradient}`}>
+                  <div className="absolute inset-0" style={{ backgroundImage: card.pattern }} />
+                  {/* Decorative lines */}
+                  <div className="absolute top-3 right-3 left-3 flex justify-between">
+                    <div className="h-px w-8 rounded-full" style={{ backgroundColor: card.accent, opacity: 0.3 }} />
+                    <div className="h-px w-5 rounded-full" style={{ backgroundColor: card.accent, opacity: 0.2 }} />
+                  </div>
+                  <div className="relative text-center">
+                    <span className="text-2xl" style={{ color: card.accent, opacity: 0.6 }}>{card.icon}</span>
+                    <p className="mt-1 text-xs font-semibold tracking-widest uppercase" style={{ color: card.accent, opacity: 0.5, fontFamily: "var(--font-montserrat)" }}>
+                      {card.type}
+                    </p>
+                  </div>
+                  <div className="absolute right-3 bottom-3 left-3 flex justify-between">
+                    <div className="h-px w-5 rounded-full" style={{ backgroundColor: card.accent, opacity: 0.2 }} />
+                    <div className="h-px w-8 rounded-full" style={{ backgroundColor: card.accent, opacity: 0.3 }} />
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">{card.title}</h3>
+                    <span className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider" style={{ backgroundColor: `${card.accent}15`, color: card.accent }}>
+                      Free
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs leading-relaxed text-[#6B6560] dark:text-[#A09888]">{card.description}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="mt-12 text-center"
+        >
+          <Link href="/signup">
+            <Button
+              size="lg"
+              className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] px-8 text-white hover:from-[#9A7209] hover:to-[#B8960B]"
+            >
+              Create Your Free Card
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
+          <p className="mt-3 text-xs text-[#8B8580] dark:text-[#706860]">
+            No credit card needed · Takes less than 2 minutes
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Pricing Section                                                    */
 /* ------------------------------------------------------------------ */
 
@@ -810,6 +956,7 @@ export function LandingContent() {
       />
 
       <FeaturesSection />
+      <FreeCardsSection />
       <TemplateBrowseSection />
       <AnimatedInviteHighlight />
       <PricingSection />
