@@ -18,6 +18,7 @@ const createOrderSchema = z.object({
   ]),
   inviteId: z.string().optional(),
   payerEmail: z.string().email().optional(),
+  itemData: z.record(z.unknown()).optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -72,6 +73,7 @@ export async function POST(request: NextRequest) {
       purpose: body.purpose,
       inviteId: body.inviteId,
       payerEmail: body.payerEmail ?? session.user.email,
+      itemData: body.itemData,
     });
 
     return NextResponse.json({

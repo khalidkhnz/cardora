@@ -170,6 +170,12 @@ function BuyFlowModal({ template, onClose }: { template: Template; onClose: () =
         amount: amountInCents,
         currency: "CAD",
         purpose: "template_purchase",
+        itemData: {
+          templateId: template.id,
+          templateName: template.name,
+          templateCategory: template.category,
+          templatePrice: template.price,
+        },
       });
 
       // 2. Open Razorpay checkout

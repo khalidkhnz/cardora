@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   Home,
   LayoutDashboard,
+  ShoppingBag,
   CreditCard,
   BarChart3,
   User,
@@ -20,6 +21,7 @@ import { NAV_ITEMS } from "@/lib/constants";
 const iconMap = {
   Home,
   LayoutDashboard,
+  ShoppingBag,
   CreditCard,
   BarChart3,
   User,

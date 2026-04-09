@@ -92,6 +92,7 @@ export function useCreateRazorpayOrder() {
       purpose: string;
       inviteId?: string;
       payerEmail?: string;
+      itemData?: Record<string, unknown>;
     }) =>
       apiClient<CreateOrderResponse>("/api/payment/create-order", {
         method: "POST",
