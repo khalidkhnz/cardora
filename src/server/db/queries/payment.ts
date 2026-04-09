@@ -18,6 +18,7 @@ export async function createPayment(data: {
     | "invite_unlock"
     | "animated_invite"
     | "cart_checkout"
+    | "template_purchase"
     | "payment";
   inviteId?: string;
   payerEmail?: string;

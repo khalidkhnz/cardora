@@ -9,6 +9,7 @@ import { type Template } from "@/lib/template-data";
 import { APP_NAME } from "@/lib/constants";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Footer } from "@/components/landing/footer";
+import { BuyButton } from "@/components/landing/buy-flow";
 
 /* ================================================================== */
 /*  Template preview (reused visual from showcase)                    */
@@ -478,6 +479,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
                   Preview Coming Soon
                 </Button>
               )}
+              <BuyButton template={template} size="lg" />
               <Button
                 size="lg"
                 variant="outline"

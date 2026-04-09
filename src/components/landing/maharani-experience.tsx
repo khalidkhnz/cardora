@@ -9,6 +9,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowLeft, MapPin, Calendar, Clock, Heart, ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { platform } from "@/lib/platform";
+import { TemplateWatermark } from "@/components/landing/template-watermark";
 
 /* ================================================================== */
 /*  CSS for shimmer + floating animations (injected once)             */
@@ -452,19 +453,6 @@ const GALLERY_PHOTOS = [
   { label: "Together Forever", src: "https://images.unsplash.com/photo-1507504031003-b417219a0fde?w=600&h=600&fit=crop&q=80" },
 ];
 
-/* ================================================================== */
-/*  Watermark — subtle diagonal pattern                               */
-/* ================================================================== */
-
-function Watermark() {
-  return (
-    <div className="pointer-events-none fixed inset-0 z-[95] overflow-hidden">
-      <span className="absolute top-[18%] left-[8%] -rotate-[30deg] whitespace-nowrap text-2xl font-semibold tracking-[0.4em] text-[#8B7355]/[0.07] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
-      <span className="absolute top-[50%] right-[6%] -rotate-[30deg] whitespace-nowrap text-2xl font-semibold tracking-[0.4em] text-[#8B7355]/[0.07] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
-      <span className="absolute bottom-[20%] left-[22%] -rotate-[30deg] whitespace-nowrap text-2xl font-semibold tracking-[0.4em] text-[#8B7355]/[0.07] select-none" style={{ fontFamily: "var(--font-cinzel)" }}>{platform.name}</span>
-    </div>
-  );
-}
 
 /* ================================================================== */
 /*  Main experience                                                   */
@@ -617,7 +605,7 @@ export function MaharaniExperience() {
       <style dangerouslySetInnerHTML={{ __html: INJECTED_CSS }} />
       <div className="relative min-h-screen overflow-x-hidden bg-gradient-to-b from-[#FFF8F0] via-[#FFF5EA] to-[#FFF0E0]">
         <FloatingPetals />
-        <Watermark />
+        <TemplateWatermark color="#8B7355" />
 
         {/* Scroll progress bar */}
         <motion.div

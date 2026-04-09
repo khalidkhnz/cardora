@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/card";
 import { platform } from "@/lib/platform";
 
-export function SignupForm() {
+export function SignupForm({ callbackUrl }: { callbackUrl?: string } = {}) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -66,7 +66,7 @@ export function SignupForm() {
       }
 
       toast.success("Account created successfully");
-      router.push("/dashboard");
+      router.push(callbackUrl ?? "/dashboard");
       router.refresh();
     } catch {
       toast.error("Something went wrong");
@@ -153,7 +153,7 @@ export function SignupForm() {
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-primary hover:underline">
+          <Link href={callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login"} className="font-medium text-primary hover:underline">
             Sign in
           </Link>
         </p>

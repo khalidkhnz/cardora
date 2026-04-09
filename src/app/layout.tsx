@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: pageTitle(),
   description: platform.description,
   icons: [
-    { rel: "icon", url: "/favicon.ico" },
+    { rel: "icon", url: "/icon.png", type: "image/png" },
     { rel: "apple-touch-icon", url: "/cardora-logo.png" },
   ],
 };
