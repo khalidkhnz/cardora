@@ -533,7 +533,7 @@ export function FloatingCardsHero() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.3 }}
         className="relative mt-10 flex w-full flex-1 items-center justify-center md:mt-14"
-        style={{ minHeight: 360 }}
+        style={{ minHeight: 420 }}
       >
         {/* Glow behind focused card */}
         <div
@@ -621,7 +621,7 @@ export function FloatingCardsHero() {
       </motion.div>
 
       {/* Dot indicators */}
-      <div className="mt-10 flex items-center gap-2">
+      <div className="mt-16 flex items-center gap-2">
         {SHOWCASE_CARDS.map((card) => (
           <button
             key={card.id}
