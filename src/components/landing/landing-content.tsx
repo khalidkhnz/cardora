@@ -38,6 +38,7 @@ import { TextParallaxMarquee } from "@/components/animated-invite/shared/text-pa
 import { Footer } from "@/components/landing/footer";
 import { FloatingCardsHero } from "@/components/landing/floating-cards-hero";
 import { TemplateBrowseSection } from "@/components/landing/template-showcase";
+import { FreeCardCover } from "@/components/landing/free-card-flow";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -425,40 +426,55 @@ function FeaturesSection() {
 
 const FREE_CARDS = [
   {
-    type: "Business",
+    id: "business",
+    type: "Business Card",
     title: "Professional",
     description: "Modern business card with contact info, social links & QR sharing.",
-    gradient: "from-[#1A1A1A] via-[#2A2A2A] to-[#1A1A1A]",
-    accent: "#D4AF37",
-    icon: "◆",
-    pattern: "radial-gradient(ellipse at 30% 0%, rgba(212,175,55,0.15) 0%, transparent 60%)",
+    fields: [
+      { key: "name", label: "Full Name", placeholder: "John Doe" },
+      { key: "title", label: "Job Title", placeholder: "Senior Developer" },
+      { key: "company", label: "Company", placeholder: "Acme Inc." },
+      { key: "email", label: "Email", placeholder: "john@acme.com" },
+      { key: "phone", label: "Phone", placeholder: "+1 (555) 123-4567" },
+    ],
   },
   {
-    type: "Wedding",
+    id: "wedding",
+    type: "Wedding Invite",
     title: "Elegant Invite",
     description: "Digital wedding invitation with RSVP tracking & event details.",
-    gradient: "from-[#F8F0E3] via-[#F5EBDB] to-[#EDE3D3]",
-    accent: "#B8860B",
-    icon: "♥",
-    pattern: "radial-gradient(ellipse at 70% 100%, rgba(184,134,11,0.1) 0%, transparent 60%)",
+    fields: [
+      { key: "partner1", label: "Partner 1 Name", placeholder: "James" },
+      { key: "partner2", label: "Partner 2 Name", placeholder: "Emily" },
+      { key: "date", label: "Wedding Date", placeholder: "September 15, 2026" },
+      { key: "venue", label: "Venue", placeholder: "The Grand Ballroom" },
+      { key: "message", label: "Message", placeholder: "We'd love you to join us!" },
+    ],
   },
   {
-    type: "Engagement",
+    id: "engagement",
+    type: "Engagement Card",
     title: "Save the Date",
-    description: "Announce your engagement with a beautiful countdown card.",
-    gradient: "from-[#FDF6F0] via-[#FAF0EA] to-[#F5E8DE]",
-    accent: "#C09060",
-    icon: "✦",
-    pattern: "radial-gradient(ellipse at 50% 0%, rgba(192,144,96,0.12) 0%, transparent 60%)",
+    description: "Announce your engagement with a beautiful shareable card.",
+    fields: [
+      { key: "partner1", label: "Partner 1 Name", placeholder: "Michael" },
+      { key: "partner2", label: "Partner 2 Name", placeholder: "Sarah" },
+      { key: "date", label: "Engagement Date", placeholder: "March 10, 2026" },
+      { key: "location", label: "Location", placeholder: "Paris, France" },
+      { key: "message", label: "Message", placeholder: "We said YES!" },
+    ],
   },
   {
-    type: "Anniversary",
+    id: "anniversary",
+    type: "Anniversary Card",
     title: "Celebration",
     description: "Mark milestones with a shareable digital anniversary card.",
-    gradient: "from-[#F0EDE8] via-[#EAE6E0] to-[#E5E0D8]",
-    accent: "#8B7355",
-    icon: "★",
-    pattern: "radial-gradient(ellipse at 30% 100%, rgba(139,115,85,0.1) 0%, transparent 60%)",
+    fields: [
+      { key: "names", label: "Couple Names", placeholder: "David & Maria" },
+      { key: "years", label: "Years Together", placeholder: "25" },
+      { key: "date", label: "Anniversary Date", placeholder: "June 20, 2026" },
+      { key: "message", label: "Message", placeholder: "Celebrating 25 wonderful years!" },
+    ],
   },
 ];
 
@@ -496,50 +512,33 @@ function FreeCardsSection() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {FREE_CARDS.map((card, i) => (
             <motion.div
-              key={card.type}
+              key={card.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="group"
             >
-              <div className="overflow-hidden rounded-xl border border-[#E8E4DE] bg-white transition-all duration-300 hover:shadow-lg dark:border-white/10 dark:bg-[#141414]">
-                {/* Card Preview */}
-                <div className={`relative flex h-36 items-center justify-center bg-gradient-to-br ${card.gradient}`}>
-                  <div className="absolute inset-0" style={{ backgroundImage: card.pattern }} />
-                  {/* Decorative lines */}
-                  <div className="absolute top-3 right-3 left-3 flex justify-between">
-                    <div className="h-px w-8 rounded-full" style={{ backgroundColor: card.accent, opacity: 0.3 }} />
-                    <div className="h-px w-5 rounded-full" style={{ backgroundColor: card.accent, opacity: 0.2 }} />
-                  </div>
-                  <div className="relative text-center">
-                    <span className="text-2xl" style={{ color: card.accent, opacity: 0.6 }}>{card.icon}</span>
-                    <p className="mt-1 text-xs font-semibold tracking-widest uppercase" style={{ color: card.accent, opacity: 0.5, fontFamily: "var(--font-montserrat)" }}>
-                      {card.type}
-                    </p>
-                  </div>
-                  <div className="absolute right-3 bottom-3 left-3 flex justify-between">
-                    <div className="h-px w-5 rounded-full" style={{ backgroundColor: card.accent, opacity: 0.2 }} />
-                    <div className="h-px w-8 rounded-full" style={{ backgroundColor: card.accent, opacity: 0.3 }} />
+              <Link href={`/free-cards/${card.id}`} className="group block">
+                <div className="overflow-hidden rounded-xl border border-[#E8E4DE] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-[#141414]">
+                  <FreeCardCover id={card.id} />
+                  <div className="p-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">{card.title}</h3>
+                      <span className="rounded-full bg-[#B8860B]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#B8860B]">
+                        Free
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-[#6B6560] dark:text-[#A09888]">{card.description}</p>
+                    <div className="mt-3 flex items-center gap-1 text-xs font-medium text-[#B8860B] transition-all group-hover:gap-2">
+                      Explore <ArrowRight className="h-3 w-3" />
+                    </div>
                   </div>
                 </div>
-
-                {/* Info */}
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">{card.title}</h3>
-                    <span className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider" style={{ backgroundColor: `${card.accent}15`, color: card.accent }}>
-                      Free
-                    </span>
-                  </div>
-                  <p className="mt-2 text-xs leading-relaxed text-[#6B6560] dark:text-[#A09888]">{card.description}</p>
-                </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
