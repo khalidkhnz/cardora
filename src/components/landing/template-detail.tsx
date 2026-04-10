@@ -522,7 +522,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
 
             {/* CTA buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" || template.id === "maison-blanche" || template.id === "lumiere-insights" ? (
+              {["the-maharani", "azure-vows", "whispered-vows", "noir-atelier", "maison-blanche", "lumiere-insights", "auric-touch", "obsidian-cipher"].includes(template.id) ? (
                 <Link href={`/templates/${template.id}/preview`}>
                   <Button
                     size="lg"
@@ -662,7 +662,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
             Get started with {template.name} today.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" || template.id === "maison-blanche" || template.id === "lumiere-insights" ? (
+            {["the-maharani", "azure-vows", "whispered-vows", "noir-atelier", "maison-blanche", "lumiere-insights", "auric-touch", "obsidian-cipher"].includes(template.id) ? (
               <Link href={`/templates/${template.id}/preview`}>
                 <Button
                   size="lg"

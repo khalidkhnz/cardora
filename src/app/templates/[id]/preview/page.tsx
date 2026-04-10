@@ -8,9 +8,10 @@ import { VintageAffairExperience } from "@/components/landing/whispered-vows-exp
 import { NoirAtelierExperience } from "@/components/landing/noir-atelier-experience";
 import { MaisonBlancheExperience } from "@/components/landing/maison-blanche-experience";
 import { LumiereInsightsExperience } from "@/components/landing/lumiere-insights-experience";
+import { AuricTouchExperience, ObsidianCipherExperience } from "@/components/landing/qr-nfc-experience";
 
 // Only these templates have a live preview built
-const LIVE_PREVIEW_IDS = ["the-maharani", "azure-vows", "whispered-vows", "noir-atelier", "maison-blanche", "lumiere-insights"];
+const LIVE_PREVIEW_IDS = ["the-maharani", "azure-vows", "whispered-vows", "noir-atelier", "maison-blanche", "lumiere-insights", "auric-touch", "obsidian-cipher"];
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -42,6 +43,8 @@ export default async function TemplatePreviewPage({ params }: Props) {
   if (id === "noir-atelier") return <NoirAtelierExperience />;
   if (id === "maison-blanche") return <MaisonBlancheExperience />;
   if (id === "lumiere-insights") return <LumiereInsightsExperience />;
+  if (id === "auric-touch") return <AuricTouchExperience />;
+  if (id === "obsidian-cipher") return <ObsidianCipherExperience />;
 
   // Others redirect back to detail page
   redirect(`/templates/${id}`);
