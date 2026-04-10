@@ -27,6 +27,9 @@ import {
   Shield,
   Star,
   Music,
+  Mail,
+  Send,
+  MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
@@ -1015,6 +1018,183 @@ function FinalCTA() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Contact Section                                                    */
+/* ------------------------------------------------------------------ */
+
+function ContactSection() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) return;
+    setSending(true);
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      setSent(true);
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      // silently fail
+    }
+    setSending(false);
+  }, [name, email, message]);
+
+  return (
+    <section id="contact" className="scroll-mt-20 px-6 py-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-16 text-center">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
+          >
+            Get in Touch
+          </motion.span>
+          <StaggeredTextReveal
+            text="Contact us"
+            as="h2"
+            splitBy="word"
+            className="justify-center text-3xl font-bold md:text-5xl"
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="mx-auto mt-4 max-w-xl text-muted-foreground"
+          >
+            Have a question, feedback, or just want to say hello? We&apos;d love to hear from you.
+          </motion.p>
+        </div>
+
+        <div className="grid gap-10 lg:grid-cols-2">
+          {/* Left - contact info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <div className="flex items-start gap-4 rounded-xl border border-[#E8E4DE] bg-white p-5 dark:border-white/10 dark:bg-[#141414]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#B8860B]/10">
+                <Mail className="h-5 w-5 text-[#B8860B]" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">Email Us</h3>
+                <a href="mailto:info@cardoradigital.ca" className="mt-1 text-sm text-[#B8860B] hover:underline">
+                  info@cardoradigital.ca
+                </a>
+                <p className="mt-1 text-xs text-[#6B6560] dark:text-[#A09888]">We typically respond within 24 hours</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 rounded-xl border border-[#E8E4DE] bg-white p-5 dark:border-white/10 dark:bg-[#141414]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#B8860B]/10">
+                <MapPin className="h-5 w-5 text-[#B8860B]" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">Based in Canada</h3>
+                <p className="mt-1 text-sm text-[#6B6560] dark:text-[#A09888]">Serving clients across Canada and worldwide</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 rounded-xl border border-[#E8E4DE] bg-white p-5 dark:border-white/10 dark:bg-[#141414]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#B8860B]/10">
+                <Clock className="h-5 w-5 text-[#B8860B]" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">Business Hours</h3>
+                <p className="mt-1 text-sm text-[#6B6560] dark:text-[#A09888]">Monday - Friday, 9 AM - 6 PM EST</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right - contact form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            {sent ? (
+              <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-[#E8E4DE] bg-white p-10 text-center dark:border-white/10 dark:bg-[#141414]">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#B8860B]/10">
+                  <Check className="h-7 w-7 text-[#B8860B]" />
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]" style={{ fontFamily: "var(--font-playfair)" }}>
+                  Message Sent!
+                </h3>
+                <p className="mt-2 text-sm text-[#6B6560] dark:text-[#A09888]">
+                  Thank you for reaching out. We&apos;ll get back to you soon.
+                </p>
+                <button onClick={() => setSent(false)} className="mt-4 text-sm text-[#B8860B] hover:underline">
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={(e) => void handleSubmit(e)} className="rounded-2xl border border-[#E8E4DE] bg-white p-6 dark:border-white/10 dark:bg-[#141414]">
+                <div className="space-y-4">
+                  <div>
+                    <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-[#8B8580] dark:text-[#706860]">Name</label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Your name"
+                      required
+                      className="w-full rounded-lg border border-[#E8E4DE] bg-[#FAF8F5] px-4 py-2.5 text-sm text-[#1A1A1A] outline-none transition-all placeholder:text-[#C8C4BE] focus:border-[#D4AF37]/40 focus:ring-2 focus:ring-[#D4AF37]/10 dark:border-white/10 dark:bg-white/5 dark:text-[#F0E8D8]"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-[#8B8580] dark:text-[#706860]">Email</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      required
+                      className="w-full rounded-lg border border-[#E8E4DE] bg-[#FAF8F5] px-4 py-2.5 text-sm text-[#1A1A1A] outline-none transition-all placeholder:text-[#C8C4BE] focus:border-[#D4AF37]/40 focus:ring-2 focus:ring-[#D4AF37]/10 dark:border-white/10 dark:bg-white/5 dark:text-[#F0E8D8]"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-[#8B8580] dark:text-[#706860]">Message</label>
+                    <textarea
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="How can we help you?"
+                      required
+                      rows={4}
+                      className="w-full resize-none rounded-lg border border-[#E8E4DE] bg-[#FAF8F5] px-4 py-2.5 text-sm text-[#1A1A1A] outline-none transition-all placeholder:text-[#C8C4BE] focus:border-[#D4AF37]/40 focus:ring-2 focus:ring-[#D4AF37]/10 dark:border-white/10 dark:bg-white/5 dark:text-[#F0E8D8]"
+                    />
+                  </div>
+                </div>
+                <Button
+                  type="submit"
+                  disabled={sending}
+                  className="mt-5 w-full gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]"
+                >
+                  <Send className="h-4 w-4" />
+                  {sending ? "Sending..." : "Send Message"}
+                </Button>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Main Component                                                     */
 /* ------------------------------------------------------------------ */
 
@@ -1039,6 +1219,7 @@ export function LandingContent() {
       <PricingSection />
       <WhatsIncluded />
       <FinalCTA />
+      <ContactSection />
       <Footer />
     </main>
   );
