@@ -440,7 +440,7 @@ export function LumiereInsightsExperience() {
           <div className="mt-6">
             <Link href="/signup">
               <Button className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] px-8 text-white hover:from-[#9A7209] hover:to-[#B8960B]">
-                Get Started — C$14.99
+                Get Started - C$14.99
               </Button>
             </Link>
           </div>

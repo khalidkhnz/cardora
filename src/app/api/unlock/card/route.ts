@@ -7,6 +7,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Cards are now free — no unlock needed
+  // Cards are now free - no unlock needed
   return NextResponse.json({ success: true });
 }

@@ -17,7 +17,7 @@ import { BuyButton } from "@/components/landing/buy-flow";
 
 function LargePreview({ template: t }: { template: Template }) {
   if (t.style === "wedding") {
-    // ── AZURE VOWS — open beach landscape, no arch ──
+    // ── AZURE VOWS - open beach landscape, no arch ──
     if (t.id === "azure-vows") {
       return (
         <div className="relative flex h-full w-full flex-col justify-end overflow-hidden">
@@ -35,7 +35,7 @@ function LargePreview({ template: t }: { template: Template }) {
             <path d="M0 5 Q20 2 40 5 Q60 8 80 5 Q100 2 120 5 Q140 8 160 5 Q180 2 200 5" stroke="#5A9CC0" strokeWidth="0.5" strokeOpacity="0.12" fill="none" />
           </svg>
 
-          {/* Couple — off-center right */}
+          {/* Couple - off-center right */}
           <svg viewBox="0 0 80 110" className="absolute bottom-[22%] right-[18%] h-[120px]" fill="none">
             <circle cx="28" cy="22" r="10" fill="#2A4050" fillOpacity="0.50" />
             <path d="M16 100 L20 42 Q20 30 28 30 Q36 30 36 42 L40 100" fill="#2A4050" fillOpacity="0.40" />
@@ -48,7 +48,7 @@ function LargePreview({ template: t }: { template: Template }) {
             <path d="M36 55 L42 55" stroke="#7A6050" strokeWidth="0.8" strokeOpacity="0.12" />
           </svg>
 
-          {/* Loose flowers — left */}
+          {/* Loose flowers - left */}
           <svg viewBox="0 0 40 50" className="absolute bottom-[25%] left-[10%] h-12 opacity-30" fill="none">
             <circle cx="20" cy="12" r="6" fill="#FFFFFF" fillOpacity="0.55" />
             <circle cx="20" cy="12" r="3" fill="#FFD8D0" fillOpacity="0.35" />
@@ -58,7 +58,7 @@ function LargePreview({ template: t }: { template: Template }) {
             <path d="M22 22 L24 40" stroke="#8BC4A0" strokeWidth="0.4" strokeOpacity="0.15" />
           </svg>
 
-          {/* Text — bottom left */}
+          {/* Text - bottom left */}
           <div className="relative z-10 p-8 pb-10">
             <h3 className="text-[26px] leading-tight text-[#1A3A4A]" style={{ fontFamily: "var(--font-great-vibes)" }}>
               James <span className="text-[#5B9EC4]">&</span> Rose
@@ -73,13 +73,13 @@ function LargePreview({ template: t }: { template: Template }) {
       );
     }
 
-    // ── WHISPERED VOWS — warm brown, invitation letter scene ──
+    // ── WHISPERED VOWS - warm brown, invitation letter scene ──
     if (t.id === "whispered-vows") {
       return (
         <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden">
           {/* Rich brown gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#C8B898] via-[#B8A882] to-[#A89870]" />
-          {/* Paper grain — heavier */}
+          {/* Paper grain - heavier */}
           <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")" }} />
           {/* Warm glow spots */}
           <div className="absolute top-[8%] left-[20%] h-20 w-20 rounded-full bg-[#FFE0A0]/20 blur-[25px]" />
@@ -100,7 +100,7 @@ function LargePreview({ template: t }: { template: Template }) {
             <circle cx="65" cy="18" r="6" fill="#FFE8A0" fillOpacity="0.06" />
             <circle cx="125" cy="18" r="6" fill="#FFE8A0" fillOpacity="0.05" />
 
-            {/* Main invitation card — center, large */}
+            {/* Main invitation card - center, large */}
             <rect x="45" y="50" width="130" height="170" rx="4" fill="#F0E8D4" fillOpacity="0.80" stroke="#5A4830" strokeWidth="0.6" strokeOpacity="0.15" />
             {/* Inner border */}
             <rect x="52" y="57" width="116" height="156" rx="2" fill="none" stroke="#5A4830" strokeWidth="0.3" strokeOpacity="0.08" />
@@ -109,7 +109,7 @@ function LargePreview({ template: t }: { template: Template }) {
             <circle cx="100" cy="65" r="2" fill="#5A4830" fillOpacity="0.12" />
             {/* Text lines */}
             <line x1="70" y1="82" x2="150" y2="82" stroke="#5A4830" strokeWidth="0.3" strokeOpacity="0.08" />
-            {/* Names — represented as elegant text area */}
+            {/* Names - represented as elegant text area */}
             <text x="110" y="108" textAnchor="middle" fill="#3A2818" fillOpacity="0.60" fontSize="18" style={{ fontFamily: "cursive" }}>R &amp; A</text>
             {/* Date line */}
             <line x1="80" y1="120" x2="140" y2="120" stroke="#5A4830" strokeWidth="0.3" strokeOpacity="0.06" />
@@ -122,14 +122,14 @@ function LargePreview({ template: t }: { template: Template }) {
             <circle cx="110" cy="195" r="6" fill="#A05050" fillOpacity="0.18" />
             <text x="110" y="198" textAnchor="middle" fill="#F0E0D0" fillOpacity="0.40" fontSize="5" fontWeight="bold">R&amp;A</text>
 
-            {/* Second card — behind, tilted left */}
+            {/* Second card - behind, tilted left */}
             <rect x="25" y="60" width="80" height="105" rx="3" fill="#E8DCC4" fillOpacity="0.45" stroke="#5A4830" strokeWidth="0.3" strokeOpacity="0.08" transform="rotate(-8 65 112)" />
 
-            {/* Photo frame — behind right, tilted */}
+            {/* Photo frame - behind right, tilted */}
             <rect x="130" y="55" width="55" height="70" rx="3" fill="#D4C4A0" fillOpacity="0.40" stroke="#5A4830" strokeWidth="0.4" strokeOpacity="0.12" transform="rotate(6 157 90)" />
             <rect x="135" y="60" width="45" height="52" rx="1.5" fill="#C8B898" fillOpacity="0.30" transform="rotate(6 157 86)" />
 
-            {/* Flowers — bottom left cluster */}
+            {/* Flowers - bottom left cluster */}
             <circle cx="30" cy="248" r="12" fill="#C09080" fillOpacity="0.35" />
             <circle cx="30" cy="248" r="7" fill="#D4A090" fillOpacity="0.25" />
             <circle cx="45" cy="258" r="9" fill="#B88070" fillOpacity="0.28" />
@@ -138,7 +138,7 @@ function LargePreview({ template: t }: { template: Template }) {
             <path d="M12 252 Q5 244 15 240 Q18 248 12 252Z" fill="#6A7A50" fillOpacity="0.22" />
             <path d="M60 244 Q66 238 58 235 Q55 242 60 244Z" fill="#6A7A50" fillOpacity="0.18" />
 
-            {/* Flowers — bottom right */}
+            {/* Flowers - bottom right */}
             <circle cx="185" cy="250" r="10" fill="#C09080" fillOpacity="0.30" />
             <circle cx="185" cy="250" r="6" fill="#D4A090" fillOpacity="0.22" />
             <circle cx="172" cy="258" r="7" fill="#B88070" fillOpacity="0.25" />
@@ -150,7 +150,7 @@ function LargePreview({ template: t }: { template: Template }) {
             <line x1="10" y1="280" x2="210" y2="280" stroke="#6A5030" strokeWidth="0.3" strokeOpacity="0.06" />
             <line x1="10" y1="290" x2="210" y2="290" stroke="#6A5030" strokeWidth="0.2" strokeOpacity="0.04" />
 
-            {/* Glass bottle — left */}
+            {/* Glass bottle - left */}
             <rect x="168" y="230" width="7" height="30" rx="3" fill="#7A9A70" fillOpacity="0.15" />
             <path d="M169 230 Q171.5 222 174 230" fill="#7A9A70" fillOpacity="0.10" />
             {/* Small flower in bottle */}
@@ -177,7 +177,7 @@ function LargePreview({ template: t }: { template: Template }) {
       );
     }
 
-    // ── THE MAHARANI — default warm peach, floral arch ──
+    // ── THE MAHARANI - default warm peach, floral arch ──
     return (
       <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#F8EAD8] via-[#F2DCCA] to-[#EACEBC] p-8 text-center">
         <div className="absolute top-[15%] left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.06] blur-[50px]" />
@@ -229,7 +229,7 @@ function LargePreview({ template: t }: { template: Template }) {
           {/* Back card */}
           <rect x="40" y="95" width="140" height="85" rx="5" fill="#F5F3F0" stroke="#2A2828" strokeWidth="0.4" strokeOpacity="0.10" transform="rotate(-4 110 137)" />
 
-          {/* Front card — editorial photographer */}
+          {/* Front card - editorial photographer */}
           <rect x="35" y="108" width="150" height="90" rx="5" fill="#FAFAF8" stroke="#2A2828" strokeWidth="0.5" strokeOpacity="0.15" transform="rotate(2 110 153)" />
           {/* Charcoal left bar */}
           <rect x="35" y="108" width="5" height="90" rx="2.5" fill="#2A2828" fillOpacity="0.65" transform="rotate(2 37 153)" />
@@ -268,14 +268,14 @@ function LargePreview({ template: t }: { template: Template }) {
           {/* Shadow under cards */}
           <ellipse cx="120" cy="185" rx="80" ry="6" fill="#000" fillOpacity="0.15" />
 
-          {/* Back card — tilted left */}
+          {/* Back card - tilted left */}
           <rect x="30" y="35" width="150" height="90" rx="6" fill="#252830" stroke="#C6A85A" strokeWidth="0.4" strokeOpacity="0.18" transform="rotate(-8 105 80)" />
           <line x1="40" y1="42" x2="170" y2="35" stroke="#C6A85A" strokeWidth="1" strokeOpacity="0.15" transform="rotate(-8 105 38)" />
           <rect x="45" y="52" width="18" height="18" rx="3" fill="#C6A85A" fillOpacity="0.12" transform="rotate(-8 54 61)" />
           <line x1="70" y1="60" x2="120" y2="55" stroke="#E8E4DC" strokeWidth="0.3" strokeOpacity="0.08" transform="rotate(-8 95 57)" />
           <line x1="70" y1="68" x2="105" y2="63" stroke="#E8E4DC" strokeWidth="0.2" strokeOpacity="0.05" transform="rotate(-8 87 65)" />
 
-          {/* Front card — main, slight tilt right */}
+          {/* Front card - main, slight tilt right */}
           <rect x="35" y="55" width="170" height="100" rx="6" fill="#22252E" stroke="#C6A85A" strokeWidth="0.5" strokeOpacity="0.22" transform="rotate(4 120 105)" />
           {/* Gold top line */}
           <line x1="42" y1="60" x2="198" y2="65" stroke="#C6A85A" strokeWidth="1.2" strokeOpacity="0.30" transform="rotate(4 120 62)" />
@@ -394,7 +394,7 @@ function LargePreview({ template: t }: { template: Template }) {
         <div className="mt-2 grid grid-cols-2 gap-2">
           <div className="rounded-lg border border-[#E8E4DE] bg-white p-2">
             <p className="text-[5px] uppercase tracking-wider text-[#8B8580]">Top Source</p>
-            <p className="mt-0.5 text-[8px] font-semibold text-[#1A1A1A]">Direct Link — 42%</p>
+            <p className="mt-0.5 text-[8px] font-semibold text-[#1A1A1A]">Direct Link - 42%</p>
             <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-[#F3F0EB]">
               <div className="h-full w-[42%] rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B]" />
             </div>
@@ -402,7 +402,7 @@ function LargePreview({ template: t }: { template: Template }) {
           <div className="rounded-lg border border-[#E8E4DE] bg-white p-2">
             <p className="text-[5px] uppercase tracking-wider text-[#8B8580]">Activity</p>
             <div className="mt-1 space-y-0.5">
-              {["QR Scan — Toronto", "NFC Tap — Vancouver", "Link — Montreal"].map((a) => (
+              {["QR Scan - Toronto", "NFC Tap - Vancouver", "Link - Montreal"].map((a) => (
                 <p key={a} className="truncate text-[5px] text-[#6B6560]">{a}</p>
               ))}
             </div>
@@ -467,7 +467,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
         </motion.div>
 
         <div className="mt-6 grid items-start gap-12 lg:grid-cols-2">
-          {/* Left — large preview */}
+          {/* Left - large preview */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -480,7 +480,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
             </div>
           </motion.div>
 
-          {/* Right — details */}
+          {/* Right - details */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

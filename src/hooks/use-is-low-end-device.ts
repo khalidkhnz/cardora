@@ -21,5 +21,5 @@ export function useIsLowEndDevice(): boolean {
   return isLowEnd;
 }
 
-/** Imperative check — for non-hook contexts (e.g. useEffect callbacks) */
+/** Imperative check - for non-hook contexts (e.g. useEffect callbacks) */
 export { detectLowEndDevice as isLowEndDevice };

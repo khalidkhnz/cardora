@@ -255,7 +255,7 @@ export default function GoldenNightTemplate({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding`,
           url,
         });
         return;

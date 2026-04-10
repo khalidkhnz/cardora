@@ -53,7 +53,7 @@ function useSession() {
 }
 
 /* ================================================================== */
-/*  Buy Button — used on cards and detail pages                       */
+/*  Buy Button - used on cards and detail pages                       */
 /* ================================================================== */
 
 export function BuyButton({
@@ -100,7 +100,7 @@ export function BuyButton({
 }
 
 /* ================================================================== */
-/*  Small Buy Button — for template cards                             */
+/*  Small Buy Button - for template cards                             */
 /* ================================================================== */
 
 export function BuyButtonSmall({
@@ -145,7 +145,7 @@ export function BuyButtonSmall({
 }
 
 /* ================================================================== */
-/*  Checkout Modal — shown only to logged-in users                    */
+/*  Checkout Modal - shown only to logged-in users                    */
 /* ================================================================== */
 
 function BuyFlowModal({ template, onClose }: { template: Template; onClose: () => void }) {

@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     await updatePaymentRazorpayId(dbPayment.id, body.razorpay_payment_id);
 
     if (body.type === "card") {
-      // Cards are free — no unlock needed
+      // Cards are free - no unlock needed
     } else {
       const inviteId = body.inviteId ?? dbPayment.inviteId;
       if (inviteId) {

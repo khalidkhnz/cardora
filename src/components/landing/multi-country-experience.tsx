@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 /* ================================================================== */
-/*  Château du Nord — warm Canadian, maple-inspired                    */
+/*  Château du Nord - warm Canadian, maple-inspired                    */
 /* ================================================================== */
 
 export function ChateauDuNordExperience() {
@@ -205,7 +205,7 @@ export function ChateauDuNordExperience() {
         >
           <h2 className="text-xl font-bold text-[#2A1810]" style={{ fontFamily: "var(--font-playfair)" }}>Get Château du Nord</h2>
           <p className="mt-2 text-sm text-[#8B6040]">Your premium Canadian digital card</p>
-          <Link href="/signup"><Button className="mt-5 gap-2 bg-[#B03030] text-white hover:bg-[#8A2020]">Get Started — C$14.99</Button></Link>
+          <Link href="/signup"><Button className="mt-5 gap-2 bg-[#B03030] text-white hover:bg-[#8A2020]">Get Started - C$14.99</Button></Link>
         </motion.div>
       </div>
     </div>
@@ -213,7 +213,7 @@ export function ChateauDuNordExperience() {
 }
 
 /* ================================================================== */
-/*  The Cosmopolitan — dark, global, borderless                        */
+/*  The Cosmopolitan - dark, global, borderless                        */
 /* ================================================================== */
 
 export function TheCosmopolitanExperience() {
@@ -403,7 +403,7 @@ export function TheCosmopolitanExperience() {
         >
           <h2 className="text-xl font-bold text-white" style={{ fontFamily: "var(--font-playfair)" }}>Go Global with Cosmopolitan</h2>
           <p className="mt-2 text-sm text-white/40">The borderless digital identity card</p>
-          <Link href="/signup"><Button className="mt-5 gap-2 border border-[#4A90D0]/30 bg-[#4A90D0]/10 text-[#4A90D0] hover:bg-[#4A90D0]/20">Get Started — C$24.99</Button></Link>
+          <Link href="/signup"><Button className="mt-5 gap-2 border border-[#4A90D0]/30 bg-[#4A90D0]/10 text-[#4A90D0] hover:bg-[#4A90D0]/20">Get Started - C$24.99</Button></Link>
         </motion.div>
       </div>
     </div>

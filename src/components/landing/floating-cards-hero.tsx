@@ -8,17 +8,17 @@ import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/animated-invite/shared/magnetic-button";
 
 /* ================================================================== */
-/*  5 crafted cards — L/D/L/D/L alternating                          */
+/*  5 crafted cards - L/D/L/D/L alternating                          */
 /* ================================================================== */
 
 const GRAIN = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23a)' opacity='.4'/%3E%3C/svg%3E\")";
 
-/* ─── 1. WEDDING — Cinematic night scene (HERO) ─── */
-/* ─── CARD 1: INDIAN WEDDING (Light) — Back-view couple ─── */
+/* ─── 1. WEDDING - Cinematic night scene (HERO) ─── */
+/* ─── CARD 1: INDIAN WEDDING (Light) - Back-view couple ─── */
 function WeddingCard() {
   return (
     <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px] shadow-[0_8px_40px_rgba(40,20,10,0.10)]">
-      {/* Warm ivory base — darker than page bg to pop */}
+      {/* Warm ivory base - darker than page bg to pop */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#EDE4D4] via-[#E6DAC8] to-[#DDD0BC]" />
       {/* Soft center warmth */}
       <div className="absolute top-[30%] left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.05] blur-[50px]" />
@@ -26,7 +26,7 @@ function WeddingCard() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_45%,rgba(60,35,20,0.10)_100%)]" />
       <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: GRAIN }} />
 
-      {/* Mandap arch — soft, charcoal + gold */}
+      {/* Mandap arch - soft, charcoal + gold */}
       <svg viewBox="0 0 220 130" preserveAspectRatio="xMidYMid meet" className="absolute top-[3%] left-1/2 w-[85%] -translate-x-1/2" fill="none">
         <path d="M20 130 L20 55 Q20 15 110 10 Q200 15 200 55 L200 130" stroke="#3A2A1A" strokeWidth="0.8" strokeOpacity="0.12" />
         <path d="M35 130 L35 60 Q35 25 110 18 Q185 25 185 60 L185 130" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.15" />
@@ -37,7 +37,7 @@ function WeddingCard() {
         <circle cx="200" cy="52" r="2" fill="#3A2A1A" fillOpacity="0.08" />
       </svg>
 
-      {/* Minimal florals — top corners only */}
+      {/* Minimal florals - top corners only */}
       <svg viewBox="0 0 60 70" className="absolute top-0 left-0 h-[18%] w-auto" fill="none">
         <circle cx="15" cy="18" r="10" fill="#C08060" fillOpacity="0.15" />
         <circle cx="30" cy="32" r="7" fill="#D4AF37" fillOpacity="0.08" />
@@ -64,14 +64,14 @@ function WeddingCard() {
         </div>
       </div>
 
-      {/* ── Couple from BACK VIEW — center visual ── */}
+      {/* ── Couple from BACK VIEW - center visual ── */}
       <svg viewBox="0 0 140 160" className="relative z-10 mx-auto mt-2 h-[140px] w-auto">
         {/* Soft ground shadow */}
         <ellipse cx="70" cy="155" rx="45" ry="4" fill="#3A2A1A" fillOpacity="0.05" />
         {/* Varmala garland connecting them */}
         <path d="M55 65 Q70 78 85 65" stroke="#D4AF37" strokeOpacity="0.25" strokeWidth="1" fill="none" />
         <path d="M58 68 Q70 75 82 68" stroke="#C08060" strokeOpacity="0.15" strokeWidth="0.6" fill="none" />
-        {/* Groom — back view, sherwani */}
+        {/* Groom - back view, sherwani */}
         <circle cx="55" cy="35" r="13" fill="#3A2A1A" fillOpacity="0.50" />
         <path d="M38 150 L42 62 Q42 48 55 48 Q68 48 68 62 L72 150" fill="#3A2A1A" fillOpacity="0.45" />
         {/* Sherwani collar detail */}
@@ -79,7 +79,7 @@ function WeddingCard() {
         {/* Turban */}
         <path d="M44 30 Q55 20 66 30 Q66 38 55 40 Q44 38 44 30Z" fill="#C08060" fillOpacity="0.25" />
         <path d="M60 25 Q64 22 66 30" stroke="#D4AF37" strokeOpacity="0.15" strokeWidth="0.5" fill="none" />
-        {/* Bride — back view, lehenga */}
+        {/* Bride - back view, lehenga */}
         <circle cx="85" cy="35" r="13" fill="#5A2030" fillOpacity="0.40" />
         <path d="M68 150 L72 60 Q72 48 85 48 Q98 48 98 60 L108 150 Q88 140 68 150Z" fill="#5A2030" fillOpacity="0.35" />
         {/* Lehenga border detail */}
@@ -87,7 +87,7 @@ function WeddingCard() {
         <path d="M74 140 Q88 133 106 140" stroke="#D4AF37" strokeOpacity="0.08" strokeWidth="0.3" fill="none" />
         {/* Dupatta flowing down back */}
         <path d="M85 28 Q100 25 105 55 Q98 45 85 38" fill="#D45570" fillOpacity="0.12" />
-        {/* Jewelry — maang tikka */}
+        {/* Jewelry - maang tikka */}
         <circle cx="85" cy="26" r="1.5" fill="#D4AF37" fillOpacity="0.30" />
         {/* Garland flowers */}
         <circle cx="60" cy="72" r="1.5" fill="#C08060" fillOpacity="0.20" />
@@ -110,20 +110,20 @@ function WeddingCard() {
   );
 }
 
-/* ─── 2. BUSINESS CARD — Marble & gold texture ─── */
-/* ─── CARD 2: BUSINESS (Dark) — Vintage car brand ─── */
+/* ─── 2. BUSINESS CARD - Marble & gold texture ─── */
+/* ─── CARD 2: BUSINESS (Dark) - Vintage car brand ─── */
 function BusinessCard() {
   return (
     <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px]">
-      {/* Deep olive-charcoal — NOT pure black */}
+      {/* Deep olive-charcoal - NOT pure black */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#22241E] via-[#1A1C16] to-[#141610]" />
       {/* Matte brushed texture */}
       <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: GRAIN }} />
       <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: "repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(255,255,255,0.3) 2px,rgba(255,255,255,0.3) 3px)" }} />
-      {/* Warm metallic sheen — top */}
+      {/* Warm metallic sheen - top */}
       <div className="absolute -top-10 right-[10%] h-36 w-36 rounded-full bg-[#C6A85A]/[0.04] blur-[45px]" />
 
-      {/* Vintage car silhouette — background */}
+      {/* Vintage car silhouette - background */}
       <svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMax meet" className="absolute bottom-[30%] left-1/2 w-[95%] -translate-x-1/2 opacity-[0.04]" fill="#C6A85A">
         {/* Body */}
         <path d="M40 90 L40 65 Q40 50 70 45 L100 42 Q120 35 140 32 L200 32 Q230 35 240 42 L260 50 Q280 55 280 70 L280 90Z" />
@@ -136,7 +136,7 @@ function BusinessCard() {
         <circle cx="55" cy="58" r="2" />
       </svg>
 
-      {/* Gold accent line — top */}
+      {/* Gold accent line - top */}
       <div className="absolute top-0 right-[18%] left-[18%] h-px bg-gradient-to-r from-transparent via-[#C6A85A]/30 to-transparent" />
 
       {/* Content */}
@@ -175,12 +175,12 @@ function BusinessCard() {
   );
 }
 
-/* ─── 3. ANIMATED INVITE — Aurora / northern lights ─── */
-/* ─── CARD 3: ANIMATED INVITE (Light) — Layered depth, no play button ─── */
+/* ─── 3. ANIMATED INVITE - Aurora / northern lights ─── */
+/* ─── CARD 3: ANIMATED INVITE (Light) - Layered depth, no play button ─── */
 function AnimatedInviteCard() {
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[18px] shadow-[0_6px_30px_rgba(40,20,10,0.08)]">
-      {/* Cream base — darker than page bg */}
+      {/* Cream base - darker than page bg */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#EBE2D4] via-[#E4DAC8] to-[#DCD0BE]" />
       {/* Coral wash */}
       <div className="absolute top-[5%] right-[5%] h-36 w-36 rounded-full bg-[#FF8C6A]/[0.06] blur-[40px]" />
@@ -190,12 +190,12 @@ function AnimatedInviteCard() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_45%,rgba(50,30,20,0.08)_100%)]" />
       <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: GRAIN }} />
 
-      {/* ── Layered card frames — implying animation/parallax ── */}
+      {/* ── Layered card frames - implying animation/parallax ── */}
       {/* Back layer */}
       <div className="absolute top-[18%] left-1/2 h-[52%] w-[72%] -translate-x-[46%] rotate-[-3deg] rounded-xl border border-[#D4AF37]/12 bg-[#E0D6C6]/70 shadow-[0_3px_12px_rgba(0,0,0,0.05)]" />
       {/* Mid layer */}
       <div className="absolute top-[15%] left-1/2 h-[54%] w-[74%] -translate-x-[50%] rotate-[1deg] rounded-xl border border-[#D4AF37]/15 bg-[#E8DED0]/75 shadow-[0_4px_16px_rgba(0,0,0,0.06)]" />
-      {/* Front layer — main card */}
+      {/* Front layer - main card */}
       <div className="absolute top-[12%] left-1/2 h-[56%] w-[76%] -translate-x-[54%] rotate-[-1deg] rounded-xl border border-[#D4AF37]/18 bg-[#F0E8DA]/85 shadow-[0_5px_22px_rgba(0,0,0,0.08)]">
         {/* Content inside front card */}
         <div className="flex h-full flex-col items-center justify-center p-4">
@@ -244,11 +244,11 @@ function AnimatedInviteCard() {
   );
 }
 
-/* ─── CARD 4: CHRISTIAN WEDDING (Dark) — Garden ring scene ─── */
+/* ─── CARD 4: CHRISTIAN WEDDING (Dark) - Garden ring scene ─── */
 function ChristianWeddingCard() {
   return (
     <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[18px]">
-      {/* Deep navy-teal — NOT too dark */}
+      {/* Deep navy-teal - NOT too dark */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#162030] via-[#1A2838] to-[#122028]" />
       {/* Warm glow center */}
       <div className="absolute top-[25%] left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.07] blur-[60px]" />
@@ -285,15 +285,15 @@ function ChristianWeddingCard() {
         <circle cx="245" cy="40" r="2.5" fill="#D4AF37" fillOpacity="0.12" />
       </svg>
 
-      {/* ── Couple — looking towards ring ── */}
+      {/* ── Couple - looking towards ring ── */}
       <svg viewBox="0 0 120 130" className="absolute bottom-[12%] left-1/2 h-[120px] -translate-x-1/2">
         <ellipse cx="60" cy="126" rx="35" ry="3" fill="#D4AF37" fillOpacity="0.03" />
-        {/* Groom — three-piece suit */}
+        {/* Groom - three-piece suit */}
         <circle cx="48" cy="32" r="11" fill="#101820" fillOpacity="0.55" />
         <path d="M34 125 L38 58 Q38 45 48 45 Q58 45 58 58 L62 125" fill="#101820" fillOpacity="0.50" />
         {/* Suit lapel hint */}
         <path d="M43 55 L48 50 L53 55" stroke="#D4AF37" strokeOpacity="0.10" strokeWidth="0.5" fill="none" />
-        {/* Bride — white gown */}
+        {/* Bride - white gown */}
         <circle cx="72" cy="32" r="11" fill="#C8C0B0" fillOpacity="0.35" />
         <path d="M58 125 L62 56 Q62 45 72 45 Q82 45 82 56 L92 125 Q72 118 58 125Z" fill="#C8C0B0" fillOpacity="0.28" />
         {/* Gown detail */}
@@ -331,11 +331,11 @@ function ChristianWeddingCard() {
   );
 }
 
-/* ─── CARD 5: QR/NFC SHARING (Light) — Scattered mini QR pattern ─── */
+/* ─── CARD 5: QR/NFC SHARING (Light) - Scattered mini QR pattern ─── */
 function QrShareCard() {
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-[18px] shadow-[0_6px_30px_rgba(40,20,10,0.08)]">
-      {/* Ivory base — darker than page bg */}
+      {/* Ivory base - darker than page bg */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#ECE6DC] via-[#E5DDD0] to-[#DDD4C6]" />
       {/* Soft warmth */}
       <div className="absolute top-[20%] left-1/2 h-36 w-36 -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.04] blur-[40px]" />
@@ -343,7 +343,7 @@ function QrShareCard() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_50%,rgba(50,30,20,0.06)_100%)]" />
       <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: GRAIN }} />
 
-      {/* ── Scattered mini QR codes — pattern across card ── */}
+      {/* ── Scattered mini QR codes - pattern across card ── */}
       <svg viewBox="0 0 280 400" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" fill="none">
         {/* Mini QR blocks scattered aesthetically */}
         {[
@@ -368,7 +368,7 @@ function QrShareCard() {
         <path d="M70 310 Q140 290 230 328" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.06" strokeDasharray="3 5" />
       </svg>
 
-      {/* NFC concentric waves — center */}
+      {/* NFC concentric waves - center */}
       {[48, 64, 80].map((s, i) => (
         <div key={i} className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#D4AF37]" style={{ width: s, height: s, opacity: 0.06 - i * 0.015 }} />
       ))}
@@ -411,7 +411,7 @@ function QrShareCard() {
 }
 
 /* ================================================================== */
-/*  Card configs — L/D/L/D/L                                         */
+/*  Card configs - L/D/L/D/L                                         */
 /* ================================================================== */
 
 const SHOWCASE_CARDS = [
@@ -522,7 +522,7 @@ export function FloatingCardsHero() {
         className="mx-auto mt-4 max-w-lg px-6 text-center text-base text-muted-foreground md:text-lg"
       >
         Stunning business cards, wedding invitations &amp; cinematic animated
-        invites — explore our designs.
+        invites - explore our designs.
       </motion.p>
 
       {/* ════════════════════════════════════════════════════════════ */}

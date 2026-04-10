@@ -1,7 +1,7 @@
 "use client";
 
 /* ================================================================== */
-/*  Card Cover Previews — realistic mini card designs                 */
+/*  Card Cover Previews - realistic mini card designs                 */
 /* ================================================================== */
 
 export function FreeCardCover({ id }: { id: string }) {

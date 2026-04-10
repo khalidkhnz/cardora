@@ -645,7 +645,7 @@ export default function MandapCeremonyTemplate({ invite, isDemo }: TemplateProps
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding Invitation`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding Invitation`,
           url,
         });
         return;

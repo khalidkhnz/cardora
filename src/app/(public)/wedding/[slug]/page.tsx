@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const names = [invite.groomName, invite.brideName].filter(Boolean).join(" & ");
 
   return {
-    title: names ? `${names} — Wedding Invite` : pageTitle("Wedding Invite"),
+    title: names ? `${names} - Wedding Invite` : pageTitle("Wedding Invite"),
     description: invite.story
       ? invite.story.slice(0, 160)
       : "You're invited to celebrate our special day!",

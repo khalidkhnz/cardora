@@ -246,7 +246,7 @@ export async function sendRSVPConfirmationEmail(
     await transporter.sendMail({
       from: emailFrom(env.SMTP_USER!),
       to: guestEmail,
-      subject: `RSVP Confirmed — ${wedding.coupleName}'s Wedding`,
+      subject: `RSVP Confirmed - ${wedding.coupleName}'s Wedding`,
       html: `
         <!DOCTYPE html>
         <html>

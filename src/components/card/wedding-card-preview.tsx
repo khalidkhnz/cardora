@@ -239,7 +239,7 @@ function OrnateHorizontal({
         style={{ border: `1px solid ${accent}22` }}
       />
 
-      {/* Left — names */}
+      {/* Left - names */}
       <div className="relative z-10 flex w-[52%] flex-col items-center justify-center px-4">
         <div
           className="mb-1 h-2 w-2 rotate-45"
@@ -308,7 +308,7 @@ function OrnateHorizontal({
         />
       </div>
 
-      {/* Right — details */}
+      {/* Right - details */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-3 text-center">
         <p
           className="font-semibold"
@@ -368,7 +368,7 @@ function OrnateHorizontal({
 
 // ─── Layout: CLASSIC ─────────────────────────────────────────────────────────
 // Cinzel heading + Lora body
-// Traditional Indian feel — single border frame, wide letter-spacing, serif details.
+// Traditional Indian feel - single border frame, wide letter-spacing, serif details.
 
 function ClassicVertical({
   template,
@@ -543,7 +543,7 @@ function ClassicHorizontal({
         style={{ border: `1px solid ${accent}4D` }}
       />
 
-      {/* Left — names in frame */}
+      {/* Left - names in frame */}
       <div className="relative z-10 flex w-[50%] flex-col items-center justify-center px-4">
         <p
           className="text-center uppercase"
@@ -604,7 +604,7 @@ function ClassicHorizontal({
         }}
       />
 
-      {/* Right — details */}
+      {/* Right - details */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-3 text-center">
         <p
           className="font-semibold"
@@ -659,7 +659,7 @@ function ClassicHorizontal({
 
 // ─── Layout: ROMANTIC ────────────────────────────────────────────────────────
 // Playfair Display heading + Great Vibes script
-// Airy, soft, no hard borders — large script "&" as hero element.
+// Airy, soft, no hard borders - large script "&" as hero element.
 
 function RomanticVertical({
   template,
@@ -681,7 +681,7 @@ function RomanticVertical({
         padding: "12px 14px",
       }}
     >
-      {/* Cultural header — airy, very light */}
+      {/* Cultural header - airy, very light */}
       <div className="relative z-10 flex flex-col items-center pt-1">
         <p
           className="text-center uppercase"
@@ -696,7 +696,7 @@ function RomanticVertical({
         </p>
       </div>
 
-      {/* Hero section — names + large "&" */}
+      {/* Hero section - names + large "&" */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
         {/* Groom name above */}
         <p
@@ -716,7 +716,7 @@ function RomanticVertical({
           style={{ backgroundColor: text, opacity: 0.2 }}
         />
 
-        {/* Large flourishing "&" — the hero element */}
+        {/* Large flourishing "&" - the hero element */}
         <p
           className="leading-none"
           style={{
@@ -748,7 +748,7 @@ function RomanticVertical({
         </p>
       </div>
 
-      {/* Details — soft and light */}
+      {/* Details - soft and light */}
       <div className="relative z-10 flex w-full flex-col items-center gap-0.5 pb-1">
         <p
           className="text-center"
@@ -826,7 +826,7 @@ function RomanticHorizontal({
         color: text,
       }}
     >
-      {/* Left — names + large "&" */}
+      {/* Left - names + large "&" */}
       <div className="relative z-10 flex w-[48%] flex-col items-center justify-center px-3">
         <p
           className="text-center uppercase"
@@ -873,7 +873,7 @@ function RomanticHorizontal({
         </div>
       </div>
 
-      {/* Right — flowing details */}
+      {/* Right - flowing details */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-3 text-center">
         <p
           style={{
@@ -936,7 +936,7 @@ function RomanticHorizontal({
 
 // ─── Layout: REGAL ───────────────────────────────────────────────────────────
 // Cinzel heading + Cormorant body
-// Formal, commanding — strong accent bars, all-caps, structured layout.
+// Formal, commanding - strong accent bars, all-caps, structured layout.
 
 function RegalVertical({
   template,
@@ -1266,7 +1266,7 @@ function RegalHorizontal({
 
 // ─── Layout: MODERN ──────────────────────────────────────────────────────────
 // Montserrat heading + Raleway body
-// Swiss design — clean, minimal, lots of whitespace, light-weight typography.
+// Swiss design - clean, minimal, lots of whitespace, light-weight typography.
 
 function ModernVertical({
   template,
@@ -1288,7 +1288,7 @@ function ModernVertical({
         padding: "14px 16px",
       }}
     >
-      {/* Cultural header — very tiny, wide tracking */}
+      {/* Cultural header - very tiny, wide tracking */}
       <div className="relative z-10 flex flex-col items-start w-full pt-1">
         <p
           className="uppercase"
@@ -1303,7 +1303,7 @@ function ModernVertical({
         </p>
       </div>
 
-      {/* Couple names — light weight, large */}
+      {/* Couple names - light weight, large */}
       <div className="relative z-10 flex flex-1 flex-col items-start justify-center w-full gap-0.5">
         <p
           className="leading-tight"
@@ -1347,7 +1347,7 @@ function ModernVertical({
         />
       </div>
 
-      {/* Details — minimal */}
+      {/* Details - minimal */}
       <div className="relative z-10 flex w-full flex-col items-start gap-0.5 pb-1">
         <p
           style={{
@@ -1424,7 +1424,7 @@ function ModernHorizontal({
         color: text,
       }}
     >
-      {/* Left — names, left-aligned */}
+      {/* Left - names, left-aligned */}
       <div className="relative z-10 flex w-[52%] flex-col justify-center px-5">
         <p
           className="uppercase"
@@ -1482,7 +1482,7 @@ function ModernHorizontal({
         }}
       />
 
-      {/* Right — details, right-aligned */}
+      {/* Right - details, right-aligned */}
       <div className="relative z-10 flex flex-1 flex-col items-end justify-center px-5 text-right">
         <p
           style={{
@@ -1591,7 +1591,7 @@ function WeddingLayoutHorizontal({
 
 // ─── Main export ─────────────────────────────────────────────────────────────
 
-// Base dimensions — layouts render at this fixed size (matches "standard").
+// Base dimensions - layouts render at this fixed size (matches "standard").
 const WEDDING_BASE_DIMENSIONS = {
   horizontal: { width: 256, height: 160 },
   vertical: { width: 192, height: 288 },
@@ -1649,7 +1649,7 @@ export const WeddingCardPreview = forwardRef<
     </div>
   );
 
-  // Bare mode — no padding, no shadow card, no entry animation
+  // Bare mode - no padding, no shadow card, no entry animation
   if (bare) return cardCore;
 
   return (

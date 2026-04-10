@@ -296,7 +296,7 @@ export function SavedCardGrid({ cards }: { cards: SavedCard[] }) {
       </div>
 
 
-      {/* Download overlay — covers the temp render element */}
+      {/* Download overlay - covers the temp render element */}
       {downloading && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-white/80 backdrop-blur-sm dark:bg-black/80">
           <div className="text-center">

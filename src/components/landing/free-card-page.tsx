@@ -42,7 +42,7 @@ const CARDS: Record<string, {
     type: "Business Card",
     title: "Professional Business Card",
     tagline: "Make a lasting first impression",
-    description: "Create a sleek, modern digital business card with your contact info, social links, and QR code — all shareable with a single tap.",
+    description: "Create a sleek, modern digital business card with your contact info, social links, and QR code - all shareable with a single tap.",
     color: "#D4AF37",
     fields: [
       { key: "name", label: "Full Name", placeholder: "John Doe" },
@@ -56,7 +56,7 @@ const CARDS: Record<string, {
     type: "Wedding Invitation",
     title: "Elegant Wedding Invite",
     tagline: "Announce your special day beautifully",
-    description: "A stunning digital wedding invitation with RSVP tracking, event details, venue info, and easy sharing — all at no cost.",
+    description: "A stunning digital wedding invitation with RSVP tracking, event details, venue info, and easy sharing - all at no cost.",
     color: "#B8860B",
     fields: [
       { key: "partner1", label: "Partner 1 Name", placeholder: "James" },
@@ -70,7 +70,7 @@ const CARDS: Record<string, {
     type: "Engagement Card",
     title: "Save the Date",
     tagline: "Share your exciting news with the world",
-    description: "A beautiful digital engagement announcement with your names, date, and a personal message — share it instantly with everyone.",
+    description: "A beautiful digital engagement announcement with your names, date, and a personal message - share it instantly with everyone.",
     color: "#C09060",
     fields: [
       { key: "partner1", label: "Partner 1 Name", placeholder: "Michael" },
@@ -97,7 +97,7 @@ const CARDS: Record<string, {
     type: "QR Contact Card",
     title: "QR Contact Card",
     tagline: "One scan, all your details",
-    description: "A clean digital card with your contact info and a scannable QR code — perfect for networking events, conferences, and meetings.",
+    description: "A clean digital card with your contact info and a scannable QR code - perfect for networking events, conferences, and meetings.",
     color: "#D4AF37",
     fields: [
       { key: "name", label: "Full Name", placeholder: "Sarah Chen" },
@@ -111,7 +111,7 @@ const CARDS: Record<string, {
     type: "Creative Portfolio",
     title: "Creative Portfolio Card",
     tagline: "Let your work speak for itself",
-    description: "A bold, artistic digital card for designers, photographers, and creatives — showcase your portfolio with style.",
+    description: "A bold, artistic digital card for designers, photographers, and creatives - showcase your portfolio with style.",
     color: "#D4AF37",
     fields: [
       { key: "name", label: "Full Name", placeholder: "Alex Rivera" },
@@ -125,7 +125,7 @@ const CARDS: Record<string, {
     type: "Real Estate Card",
     title: "Real Estate Agent Card",
     tagline: "Close deals with a professional edge",
-    description: "A polished digital card for real estate professionals — feature your agency, license, and contact info with authority.",
+    description: "A polished digital card for real estate professionals - feature your agency, license, and contact info with authority.",
     color: "#D4AF37",
     fields: [
       { key: "name", label: "Agent Name", placeholder: "Robert Williams" },
@@ -139,7 +139,7 @@ const CARDS: Record<string, {
     type: "Thank You Card",
     title: "Digital Thank You Card",
     tagline: "Express gratitude beautifully",
-    description: "Send a heartfelt digital thank you card to friends, family, or clients — personalized and shareable in seconds.",
+    description: "Send a heartfelt digital thank you card to friends, family, or clients - personalized and shareable in seconds.",
     color: "#C07050",
     fields: [
       { key: "from", label: "From", placeholder: "The Johnson Family" },
@@ -151,7 +151,7 @@ const CARDS: Record<string, {
 };
 
 const OFFERINGS = [
-  { icon: CreditCard, title: "Digital Cards", desc: "Business cards, wedding invites, and more — all digital, all free." },
+  { icon: CreditCard, title: "Digital Cards", desc: "Business cards, wedding invites, and more - all digital, all free." },
   { icon: QrCode, title: "QR Code Sharing", desc: "Generate a QR code instantly for easy sharing at events." },
   { icon: Smartphone, title: "NFC Ready", desc: "Program NFC tags for tap-to-share functionality." },
   { icon: Share2, title: "Instant Sharing", desc: "Share via link, WhatsApp, email, or social media." },
@@ -604,7 +604,7 @@ export function FreeCardPage({ type }: { type: string }) {
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#B8860B]/[0.03] via-transparent to-transparent" />
         <div className="mx-auto max-w-5xl">
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            {/* Left — info */}
+            {/* Left - info */}
             <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
               <span className="inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-xs font-medium uppercase tracking-wider text-[#B8860B]">
                 100% Free
@@ -643,7 +643,7 @@ export function FreeCardPage({ type }: { type: string }) {
               </div>
             </motion.div>
 
-            {/* Right — card preview */}
+            {/* Right - card preview */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}

@@ -44,7 +44,7 @@ const STORY_PAGES = [
   { title: "The Bookshop", text: "A quiet autumn evening, a little bookshop on the corner of Maple Street. He reached for the same book she did.", year: "2022" },
   { title: "First Letter", text: "He left a handwritten note in her favorite book. She found it three days later and smiled for hours.", year: "2023" },
   { title: "The Question", text: "On a garden bench, surrounded by fairy lights and old roses, he asked the only question that mattered.", year: "2024" },
-  { title: "Forever Begins", text: "November 20, 2026 — at the Heritage Garden Estate, two stories become one.", year: "2026" },
+  { title: "Forever Begins", text: "November 20, 2026 - at the Heritage Garden Estate, two stories become one.", year: "2026" },
 ];
 
 const GALLERY = [
@@ -86,7 +86,7 @@ export function VintageAffairExperience() {
     setRevealedEvents(prev => { const n = new Set(prev); n.add(idx); return n; });
   }, []);
 
-  // ── ENTRY — "Open the Book" (unique — NOT envelope, NOT horizon) ──
+  // ── ENTRY - "Open the Book" (unique - NOT envelope, NOT horizon) ──
   if (!isBookOpen) {
     return (
       <>
@@ -148,7 +148,7 @@ export function VintageAffairExperience() {
           ))}
         </div>
 
-        {/* ── HERO — letter card ── */}
+        {/* ── HERO - letter card ── */}
         <motion.section className="relative flex min-h-screen flex-col items-center justify-center px-6" initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }}>
           <div className="absolute inset-0 bg-gradient-to-b from-[#D4C8AE] via-[#CCBC9C] to-[#C0B090]" />
           {/* Fairy lights */}
@@ -200,7 +200,7 @@ export function VintageAffairExperience() {
           </div>
         </motion.section>
 
-        {/* ── LOVE STORY — page-by-page journal (UNIQUE — not tap-reveal or step-nav) ── */}
+        {/* ── LOVE STORY - page-by-page journal (UNIQUE - not tap-reveal or step-nav) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-md">
             <div className="mb-6 text-center">
@@ -232,7 +232,7 @@ export function VintageAffairExperience() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Page turn buttons — book-style */}
+            {/* Page turn buttons - book-style */}
             <div className="mt-4 flex items-center justify-between">
               <button onClick={() => setStoryPage(Math.max(0, storyPage - 1))}
                 className={`text-[9px] uppercase tracking-[0.12em] text-[#5A4830]/40 transition-opacity ${storyPage === 0 ? "opacity-0" : "hover:text-[#5A4830]/60"}`}
@@ -251,7 +251,7 @@ export function VintageAffairExperience() {
           </div>
         </section>
 
-        {/* ── EVENTS — sealed cards, tap to unseal (UNIQUE — not accordion, not tabs) ── */}
+        {/* ── EVENTS - sealed cards, tap to unseal (UNIQUE - not accordion, not tabs) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-lg">
             <div className="mb-10 text-center">
@@ -266,7 +266,7 @@ export function VintageAffairExperience() {
                 return (
                   <motion.div key={ev.name} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
                     {!isRevealed ? (
-                      /* Sealed card — tap to reveal */
+                      /* Sealed card - tap to reveal */
                       <motion.button onClick={() => revealEvent(i)} className="group w-full rounded-lg border border-[#B8A888]/15 bg-[#EDE4D0]/40 p-5 text-center transition-all hover:border-[#B8A888]/25 hover:shadow-sm"
                         whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} style={{ transform: `rotate(${i % 2 === 0 ? "-0.3" : "0.3"}deg)` }}>
                         <div className="flex items-center justify-center gap-3">
@@ -316,7 +316,7 @@ export function VintageAffairExperience() {
             <div className="mt-8 space-y-3">
               {[
                 { title: "From Airport", desc: "45 minutes from the city airport", icon: "M2 16 L10 12 L10 6 Q10 2 12 2 Q14 2 14 6 L14 12 L22 16 L22 18 L14 15 L14 18 L16 20 L16 22 L12 20 L8 22 L8 20 L10 18 L10 15 L2 18Z" },
-                { title: "Accommodation", desc: "The Garden Inn — special guest rates", icon: "M3 20 L3 10 L12 4 L21 10 L21 20 M8 20 L8 14 L16 14 L16 20" },
+                { title: "Accommodation", desc: "The Garden Inn - special guest rates", icon: "M3 20 L3 10 L12 4 L21 10 L21 20 M8 20 L8 14 L16 14 L16 20" },
               ].map((t, i) => (
                 <motion.div key={t.title} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                   className="flex items-start gap-3 rounded-lg border border-[#B8A888]/12 bg-[#EDE4D0]/40 p-4 text-left">
@@ -348,7 +348,7 @@ export function VintageAffairExperience() {
           </div>
         </motion.section>
 
-        {/* ── GALLERY — tap to open book of memories (UNIQUE) ── */}
+        {/* ── GALLERY - tap to open book of memories (UNIQUE) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-[9px] uppercase tracking-[0.4em] text-[#5A4830]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Captured Moments</p>

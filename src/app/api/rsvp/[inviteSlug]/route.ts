@@ -8,7 +8,7 @@ export async function GET(
   const { inviteSlug } = await params;
   const rsvps = await getRsvpsByInviteSlug(inviteSlug);
 
-  // Only return aggregate stats — no guest names, emails, or personal details
+  // Only return aggregate stats - no guest names, emails, or personal details
   const stats = {
     total: rsvps.length,
     attending: rsvps.filter((r) => r.attending === "yes").length,

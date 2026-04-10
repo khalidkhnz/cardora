@@ -34,7 +34,7 @@ function formatWeddingDate(dateStr: string | null) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Jharokha Arch SVG — Mughal window/arch ornamental frame                    */
+/*  Jharokha Arch SVG - Mughal window/arch ornamental frame                    */
 /* -------------------------------------------------------------------------- */
 
 function JharokhaArch({ className }: { className?: string }) {
@@ -98,7 +98,7 @@ function JharokhaArch({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Jali Pattern SVG — Intricate lattice pattern border                        */
+/*  Jali Pattern SVG - Intricate lattice pattern border                        */
 /* -------------------------------------------------------------------------- */
 
 function JaliPattern({ className }: { className?: string }) {
@@ -145,7 +145,7 @@ function JaliPattern({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Pietra Dura Inlay SVG — Floral inlay decorative element                    */
+/*  Pietra Dura Inlay SVG - Floral inlay decorative element                    */
 /* -------------------------------------------------------------------------- */
 
 function PietraDuraInlay({ className }: { className?: string }) {
@@ -207,7 +207,7 @@ function PietraDuraInlay({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Mughal Rose SVG — Stylized rose motif                                      */
+/*  Mughal Rose SVG - Stylized rose motif                                      */
 /* -------------------------------------------------------------------------- */
 
 function MughalRose({ className }: { className?: string }) {
@@ -241,7 +241,7 @@ function MughalRose({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Jali Lattice Overlay SVG — full-card decorative lattice for dissolve       */
+/*  Jali Lattice Overlay SVG - full-card decorative lattice for dissolve       */
 /* -------------------------------------------------------------------------- */
 
 function JaliOverlay() {
@@ -298,7 +298,7 @@ function JaliOverlay() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Mughal Garden Divider — decorative band between sections                   */
+/*  Mughal Garden Divider - decorative band between sections                   */
 /* -------------------------------------------------------------------------- */
 
 function MughalGardenDivider() {
@@ -364,7 +364,7 @@ function MughalGardenDivider() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Rose Petal — Framer Motion floating petal component                        */
+/*  Rose Petal - Framer Motion floating petal component                        */
 /* -------------------------------------------------------------------------- */
 
 function RosePetal({ delay, size, startX, color }: { delay: number; size: number; startX: number; color: string }) {
@@ -397,7 +397,7 @@ function RosePetal({ delay, size, startX, color }: { delay: number; size: number
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Rose Petals Layer — Ambient floating petals using Framer Motion            */
+/*  Rose Petals Layer - Ambient floating petals using Framer Motion            */
 /* -------------------------------------------------------------------------- */
 
 function RosePetalsLayer() {
@@ -422,7 +422,7 @@ function RosePetalsLayer() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Mughal Event Card — Jali lattice overlay dissolves to reveal content        */
+/*  Mughal Event Card - Jali lattice overlay dissolves to reveal content        */
 /* -------------------------------------------------------------------------- */
 
 function MughalEventCard({
@@ -524,7 +524,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
   // Initialize Lenis smooth scrolling
   useLenis();
 
-  // GSAP ScrollTrigger animations — Imperial Unfolding Theme
+  // GSAP ScrollTrigger animations - Imperial Unfolding Theme
   useEffect(() => {
     const ctx = gsap.context(() => {
       /* ---- Hero: Jharokha Arch draws itself from bottom to top ---- */
@@ -685,7 +685,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding Invitation`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding Invitation`,
           url,
         });
         return;
@@ -709,7 +709,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
       {/* Gold leaf floating particles */}
       <ParticleLayer type="LIGHT" />
 
-      {/* Rose petals — gentle ambient drift (Framer Motion) */}
+      {/* Rose petals - gentle ambient drift (Framer Motion) */}
       <RosePetalsLayer />
 
       {/* Subtle jali lattice pattern overlay */}
@@ -740,18 +740,18 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
       )}
 
       {/* ================================================================== */}
-      {/*  HERO SECTION — Full viewport with Jharokha arch draw              */}
+      {/*  HERO SECTION - Full viewport with Jharokha arch draw              */}
       {/* ================================================================== */}
       <section className="relative flex min-h-screen flex-col items-center justify-center px-4">
         {/* Radial background glow */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(13,107,61,0.25)_0%,_transparent_70%)]" />
 
-        {/* Jharokha arch frame — draws itself */}
+        {/* Jharokha arch frame - draws itself */}
         <div className="relative mx-auto flex justify-center">
           <JharokhaArch className="h-44 w-36 text-[#FFD700]/60 sm:h-56 sm:w-44" />
         </div>
 
-        {/* Bismillah — appears after arch draws */}
+        {/* Bismillah - appears after arch draws */}
         <div className="hero-content-reveal mt-4 mb-2">
           <p
             className="font-serif text-2xl leading-relaxed text-[#FFD700] sm:text-3xl"
@@ -865,12 +865,12 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
       </section>
 
       {/* ================================================================== */}
-      {/*  CONTENT — max-w-3xl centered                                      */}
+      {/*  CONTENT - max-w-3xl centered                                      */}
       {/* ================================================================== */}
       <div className="relative z-10">
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 2 — EVENTS                                              */}
+        {/*  SECTION 2 - EVENTS                                              */}
         {/* ---------------------------------------------------------------- */}
         <section className="relative py-16">
           {/* Full-width deep green/gold gradient band */}
@@ -899,7 +899,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
         <MughalGardenDivider />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 3 — COUPLE PHOTO                                        */}
+        {/*  SECTION 3 - COUPLE PHOTO                                        */}
         {/* ---------------------------------------------------------------- */}
         {invite.couplePhoto && (
           <section className="mx-auto mb-16 max-w-3xl px-4">
@@ -923,7 +923,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
         )}
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 4 — GALLERY                                             */}
+        {/*  SECTION 4 - GALLERY                                             */}
         {/* ---------------------------------------------------------------- */}
         {invite.galleryImages.length > 0 && (
           <section className="relative mb-16 py-10">
@@ -962,7 +962,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 5 — THINGS TO KNOW                                      */}
+        {/*  SECTION 5 - THINGS TO KNOW                                      */}
         {/* ---------------------------------------------------------------- */}
         {thingsToKnow.length > 0 && (
           <section className="mx-auto mb-16 max-w-3xl px-4">
@@ -996,7 +996,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
         )}
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 6 — STORY                                               */}
+        {/*  SECTION 6 - STORY                                               */}
         {/* ---------------------------------------------------------------- */}
         {invite.story && (
           <section className="mx-auto mb-16 max-w-3xl px-4">
@@ -1024,7 +1024,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 7 — COUNTDOWN TIMER                                     */}
+        {/*  SECTION 7 - COUNTDOWN TIMER                                     */}
         {/* ---------------------------------------------------------------- */}
         {invite.weddingDate && (
           <section className="mx-auto mb-16 max-w-3xl px-4">
@@ -1102,7 +1102,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 8 — COUPLE MESSAGE                                      */}
+        {/*  SECTION 8 - COUPLE MESSAGE                                      */}
         {/* ---------------------------------------------------------------- */}
         {invite.coupleMessage && (
           <section className="mx-auto mb-16 max-w-3xl px-4">
@@ -1131,7 +1131,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 9 — RSVP + SHARE BUTTONS                               */}
+        {/*  SECTION 9 - RSVP + SHARE BUTTONS                               */}
         {/* ---------------------------------------------------------------- */}
         <section className="mx-auto mb-16 max-w-3xl px-4 text-center">
           <div className="mughal-reveal">
@@ -1189,7 +1189,7 @@ export default function MughalGrandeurTemplate({ invite, isDemo }: TemplateProps
         </section>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 10 — FOOTER / WATERMARK                                 */}
+        {/*  SECTION 10 - FOOTER / WATERMARK                                 */}
         {/* ---------------------------------------------------------------- */}
         <footer className="mx-auto max-w-3xl px-4 pb-8 text-center">
           <JaliPattern className="mx-auto mb-4 h-10 w-full text-[#FFD700]/25" />

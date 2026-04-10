@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Cards are free — no payment check needed
+  // Cards are free - no payment check needed
   const body = (await request.json()) as {
     templateId: string;
     data: Record<string, unknown>;

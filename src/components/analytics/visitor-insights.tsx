@@ -69,7 +69,7 @@ export function VisitorInsights() {
       <CardHeader>
         <CardTitle>Visitor Insights</CardTitle>
         <CardDescription>
-          {data.total} total events — Page {data.page} of {data.totalPages}
+          {data.total} total events - Page {data.page} of {data.totalPages}
         </CardDescription>
       </CardHeader>
       <CardContent>

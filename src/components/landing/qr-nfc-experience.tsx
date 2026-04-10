@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { platform } from "@/lib/platform";
 
 /* ================================================================== */
-/*  Auric Touch — warm, golden, elegant                                */
+/*  Auric Touch - warm, golden, elegant                                */
 /* ================================================================== */
 
 export function AuricTouchExperience() {
@@ -256,7 +256,7 @@ export function AuricTouchExperience() {
           </p>
           <Link href="/signup">
             <Button className="mt-5 gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]">
-              Get Started — C$12.99
+              Get Started - C$12.99
             </Button>
           </Link>
         </motion.div>
@@ -266,7 +266,7 @@ export function AuricTouchExperience() {
 }
 
 /* ================================================================== */
-/*  Obsidian Cipher — dark, sleek, tech-forward                        */
+/*  Obsidian Cipher - dark, sleek, tech-forward                        */
 /* ================================================================== */
 
 export function ObsidianCipherExperience() {
@@ -518,7 +518,7 @@ export function ObsidianCipherExperience() {
           </p>
           <Link href="/signup">
             <Button className="mt-5 gap-2 border border-[#60A0D0]/30 bg-[#60A0D0]/10 text-[#60A0D0] hover:bg-[#60A0D0]/20">
-              Get Started — C$19.99
+              Get Started - C$19.99
             </Button>
           </Link>
         </motion.div>

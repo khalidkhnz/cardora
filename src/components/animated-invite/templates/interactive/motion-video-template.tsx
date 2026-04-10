@@ -215,7 +215,7 @@ export default function MotionVideoTemplate({
         },
       });
 
-      // Step 1 — Seal scales up, rotates, and fades out
+      // Step 1 - Seal scales up, rotates, and fades out
       if (sealRef.current) {
         tl.to(sealRef.current, {
           scale: 1.6,
@@ -226,7 +226,7 @@ export default function MotionVideoTemplate({
         });
       }
 
-      // Step 2 — Envelope flap opens upward (rotate around top edge)
+      // Step 2 - Envelope flap opens upward (rotate around top edge)
       if (flapRef.current) {
         tl.to(
           flapRef.current,
@@ -239,7 +239,7 @@ export default function MotionVideoTemplate({
         );
       }
 
-      // Step 3 — Content slides up from envelope
+      // Step 3 - Content slides up from envelope
       if (contentSlideRef.current) {
         tl.fromTo(
           contentSlideRef.current,
@@ -254,7 +254,7 @@ export default function MotionVideoTemplate({
         );
       }
 
-      // Step 4 — Fade out entire envelope
+      // Step 4 - Fade out entire envelope
       if (envelopeRef.current) {
         tl.to(
           envelopeRef.current,
@@ -282,7 +282,7 @@ export default function MotionVideoTemplate({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding`,
           url,
         });
         return;
@@ -311,7 +311,7 @@ export default function MotionVideoTemplate({
         </div>
       )}
 
-      {/* Golden particles — always visible */}
+      {/* Golden particles - always visible */}
       <GoldenParticles />
 
       {/* ========== ENVELOPE STATE ========== */}
@@ -401,7 +401,7 @@ export default function MotionVideoTemplate({
                   />
                 </div>
 
-                {/* Seal — centered at flap tip */}
+                {/* Seal - centered at flap tip */}
                 <div className="absolute left-1/2 z-20 -translate-x-1/2" style={{ top: "34px" }}>
                   <EnvelopeSeal
                     initials={initials}

@@ -103,7 +103,7 @@ export function CardLayout({
 
   switch (template.layout) {
     // -------------------------------------------------------------------------
-    // 1. GEOMETRIC — Bold geometric, Montserrat, strong grid feel
+    // 1. GEOMETRIC - Bold geometric, Montserrat, strong grid feel
     // -------------------------------------------------------------------------
     case "geometric":
       return (
@@ -119,7 +119,7 @@ export function CardLayout({
             backgroundColor: secondary,
           }}
         >
-          {/* Large rotated diamond — top-right */}
+          {/* Large rotated diamond - top-right */}
           <div
             style={{
               position: "absolute",
@@ -133,7 +133,7 @@ export function CardLayout({
               borderRadius: 6,
             }}
           />
-          {/* Smaller rotated square — bottom-left */}
+          {/* Smaller rotated square - bottom-left */}
           <div
             style={{
               position: "absolute",
@@ -147,7 +147,7 @@ export function CardLayout({
               borderRadius: 4,
             }}
           />
-          {/* Corner accent — top-left solid strip */}
+          {/* Corner accent - top-left solid strip */}
           <div
             style={{
               position: "absolute",
@@ -243,7 +243,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 2. SPLIT — Luxury two-panel, Playfair + Raleway
+    // 2. SPLIT - Luxury two-panel, Playfair + Raleway
     // -------------------------------------------------------------------------
     case "split":
       return (
@@ -371,7 +371,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 3. DARK — Sophisticated dark, DM Serif + Raleway
+    // 3. DARK - Sophisticated dark, DM Serif + Raleway
     // -------------------------------------------------------------------------
     case "dark":
       return (
@@ -495,7 +495,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 4. GRADIENT — Flowing gradient, Raleway thin, ethereal & airy
+    // 4. GRADIENT - Flowing gradient, Raleway thin, ethereal & airy
     // -------------------------------------------------------------------------
     case "gradient":
       return (
@@ -585,7 +585,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 5. CORPORATE — Professional, Montserrat, clean grid
+    // 5. CORPORATE - Professional, Montserrat, clean grid
     // -------------------------------------------------------------------------
     case "corporate":
       return (
@@ -709,7 +709,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 6. ARTISTIC — Expressive, Lora italic + Montserrat, asymmetric
+    // 6. ARTISTIC - Expressive, Lora italic + Montserrat, asymmetric
     // -------------------------------------------------------------------------
     case "artistic":
       return (
@@ -725,7 +725,7 @@ export function CardLayout({
             background: `radial-gradient(ellipse at 85% 15%, ${accent}55 0%, transparent 55%), ${secondary}`,
           }}
         >
-          {/* Large accent arc — decorative top-right */}
+          {/* Large accent arc - decorative top-right */}
           <div
             style={{
               position: "absolute",
@@ -809,7 +809,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 7. CYBER — Terminal/neon, Source Code Pro, futuristic
+    // 7. CYBER - Terminal/neon, Source Code Pro, futuristic
     // -------------------------------------------------------------------------
     case "cyber":
       return (
@@ -834,7 +834,7 @@ export function CardLayout({
               pointerEvents: "none",
             }}
           />
-          {/* Dot grid corner — top-right */}
+          {/* Dot grid corner - top-right */}
           <div
             style={{
               position: "absolute",
@@ -921,7 +921,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 8. ORGANIC — Natural warmth, Lora, soft & warm
+    // 8. ORGANIC - Natural warmth, Lora, soft & warm
     // -------------------------------------------------------------------------
     case "organic":
       return (
@@ -1049,7 +1049,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 9. ROYAL — Ornate regal, Cinzel + Raleway, centered feel
+    // 9. ROYAL - Ornate regal, Cinzel + Raleway, centered feel
     // -------------------------------------------------------------------------
     case "royal":
       return (
@@ -1067,7 +1067,7 @@ export function CardLayout({
             textAlign: "center",
           }}
         >
-          {/* Double lines — top */}
+          {/* Double lines - top */}
           <div
             style={{
               position: "absolute",
@@ -1080,7 +1080,7 @@ export function CardLayout({
             <div style={{ height: 2 }} />
             <div style={{ height: 0.75, backgroundColor: accent, opacity: 0.4 }} />
           </div>
-          {/* Double lines — bottom */}
+          {/* Double lines - bottom */}
           <div
             style={{
               position: "absolute",
@@ -1171,7 +1171,7 @@ export function CardLayout({
       );
 
     // -------------------------------------------------------------------------
-    // 10. MONOCHROME — Ultra minimal, Raleway, lots of whitespace
+    // 10. MONOCHROME - Ultra minimal, Raleway, lots of whitespace
     // -------------------------------------------------------------------------
     case "monochrome":
       return (
@@ -1188,7 +1188,7 @@ export function CardLayout({
             border: `1px solid ${accent}`,
           }}
         >
-          {/* Subtle corner accent — top-right */}
+          {/* Subtle corner accent - top-right */}
           <div
             style={{
               position: "absolute",
@@ -1310,7 +1310,7 @@ export function CardLayout({
   }
 }
 
-// Base dimensions — layouts render at this fixed size (matches "standard").
+// Base dimensions - layouts render at this fixed size (matches "standard").
 // "large" scales up from this base; "standard" uses scaleFactor=1.
 const BASE_DIMENSIONS = {
   horizontal: { width: 256, height: 160 },
@@ -1385,7 +1385,7 @@ export const BusinessCardPreview = forwardRef<HTMLDivElement, BusinessCardPrevie
       </div>
     );
 
-    // Bare mode — no padding, no shadow card, no entry animation
+    // Bare mode - no padding, no shadow card, no entry animation
     if (bare) return cardCore;
 
     return (

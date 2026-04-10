@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
   return {
     title: pageTitle(titles[type] ?? "Free Card"),
-    description: `Create your free ${type} card with Cardora — no credit card required.`,
+    description: `Create your free ${type} card with Cardora - no credit card required.`,
   };
 }
 

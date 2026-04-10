@@ -175,7 +175,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
     if (navigator.share) {
       try {
-        await navigator.share({ title: `${invite.groomName} & ${invite.brideName} — Wedding`, url });
+        await navigator.share({ title: `${invite.groomName} & ${invite.brideName} - Wedding`, url });
         return;
       } catch {
         /* fall through */
@@ -340,7 +340,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
         </div>
       )}
 
-      {/* Background geometric patterns — large, slow-spinning */}
+      {/* Background geometric patterns - large, slow-spinning */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-20">
         <div className="geo-pattern absolute top-[10%] left-[5%]">
           <svg viewBox="0 0 200 200" className="h-40 w-40" fill="none">
@@ -364,7 +364,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 1 — Hero with Skyline                               */}
+      {/*  SECTION 1 - Hero with Skyline                               */}
       {/* ============================================================ */}
       <section className="relative flex min-h-screen flex-col items-center justify-center px-4 text-center">
         {/* Background */}
@@ -421,7 +421,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
             </motion.p>
           )}
 
-          {/* Couple names — clean sans-serif emphasis */}
+          {/* Couple names - clean sans-serif emphasis */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -493,7 +493,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 2 — Events Grid (Glass-morphism Cards)              */}
+      {/*  SECTION 2 - Events Grid (Glass-morphism Cards)              */}
       {/* ============================================================ */}
       <section className="relative z-10 px-4 py-16">
         <div className="mx-auto max-w-4xl">
@@ -558,7 +558,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 3 — Couple Photo                                    */}
+      {/*  SECTION 3 - Couple Photo                                    */}
       {/* ============================================================ */}
       {invite.couplePhoto && (
         <section className="relative z-10 px-4 py-20">
@@ -619,7 +619,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 4 — Things to Know                                  */}
+      {/*  SECTION 4 - Things to Know                                  */}
       {/* ============================================================ */}
       {thingsToKnow.length > 0 && (
         <section className="relative z-10 px-4 py-16">
@@ -656,7 +656,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 5 — Countdown                                       */}
+      {/*  SECTION 5 - Countdown                                       */}
       {/* ============================================================ */}
       <section className="relative z-10 px-4 py-20">
         <div className="scroll-fade mx-auto max-w-xl text-center">
@@ -692,7 +692,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
       </section>
 
       {/* ============================================================ */}
-      {/*  SECTION 6 — Couple Message                                  */}
+      {/*  SECTION 6 - Couple Message                                  */}
       {/* ============================================================ */}
       {(invite.coupleMessage ?? invite.story) && (
         <section className="relative z-10 px-4 py-16">
@@ -709,14 +709,14 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
             </p>
             <DiamondDivider className="mt-6" />
             <p className="mt-4 text-sm font-extralight tracking-widest text-[#00D4FF]/50 uppercase">
-              — {invite.groomName} & {invite.brideName}
+              - {invite.groomName} & {invite.brideName}
             </p>
           </div>
         </section>
       )}
 
       {/* ============================================================ */}
-      {/*  SECTION 7 — RSVP + Share Buttons                            */}
+      {/*  SECTION 7 - RSVP + Share Buttons                            */}
       {/* ============================================================ */}
       <section className="relative z-10 px-4 py-16">
         <div className="scroll-fade mx-auto flex max-w-md flex-col items-center gap-5 text-center">
@@ -768,7 +768,7 @@ export default function CityTemplate({ invite, isDemo }: TemplateProps) {
       </section>
 
       {/* ============================================================ */}
-      {/*  SECTION 8 — Footer + Watermark                              */}
+      {/*  SECTION 8 - Footer + Watermark                              */}
       {/* ============================================================ */}
       <footer className="relative z-10 overflow-hidden pt-4 pb-4">
         {/* Neon line separator */}

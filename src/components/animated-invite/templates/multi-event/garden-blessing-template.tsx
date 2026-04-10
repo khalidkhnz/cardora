@@ -471,7 +471,7 @@ export default function GardenBlessingTemplate({ invite, isDemo }: TemplateProps
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding`,
           url,
         });
         return;
@@ -1315,7 +1315,7 @@ export default function GardenBlessingTemplate({ invite, isDemo }: TemplateProps
           <VineBorder className="my-4 opacity-40" />
 
           <p className="text-xs text-[#5A6A5A]/35 italic">
-            Love is patient, love is kind — 1 Corinthians 13:4
+            Love is patient, love is kind - 1 Corinthians 13:4
           </p>
 
           <CardoraWatermark className="mt-8 pb-2 text-center text-xs text-[#2D3B2D]/25" />

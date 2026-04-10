@@ -53,30 +53,30 @@ const religionEventMap: Record<TemplateReligion, WeddingEvent[]> = {
 /* -------------------------------------------------------------------------- */
 
 const hinduThingsToKnow = [
-  { label: "Dress Code", detail: "Traditional Indian attire preferred — Sarees, Lehengas, Sherwanis, or Kurtas" },
+  { label: "Dress Code", detail: "Traditional Indian attire preferred - Sarees, Lehengas, Sherwanis, or Kurtas" },
   { label: "Parking", detail: "Complimentary valet parking available at the venue" },
-  { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue — special rates for guests" },
+  { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue - special rates for guests" },
   { label: "Ceremony", detail: "The Pheras will begin promptly at 11 AM. Please be seated by 10:45 AM" },
 ];
 
 const muslimThingsToKnow = [
-  { label: "Dress Code", detail: "Modest formal attire — women are welcome to wear hijab or dupatta" },
+  { label: "Dress Code", detail: "Modest formal attire - women are welcome to wear hijab or dupatta" },
   { label: "Parking", detail: "Complimentary valet parking available at the venue" },
-  { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue — special rates for guests" },
+  { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue - special rates for guests" },
   { label: "Nikkah Timing", detail: "The Nikkah will begin after Maghrib prayers. Please be seated early" },
 ];
 
 const christianThingsToKnow = [
-  { label: "Dress Code", detail: "Semi-formal / Cocktail attire — please avoid white" },
+  { label: "Dress Code", detail: "Semi-formal / Cocktail attire - please avoid white" },
   { label: "Parking", detail: "Complimentary valet parking available at the reception venue" },
-  { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue — special rates for guests" },
+  { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue - special rates for guests" },
   { label: "Ceremony", detail: "Church ceremony begins at 11 AM sharp. Photography during service is limited" },
 ];
 
 const sikhThingsToKnow = [
-  { label: "Dress Code", detail: "Traditional Punjabi attire preferred — please cover your head in the Gurdwara" },
+  { label: "Dress Code", detail: "Traditional Punjabi attire preferred - please cover your head in the Gurdwara" },
   { label: "Parking", detail: "Complimentary valet parking available at the venue" },
-  { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue — special rates for guests" },
+  { label: "Accommodation", detail: "The Ritz-Carlton, 5 min from venue - special rates for guests" },
   { label: "Anand Karaj", detail: "The ceremony will begin at 10 AM. Head coverings will be provided at the entrance" },
 ];
 

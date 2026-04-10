@@ -262,7 +262,7 @@ export default function CinematicFilmTemplate({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding`,
           url,
         });
         return;
@@ -314,7 +314,7 @@ export default function CinematicFilmTemplate({
       )}
 
       {/* ================================================================== */}
-      {/*  SECTION 1 — HERO                                                  */}
+      {/*  SECTION 1 - HERO                                                  */}
       {/* ================================================================== */}
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
         {/* Hero background image with Ken Burns effect */}
@@ -425,7 +425,7 @@ export default function CinematicFilmTemplate({
       </section>
 
       {/* ================================================================== */}
-      {/*  SECTION 2 — OUR STORY                                             */}
+      {/*  SECTION 2 - OUR STORY                                             */}
       {/* ================================================================== */}
       {(invite.story ?? invite.coupleMessage) && (
         <section className="cinematic-section relative overflow-hidden px-6 py-32">
@@ -509,7 +509,7 @@ export default function CinematicFilmTemplate({
       )}
 
       {/* ================================================================== */}
-      {/*  SECTION 3 — WEDDING DETAILS                                       */}
+      {/*  SECTION 3 - WEDDING DETAILS                                       */}
       {/* ================================================================== */}
       <section className="cinematic-section relative overflow-hidden px-6 py-32">
         {/* Subtle background shift */}
@@ -659,7 +659,7 @@ export default function CinematicFilmTemplate({
       </section>
 
       {/* ================================================================== */}
-      {/*  SECTION 4 — GALLERY                                               */}
+      {/*  SECTION 4 - GALLERY                                               */}
       {/* ================================================================== */}
       {invite.galleryImages.length > 0 && (
         <section className="cinematic-section relative overflow-hidden px-6 py-32">
@@ -704,7 +704,7 @@ export default function CinematicFilmTemplate({
       )}
 
       {/* ================================================================== */}
-      {/*  SECTION 5 — RSVP                                                  */}
+      {/*  SECTION 5 - RSVP                                                  */}
       {/* ================================================================== */}
       <section className="cinematic-section relative overflow-hidden px-6 py-32">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-[#0d0a06] to-[#0a0a0a]" />

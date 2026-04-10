@@ -70,7 +70,7 @@ function IslamicTessellation({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Hero Tessellation Grid — animated tile-by-tile background                  */
+/*  Hero Tessellation Grid - animated tile-by-tile background                  */
 /* -------------------------------------------------------------------------- */
 
 function HeroTessellationGrid() {
@@ -260,7 +260,7 @@ function BismillahCalligraphy({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Geometric Frame Wrapper — double-line border with corner ornaments         */
+/*  Geometric Frame Wrapper - double-line border with corner ornaments         */
 /* -------------------------------------------------------------------------- */
 
 function GeometricFrame({
@@ -276,19 +276,19 @@ function GeometricFrame({
       <div className="pointer-events-none absolute inset-0 border border-[#D4AF37]/15" />
       {/* Inner border with offset */}
       <div className="pointer-events-none absolute inset-[6px] border border-[#D4AF37]/10" />
-      {/* Corner ornaments — top-left */}
+      {/* Corner ornaments - top-left */}
       <svg className="pointer-events-none absolute -top-1 -left-1 h-5 w-5 text-[#D4AF37]/40" viewBox="0 0 20 20">
         <path d="M0 10 L10 0 L10 4 L4 10 Z" fill="currentColor" />
       </svg>
-      {/* Corner ornaments — top-right */}
+      {/* Corner ornaments - top-right */}
       <svg className="pointer-events-none absolute -top-1 -right-1 h-5 w-5 text-[#D4AF37]/40" viewBox="0 0 20 20">
         <path d="M20 10 L10 0 L10 4 L16 10 Z" fill="currentColor" />
       </svg>
-      {/* Corner ornaments — bottom-left */}
+      {/* Corner ornaments - bottom-left */}
       <svg className="pointer-events-none absolute -bottom-1 -left-1 h-5 w-5 text-[#D4AF37]/40" viewBox="0 0 20 20">
         <path d="M0 10 L10 20 L10 16 L4 10 Z" fill="currentColor" />
       </svg>
-      {/* Corner ornaments — bottom-right */}
+      {/* Corner ornaments - bottom-right */}
       <svg className="pointer-events-none absolute -bottom-1 -right-1 h-5 w-5 text-[#D4AF37]/40" viewBox="0 0 20 20">
         <path d="M20 10 L10 20 L10 16 L16 10 Z" fill="currentColor" />
       </svg>
@@ -299,7 +299,7 @@ function GeometricFrame({
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Floating Geometric Stars — 8-pointed Islamic shapes via Framer Motion      */
+/*  Floating Geometric Stars - 8-pointed Islamic shapes via Framer Motion      */
 /* -------------------------------------------------------------------------- */
 
 function FloatingGeometricStars() {
@@ -493,7 +493,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         );
       });
 
-      // 4. Nikkah section reveals — geometric diamond wipe
+      // 4. Nikkah section reveals - geometric diamond wipe
       gsap.utils.toArray<HTMLElement>(".nikkah-reveal").forEach((el) => {
         gsap.fromTo(
           el,
@@ -563,7 +563,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding Invitation`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding Invitation`,
           url,
         });
         return;
@@ -620,7 +620,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
       <div className="relative z-10 mx-auto max-w-xl px-4">
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 1 — HERO (full viewport height)                         */}
+        {/*  SECTION 1 - HERO (full viewport height)                         */}
         {/* ---------------------------------------------------------------- */}
         <motion.section
           className="relative flex min-h-screen flex-col items-center justify-center py-16 text-center"
@@ -798,7 +798,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         <IslamicTessellation />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 2 — EVENTS (centered, stacked vertically)               */}
+        {/*  SECTION 2 - EVENTS (centered, stacked vertically)               */}
         {/* ---------------------------------------------------------------- */}
         <section className="mb-16">
           <div className="nikkah-reveal mb-10 text-center">
@@ -823,7 +823,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         <ArabesqueBorder />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 3 — COUPLE PHOTO                                        */}
+        {/*  SECTION 3 - COUPLE PHOTO                                        */}
         {/* ---------------------------------------------------------------- */}
         {invite.couplePhoto && (
           <section className="mb-16">
@@ -844,7 +844,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         )}
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 4 — GALLERY (2-column grid within narrow frame)          */}
+        {/*  SECTION 4 - GALLERY (2-column grid within narrow frame)          */}
         {/* ---------------------------------------------------------------- */}
         {invite.galleryImages.length > 0 && (
           <section className="mb-16">
@@ -872,7 +872,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         <IslamicTessellation />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 5 — THINGS TO KNOW                                      */}
+        {/*  SECTION 5 - THINGS TO KNOW                                      */}
         {/* ---------------------------------------------------------------- */}
         {thingsToKnow.length > 0 && (
           <section className="mb-16">
@@ -906,7 +906,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         )}
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 6 — STORY                                               */}
+        {/*  SECTION 6 - STORY                                               */}
         {/* ---------------------------------------------------------------- */}
         {invite.story && (
           <section className="mb-16">
@@ -927,7 +927,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         <ArabesqueBorder />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 7 — COUNTDOWN TIMER (Crescent Moon Reveal)              */}
+        {/*  SECTION 7 - COUNTDOWN TIMER (Crescent Moon Reveal)              */}
         {/* ---------------------------------------------------------------- */}
         {invite.weddingDate && (
           <section className="mb-16">
@@ -979,7 +979,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         <IslamicTessellation />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 8 — COUPLE MESSAGE                                      */}
+        {/*  SECTION 8 - COUPLE MESSAGE                                      */}
         {/* ---------------------------------------------------------------- */}
         {invite.coupleMessage && (
           <section className="mb-16">
@@ -1000,7 +1000,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         <ArabesqueBorder />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 9 — RSVP + SHARE BUTTONS                               */}
+        {/*  SECTION 9 - RSVP + SHARE BUTTONS                               */}
         {/* ---------------------------------------------------------------- */}
         <section className="mb-16 text-center">
           <div className="nikkah-reveal">
@@ -1057,7 +1057,7 @@ export default function NikkahEleganceTemplate({ invite, isDemo }: TemplateProps
         </section>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 10 — FOOTER / WATERMARK                                 */}
+        {/*  SECTION 10 - FOOTER / WATERMARK                                 */}
         {/* ---------------------------------------------------------------- */}
         <footer className="text-center">
           <IslamicTessellation className="mx-auto mb-4 h-12 w-full text-[#D4AF37]/30" />

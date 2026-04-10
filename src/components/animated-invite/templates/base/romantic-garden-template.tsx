@@ -246,7 +246,7 @@ export default function RomanticGardenTemplate({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding`,
           url,
         });
         return;
@@ -334,7 +334,7 @@ export default function RomanticGardenTemplate({
       )}
 
       {/* ================================================================== */}
-      {/*  HERO SECTION  — Garden Gate Metaphor                              */}
+      {/*  HERO SECTION  - Garden Gate Metaphor                              */}
       {/* ================================================================== */}
       <section className="scroll-fade relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20">
         {/* Garden gate arch */}

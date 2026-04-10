@@ -250,7 +250,7 @@ export default function CinematicScrollTemplate({
   // How many fullscreen sections we have
   const sectionCount = 5;
 
-  // Smooth scrolling via Lenis (no snap — Lenis provides the cinematic feel)
+  // Smooth scrolling via Lenis (no snap - Lenis provides the cinematic feel)
   useLenis();
 
   // GSAP ScrollTrigger animations
@@ -359,7 +359,7 @@ export default function CinematicScrollTemplate({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding`,
           url,
         });
         return;
@@ -410,7 +410,7 @@ export default function CinematicScrollTemplate({
       )}
 
       {/* ================================================================== */}
-      {/*  SECTION 1 — HERO (fullscreen)                                     */}
+      {/*  SECTION 1 - HERO (fullscreen)                                     */}
       {/* ================================================================== */}
       <section className="fullscreen-section relative flex min-h-screen items-center justify-center overflow-hidden">
         {/* Background image with parallax */}
@@ -440,7 +440,7 @@ export default function CinematicScrollTemplate({
             A Celebration of Love
           </motion.p>
 
-          {/* Huge couple names — letter-by-letter cinematic reveal */}
+          {/* Huge couple names - letter-by-letter cinematic reveal */}
           <StaggeredTextReveal
             text={invite.groomName}
             splitBy="letter"
@@ -506,7 +506,7 @@ export default function CinematicScrollTemplate({
       </section>
 
       {/* ================================================================== */}
-      {/*  SECTION 2 — STORY (fullscreen, with mask reveal)                  */}
+      {/*  SECTION 2 - STORY (fullscreen, with mask reveal)                  */}
       {/* ================================================================== */}
       <SvgMaskTransition maskColor="#1a0a2e">
       <section className="fullscreen-section scroll-section relative flex min-h-screen items-center justify-center overflow-hidden">
@@ -588,7 +588,7 @@ export default function CinematicScrollTemplate({
       </SvgMaskTransition>
 
       {/* ================================================================== */}
-      {/*  SECTION 3 — EVENT DETAILS (fullscreen)                            */}
+      {/*  SECTION 3 - EVENT DETAILS (fullscreen)                            */}
       {/* ================================================================== */}
       <section className="fullscreen-section scroll-section relative flex min-h-screen items-center justify-center overflow-hidden">
         {/* Darker variation */}
@@ -733,7 +733,7 @@ export default function CinematicScrollTemplate({
       </section>
 
       {/* ================================================================== */}
-      {/*  SECTION 4 — COUNTDOWN (fullscreen)                                */}
+      {/*  SECTION 4 - COUNTDOWN (fullscreen)                                */}
       {/* ================================================================== */}
       <section className="fullscreen-section scroll-section relative flex min-h-screen items-center justify-center overflow-hidden">
         {/* Warmer purple gradient */}
@@ -822,10 +822,10 @@ export default function CinematicScrollTemplate({
       </section>
 
       {/* ================================================================== */}
-      {/*  SECTION 5 — RSVP (fullscreen)                                     */}
+      {/*  SECTION 5 - RSVP (fullscreen)                                     */}
       {/* ================================================================== */}
       <section className="fullscreen-section scroll-section relative flex min-h-screen items-center justify-center overflow-hidden">
-        {/* Final gradient — slightly lighter */}
+        {/* Final gradient - slightly lighter */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0a2e] via-[#2d1b4e] to-[#0f0520]" />
 
         <DecorativeBorder color="#C0C0C0" />

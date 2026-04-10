@@ -2,7 +2,7 @@
  * Platform Configuration
  *
  * Central configuration for the entire platform. Change the values here
- * and they will reflect across the entire app — pages, emails, metadata,
+ * and they will reflect across the entire app - pages, emails, metadata,
  * localStorage keys, watermarks, and more.
  *
  * NOTE: Changing `dbTablePrefix` requires a database migration.
@@ -20,7 +20,7 @@ export const platform = {
   description:
     "Create stunning digital business cards and beautiful wedding invitations. Share via QR code, NFC, or link.",
 
-  /** Public-facing domain (shown in profile URL hints — no protocol) */
+  /** Public-facing domain (shown in profile URL hints - no protocol) */
   domain: "cardora.com",
 
   /** Default HTML lang attribute */
@@ -47,7 +47,7 @@ export const platform = {
   /** Password reset token expiry in milliseconds (1 hour) */
   passwordResetExpiryMs: 60 * 60 * 1000,
 
-  /** Support / contact email (optional — set when available) */
+  /** Support / contact email (optional - set when available) */
   supportEmail: null as string | null,
 
   /** Brand colors used in emails and branded UI */
@@ -79,7 +79,7 @@ export const platform = {
     venue: "The Grand Ballroom",
     venueAddress: "123 Celebration Avenue, Toronto, ON",
     story:
-      "We met at a coffee shop on a rainy afternoon. What started as a conversation over lattes turned into a lifetime of love. Three years later, here we are — ready to begin our forever together.",
+      "We met at a coffee shop on a rainy afternoon. What started as a conversation over lattes turned into a lifetime of love. Three years later, here we are - ready to begin our forever together.",
     coupleMessage:
       "We are so excited to celebrate our special day with you. Your presence means the world to us!",
     groomFatherName: "Robert Anderson",
@@ -142,7 +142,7 @@ export function qrCodeFilename(): string {
   return `${platform.name.toLowerCase()}-qr-code.png`;
 }
 
-/** Profile URL hint for forms — e.g. "cardora.com/u/username" */
+/** Profile URL hint for forms - e.g. "cardora.com/u/username" */
 export function profileUrlHint(username: string): string {
   return `${platform.domain}/u/${username}`;
 }

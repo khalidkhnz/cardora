@@ -75,7 +75,7 @@ export function NoirAtelierExperience() {
     setRevealedFeatures(prev => { const n = new Set(prev); n.add(idx); return n; });
   }, []);
 
-  // ── ENTRY — dark reveal (unique — swipe/unlock feel) ──
+  // ── ENTRY - dark reveal (unique - swipe/unlock feel) ──
   if (!hasEntered) {
     return (
       <>
@@ -127,13 +127,13 @@ export function NoirAtelierExperience() {
         {/* Progress */}
         <motion.div className="fixed top-0 right-0 left-0 z-[102] h-[2px] origin-left bg-gradient-to-r from-[#C6A85A] to-[#E8D088]" style={{ scaleX: scrollYProgress }} />
 
-        {/* ── HERO — floating card + car ── */}
+        {/* ── HERO - floating card + car ── */}
         <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
           <div className="absolute inset-0 bg-gradient-to-b from-[#1E2028] via-[#1A1C24] to-[#14161C]" />
           <div className="absolute top-[20%] left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#C6A85A]/[0.03] blur-[80px]" />
           <div className="absolute inset-0 opacity-[0.012]" style={{ backgroundImage: "repeating-linear-gradient(135deg,transparent,transparent 4px,rgba(255,255,255,0.3) 4px,rgba(255,255,255,0.3) 5px)" }} />
 
-          {/* Interactive card — tap to flip */}
+          {/* Interactive card - tap to flip */}
           <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} style={{ opacity: heroOpacity }} className="relative">
             <button onClick={() => setIsCardFlipped(!isCardFlipped)} className="group relative cursor-pointer">
               <AnimatePresence mode="wait">
@@ -209,7 +209,7 @@ export function NoirAtelierExperience() {
           </motion.div>
         </section>
 
-        {/* ── CARD SHOWCASE — front + back side by side ── */}
+        {/* ── CARD SHOWCASE - front + back side by side ── */}
         <motion.section className="px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
           <div className="mx-auto max-w-3xl">
             <div className="mb-12 text-center">
@@ -259,7 +259,7 @@ export function NoirAtelierExperience() {
           </div>
         </motion.section>
 
-        {/* ── FEATURES — tap to reveal each (unique — sealed cards) ── */}
+        {/* ── FEATURES - tap to reveal each (unique - sealed cards) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-4xl">
             <div className="mb-12 text-center">
@@ -294,7 +294,7 @@ export function NoirAtelierExperience() {
           </div>
         </section>
 
-        {/* ── TESTIMONIALS — slider (unique to this template) ── */}
+        {/* ── TESTIMONIALS - slider (unique to this template) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-md">
             <div className="mb-10 text-center">

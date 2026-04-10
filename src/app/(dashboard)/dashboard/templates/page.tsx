@@ -51,7 +51,7 @@ export default async function TemplatesPage() {
           My Templates
         </h1>
         <p className="mt-1 text-[#6B6560] dark:text-[#A09888]">
-          Templates you&apos;ve purchased — customize and use them anytime
+          Templates you&apos;ve purchased - customize and use them anytime
         </p>
       </div>
 

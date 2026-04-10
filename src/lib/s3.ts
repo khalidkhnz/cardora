@@ -68,7 +68,7 @@ export function extractKeyFromUrl(url: string): string | null {
     return url.slice(s3Prefix.length);
   }
 
-  // Legacy local URL (e.g. /uploads/...) — not an S3 key
+  // Legacy local URL (e.g. /uploads/...) - not an S3 key
   return null;
 }
 
@@ -105,7 +105,7 @@ export async function uploadToS3({
 
 export async function deleteFromS3(url: string): Promise<void> {
   const key = extractKeyFromUrl(url);
-  if (!key) return; // legacy local URL — skip silently
+  if (!key) return; // legacy local URL - skip silently
 
   try {
     await s3Client.send(

@@ -64,7 +64,7 @@ export function AzureVowsExperience() {
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0]);
 
-  // States — unique interaction patterns (NOT same as Maharani)
+  // States - unique interaction patterns (NOT same as Maharani)
   const [hasEntered, setHasEntered] = useState(false);
   const [currentStoryStep, setCurrentStoryStep] = useState(0);
   const [activeEventIndex, setActiveEventIndex] = useState(0);
@@ -74,9 +74,9 @@ export function AzureVowsExperience() {
 
   const storySteps = [
     { title: "A Beach Encounter", text: "Bare feet in the sand, a sunset, and a conversation that changed everything.", year: "2022" },
-    { title: "The Road Trip", text: "We drove down the coast with no plan — just the ocean and each other.", year: "2023" },
+    { title: "The Road Trip", text: "We drove down the coast with no plan - just the ocean and each other.", year: "2023" },
     { title: "He Asked", text: "Under the stars, by the same beach where we first met, he asked forever.", year: "2024" },
-    { title: "October 8, 2026", text: "We return to the shore where it all began — to say I do.", year: "2026" },
+    { title: "October 8, 2026", text: "We return to the shore where it all began - to say I do.", year: "2026" },
   ];
 
   const events = [
@@ -86,13 +86,13 @@ export function AzureVowsExperience() {
     { name: "Cake & Toast", time: "7:30 PM", venue: "Pavilion", desc: "A sweet beginning together" },
   ];
 
-  // ── ENTRY — wave/tide reveal (NOT envelope like Maharani) ──
+  // ── ENTRY - wave/tide reveal (NOT envelope like Maharani) ──
   if (!hasEntered) {
     return (
       <>
         <style dangerouslySetInnerHTML={{ __html: CSS }} />
         <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#A8CCE8] via-[#C0D8F0] to-[#D8E8F5]">
-          {/* Animated waves — multiple layers */}
+          {/* Animated waves - multiple layers */}
           {[0, 2, 4].map((d, i) => (
             <svg key={i} viewBox="0 0 500 25" preserveAspectRatio="none" className="absolute left-0 w-full" style={{ bottom: `${8 + i * 5}%`, animation: `az-wave ${5 + i}s ease-in-out ${d}s infinite`, opacity: 0.08 + i * 0.04 }}>
               <path d="M0 12 Q50 4 100 12 Q150 20 200 12 Q250 4 300 12 Q350 20 400 12 Q450 4 500 12" stroke="#4A7A98" strokeWidth="1" fill="none" />
@@ -124,7 +124,7 @@ export function AzureVowsExperience() {
               <p className="text-xs text-[#2A4A5A]/40" style={{ fontFamily: "var(--font-cormorant)" }}>October 8, 2026</p>
               <div className="h-px w-10 bg-[#4A90B8]/15" />
             </div>
-            {/* Swipe/tap prompt — different from Maharani's chevron */}
+            {/* Swipe/tap prompt - different from Maharani's chevron */}
             <motion.div animate={{ x: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }} className="mt-4 flex items-center gap-2 text-[#4A90B8]/35">
               <span className="text-[8px] uppercase tracking-[0.3em]" style={{ fontFamily: "var(--font-montserrat)" }}>Enter</span>
               <ChevronRight className="h-3 w-3" />
@@ -171,7 +171,7 @@ export function AzureVowsExperience() {
             </svg>
           </div>
 
-          {/* Text — left aligned */}
+          {/* Text - left aligned */}
           <motion.div className="relative z-10 mb-[8%] mr-auto ml-[6%] md:ml-[12%]" style={{ opacity: heroOpacity }}>
             <p className="text-[9px] uppercase tracking-[0.5em] text-[#4A7A98]/50" style={{ fontFamily: "var(--font-montserrat)" }}>A Seaside Celebration</p>
             <h1 className="az-shimmer mt-2 inline-block text-5xl leading-tight md:text-7xl" style={{ fontFamily: "var(--font-great-vibes)" }}>James & Rose</h1>
@@ -192,7 +192,7 @@ export function AzureVowsExperience() {
           </div>
         </motion.section>
 
-        {/* ── LOVE STORY — step-by-step navigation (NOT tap-to-reveal like Maharani) ── */}
+        {/* ── LOVE STORY - step-by-step navigation (NOT tap-to-reveal like Maharani) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-md">
             <div className="mb-8 text-center">
@@ -208,7 +208,7 @@ export function AzureVowsExperience() {
               ))}
             </div>
 
-            {/* Story card — swipeable feel */}
+            {/* Story card - swipeable feel */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStoryStep}
@@ -236,7 +236,7 @@ export function AzureVowsExperience() {
           </div>
         </section>
 
-        {/* ── EVENTS — horizontal tab selector (NOT accordion like Maharani) ── */}
+        {/* ── EVENTS - horizontal tab selector (NOT accordion like Maharani) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-lg">
             <div className="mb-8 text-center">
@@ -304,7 +304,7 @@ export function AzureVowsExperience() {
           </div>
         </motion.section>
 
-        {/* ── GALLERY — reveal-on-click (NOT auto-visible grid like Maharani) ── */}
+        {/* ── GALLERY - reveal-on-click (NOT auto-visible grid like Maharani) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-[9px] uppercase tracking-[0.4em] text-[#4A90B8]/40" style={{ fontFamily: "var(--font-montserrat)" }}>Moments</p>

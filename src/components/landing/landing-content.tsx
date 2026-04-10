@@ -293,7 +293,7 @@ function Navbar() {
             height={30}
             className="h-[30px] w-[30px] object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:hidden"
           />
-          {/* Dark mode logo — original colors + white outline glow to pop */}
+          {/* Dark mode logo - original colors + white outline glow to pop */}
           <Image
             src="/cardora-logo.png"
             alt="Cardora"
@@ -558,7 +558,7 @@ function FreeCardsSection() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="mx-auto mt-4 max-w-xl text-muted-foreground"
           >
-            Create stunning digital business cards and wedding invitations — completely free, forever.
+            Create stunning digital business cards and wedding invitations - completely free, forever.
             No hidden fees, no watermarks, no limits.
           </motion.p>
         </div>
@@ -804,7 +804,7 @@ function AnimatedInviteHighlight() {
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#B8860B]/3 via-[#D4A843]/3 to-[#C9A96E]/3" />
 
       <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
-        {/* Left — visual */}
+        {/* Left - visual */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -812,27 +812,56 @@ function AnimatedInviteHighlight() {
           transition={{ duration: 0.6 }}
           className="relative"
         >
-          <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
-            <div className="aspect-[4/3] bg-gradient-to-br from-[#B8860B]/8 via-[#D4A843]/6 to-[#C9A96E]/8 p-8">
-              <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                  className="rounded-full bg-gradient-to-br from-[#B8860B]/15 to-[#D4A843]/15 p-6"
-                >
-                  <Music className="h-10 w-10 text-[#B8860B]" />
-                </motion.div>
-                <div className="h-3 w-48 rounded-full bg-gradient-to-r from-[#B8860B]/15 to-[#D4A843]/15" />
-                <div className="h-2 w-32 rounded-full bg-muted/40" />
-                <div className="flex gap-2">
-                  {["from-[#B8860B]/15 to-[#D4A843]/15", "from-[#8B7355]/15 to-[#B8860B]/15", "from-[#1A1A1A]/8 to-[#3D3D3D]/8"].map((g, i) => (
-                    <motion.div
-                      key={i}
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{ repeat: Infinity, duration: 2, delay: i * 0.3 }}
-                      className={`h-14 w-14 rounded-lg bg-gradient-to-br ${g}`}
-                    />
-                  ))}
+          <div className="relative overflow-hidden rounded-2xl border border-[#E8E4DE] bg-white shadow-2xl">
+            <div className="aspect-[4/3] bg-gradient-to-b from-[#1A1A1A] to-[#2A2218] p-6">
+              <div className="flex h-full flex-col justify-between">
+                {/* Top - decorative header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-[#D4AF37]/40" />
+                    <div className="h-1 w-12 rounded-full bg-[#D4AF37]/20" />
+                  </div>
+                  <div className="rounded-full bg-[#D4AF37]/10 px-2 py-0.5 text-[6px] font-medium text-[#D4AF37]/60">ANIMATED</div>
+                </div>
+
+                {/* Center - cinematic preview */}
+                <div className="flex flex-col items-center text-center">
+                  <motion.div
+                    animate={{ scale: [1, 1.05, 1], opacity: [0.6, 1, 0.6] }}
+                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                    className="text-[32px] text-[#D4AF37]/80"
+                    style={{ fontFamily: "var(--font-great-vibes)" }}
+                  >
+                    Aarav & Priya
+                  </motion.div>
+                  <div className="mt-2 flex items-center gap-3">
+                    <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#D4AF37]/30" />
+                    <motion.span
+                      animate={{ opacity: [0.3, 0.8, 0.3] }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                      className="text-[8px] tracking-[0.3em] text-[#D4AF37]/50"
+                    >
+                      INVITE YOU TO CELEBRATE
+                    </motion.span>
+                    <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#D4AF37]/30" />
+                  </div>
+                  <p className="mt-2 text-[9px] text-white/30">December 15, 2026</p>
+                </div>
+
+                {/* Bottom - feature indicators */}
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-1.5">
+                    {["Music", "Parallax", "RSVP"].map((f) => (
+                      <span key={f} className="rounded-full border border-[#D4AF37]/15 bg-[#D4AF37]/5 px-2 py-0.5 text-[5px] text-[#D4AF37]/50">{f}</span>
+                    ))}
+                  </div>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+                    className="flex h-6 w-6 items-center justify-center rounded-full border border-[#D4AF37]/20"
+                  >
+                    <Music className="h-3 w-3 text-[#D4AF37]/40" />
+                  </motion.div>
                 </div>
               </div>
             </div>
@@ -840,7 +869,7 @@ function AnimatedInviteHighlight() {
           <div className="animate-float absolute -left-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-[#B8860B]/10 to-[#D4A843]/10" />
         </motion.div>
 
-        {/* Right — text */}
+        {/* Right - text */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -873,21 +902,26 @@ function AnimatedInviteHighlight() {
             gorgeous scroll-triggered animations, all for just{" "}
             <strong className="text-foreground">C$49.99</strong> one-time.
           </motion.p>
+
+          {/* Feature list instead of CTA */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="mt-8"
+            className="mt-8 grid grid-cols-2 gap-3"
           >
-            <MagneticButton strength={0.2}>
-              <Link href="/signup">
-                <Button className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]">
-                  Explore Animated Invites
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </MagneticButton>
+            {[
+              { icon: Music, label: "Background Music" },
+              { icon: Layout, label: "Parallax Scrolling" },
+              { icon: Check, label: "Interactive RSVP" },
+              { icon: Clock, label: "Event Timelines" },
+            ].map((f) => (
+              <div key={f.label} className="flex items-center gap-2 text-sm text-[#6B6560] dark:text-[#A09888]">
+                <f.icon className="h-4 w-4 text-[#B8860B]" />
+                {f.label}
+              </div>
+            ))}
           </motion.div>
         </motion.div>
       </div>
@@ -910,7 +944,7 @@ function FinalCTA() {
             "linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 30%, #1A1A1A 60%, #2D2D2D 100%)",
         }}
       />
-      {/* Sparkle overlay — deterministic positions to avoid hydration mismatch */}
+      {/* Sparkle overlay - deterministic positions to avoid hydration mismatch */}
       <div className="absolute inset-0 -z-[5]">
         {[
           { l: 12, t: 8 },  { l: 45, t: 22 }, { l: 78, t: 15 }, { l: 23, t: 65 },
