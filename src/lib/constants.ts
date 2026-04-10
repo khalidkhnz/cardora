@@ -28,6 +28,7 @@ export const NAV_ITEMS = [
   { label: "Home", href: "/", icon: "Home" },
   { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard" },
   { label: "My Templates", href: "/dashboard/templates", icon: "ShoppingBag" },
+  { label: "My Cards", href: "/dashboard/my-cards", icon: "Layers" },
   { label: "Card", href: "/dashboard/card", icon: "CreditCard" },
   { label: "Analytics", href: "/dashboard/analytics", icon: "BarChart3" },
   { label: "Profile", href: "/dashboard/profile", icon: "User" },

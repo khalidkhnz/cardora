@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
-  Download,
+  Save,
   Sparkles,
   X,
   CreditCard,
@@ -21,7 +22,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
 import { Footer } from "@/components/landing/footer";
-import html2canvas from "html2canvas-pro";
+import { authClient } from "@/server/better-auth/client";
+import { apiClient } from "@/lib/api-client";
+import { toast } from "sonner";
 
 /* ================================================================== */
 /*  Card data                                                          */
@@ -395,28 +398,33 @@ function ThankYouRendered({ data }: { data: Record<string, string> }) {
 /* ================================================================== */
 
 function DetailsModal({ card, onClose }: { card: typeof CARDS[string]; cardId: string; onClose: () => void }) {
-  const [step, setStep] = useState<"form" | "result">("form");
+  const [step, setStep] = useState<"form" | "result" | "saved">("form");
   const [formData, setFormData] = useState<Record<string, string>>({});
-  const [downloading, setDownloading] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const cardId = Object.entries(CARDS).find(([, v]) => v === card)?.[0] ?? "business";
+  const [saving, setSaving] = useState(false);
+  const resolvedCardId = Object.entries(CARDS).find(([, v]) => v === card)?.[0] ?? "business";
 
   const updateField = useCallback((key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   }, []);
 
-  const handleDownload = useCallback(async () => {
-    if (!cardRef.current) return;
-    setDownloading(true);
+  const handleSave = useCallback(async () => {
+    setSaving(true);
     try {
-      const canvas = await html2canvas(cardRef.current, { scale: 3, backgroundColor: null, useCORS: true });
-      const link = document.createElement("a");
-      link.download = `${cardId}-card.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    } catch { /* ignore */ }
-    setDownloading(false);
-  }, [cardId]);
+      await apiClient("/api/saved-cards", {
+        method: "POST",
+        body: JSON.stringify({
+          cardType: resolvedCardId,
+          cardTitle: card.title,
+          cardData: formData,
+        }),
+      });
+      setStep("saved");
+      toast.success("Card saved to your dashboard!");
+    } catch {
+      toast.error("Failed to save card. Please try again.");
+    }
+    setSaving(false);
+  }, [resolvedCardId, card.title, formData]);
 
   const isFormValid = card.fields.slice(0, 2).every((f) => formData[f.key]?.trim());
 
@@ -478,23 +486,26 @@ function DetailsModal({ card, onClose }: { card: typeof CARDS[string]; cardId: s
 
           {step === "result" && (
             <motion.div key="result" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="p-6">
+              <button onClick={() => setStep("form")} className="mb-3 flex items-center gap-1 text-xs text-[#8B8580] transition-colors hover:text-[#6B6560]">
+                <ArrowLeft className="h-3 w-3" /> Edit Details
+              </button>
               <h2 className="text-xl font-bold text-[#1A1A1A] dark:text-[#F0E8D8]" style={{ fontFamily: "var(--font-playfair)" }}>
                 Your Card is Ready!
               </h2>
-              <p className="mt-1 text-sm text-[#6B6560] dark:text-[#A09888]">Download or edit your card</p>
+              <p className="mt-1 text-sm text-[#6B6560] dark:text-[#A09888]">Save it to your dashboard to download anytime</p>
 
-              <div className="mt-5" ref={cardRef}>
-                <RenderedCard id={cardId} data={formData} />
+              <div className="mt-5">
+                <RenderedCard id={resolvedCardId} data={formData} />
               </div>
 
               <div className="mt-5 flex gap-3">
                 <Button
-                  onClick={() => void handleDownload()}
-                  disabled={downloading}
+                  onClick={() => void handleSave()}
+                  disabled={saving}
                   className="flex-1 gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]"
                 >
-                  <Download className="h-4 w-4" />
-                  {downloading ? "Downloading..." : "Download Card"}
+                  <Save className="h-4 w-4" />
+                  {saving ? "Saving..." : "Save Card"}
                 </Button>
                 <Button
                   variant="outline"
@@ -502,6 +513,35 @@ function DetailsModal({ card, onClose }: { card: typeof CARDS[string]; cardId: s
                   className="border-[#E8E4DE] text-[#6B6560] hover:bg-[#F3F0EB] dark:border-white/10"
                 >
                   Edit
+                </Button>
+              </div>
+            </motion.div>
+          )}
+
+          {step === "saved" && (
+            <motion.div key="saved" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center p-8 text-center">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", delay: 0.2, damping: 12 }}
+                className="flex h-16 w-16 items-center justify-center rounded-full bg-[#B8860B]/10"
+              >
+                <Check className="h-8 w-8 text-[#B8860B]" />
+              </motion.div>
+              <h2 className="mt-4 text-xl font-bold text-[#1A1A1A] dark:text-[#F0E8D8]" style={{ fontFamily: "var(--font-playfair)" }}>
+                Card Saved!
+              </h2>
+              <p className="mt-2 text-sm text-[#6B6560] dark:text-[#A09888]">
+                Your card has been saved to your dashboard. You can download it anytime.
+              </p>
+              <div className="mt-6 flex gap-3">
+                <Link href="/dashboard/my-cards">
+                  <Button className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]">
+                    Go to My Cards
+                  </Button>
+                </Link>
+                <Button variant="outline" onClick={onClose} className="border-[#E8E4DE] text-[#6B6560] hover:bg-[#F3F0EB]">
+                  Close
                 </Button>
               </div>
             </motion.div>
@@ -519,6 +559,24 @@ function DetailsModal({ card, onClose }: { card: typeof CARDS[string]; cardId: s
 export function FreeCardPage({ type }: { type: string }) {
   const card = CARDS[type];
   const [showModal, setShowModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    void authClient.getSession().then((res) => {
+      setIsLoggedIn(!!res.data?.session);
+    }).catch(() => setIsLoggedIn(false));
+  }, []);
+
+  const handleTryNow = useCallback(() => {
+    if (isLoggedIn === null) return;
+    if (!isLoggedIn) {
+      router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
+      return;
+    }
+    setShowModal(true);
+  }, [isLoggedIn, router, pathname]);
 
   if (!card) return null;
 
@@ -567,7 +625,7 @@ export function FreeCardPage({ type }: { type: string }) {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Button
                   size="lg"
-                  onClick={() => setShowModal(true)}
+                  onClick={handleTryNow}
                   className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] px-8 text-white hover:from-[#9A7209] hover:to-[#B8960B]"
                 >
                   Try Now <ArrowRight className="h-4 w-4" />
@@ -650,7 +708,7 @@ export function FreeCardPage({ type }: { type: string }) {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Button
                 size="lg"
-                onClick={() => setShowModal(true)}
+                onClick={handleTryNow}
                 className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] px-8 text-white hover:from-[#9A7209] hover:to-[#B8960B]"
               >
                 Create Your {card.type} <ArrowRight className="h-4 w-4" />

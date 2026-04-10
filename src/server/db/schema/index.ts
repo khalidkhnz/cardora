@@ -23,3 +23,5 @@ export { rsvp } from "./rsvp";
 export { galleryItem, galleryItemRelations } from "./gallery";
 
 export { passwordResetToken } from "./password-reset";
+
+export { savedFreeCard, savedFreeCardRelations } from "./saved-card";

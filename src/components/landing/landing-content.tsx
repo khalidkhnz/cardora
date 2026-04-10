@@ -534,7 +534,7 @@ function FreeCardsSection() {
   const visibleCards = showAll ? FREE_CARDS : FREE_CARDS.slice(0, 4);
 
   return (
-    <section className="relative px-6 py-24">
+    <section id="free-cards" className="relative scroll-mt-20 px-6 py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mb-16 text-center">
           <motion.span
