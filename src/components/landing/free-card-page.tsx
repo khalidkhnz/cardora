@@ -90,6 +90,61 @@ const CARDS: Record<string, {
       { key: "message", label: "Message", placeholder: "Celebrating 25 wonderful years!" },
     ],
   },
+  "qr-contact": {
+    type: "QR Contact Card",
+    title: "QR Contact Card",
+    tagline: "One scan, all your details",
+    description: "A clean digital card with your contact info and a scannable QR code — perfect for networking events, conferences, and meetings.",
+    color: "#D4AF37",
+    fields: [
+      { key: "name", label: "Full Name", placeholder: "Sarah Chen" },
+      { key: "title", label: "Title", placeholder: "Product Manager" },
+      { key: "email", label: "Email", placeholder: "sarah@company.com" },
+      { key: "phone", label: "Phone", placeholder: "+1 (555) 987-6543" },
+      { key: "website", label: "Website", placeholder: "www.sarahchen.com" },
+    ],
+  },
+  creative: {
+    type: "Creative Portfolio",
+    title: "Creative Portfolio Card",
+    tagline: "Let your work speak for itself",
+    description: "A bold, artistic digital card for designers, photographers, and creatives — showcase your portfolio with style.",
+    color: "#D4AF37",
+    fields: [
+      { key: "name", label: "Full Name", placeholder: "Alex Rivera" },
+      { key: "role", label: "Creative Role", placeholder: "UI/UX Designer" },
+      { key: "portfolio", label: "Portfolio URL", placeholder: "dribbble.com/alex" },
+      { key: "email", label: "Email", placeholder: "alex@design.co" },
+      { key: "tagline", label: "Tagline", placeholder: "Crafting digital experiences" },
+    ],
+  },
+  realtor: {
+    type: "Real Estate Card",
+    title: "Real Estate Agent Card",
+    tagline: "Close deals with a professional edge",
+    description: "A polished digital card for real estate professionals — feature your agency, license, and contact info with authority.",
+    color: "#D4AF37",
+    fields: [
+      { key: "name", label: "Agent Name", placeholder: "Robert Williams" },
+      { key: "agency", label: "Agency", placeholder: "Prestige Realty" },
+      { key: "license", label: "License #", placeholder: "RE-2024-1234" },
+      { key: "phone", label: "Phone", placeholder: "+1 (555) 456-7890" },
+      { key: "email", label: "Email", placeholder: "robert@prestigerealty.com" },
+    ],
+  },
+  thankyou: {
+    type: "Thank You Card",
+    title: "Digital Thank You Card",
+    tagline: "Express gratitude beautifully",
+    description: "Send a heartfelt digital thank you card to friends, family, or clients — personalized and shareable in seconds.",
+    color: "#C07050",
+    fields: [
+      { key: "from", label: "From", placeholder: "The Johnson Family" },
+      { key: "to", label: "To", placeholder: "Our wonderful guests" },
+      { key: "message", label: "Message", placeholder: "Thank you for making our day so special!" },
+      { key: "date", label: "Date", placeholder: "October 5, 2026" },
+    ],
+  },
 };
 
 const OFFERINGS = [
@@ -109,7 +164,12 @@ function RenderedCard({ id, data }: { id: string; data: Record<string, string> }
   if (id === "business") return <BusinessCard data={data} />;
   if (id === "wedding") return <WeddingCard data={data} />;
   if (id === "engagement") return <EngagementCard data={data} />;
-  return <AnniversaryCard data={data} />;
+  if (id === "anniversary") return <AnniversaryCard data={data} />;
+  if (id === "qr-contact") return <QRContactRendered data={data} />;
+  if (id === "creative") return <CreativeRendered data={data} />;
+  if (id === "realtor") return <RealtorRendered data={data} />;
+  if (id === "thankyou") return <ThankYouRendered data={data} />;
+  return <BusinessCard data={data} />;
 }
 
 function BusinessCard({ data }: { data: Record<string, string> }) {
@@ -144,28 +204,28 @@ function BusinessCard({ data }: { data: Record<string, string> }) {
 
 function WeddingCard({ data }: { data: Record<string, string> }) {
   return (
-    <div className="aspect-[1/1.3] w-full overflow-hidden rounded-xl bg-gradient-to-b from-[#FFF8F0] via-[#FAF0E6] to-[#F5E8D8] p-8 shadow-xl">
+    <div className="aspect-[1/1.3] w-full overflow-hidden rounded-xl bg-gradient-to-b from-[#EEF4FA] via-[#E4EEF8] to-[#DAE6F2] p-8 shadow-xl">
       <div className="flex h-full flex-col items-center justify-between text-center">
         <div className="flex items-center gap-3">
-          <div className="h-px w-12 bg-[#B8860B]/30" />
-          <span className="text-[9px] tracking-[0.3em] text-[#B8860B]/60">TOGETHER WITH THEIR FAMILIES</span>
-          <div className="h-px w-12 bg-[#B8860B]/30" />
+          <div className="h-px w-12 bg-[#5A8AAE]/30" />
+          <span className="text-[9px] tracking-[0.3em] text-[#5A8AAE]/60">TOGETHER WITH THEIR FAMILIES</span>
+          <div className="h-px w-12 bg-[#5A8AAE]/30" />
         </div>
         <div>
-          <p className="text-3xl text-[#3A2A1A]" style={{ fontFamily: "var(--font-great-vibes)" }}>
-            {data.partner1 ?? "Partner 1"} <span className="text-[#B8860B]">&amp;</span> {data.partner2 ?? "Partner 2"}
+          <p className="text-3xl text-[#2A3A4A]" style={{ fontFamily: "var(--font-great-vibes)" }}>
+            {data.partner1 ?? "Partner 1"} <span className="text-[#5A8AAE]">&amp;</span> {data.partner2 ?? "Partner 2"}
           </p>
-          <p className="mt-1 text-[10px] tracking-[0.2em] text-[#8B7355]">REQUEST THE PLEASURE OF YOUR COMPANY</p>
+          <p className="mt-1 text-[10px] tracking-[0.2em] text-[#5A8AAE]">REQUEST THE PLEASURE OF YOUR COMPANY</p>
         </div>
         <div>
           <div className="flex items-center justify-center gap-3">
-            <div className="h-px w-8 bg-[#B8860B]/25" />
-            <span className="text-xs text-[#B8860B]/60">&#9829;</span>
-            <div className="h-px w-8 bg-[#B8860B]/25" />
+            <div className="h-px w-8 bg-[#5A8AAE]/25" />
+            <span className="text-xs text-[#5A8AAE]/60">&#9829;</span>
+            <div className="h-px w-8 bg-[#5A8AAE]/25" />
           </div>
-          <p className="mt-2 text-sm font-medium text-[#5A4A35]">{data.date ?? "Date"}</p>
-          <p className="mt-0.5 text-xs text-[#8B7355]">{data.venue ?? "Venue"}</p>
-          {data.message && <p className="mt-3 text-xs italic text-[#6B5535]/70">&ldquo;{data.message}&rdquo;</p>}
+          <p className="mt-2 text-sm font-medium text-[#3A5A70]">{data.date ?? "Date"}</p>
+          <p className="mt-0.5 text-xs text-[#5A8AAE]">{data.venue ?? "Venue"}</p>
+          {data.message && <p className="mt-3 text-xs italic text-[#4A6A80]/70">&ldquo;{data.message}&rdquo;</p>}
         </div>
       </div>
     </div>
@@ -174,20 +234,20 @@ function WeddingCard({ data }: { data: Record<string, string> }) {
 
 function EngagementCard({ data }: { data: Record<string, string> }) {
   return (
-    <div className="aspect-[1/1.2] w-full overflow-hidden rounded-xl bg-gradient-to-br from-[#FFF5EE] via-[#FFF0E5] to-[#FFE8D8] p-8 shadow-xl">
+    <div className="aspect-[1/1.2] w-full overflow-hidden rounded-xl bg-gradient-to-br from-[#F0EAF5] via-[#E8E0F0] to-[#DDD4E8] p-8 shadow-xl">
       <div className="flex h-full flex-col items-center justify-center text-center">
-        <p className="text-[10px] tracking-[0.4em] text-[#C09060]/70">SAVE THE DATE</p>
-        <div className="my-4 h-px w-16 bg-[#C09060]/25" />
-        <p className="text-3xl text-[#5A3A20]" style={{ fontFamily: "var(--font-great-vibes)" }}>
-          {data.partner1 ?? "Partner 1"} <span className="text-[#C09060]">&amp;</span> {data.partner2 ?? "Partner 2"}
+        <p className="text-[10px] tracking-[0.4em] text-[#8A6AAE]/70">SAVE THE DATE</p>
+        <div className="my-4 h-px w-16 bg-[#8A6AAE]/25" />
+        <p className="text-3xl text-[#3A2A4A]" style={{ fontFamily: "var(--font-great-vibes)" }}>
+          {data.partner1 ?? "Partner 1"} <span className="text-[#8A6AAE]">&amp;</span> {data.partner2 ?? "Partner 2"}
         </p>
         <div className="mt-4 flex items-center gap-4">
-          <div className="h-px w-10 bg-[#C09060]/30" />
-          <p className="text-lg font-medium text-[#C09060]">{data.date ?? "Date"}</p>
-          <div className="h-px w-10 bg-[#C09060]/30" />
+          <div className="h-px w-10 bg-[#8A6AAE]/30" />
+          <p className="text-lg font-medium text-[#8A6AAE]">{data.date ?? "Date"}</p>
+          <div className="h-px w-10 bg-[#8A6AAE]/30" />
         </div>
-        {data.location && <p className="mt-2 text-xs text-[#8B6840]/50">{data.location}</p>}
-        {data.message && <p className="mt-4 text-sm italic text-[#5A3A20]/60">&ldquo;{data.message}&rdquo;</p>}
+        {data.location && <p className="mt-2 text-xs text-[#6A4A8A]/50">{data.location}</p>}
+        {data.message && <p className="mt-4 text-sm italic text-[#3A2A4A]/60">&ldquo;{data.message}&rdquo;</p>}
       </div>
     </div>
   );
@@ -212,6 +272,119 @@ function AnniversaryCard({ data }: { data: Record<string, string> }) {
         </p>
         {data.date && <p className="mt-2 text-xs text-[#8B7355]/60">{data.date}</p>}
         {data.message && <p className="mt-3 text-xs italic text-[#5A4A35]/50">&ldquo;{data.message}&rdquo;</p>}
+      </div>
+    </div>
+  );
+}
+
+function QRContactRendered({ data }: { data: Record<string, string> }) {
+  return (
+    <div className="aspect-[1.8/1] w-full overflow-hidden rounded-xl bg-white p-6 shadow-xl">
+      <div className="flex h-full items-center">
+        <div className="h-full w-1 rounded-full bg-[#D4AF37]" />
+        <div className="flex flex-1 items-center justify-between pl-5">
+          <div>
+            <h2 className="text-lg font-bold tracking-wide text-[#1A1A1A]" style={{ fontFamily: "var(--font-montserrat)" }}>
+              {data.name ?? "Your Name"}
+            </h2>
+            <p className="text-xs text-[#8B8580]">{data.title ?? "Your Title"}</p>
+            <div className="mt-3 h-px w-14 bg-[#E8E4DE]" />
+            <div className="mt-2 space-y-0.5 text-[11px] text-[#6B6560]">
+              {data.email && <p>{data.email}</p>}
+              {data.phone && <p>{data.phone}</p>}
+              {data.website && <p>{data.website}</p>}
+            </div>
+          </div>
+          <div className="flex h-20 w-20 items-center justify-center rounded-lg border border-[#E8E4DE] bg-[#FAF8F5] p-2">
+            <div className="grid h-full w-full grid-cols-7 grid-rows-7 gap-[1px]">
+              {Array.from({ length: 49 }).map((_, i) => (
+                <div key={i} className={`rounded-[0.5px] ${[0,1,2,4,5,6,7,13,14,20,21,22,23,24,25,27,28,34,35,42,43,44,46,47,48].includes(i) ? "bg-[#1A1A1A]" : "bg-transparent"}`} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CreativeRendered({ data }: { data: Record<string, string> }) {
+  return (
+    <div className="aspect-[1.8/1] w-full overflow-hidden rounded-xl bg-gradient-to-br from-[#1A2A2A] via-[#0F2020] to-[#0A1818] p-6 shadow-xl">
+      <div className="flex h-full flex-col justify-between">
+        <div>
+          <div className="flex gap-2">
+            <div className="h-3 w-3 rounded-full bg-[#5AB89E]/50" />
+            <div className="h-3 w-3 rounded-full bg-[#4A9E8E]/40" />
+            <div className="h-3 w-3 rounded-full bg-[#3A8A70]/30" />
+          </div>
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-white" style={{ fontFamily: "var(--font-montserrat)" }}>
+            {data.name ?? "Your Name"}
+          </h2>
+          <p className="mt-0.5 text-xs tracking-widest text-[#5AB89E]">
+            {(data.role ?? "Creative Role").toUpperCase()}
+          </p>
+          <div className="mt-3 h-px w-12 bg-gradient-to-r from-[#5AB89E] via-[#4A9E8E] to-[#3A8A70]" />
+          <div className="mt-2 flex flex-wrap gap-x-5 text-[11px] text-white/40">
+            {data.portfolio && <span>{data.portfolio}</span>}
+            {data.email && <span>{data.email}</span>}
+          </div>
+          {data.tagline && <p className="mt-2 text-xs italic text-white/25">{data.tagline}</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RealtorRendered({ data }: { data: Record<string, string> }) {
+  return (
+    <div className="aspect-[1.8/1] w-full overflow-hidden rounded-xl bg-gradient-to-br from-[#2A1A1A] via-[#201518] to-[#180F10] p-6 shadow-xl">
+      <div className="flex h-full flex-col justify-between">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-[10px] tracking-widest text-[#D4AF37]/70">
+              {(data.agency ?? "Agency Name").toUpperCase()}
+            </p>
+            <h2 className="mt-1 text-xl font-bold text-white" style={{ fontFamily: "var(--font-montserrat)" }}>
+              {data.name ?? "Agent Name"}
+            </h2>
+            <p className="text-xs text-white/50">Licensed Real Estate Agent</p>
+          </div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#D4AF37]/30 bg-[#D4AF37]/10">
+            <span className="text-sm text-[#D4AF37]">&#9670;</span>
+          </div>
+        </div>
+        <div>
+          <div className="mb-2 h-px w-16 bg-gradient-to-r from-[#D4AF37]/40 to-transparent" />
+          <div className="flex flex-wrap gap-x-6 text-[11px] text-white/40">
+            {data.license && <span>License: {data.license}</span>}
+            {data.phone && <span>{data.phone}</span>}
+            {data.email && <span>{data.email}</span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ThankYouRendered({ data }: { data: Record<string, string> }) {
+  return (
+    <div className="aspect-[1/1.2] w-full overflow-hidden rounded-xl bg-gradient-to-b from-[#FFF8F5] via-[#FFF0EB] to-[#FFE8E0] p-8 shadow-xl">
+      <div className="flex h-full flex-col items-center justify-center text-center">
+        <p className="text-4xl text-[#C07050]" style={{ fontFamily: "var(--font-great-vibes)" }}>Thank You</p>
+        <div className="my-4 flex items-center gap-3">
+          <div className="h-px w-10 bg-[#C07050]/25" />
+          <span className="text-sm text-[#C07050]/50">&#10084;</span>
+          <div className="h-px w-10 bg-[#C07050]/25" />
+        </div>
+        {data.to && <p className="text-xs text-[#8B6050]/60">Dear {data.to},</p>}
+        {data.message && <p className="mt-3 max-w-xs text-sm italic leading-relaxed text-[#5A3A30]/60">&ldquo;{data.message}&rdquo;</p>}
+        <div className="mt-4">
+          {data.from && <p className="text-sm font-medium text-[#C07050]/80">{data.from}</p>}
+          {data.date && <p className="mt-0.5 text-[10px] text-[#8B6050]/40">{data.date}</p>}
+        </div>
       </div>
     </div>
   );

@@ -476,9 +476,63 @@ const FREE_CARDS = [
       { key: "message", label: "Message", placeholder: "Celebrating 25 wonderful years!" },
     ],
   },
+  {
+    id: "qr-contact",
+    type: "QR Contact Card",
+    title: "QR Contact",
+    description: "A scannable digital card with your contact details and QR code.",
+    fields: [
+      { key: "name", label: "Full Name", placeholder: "Sarah Chen" },
+      { key: "title", label: "Title", placeholder: "Product Manager" },
+      { key: "email", label: "Email", placeholder: "sarah@company.com" },
+      { key: "phone", label: "Phone", placeholder: "+1 (555) 987-6543" },
+      { key: "website", label: "Website", placeholder: "www.sarahchen.com" },
+    ],
+  },
+  {
+    id: "creative",
+    type: "Creative Portfolio",
+    title: "Creative Card",
+    description: "Showcase your creative work with a bold, artistic card design.",
+    fields: [
+      { key: "name", label: "Full Name", placeholder: "Alex Rivera" },
+      { key: "role", label: "Creative Role", placeholder: "UI/UX Designer" },
+      { key: "portfolio", label: "Portfolio URL", placeholder: "dribbble.com/alex" },
+      { key: "email", label: "Email", placeholder: "alex@design.co" },
+      { key: "tagline", label: "Tagline", placeholder: "Crafting digital experiences" },
+    ],
+  },
+  {
+    id: "realtor",
+    type: "Real Estate Card",
+    title: "Realtor Card",
+    description: "Professional real estate agent card with your listings & contact.",
+    fields: [
+      { key: "name", label: "Agent Name", placeholder: "Robert Williams" },
+      { key: "agency", label: "Agency", placeholder: "Prestige Realty" },
+      { key: "license", label: "License #", placeholder: "RE-2024-1234" },
+      { key: "phone", label: "Phone", placeholder: "+1 (555) 456-7890" },
+      { key: "email", label: "Email", placeholder: "robert@prestigerealty.com" },
+    ],
+  },
+  {
+    id: "thankyou",
+    type: "Thank You Card",
+    title: "Thank You",
+    description: "Send a heartfelt digital thank you card to anyone, instantly.",
+    fields: [
+      { key: "from", label: "From", placeholder: "The Johnson Family" },
+      { key: "to", label: "To", placeholder: "Our wonderful guests" },
+      { key: "message", label: "Message", placeholder: "Thank you for making our day so special!" },
+      { key: "date", label: "Date", placeholder: "October 5, 2026" },
+    ],
+  },
 ];
 
 function FreeCardsSection() {
+  const [showAll, setShowAll] = useState(false);
+  const visibleCards = showAll ? FREE_CARDS : FREE_CARDS.slice(0, 4);
+
   return (
     <section className="relative px-6 py-24">
       <div className="mx-auto max-w-6xl">
@@ -510,7 +564,7 @@ function FreeCardsSection() {
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {FREE_CARDS.map((card, i) => (
+          {visibleCards.map((card, i) => (
             <motion.div
               key={card.id}
               initial={{ opacity: 0, y: 30 }}
@@ -539,26 +593,16 @@ function FreeCardsSection() {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="mt-12 text-center"
-        >
-          <Link href="/signup">
-            <Button
-              size="lg"
-              className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] px-8 text-white hover:from-[#9A7209] hover:to-[#B8960B]"
+        {!showAll && FREE_CARDS.length > 4 && (
+          <div className="mt-10 text-center">
+            <button
+              onClick={() => setShowAll(true)}
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#B8860B] to-[#D4A843] px-6 py-2.5 text-sm font-medium text-white transition-all hover:from-[#9A7209] hover:to-[#B8960B] hover:shadow-md"
             >
-              Create Your Free Card
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
-          <p className="mt-3 text-xs text-[#8B8580] dark:text-[#706860]">
-            No credit card needed · Takes less than 2 minutes
-          </p>
-        </motion.div>
+              See All Cards <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
