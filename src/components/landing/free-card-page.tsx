@@ -630,7 +630,6 @@ export function FreeCardPage({ type }: { type: string }) {
                 >
                   Try Now <ArrowRight className="h-4 w-4" />
                 </Button>
-                <p className="text-xs text-[#8B8580] dark:text-[#706860]">No sign-up required</p>
               </div>
 
               {/* Quick features */}

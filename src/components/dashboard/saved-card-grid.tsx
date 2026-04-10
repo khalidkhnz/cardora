@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
-import { Download, Trash2, Eye, X } from "lucide-react";
+import { useState, useCallback } from "react";
+import Link from "next/link";
+import { Download, Trash2, Eye, Pencil, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -164,17 +165,41 @@ export function SavedCardGrid({ cards }: { cards: SavedCard[] }) {
   const [previewCard, setPreviewCard] = useState<SavedCard | null>(null);
   const [downloading, setDownloading] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
-  const downloadRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const handleDownload = useCallback(async (card: SavedCard) => {
-    setPreviewCard(card);
     setDownloading(card.id);
-    // Wait for render
-    await new Promise((r) => setTimeout(r, 300));
-    if (!downloadRef.current) { setDownloading(null); return; }
+
+    // Create a temporary visible container for html2canvas
+    const wrapper = document.createElement("div");
+    wrapper.style.cssText = "position:fixed;top:0;left:0;z-index:9999;width:600px;pointer-events:none;";
+    document.body.appendChild(wrapper);
+
+    // Create a root and render the card
+    const { createRoot } = await import("react-dom/client");
+    const root = createRoot(wrapper);
+    root.render(<RenderedCard id={card.cardType} data={card.cardData ?? {}} />);
+
+    // Wait for render + fonts
+    await new Promise((r) => setTimeout(r, 800));
+    await document.fonts.ready;
+
+    const cardEl = wrapper.firstElementChild as HTMLElement;
+    if (!cardEl) { cleanup(); return; }
+
+    function cleanup() {
+      root.unmount();
+      wrapper.remove();
+      setDownloading(null);
+    }
+
     try {
-      const canvas = await html2canvas(downloadRef.current, { scale: 3, backgroundColor: null, useCORS: true });
+      const canvas = await html2canvas(cardEl, {
+        scale: 3,
+        backgroundColor: null,
+        useCORS: true,
+        logging: false,
+      });
       const link = document.createElement("a");
       link.download = `${card.cardType}-card.png`;
       link.href = canvas.toDataURL("image/png");
@@ -183,8 +208,7 @@ export function SavedCardGrid({ cards }: { cards: SavedCard[] }) {
     } catch {
       toast.error("Download failed");
     }
-    setDownloading(null);
-    setPreviewCard(null);
+    cleanup();
   }, []);
 
   const handleDelete = useCallback(async (id: string) => {
@@ -246,6 +270,15 @@ export function SavedCardGrid({ cards }: { cards: SavedCard[] }) {
                   >
                     <Eye className="h-3.5 w-3.5" />
                   </Button>
+                  <Link href={`/free-cards/${card.cardType}`}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-[#E8E4DE] text-[#6B6560] hover:bg-[#F3F0EB] dark:border-white/10"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </Button>
+                  </Link>
                   <Button
                     size="sm"
                     variant="outline"
@@ -262,11 +295,13 @@ export function SavedCardGrid({ cards }: { cards: SavedCard[] }) {
         ))}
       </div>
 
-      {/* Hidden full-size render for download */}
-      {previewCard && downloading && (
-        <div className="fixed left-[-9999px] top-0">
-          <div ref={downloadRef} className="w-[600px]">
-            <RenderedCard id={previewCard.cardType} data={previewCard.cardData ?? {}} />
+
+      {/* Download overlay — covers the temp render element */}
+      {downloading && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-white/80 backdrop-blur-sm dark:bg-black/80">
+          <div className="text-center">
+            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-[#E8E4DE] border-t-[#D4AF37]" />
+            <p className="mt-3 text-sm font-medium text-[#6B6560]">Preparing download...</p>
           </div>
         </div>
       )}

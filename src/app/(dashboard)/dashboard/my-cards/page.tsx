@@ -27,7 +27,7 @@ export default async function MyCardsPage() {
           My Cards
         </h1>
         <p className="mt-1 text-[#6B6560] dark:text-[#A09888]">
-          Your saved free cards — download or manage them anytime
+          Your saved free cards, download or manage them anytime
         </p>
       </div>
 
