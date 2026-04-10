@@ -334,17 +334,80 @@ function LargePreview({ template: t }: { template: Template }) {
   }
   if (t.style === "dashboard") {
     return (
-      <div className={`flex h-full w-full flex-col bg-gradient-to-b ${t.colors.bg} p-6`}>
-        <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full" style={{ background: t.colors.accent }} />
-          <span className="text-[8px] font-semibold uppercase tracking-[0.12em]" style={{ color: `${t.colors.accent}70`, fontFamily: "var(--font-montserrat)" }}>Analytics</span>
+      <div className="flex h-full w-full flex-col bg-gradient-to-b from-white to-[#F5F2ED] p-6">
+        {/* Top bar */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#D4AF37]/15">
+              <div className="h-2.5 w-2.5 rounded-sm bg-[#D4AF37]" />
+            </div>
+            <span className="text-[9px] font-semibold uppercase tracking-[0.15em] text-[#8B7355]" style={{ fontFamily: "var(--font-montserrat)" }}>Lumière Insights</span>
+          </div>
+          <div className="flex gap-1">
+            {["Week", "Month"].map((p) => (
+              <span key={p} className={`rounded-full px-2 py-0.5 text-[6px] font-medium ${p === "Week" ? "bg-[#1A1A1A] text-white" : "text-[#8B8580]"}`}>{p}</span>
+            ))}
+          </div>
         </div>
-        <p className="mt-3 text-[28px] font-bold leading-none" style={{ color: `${t.colors.text}E0`, fontFamily: "var(--font-raleway)" }}>2,847</p>
-        <p className="mt-1 text-[9px]" style={{ color: `${t.colors.accent}80` }}>↑ 24% this week</p>
-        <svg viewBox="0 0 120 30" className="mt-3 w-full" fill="none">
-          <path d="M0 22 Q20 18 40 15 Q60 10 80 12 Q100 5 120 8 L120 30 L0 30Z" fill={t.colors.accent} fillOpacity="0.15" />
-          <path d="M0 22 Q20 18 40 15 Q60 10 80 12 Q100 5 120 8" stroke={t.colors.accent} strokeWidth="1.5" strokeOpacity="0.4" />
-        </svg>
+
+        {/* Stat cards */}
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          {[
+            { label: "Total Views", value: "2,847", change: "+24%" },
+            { label: "QR Scans", value: "482", change: "+18%" },
+            { label: "NFC Taps", value: "156", change: "+32%" },
+          ].map((s) => (
+            <div key={s.label} className="rounded-lg border border-[#E8E4DE] bg-white p-2.5">
+              <p className="text-[5px] font-medium uppercase tracking-wider text-[#8B8580]">{s.label}</p>
+              <p className="mt-0.5 text-[16px] font-bold leading-tight text-[#1A1A1A]" style={{ fontFamily: "var(--font-montserrat)" }}>{s.value}</p>
+              <p className="mt-0.5 text-[6px] font-medium text-[#B8860B]">↑ {s.change}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Chart area */}
+        <div className="mt-3 rounded-lg border border-[#E8E4DE] bg-white p-3">
+          <div className="flex items-center justify-between">
+            <span className="text-[6px] font-medium uppercase tracking-wider text-[#8B8580]">Weekly Performance</span>
+            <div className="flex gap-2 text-[5px] text-[#8B8580]">
+              <span className="flex items-center gap-0.5"><span className="h-1.5 w-1.5 rounded-full bg-[#D4AF37]" />Views</span>
+              <span className="flex items-center gap-0.5"><span className="h-1.5 w-1.5 rounded-full bg-[#8B7355]" />Scans</span>
+            </div>
+          </div>
+          <div className="mt-2 flex items-end gap-1.5">
+            {[
+              { v: 34, s: 12 }, { v: 42, s: 18 }, { v: 38, s: 14 },
+              { v: 51, s: 22 }, { v: 46, s: 20 }, { v: 29, s: 10 }, { v: 35, s: 15 },
+            ].map((d, i) => (
+              <div key={i} className="flex flex-1 items-end justify-center gap-[2px]" style={{ height: 70 }}>
+                <div className="w-[5px] rounded-t bg-gradient-to-t from-[#D4AF37]/30 to-[#D4AF37]/70" style={{ height: (d.v / 51) * 70 }} />
+                <div className="w-[5px] rounded-t bg-gradient-to-t from-[#8B7355]/25 to-[#8B7355]/55" style={{ height: (d.s / 51) * 70 }} />
+              </div>
+            ))}
+          </div>
+          <div className="mt-1 flex justify-between px-1 text-[5px] text-[#8B8580]">
+            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => <span key={d}>{d}</span>)}
+          </div>
+        </div>
+
+        {/* Bottom row */}
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          <div className="rounded-lg border border-[#E8E4DE] bg-white p-2">
+            <p className="text-[5px] uppercase tracking-wider text-[#8B8580]">Top Source</p>
+            <p className="mt-0.5 text-[8px] font-semibold text-[#1A1A1A]">Direct Link — 42%</p>
+            <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-[#F3F0EB]">
+              <div className="h-full w-[42%] rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B]" />
+            </div>
+          </div>
+          <div className="rounded-lg border border-[#E8E4DE] bg-white p-2">
+            <p className="text-[5px] uppercase tracking-wider text-[#8B8580]">Activity</p>
+            <div className="mt-1 space-y-0.5">
+              {["QR Scan — Toronto", "NFC Tap — Vancouver", "Link — Montreal"].map((a) => (
+                <p key={a} className="truncate text-[5px] text-[#6B6560]">{a}</p>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -459,7 +522,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
 
             {/* CTA buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" || template.id === "maison-blanche" ? (
+              {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" || template.id === "maison-blanche" || template.id === "lumiere-insights" ? (
                 <Link href={`/templates/${template.id}/preview`}>
                   <Button
                     size="lg"
@@ -599,7 +662,7 @@ export function TemplateDetailContent({ template }: { template: Template }) {
             Get started with {template.name} today.
           </p>
           <div className="mt-8 flex justify-center gap-3">
-            {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" || template.id === "maison-blanche" ? (
+            {template.id === "the-maharani" || template.id === "azure-vows" || template.id === "whispered-vows" || template.id === "noir-atelier" || template.id === "maison-blanche" || template.id === "lumiere-insights" ? (
               <Link href={`/templates/${template.id}/preview`}>
                 <Button
                   size="lg"

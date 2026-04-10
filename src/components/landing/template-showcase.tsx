@@ -281,27 +281,76 @@ function AnimatedPreview({ t }: { t: Template }) {
 
 function DashboardPreview({ t }: { t: Template }) {
   return (
-    <div className={`flex h-full w-full flex-col bg-gradient-to-b ${t.colors.bg} p-4`}>
-      <div className="flex items-center gap-1.5">
-        <div className="h-1.5 w-1.5 rounded-full" style={{ background: t.colors.accent }} />
-        <span className="text-[6px] font-semibold uppercase tracking-[0.12em]" style={{ color: `${t.colors.accent}70`, fontFamily: "var(--font-montserrat)" }}>Analytics</span>
+    <div className="flex h-full w-full flex-col bg-gradient-to-b from-white to-[#F5F2ED] p-4">
+      {/* Header bar */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <div className="flex h-4 w-4 items-center justify-center rounded bg-[#D4AF37]/15">
+            <div className="h-1.5 w-1.5 rounded-sm bg-[#D4AF37]" />
+          </div>
+          <span className="text-[6px] font-semibold uppercase tracking-[0.12em] text-[#8B7355]" style={{ fontFamily: "var(--font-montserrat)" }}>Lumière Insights</span>
+        </div>
+        <div className="flex gap-0.5">
+          <div className="h-1 w-1 rounded-full bg-[#D4AF37]/30" />
+          <div className="h-1 w-1 rounded-full bg-[#D4AF37]/20" />
+          <div className="h-1 w-1 rounded-full bg-[#D4AF37]/10" />
+        </div>
       </div>
-      <p className="mt-2 text-[18px] font-bold leading-none" style={{ color: `${t.colors.text}E0`, fontFamily: "var(--font-raleway)" }}>2,847</p>
-      <p className="mt-0.5 text-[6px]" style={{ color: `${t.colors.accent}80` }}>↑ 24%</p>
-      {/* Mini chart */}
-      <svg viewBox="0 0 100 25" className="mt-2 w-full" fill="none">
-        <defs>
-          <linearGradient id={`cg-${t.id}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={t.colors.accent} stopOpacity="0.3" />
-            <stop offset="100%" stopColor={t.colors.accent} stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path d="M0 20 Q15 18 25 15 Q40 10 55 12 Q70 8 85 5 Q95 3 100 4 L100 25 L0 25Z" fill={`url(#cg-${t.id})`} />
-        <path d="M0 20 Q15 18 25 15 Q40 10 55 12 Q70 8 85 5 Q95 3 100 4" stroke={t.colors.accent} strokeWidth="1" strokeOpacity="0.5" />
-      </svg>
-      <div className="mt-2 flex gap-1">
-        {["QR", "NFC", "Link"].map((s) => (
-          <span key={s} className="rounded px-1.5 py-0.5 text-[4.5px] font-medium" style={{ background: `${t.colors.accent}15`, color: `${t.colors.accent}80` }}>{s}</span>
+
+      {/* Stats row */}
+      <div className="mt-2.5 flex gap-2">
+        <div className="flex-1 rounded-md border border-[#E8E4DE] bg-white/80 p-1.5">
+          <p className="text-[4px] font-medium text-[#8B8580]">VIEWS</p>
+          <p className="text-[11px] font-bold leading-tight text-[#1A1A1A]" style={{ fontFamily: "var(--font-montserrat)" }}>2,847</p>
+          <p className="text-[4px] font-medium text-[#B8860B]">↑ 24%</p>
+        </div>
+        <div className="flex-1 rounded-md border border-[#E8E4DE] bg-white/80 p-1.5">
+          <p className="text-[4px] font-medium text-[#8B8580]">SCANS</p>
+          <p className="text-[11px] font-bold leading-tight text-[#1A1A1A]" style={{ fontFamily: "var(--font-montserrat)" }}>482</p>
+          <p className="text-[4px] font-medium text-[#B8860B]">↑ 18%</p>
+        </div>
+        <div className="flex-1 rounded-md border border-[#E8E4DE] bg-white/80 p-1.5">
+          <p className="text-[4px] font-medium text-[#8B8580]">TAPS</p>
+          <p className="text-[11px] font-bold leading-tight text-[#1A1A1A]" style={{ fontFamily: "var(--font-montserrat)" }}>156</p>
+          <p className="text-[4px] font-medium text-[#B8860B]">↑ 32%</p>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <div className="mt-2 flex-1 rounded-md border border-[#E8E4DE] bg-white/80 p-2">
+        <div className="flex items-center justify-between">
+          <span className="text-[4px] font-medium text-[#8B8580]">WEEKLY OVERVIEW</span>
+          <div className="flex gap-1.5 text-[3.5px] text-[#8B8580]">
+            <span className="flex items-center gap-0.5"><span className="h-1 w-1 rounded-full bg-[#D4AF37]" />Views</span>
+            <span className="flex items-center gap-0.5"><span className="h-1 w-1 rounded-full bg-[#8B7355]" />Scans</span>
+          </div>
+        </div>
+        <div className="mt-1.5 flex items-end gap-[3px]">
+          {[
+            { v: 34, s: 12 }, { v: 42, s: 18 }, { v: 38, s: 14 },
+            { v: 51, s: 22 }, { v: 46, s: 20 }, { v: 29, s: 10 }, { v: 35, s: 15 },
+          ].map((d, i) => (
+            <div key={i} className="flex flex-1 items-end justify-center gap-[1px]" style={{ height: 45 }}>
+              <div className="w-[3px] rounded-t-sm bg-gradient-to-t from-[#D4AF37]/40 to-[#D4AF37]/80" style={{ height: (d.v / 51) * 45 }} />
+              <div className="w-[3px] rounded-t-sm bg-gradient-to-t from-[#8B7355]/30 to-[#8B7355]/60" style={{ height: (d.s / 51) * 45 }} />
+            </div>
+          ))}
+        </div>
+        <div className="mt-1 flex justify-between text-[3.5px] text-[#8B8580]">
+          {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => <span key={i}>{d}</span>)}
+        </div>
+      </div>
+
+      {/* Bottom row */}
+      <div className="mt-1.5 flex gap-1.5">
+        {[
+          { label: "Top Source", value: "Direct Link" },
+          { label: "Peak Day", value: "Thursday" },
+        ].map((item) => (
+          <div key={item.label} className="flex-1 rounded-md border border-[#E8E4DE] bg-white/80 px-1.5 py-1">
+            <p className="text-[3.5px] text-[#8B8580]">{item.label}</p>
+            <p className="text-[5px] font-semibold text-[#1A1A1A]">{item.value}</p>
+          </div>
         ))}
       </div>
     </div>
