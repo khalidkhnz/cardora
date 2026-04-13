@@ -190,7 +190,7 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
     const url = `${window.location.origin}/wedding/${invite.slug}`;
     if (navigator.share) {
       try {
-        await navigator.share({ title: `${invite.groomName} & ${invite.brideName} — Wedding`, url });
+        await navigator.share({ title: `${invite.groomName} & ${invite.brideName} - Wedding`, url });
         return;
       } catch {
         /* fall through */
@@ -354,7 +354,7 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 1 — Hero                                            */}
+      {/*  SECTION 1 - Hero                                            */}
       {/* ============================================================ */}
       <section className="relative flex min-h-screen flex-col items-center justify-center px-4 text-center">
         {/* Background */}
@@ -480,7 +480,7 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 2 — Events Grid                                     */}
+      {/*  SECTION 2 - Events Grid                                     */}
       {/* ============================================================ */}
       <section className="relative z-10 px-4 py-16">
         <div className="mx-auto max-w-4xl">
@@ -542,7 +542,7 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 3 — Couple Photo                                    */}
+      {/*  SECTION 3 - Couple Photo                                    */}
       {/* ============================================================ */}
       {invite.couplePhoto && (
         <section className="relative z-10 px-4 py-20">
@@ -605,7 +605,7 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 4 — Things to Know                                  */}
+      {/*  SECTION 4 - Things to Know                                  */}
       {/* ============================================================ */}
       {thingsToKnow.length > 0 && (
         <section className="relative z-10 px-4 py-16">
@@ -644,7 +644,7 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
       </div>
 
       {/* ============================================================ */}
-      {/*  SECTION 5 — Countdown                                       */}
+      {/*  SECTION 5 - Countdown                                       */}
       {/* ============================================================ */}
       <section className="relative z-10 px-4 py-20">
         <div className="scroll-fade mx-auto max-w-xl text-center">
@@ -678,7 +678,7 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
       </section>
 
       {/* ============================================================ */}
-      {/*  SECTION 6 — Couple Message                                  */}
+      {/*  SECTION 6 - Couple Message                                  */}
       {/* ============================================================ */}
       {(invite.coupleMessage ?? invite.story) && (
         <section className="relative z-10 px-4 py-16">
@@ -696,14 +696,14 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
               <div className="h-px w-16 bg-[#DAA520]/30" />
             </div>
             <p className="mt-4 text-sm font-light tracking-wider text-[#DAA520]/50">
-              — {invite.groomName} & {invite.brideName}
+              - {invite.groomName} & {invite.brideName}
             </p>
           </div>
         </section>
       )}
 
       {/* ============================================================ */}
-      {/*  SECTION 7 — RSVP + Share Buttons                            */}
+      {/*  SECTION 7 - RSVP + Share Buttons                            */}
       {/* ============================================================ */}
       <section className="relative z-10 px-4 py-16">
         <div className="scroll-fade mx-auto flex max-w-md flex-col items-center gap-5 text-center">
@@ -755,7 +755,7 @@ export default function MountainsDarkTemplate({ invite, isDemo }: TemplateProps)
       </section>
 
       {/* ============================================================ */}
-      {/*  SECTION 8 — Footer / Mountains + Watermark                  */}
+      {/*  SECTION 8 - Footer / Mountains + Watermark                  */}
       {/* ============================================================ */}
       <footer className="relative z-10 overflow-hidden pt-8 pb-4">
         {/* Mountain silhouette */}

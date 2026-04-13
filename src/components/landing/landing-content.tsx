@@ -27,6 +27,9 @@ import {
   Shield,
   Star,
   Music,
+  Mail,
+  Send,
+  MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
@@ -38,6 +41,7 @@ import { TextParallaxMarquee } from "@/components/animated-invite/shared/text-pa
 import { Footer } from "@/components/landing/footer";
 import { FloatingCardsHero } from "@/components/landing/floating-cards-hero";
 import { TemplateBrowseSection } from "@/components/landing/template-showcase";
+import { FreeCardCover } from "@/components/landing/free-card-flow";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -292,7 +296,7 @@ function Navbar() {
             height={30}
             className="h-[30px] w-[30px] object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)] dark:hidden"
           />
-          {/* Dark mode logo — original colors + white outline glow to pop */}
+          {/* Dark mode logo - original colors + white outline glow to pop */}
           <Image
             src="/cardora-logo.png"
             alt="Cardora"
@@ -414,6 +418,194 @@ function FeaturesSection() {
             <FeatureCard key={feature.title} feature={feature} index={i} />
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Free Cards Section                                                 */
+/* ------------------------------------------------------------------ */
+
+const FREE_CARDS = [
+  {
+    id: "business",
+    type: "Business Card",
+    title: "Professional",
+    description: "Modern business card with contact info, social links & QR sharing.",
+    fields: [
+      { key: "name", label: "Full Name", placeholder: "John Doe" },
+      { key: "title", label: "Job Title", placeholder: "Senior Developer" },
+      { key: "company", label: "Company", placeholder: "Acme Inc." },
+      { key: "email", label: "Email", placeholder: "john@acme.com" },
+      { key: "phone", label: "Phone", placeholder: "+1 (555) 123-4567" },
+    ],
+  },
+  {
+    id: "wedding",
+    type: "Wedding Invite",
+    title: "Elegant Invite",
+    description: "Digital wedding invitation with RSVP tracking & event details.",
+    fields: [
+      { key: "partner1", label: "Partner 1 Name", placeholder: "James" },
+      { key: "partner2", label: "Partner 2 Name", placeholder: "Emily" },
+      { key: "date", label: "Wedding Date", placeholder: "September 15, 2026" },
+      { key: "venue", label: "Venue", placeholder: "The Grand Ballroom" },
+      { key: "message", label: "Message", placeholder: "We'd love you to join us!" },
+    ],
+  },
+  {
+    id: "engagement",
+    type: "Engagement Card",
+    title: "Save the Date",
+    description: "Announce your engagement with a beautiful shareable card.",
+    fields: [
+      { key: "partner1", label: "Partner 1 Name", placeholder: "Michael" },
+      { key: "partner2", label: "Partner 2 Name", placeholder: "Sarah" },
+      { key: "date", label: "Engagement Date", placeholder: "March 10, 2026" },
+      { key: "location", label: "Location", placeholder: "Paris, France" },
+      { key: "message", label: "Message", placeholder: "We said YES!" },
+    ],
+  },
+  {
+    id: "anniversary",
+    type: "Anniversary Card",
+    title: "Celebration",
+    description: "Mark milestones with a shareable digital anniversary card.",
+    fields: [
+      { key: "names", label: "Couple Names", placeholder: "David & Maria" },
+      { key: "years", label: "Years Together", placeholder: "25" },
+      { key: "date", label: "Anniversary Date", placeholder: "June 20, 2026" },
+      { key: "message", label: "Message", placeholder: "Celebrating 25 wonderful years!" },
+    ],
+  },
+  {
+    id: "qr-contact",
+    type: "QR Contact Card",
+    title: "QR Contact",
+    description: "A scannable digital card with your contact details and QR code.",
+    fields: [
+      { key: "name", label: "Full Name", placeholder: "Sarah Chen" },
+      { key: "title", label: "Title", placeholder: "Product Manager" },
+      { key: "email", label: "Email", placeholder: "sarah@company.com" },
+      { key: "phone", label: "Phone", placeholder: "+1 (555) 987-6543" },
+      { key: "website", label: "Website", placeholder: "www.sarahchen.com" },
+    ],
+  },
+  {
+    id: "creative",
+    type: "Creative Portfolio",
+    title: "Creative Card",
+    description: "Showcase your creative work with a bold, artistic card design.",
+    fields: [
+      { key: "name", label: "Full Name", placeholder: "Alex Rivera" },
+      { key: "role", label: "Creative Role", placeholder: "UI/UX Designer" },
+      { key: "portfolio", label: "Portfolio URL", placeholder: "dribbble.com/alex" },
+      { key: "email", label: "Email", placeholder: "alex@design.co" },
+      { key: "tagline", label: "Tagline", placeholder: "Crafting digital experiences" },
+    ],
+  },
+  {
+    id: "realtor",
+    type: "Real Estate Card",
+    title: "Realtor Card",
+    description: "Professional real estate agent card with your listings & contact.",
+    fields: [
+      { key: "name", label: "Agent Name", placeholder: "Robert Williams" },
+      { key: "agency", label: "Agency", placeholder: "Prestige Realty" },
+      { key: "license", label: "License #", placeholder: "RE-2024-1234" },
+      { key: "phone", label: "Phone", placeholder: "+1 (555) 456-7890" },
+      { key: "email", label: "Email", placeholder: "robert@prestigerealty.com" },
+    ],
+  },
+  {
+    id: "thankyou",
+    type: "Thank You Card",
+    title: "Thank You",
+    description: "Send a heartfelt digital thank you card to anyone, instantly.",
+    fields: [
+      { key: "from", label: "From", placeholder: "The Johnson Family" },
+      { key: "to", label: "To", placeholder: "Our wonderful guests" },
+      { key: "message", label: "Message", placeholder: "Thank you for making our day so special!" },
+      { key: "date", label: "Date", placeholder: "October 5, 2026" },
+    ],
+  },
+];
+
+function FreeCardsSection() {
+  const [showAll, setShowAll] = useState(false);
+  const visibleCards = showAll ? FREE_CARDS : FREE_CARDS.slice(0, 4);
+
+  return (
+    <section id="free-cards" className="relative scroll-mt-20 px-6 py-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-16 text-center">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
+          >
+            100% Free · No Credit Card Required
+          </motion.span>
+          <StaggeredTextReveal
+            text="Free digital cards"
+            as="h2"
+            splitBy="word"
+            className="justify-center text-3xl font-bold md:text-5xl"
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="mx-auto mt-4 max-w-xl text-muted-foreground"
+          >
+            Create stunning digital business cards and wedding invitations - completely free, forever.
+            No hidden fees, no watermarks, no limits.
+          </motion.p>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {visibleCards.map((card, i) => (
+            <motion.div
+              key={card.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+            >
+              <Link href={`/free-cards/${card.id}`} className="group block">
+                <div className="overflow-hidden rounded-xl border border-[#E8E4DE] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-white/10 dark:bg-[#141414]">
+                  <FreeCardCover id={card.id} />
+                  <div className="p-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">{card.title}</h3>
+                      <span className="rounded-full bg-[#B8860B]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#B8860B]">
+                        Free
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-[#6B6560] dark:text-[#A09888]">{card.description}</p>
+                    <div className="mt-3 flex items-center gap-1 text-xs font-medium text-[#B8860B] transition-all group-hover:gap-2">
+                      Explore <ArrowRight className="h-3 w-3" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {!showAll && FREE_CARDS.length > 4 && (
+          <div className="mt-10 text-center">
+            <button
+              onClick={() => setShowAll(true)}
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#B8860B] to-[#D4A843] px-6 py-2.5 text-sm font-medium text-white transition-all hover:from-[#9A7209] hover:to-[#B8960B] hover:shadow-md"
+            >
+              See All Cards <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -615,7 +807,7 @@ function AnimatedInviteHighlight() {
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#B8860B]/3 via-[#D4A843]/3 to-[#C9A96E]/3" />
 
       <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-2">
-        {/* Left — visual */}
+        {/* Left - visual */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -623,27 +815,56 @@ function AnimatedInviteHighlight() {
           transition={{ duration: 0.6 }}
           className="relative"
         >
-          <div className="relative overflow-hidden rounded-2xl border shadow-2xl">
-            <div className="aspect-[4/3] bg-gradient-to-br from-[#B8860B]/8 via-[#D4A843]/6 to-[#C9A96E]/8 p-8">
-              <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                  className="rounded-full bg-gradient-to-br from-[#B8860B]/15 to-[#D4A843]/15 p-6"
-                >
-                  <Music className="h-10 w-10 text-[#B8860B]" />
-                </motion.div>
-                <div className="h-3 w-48 rounded-full bg-gradient-to-r from-[#B8860B]/15 to-[#D4A843]/15" />
-                <div className="h-2 w-32 rounded-full bg-muted/40" />
-                <div className="flex gap-2">
-                  {["from-[#B8860B]/15 to-[#D4A843]/15", "from-[#8B7355]/15 to-[#B8860B]/15", "from-[#1A1A1A]/8 to-[#3D3D3D]/8"].map((g, i) => (
-                    <motion.div
-                      key={i}
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{ repeat: Infinity, duration: 2, delay: i * 0.3 }}
-                      className={`h-14 w-14 rounded-lg bg-gradient-to-br ${g}`}
-                    />
-                  ))}
+          <div className="relative overflow-hidden rounded-2xl border border-[#E8E4DE] bg-white shadow-2xl">
+            <div className="aspect-[4/3] bg-gradient-to-b from-[#1A1A1A] to-[#2A2218] p-6">
+              <div className="flex h-full flex-col justify-between">
+                {/* Top - decorative header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-[#D4AF37]/40" />
+                    <div className="h-1 w-12 rounded-full bg-[#D4AF37]/20" />
+                  </div>
+                  <div className="rounded-full bg-[#D4AF37]/10 px-2 py-0.5 text-[6px] font-medium text-[#D4AF37]/60">ANIMATED</div>
+                </div>
+
+                {/* Center - cinematic preview */}
+                <div className="flex flex-col items-center text-center">
+                  <motion.div
+                    animate={{ scale: [1, 1.05, 1], opacity: [0.6, 1, 0.6] }}
+                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                    className="text-[32px] text-[#D4AF37]/80"
+                    style={{ fontFamily: "var(--font-great-vibes)" }}
+                  >
+                    Aarav & Priya
+                  </motion.div>
+                  <div className="mt-2 flex items-center gap-3">
+                    <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#D4AF37]/30" />
+                    <motion.span
+                      animate={{ opacity: [0.3, 0.8, 0.3] }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                      className="text-[8px] tracking-[0.3em] text-[#D4AF37]/50"
+                    >
+                      INVITE YOU TO CELEBRATE
+                    </motion.span>
+                    <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#D4AF37]/30" />
+                  </div>
+                  <p className="mt-2 text-[9px] text-white/30">December 15, 2026</p>
+                </div>
+
+                {/* Bottom - feature indicators */}
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-1.5">
+                    {["Music", "Parallax", "RSVP"].map((f) => (
+                      <span key={f} className="rounded-full border border-[#D4AF37]/15 bg-[#D4AF37]/5 px-2 py-0.5 text-[5px] text-[#D4AF37]/50">{f}</span>
+                    ))}
+                  </div>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+                    className="flex h-6 w-6 items-center justify-center rounded-full border border-[#D4AF37]/20"
+                  >
+                    <Music className="h-3 w-3 text-[#D4AF37]/40" />
+                  </motion.div>
                 </div>
               </div>
             </div>
@@ -651,7 +872,7 @@ function AnimatedInviteHighlight() {
           <div className="animate-float absolute -left-4 -bottom-4 -z-10 h-full w-full rounded-2xl bg-gradient-to-br from-[#B8860B]/10 to-[#D4A843]/10" />
         </motion.div>
 
-        {/* Right — text */}
+        {/* Right - text */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -684,21 +905,26 @@ function AnimatedInviteHighlight() {
             gorgeous scroll-triggered animations, all for just{" "}
             <strong className="text-foreground">C$49.99</strong> one-time.
           </motion.p>
+
+          {/* Feature list instead of CTA */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="mt-8"
+            className="mt-8 grid grid-cols-2 gap-3"
           >
-            <MagneticButton strength={0.2}>
-              <Link href="/signup">
-                <Button className="gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]">
-                  Explore Animated Invites
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </MagneticButton>
+            {[
+              { icon: Music, label: "Background Music" },
+              { icon: Layout, label: "Parallax Scrolling" },
+              { icon: Check, label: "Interactive RSVP" },
+              { icon: Clock, label: "Event Timelines" },
+            ].map((f) => (
+              <div key={f.label} className="flex items-center gap-2 text-sm text-[#6B6560] dark:text-[#A09888]">
+                <f.icon className="h-4 w-4 text-[#B8860B]" />
+                {f.label}
+              </div>
+            ))}
           </motion.div>
         </motion.div>
       </div>
@@ -721,7 +947,7 @@ function FinalCTA() {
             "linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 30%, #1A1A1A 60%, #2D2D2D 100%)",
         }}
       />
-      {/* Sparkle overlay — deterministic positions to avoid hydration mismatch */}
+      {/* Sparkle overlay - deterministic positions to avoid hydration mismatch */}
       <div className="absolute inset-0 -z-[5]">
         {[
           { l: 12, t: 8 },  { l: 45, t: 22 }, { l: 78, t: 15 }, { l: 23, t: 65 },
@@ -792,6 +1018,183 @@ function FinalCTA() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Contact Section                                                    */
+/* ------------------------------------------------------------------ */
+
+function ContactSection() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !message.trim()) return;
+    setSending(true);
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      setSent(true);
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      // silently fail
+    }
+    setSending(false);
+  }, [name, email, message]);
+
+  return (
+    <section id="contact" className="scroll-mt-20 px-6 py-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-16 text-center">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-4 inline-block rounded-full bg-[#B8860B]/10 px-4 py-1 text-sm font-medium text-[#B8860B]"
+          >
+            Get in Touch
+          </motion.span>
+          <StaggeredTextReveal
+            text="Contact us"
+            as="h2"
+            splitBy="word"
+            className="justify-center text-3xl font-bold md:text-5xl"
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="mx-auto mt-4 max-w-xl text-muted-foreground"
+          >
+            Have a question, feedback, or just want to say hello? We&apos;d love to hear from you.
+          </motion.p>
+        </div>
+
+        <div className="grid gap-10 lg:grid-cols-2">
+          {/* Left - contact info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <div className="flex items-start gap-4 rounded-xl border border-[#E8E4DE] bg-white p-5 dark:border-white/10 dark:bg-[#141414]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#B8860B]/10">
+                <Mail className="h-5 w-5 text-[#B8860B]" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">Email Us</h3>
+                <a href="mailto:info@cardoradigital.ca" className="mt-1 text-sm text-[#B8860B] hover:underline">
+                  info@cardoradigital.ca
+                </a>
+                <p className="mt-1 text-xs text-[#6B6560] dark:text-[#A09888]">We typically respond within 24 hours</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 rounded-xl border border-[#E8E4DE] bg-white p-5 dark:border-white/10 dark:bg-[#141414]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#B8860B]/10">
+                <MapPin className="h-5 w-5 text-[#B8860B]" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">Based in Canada</h3>
+                <p className="mt-1 text-sm text-[#6B6560] dark:text-[#A09888]">Serving clients across Canada and worldwide</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 rounded-xl border border-[#E8E4DE] bg-white p-5 dark:border-white/10 dark:bg-[#141414]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#B8860B]/10">
+                <Clock className="h-5 w-5 text-[#B8860B]" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]">Business Hours</h3>
+                <p className="mt-1 text-sm text-[#6B6560] dark:text-[#A09888]">Monday - Friday, 9 AM - 6 PM EST</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right - contact form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            {sent ? (
+              <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-[#E8E4DE] bg-white p-10 text-center dark:border-white/10 dark:bg-[#141414]">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#B8860B]/10">
+                  <Check className="h-7 w-7 text-[#B8860B]" />
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-[#1A1A1A] dark:text-[#F0E8D8]" style={{ fontFamily: "var(--font-playfair)" }}>
+                  Message Sent!
+                </h3>
+                <p className="mt-2 text-sm text-[#6B6560] dark:text-[#A09888]">
+                  Thank you for reaching out. We&apos;ll get back to you soon.
+                </p>
+                <button onClick={() => setSent(false)} className="mt-4 text-sm text-[#B8860B] hover:underline">
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={(e) => void handleSubmit(e)} className="rounded-2xl border border-[#E8E4DE] bg-white p-6 dark:border-white/10 dark:bg-[#141414]">
+                <div className="space-y-4">
+                  <div>
+                    <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-[#8B8580] dark:text-[#706860]">Name</label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Your name"
+                      required
+                      className="w-full rounded-lg border border-[#E8E4DE] bg-[#FAF8F5] px-4 py-2.5 text-sm text-[#1A1A1A] outline-none transition-all placeholder:text-[#C8C4BE] focus:border-[#D4AF37]/40 focus:ring-2 focus:ring-[#D4AF37]/10 dark:border-white/10 dark:bg-white/5 dark:text-[#F0E8D8]"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-[#8B8580] dark:text-[#706860]">Email</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      required
+                      className="w-full rounded-lg border border-[#E8E4DE] bg-[#FAF8F5] px-4 py-2.5 text-sm text-[#1A1A1A] outline-none transition-all placeholder:text-[#C8C4BE] focus:border-[#D4AF37]/40 focus:ring-2 focus:ring-[#D4AF37]/10 dark:border-white/10 dark:bg-white/5 dark:text-[#F0E8D8]"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-[#8B8580] dark:text-[#706860]">Message</label>
+                    <textarea
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="How can we help you?"
+                      required
+                      rows={4}
+                      className="w-full resize-none rounded-lg border border-[#E8E4DE] bg-[#FAF8F5] px-4 py-2.5 text-sm text-[#1A1A1A] outline-none transition-all placeholder:text-[#C8C4BE] focus:border-[#D4AF37]/40 focus:ring-2 focus:ring-[#D4AF37]/10 dark:border-white/10 dark:bg-white/5 dark:text-[#F0E8D8]"
+                    />
+                  </div>
+                </div>
+                <Button
+                  type="submit"
+                  disabled={sending}
+                  className="mt-5 w-full gap-2 bg-gradient-to-r from-[#B8860B] to-[#D4A843] text-white hover:from-[#9A7209] hover:to-[#B8960B]"
+                >
+                  <Send className="h-4 w-4" />
+                  {sending ? "Sending..." : "Send Message"}
+                </Button>
+              </form>
+            )}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Main Component                                                     */
 /* ------------------------------------------------------------------ */
 
@@ -810,11 +1213,13 @@ export function LandingContent() {
       />
 
       <FeaturesSection />
+      <FreeCardsSection />
       <TemplateBrowseSection />
       <AnimatedInviteHighlight />
       <PricingSection />
       <WhatsIncluded />
       <FinalCTA />
+      <ContactSection />
       <Footer />
     </main>
   );

@@ -82,7 +82,7 @@ export default function AboutPage() {
               transition={{ delay: 0.5, duration: 0.6 }}
               className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground"
             >
-              We&apos;re building the future of digital identity — one card at a
+              We&apos;re building the future of digital identity - one card at a
               time.
             </motion.p>
           </div>
@@ -113,7 +113,7 @@ export default function AboutPage() {
               {APP_NAME} was born from a simple idea: your digital identity
               should be as unique and beautiful as you are. In a world of
               generic profiles and forgettable contact exchanges, we set out to
-              create something different — a platform where professionals and
+              create something different - a platform where professionals and
               couples can craft stunning digital cards that truly represent who
               they are.
             </motion.p>
@@ -124,7 +124,7 @@ export default function AboutPage() {
             >
               Whether you&apos;re a freelancer looking to make a memorable first
               impression, a business owner wanting to stand out, or a couple
-              planning the wedding of your dreams — {APP_NAME} gives you the
+              planning the wedding of your dreams - {APP_NAME} gives you the
               tools to create, share, and track beautiful digital cards with
               ease.
             </motion.p>
@@ -198,8 +198,8 @@ export default function AboutPage() {
               className="mt-6 text-muted-foreground leading-relaxed"
             >
               {APP_NAME} is proudly built in India, supporting users across
-              India and beyond. We leverage modern web technologies — Next.js,
-              React, and Razorpay — to deliver a fast, secure, and delightful
+              India and beyond. We leverage modern web technologies - Next.js,
+              React, and Razorpay - to deliver a fast, secure, and delightful
               experience. Every interaction, animation, and pixel is crafted
               with care.
             </motion.p>

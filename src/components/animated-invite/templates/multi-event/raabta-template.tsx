@@ -356,7 +356,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding Invitation`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding Invitation`,
           url,
         });
         return;
@@ -413,7 +413,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
       <div className="relative z-10 mx-auto max-w-2xl px-4 py-12 sm:py-16">
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 1 — HERO: BISMILLAH + COUPLE NAMES + PARENT BLESSINGS   */}
+        {/*  SECTION 1 - HERO: BISMILLAH + COUPLE NAMES + PARENT BLESSINGS   */}
         {/* ---------------------------------------------------------------- */}
         <motion.section
           className="mb-16 text-center"
@@ -596,7 +596,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
         <IslamicGeometricBorder />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 2 — EVENTS GRID                                         */}
+        {/*  SECTION 2 - EVENTS GRID                                         */}
         {/* ---------------------------------------------------------------- */}
         <section className="mb-16">
           <div className="scroll-fade mb-10 text-center">
@@ -618,7 +618,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
         <OrnamentalArch />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 3 — COUPLE PHOTO                                        */}
+        {/*  SECTION 3 - COUPLE PHOTO                                        */}
         {/* ---------------------------------------------------------------- */}
         {invite.couplePhoto && (
           <section className="mb-16">
@@ -661,7 +661,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
         <IslamicGeometricBorder />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 4 — THINGS TO KNOW                                      */}
+        {/*  SECTION 4 - THINGS TO KNOW                                      */}
         {/* ---------------------------------------------------------------- */}
         {thingsToKnow.length > 0 && (
           <section className="mb-16">
@@ -710,7 +710,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
         <OrnamentalArch />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 5 — COUNTDOWN TIMER                                     */}
+        {/*  SECTION 5 - COUNTDOWN TIMER                                     */}
         {/* ---------------------------------------------------------------- */}
         {invite.weddingDate && (
           <section className="mb-16">
@@ -762,7 +762,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
         <IslamicGeometricBorder />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 6 — COUPLE MESSAGE                                      */}
+        {/*  SECTION 6 - COUPLE MESSAGE                                      */}
         {/* ---------------------------------------------------------------- */}
         {invite.coupleMessage && (
           <section className="mb-16">
@@ -781,7 +781,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
         <OrnamentalArch />
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 7 — RSVP + SHARE BUTTONS                               */}
+        {/*  SECTION 7 - RSVP + SHARE BUTTONS                               */}
         {/* ---------------------------------------------------------------- */}
         <section className="mb-16 text-center">
           <div className="scroll-fade">
@@ -838,7 +838,7 @@ export default function RaabtaTemplate({ invite, isDemo }: TemplateProps) {
         </section>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 8 — FOOTER / WATERMARK                                  */}
+        {/*  SECTION 8 - FOOTER / WATERMARK                                  */}
         {/* ---------------------------------------------------------------- */}
         <footer className="text-center">
           <IslamicGeometricBorder className="mx-auto mb-4 h-12 w-full text-[#DAA520]/30" />

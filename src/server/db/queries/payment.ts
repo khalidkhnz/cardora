@@ -114,6 +114,22 @@ export async function updatePaymentRazorpayId(
     .where(eq(payment.id, paymentId));
 }
 
+export async function getPurchasedTemplates(userId: string) {
+  const results = await db
+    .select()
+    .from(payment)
+    .where(
+      and(
+        eq(payment.userId, userId),
+        eq(payment.purpose, "template_purchase"),
+        eq(payment.status, "completed"),
+      ),
+    )
+    .orderBy(sql`${payment.createdAt} desc`);
+
+  return results;
+}
+
 /**
  * Unlock a specific invite by setting isPaid = true on the weddingInvite row.
  */

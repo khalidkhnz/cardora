@@ -100,7 +100,7 @@ export function FlippableCard({
         )}
       </AnimatePresence>
 
-      {/* 3D card container — entry spin */}
+      {/* 3D card container - entry spin */}
       <motion.div
         initial={{ rotateY: 360 }}
         animate={{ rotateY: 0 }}
@@ -111,7 +111,7 @@ export function FlippableCard({
           transformStyle: "preserve-3d",
         }}
       >
-        {/* Inner — tilt + flip */}
+        {/* Inner - tilt + flip */}
         <motion.div
           animate={{
             rotateX: tilt.x,

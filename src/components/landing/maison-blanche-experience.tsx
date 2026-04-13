@@ -70,7 +70,7 @@ export function MaisonBlancheExperience() {
   const [revealedFeatures, setRevealedFeatures] = useState<Set<number>>(new Set());
   const { isPlaying: isMusicPlaying, toggle: toggleMusic } = useTemplateMusic("elegant");
 
-  // ── ENTRY — shutter click reveal (unique to photography) ──
+  // ── ENTRY - shutter click reveal (unique to photography) ──
   if (!hasEntered) {
     return (
       <>
@@ -129,7 +129,7 @@ export function MaisonBlancheExperience() {
             <circle cx="100" cy="100" r="90" /><circle cx="100" cy="100" r="70" /><circle cx="100" cy="100" r="50" /><circle cx="100" cy="100" r="30" />
           </svg>
 
-          {/* Card toggle — front/back with button */}
+          {/* Card toggle - front/back with button */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} style={{ opacity: heroOpacity }}>
             <AnimatePresence mode="wait">
               {showFront ? (
@@ -175,7 +175,7 @@ export function MaisonBlancheExperience() {
           </motion.div>
         </motion.section>
 
-        {/* ── PORTFOLIO — showcase slider (unique — horizontal swipe feel) ── */}
+        {/* ── PORTFOLIO - showcase slider (unique - horizontal swipe feel) ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-lg">
             <div className="mb-10 text-center">
@@ -221,7 +221,7 @@ export function MaisonBlancheExperience() {
           </div>
         </section>
 
-        {/* ── ABOUT — photographer intro (tap to expand) ── */}
+        {/* ── ABOUT - photographer intro (tap to expand) ── */}
         <motion.section className="px-6 py-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
           <div className="mx-auto max-w-md text-center">
             <p className="text-[9px] uppercase tracking-[0.4em] text-[#2A2828]/30" style={{ fontFamily: "var(--font-montserrat)" }}>The Photographer</p>
@@ -247,7 +247,7 @@ export function MaisonBlancheExperience() {
           </div>
         </motion.section>
 
-        {/* ── HOW IT WORKS — step process ── */}
+        {/* ── HOW IT WORKS - step process ── */}
         <section className="px-6 py-20">
           <div className="mx-auto max-w-md">
             <div className="mb-10 text-center">
@@ -274,7 +274,7 @@ export function MaisonBlancheExperience() {
           </div>
         </section>
 
-        {/* ── CARD SHOWCASE — front + back ── */}
+        {/* ── CARD SHOWCASE - front + back ── */}
         <motion.section className="px-6 py-20" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
           <div className="mx-auto max-w-3xl">
             <div className="mb-10 text-center">
@@ -345,7 +345,7 @@ export function MaisonBlancheExperience() {
           </div>
         </section>
 
-        {/* ── CLIENT QUOTE — interactive slider ── */}
+        {/* ── CLIENT QUOTE - interactive slider ── */}
         <section className="px-6 py-24">
           <div className="mx-auto max-w-md text-center">
             <p className="text-[9px] uppercase tracking-[0.4em] text-[#2A2828]/30" style={{ fontFamily: "var(--font-montserrat)" }}>Client Love</p>
@@ -377,7 +377,7 @@ export function MaisonBlancheExperience() {
           </div>
         </section>
 
-        {/* ── WHAT YOU GET — visual checklist ── */}
+        {/* ── WHAT YOU GET - visual checklist ── */}
         <motion.section className="px-6 py-20" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
           <div className="mx-auto max-w-md">
             <div className="mb-10 text-center">

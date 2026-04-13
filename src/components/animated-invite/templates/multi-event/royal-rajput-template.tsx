@@ -34,7 +34,7 @@ function formatWeddingDate(dateStr: string | null) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Rajput Crest — Shield with elephant silhouette                             */
+/*  Rajput Crest - Shield with elephant silhouette                             */
 /* -------------------------------------------------------------------------- */
 
 function RajputCrest({ className }: { className?: string }) {
@@ -102,7 +102,7 @@ function RajputCrest({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Haveli Arch Border — Repeating arch pattern                                */
+/*  Haveli Arch Border - Repeating arch pattern                                */
 /* -------------------------------------------------------------------------- */
 
 function HaveliArchBorder({ className }: { className?: string }) {
@@ -146,7 +146,7 @@ function HaveliArchBorder({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Miniature Painting Frame — Ornamental frame element                        */
+/*  Miniature Painting Frame - Ornamental frame element                        */
 /* -------------------------------------------------------------------------- */
 
 function MiniaturePaintingFrame({ className }: { className?: string }) {
@@ -202,7 +202,7 @@ function MiniaturePaintingFrame({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Elephant Silhouette — Standalone procession elephant                       */
+/*  Elephant Silhouette - Standalone procession elephant                       */
 /* -------------------------------------------------------------------------- */
 
 function ElephantSilhouette({ className, flip }: { className?: string; flip?: boolean }) {
@@ -230,7 +230,7 @@ function ElephantSilhouette({ className, flip }: { className?: string; flip?: bo
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Gold Stamp Border SVG — draws itself via strokeDashoffset                  */
+/*  Gold Stamp Border SVG - draws itself via strokeDashoffset                  */
 /* -------------------------------------------------------------------------- */
 
 function StampBorderRect({ className }: { className?: string }) {
@@ -260,7 +260,7 @@ function StampBorderRect({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Haveli Event Card — 3D page-flip with arch styling                         */
+/*  Haveli Event Card - 3D page-flip with arch styling                         */
 /* -------------------------------------------------------------------------- */
 
 function HaveliEventCard({
@@ -362,7 +362,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding Invitation`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding Invitation`,
           url,
         });
         return;
@@ -604,7 +604,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
       <div className="relative z-10">
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 1 — HERO (Full viewport height)                         */}
+        {/*  SECTION 1 - HERO (Full viewport height)                         */}
         {/* ---------------------------------------------------------------- */}
         <section className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16">
           {/* Background hero image layer */}
@@ -617,7 +617,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
           <div className="absolute inset-0 bg-gradient-to-b from-[#2A0A0A]/60 via-transparent to-[#2A0A0A]" />
 
           <div className="relative z-10 mx-auto max-w-3xl text-center">
-            {/* Rajput Crest — stamp-down */}
+            {/* Rajput Crest - stamp-down */}
             <div className="crest-stamp mx-auto mb-8 flex justify-center opacity-0">
               <RajputCrest className="h-28 w-28 text-[#FFD700]/80 drop-shadow-[0_0_20px_rgba(255,215,0,0.3)] sm:h-36 sm:w-36" />
             </div>
@@ -706,7 +706,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
               Request the honour of your presence at the wedding of
             </motion.p>
 
-            {/* Couple Names — with gold shimmer */}
+            {/* Couple Names - with gold shimmer */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -787,7 +787,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         </section>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 2 — EVENTS (Full width, alternating backgrounds)        */}
+        {/*  SECTION 2 - EVENTS (Full width, alternating backgrounds)        */}
         {/* ---------------------------------------------------------------- */}
         <section className="relative w-full">
           {/* Section header */}
@@ -817,7 +817,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 3 — COUPLE PHOTO                                        */}
+        {/*  SECTION 3 - COUPLE PHOTO                                        */}
         {/* ---------------------------------------------------------------- */}
         {invite.couplePhoto && (
           <section className="rajput-reveal mx-auto max-w-3xl px-4 py-16">
@@ -842,7 +842,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         )}
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 4 — GALLERY (Full width, 4-column masonry)              */}
+        {/*  SECTION 4 - GALLERY (Full width, 4-column masonry)              */}
         {/* ---------------------------------------------------------------- */}
         {invite.galleryImages.length > 0 && (
           <section className="w-full py-16">
@@ -876,7 +876,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 5 — THINGS TO KNOW                                      */}
+        {/*  SECTION 5 - THINGS TO KNOW                                      */}
         {/* ---------------------------------------------------------------- */}
         {thingsToKnow.length > 0 && (
           <section className="mx-auto max-w-3xl px-4 py-16">
@@ -908,7 +908,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         )}
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 6 — OUR STORY                                           */}
+        {/*  SECTION 6 - OUR STORY                                           */}
         {/* ---------------------------------------------------------------- */}
         {invite.story && (
           <section className="mx-auto max-w-3xl px-4 py-16">
@@ -930,7 +930,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 7 — COUNTDOWN TIMER (Royal Stamp Boxes)                 */}
+        {/*  SECTION 7 - COUNTDOWN TIMER (Royal Stamp Boxes)                 */}
         {/* ---------------------------------------------------------------- */}
         {invite.weddingDate && (
           <section className="mx-auto max-w-3xl px-4 py-16">
@@ -985,7 +985,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 8 — COUPLE MESSAGE                                      */}
+        {/*  SECTION 8 - COUPLE MESSAGE                                      */}
         {/* ---------------------------------------------------------------- */}
         {invite.coupleMessage && (
           <section className="mx-auto max-w-3xl px-4 py-16">
@@ -1007,7 +1007,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 9 — RSVP + SHARE BUTTONS                               */}
+        {/*  SECTION 9 - RSVP + SHARE BUTTONS                               */}
         {/* ---------------------------------------------------------------- */}
         <section className="mx-auto max-w-3xl px-4 py-16 text-center">
           <div className="rajput-reveal">
@@ -1065,7 +1065,7 @@ export default function RoyalRajputTemplate({ invite, isDemo }: TemplateProps) {
         </section>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 10 — FOOTER / WATERMARK                                 */}
+        {/*  SECTION 10 - FOOTER / WATERMARK                                 */}
         {/* ---------------------------------------------------------------- */}
         <footer className="pb-8 text-center">
           <div className="mx-auto max-w-3xl px-4">

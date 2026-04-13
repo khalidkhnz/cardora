@@ -33,7 +33,7 @@ export default function GenericTemplate({ invite, isDemo }: TemplateProps) {
     const url = `${window.location.origin}/wedding/${invite.slug}`;
     if (navigator.share) {
       try {
-        await navigator.share({ title: `${invite.groomName} & ${invite.brideName} — Wedding`, url });
+        await navigator.share({ title: `${invite.groomName} & ${invite.brideName} - Wedding`, url });
         return;
       } catch { /* fall through */ }
     }

@@ -158,7 +158,7 @@ function FloralArch({ className }: { className?: string }) {
       <circle cx="200" cy="14" r="5" fill="#D4AF37" fillOpacity="0.18" />
       <path d="M196 16 L200 4 L204 16" fill="#D4AF37" fillOpacity="0.14" />
 
-      {/* ── TOP FLORAL CROWN — large, lush ── */}
+      {/* ── TOP FLORAL CROWN - large, lush ── */}
       {/* Center rose cluster */}
       <circle cx="200" cy="28" r="16" fill="#E88090" fillOpacity="0.35" />
       <circle cx="200" cy="28" r="10" fill="#FF9BAA" fillOpacity="0.25" />
@@ -188,7 +188,7 @@ function FloralArch({ className }: { className?: string }) {
       <path d="M148 40 Q138 34 150 30 Q152 38 148 40Z" fill="#5A8A50" fillOpacity="0.15" />
       <path d="M252 40 Q262 34 250 30 Q248 38 252 40Z" fill="#5A8A50" fillOpacity="0.15" />
 
-      {/* ── LEFT SIDE FLORALS — cascading down the arch ── */}
+      {/* ── LEFT SIDE FLORALS - cascading down the arch ── */}
       <circle cx="48" cy="90" r="12" fill="#E88090" fillOpacity="0.28" />
       <circle cx="48" cy="90" r="7" fill="#FF9BAA" fillOpacity="0.18" />
       <circle cx="38" cy="105" r="9" fill="#FFB0A0" fillOpacity="0.22" />
@@ -203,7 +203,7 @@ function FloralArch({ className }: { className?: string }) {
       <path d="M28 118 Q18 112 30 106 Q34 114 28 118Z" fill="#6B9A5E" fillOpacity="0.15" />
       <path d="M50 130 Q58 122 60 138 Q52 134 50 130Z" fill="#5A8A50" fillOpacity="0.12" />
 
-      {/* ── RIGHT SIDE FLORALS — cascading ── */}
+      {/* ── RIGHT SIDE FLORALS - cascading ── */}
       <circle cx="352" cy="90" r="12" fill="#FF8C6A" fillOpacity="0.28" />
       <circle cx="352" cy="90" r="7" fill="#FFD0B0" fillOpacity="0.18" />
       <circle cx="362" cy="105" r="9" fill="#E88090" fillOpacity="0.22" />
@@ -217,7 +217,7 @@ function FloralArch({ className }: { className?: string }) {
       <path d="M338 85 Q328 78 332 95 Q340 90 338 85Z" fill="#5A8A50" fillOpacity="0.20" />
       <path d="M372 118 Q382 112 370 106 Q366 114 372 118Z" fill="#6B9A5E" fillOpacity="0.15" />
 
-      {/* ── CHANDELIERS — elaborate, with glow ── */}
+      {/* ── CHANDELIERS - elaborate, with glow ── */}
       {/* Left chandelier */}
       <line x1="110" y1="48" x2="110" y2="78" stroke="#D4AF37" strokeWidth="0.6" strokeOpacity="0.25" />
       <path d="M96 82 Q96 75 110 75 Q124 75 124 82 L120 96 Q110 102 100 96Z" fill="#D4AF37" fillOpacity="0.10" stroke="#D4AF37" strokeWidth="0.4" strokeOpacity="0.18" />
@@ -275,7 +275,7 @@ function FloralArch({ className }: { className?: string }) {
 }
 
 /* ================================================================== */
-/*  SVG: Royal couple — detailed, facing each other                   */
+/*  SVG: Royal couple - detailed, facing each other                   */
 /* ================================================================== */
 
 function AnimatedCouple({ className }: { className?: string }) {
@@ -318,7 +318,7 @@ function AnimatedCouple({ className }: { className?: string }) {
 
       {/* ── GROOM ── */}
       <g style={{ animation: "maharani-groom-sway 5s ease-in-out infinite", transformOrigin: "70px 252px" }} filter="url(#softShadow)">
-        {/* Sherwani — cream with gold details */}
+        {/* Sherwani - cream with gold details */}
         <path d="M48 252 L56 92 Q56 75 70 75 Q84 75 84 92 L92 252" fill="url(#groomSherwani)" />
         <path d="M56 92 Q70 85 84 92" fill="#F0E4D0" stroke="#D4AF37" strokeWidth="0.3" strokeOpacity="0.20" />
         {/* Gold details */}
@@ -343,7 +343,7 @@ function AnimatedCouple({ className }: { className?: string }) {
       <g style={{ animation: "maharani-bride-sway 5.5s ease-in-out 0.5s infinite", transformOrigin: "130px 252px" }} filter="url(#softShadow)">
         {/* Lehenga */}
         <path d="M106 252 L116 90 Q116 75 130 75 Q144 75 144 90 L156 252 Q130 240 106 252Z" fill="url(#brideLehenga)" />
-        {/* Lehenga embroidery — 3 gold borders */}
+        {/* Lehenga embroidery - 3 gold borders */}
         <path d="M109 222 Q130 212 153 222" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.25" fill="none" />
         <path d="M111 232 Q130 222 151 232" stroke="#D4AF37" strokeWidth="0.6" strokeOpacity="0.20" fill="none" />
         <path d="M113 242 Q130 233 149 242" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.15" fill="none" />
@@ -375,7 +375,7 @@ function AnimatedCouple({ className }: { className?: string }) {
       <g style={{ animation: "maharani-varmala-sway 3.5s ease-in-out infinite" }}>
         <path d="M84 102 Q107 122 130 102" stroke="#D4A070" strokeOpacity="0.40" strokeWidth="1.8" fill="none" />
         <path d="M88 106 Q107 118 126 106" stroke="#D4AF37" strokeOpacity="0.20" strokeWidth="0.8" fill="none" />
-        {/* Flowers — warm tones */}
+        {/* Flowers - warm tones */}
         <circle cx="90" cy="108" r="3.5" fill="#D4A070" fillOpacity="0.40" />
         <circle cx="97" cy="114" r="4" fill="#C89060" fillOpacity="0.35" />
         <circle cx="107" cy="118" r="3.5" fill="#D4A070" fillOpacity="0.38" />
@@ -390,7 +390,7 @@ function AnimatedCouple({ className }: { className?: string }) {
 /*  Elephant SVG with walk animation                                  */
 /* ================================================================== */
 
-/* ElephantProcession removed — replaced with decorative ornamental section */
+/* ElephantProcession removed - replaced with decorative ornamental section */
 
 /* ================================================================== */
 /*  Helpers                                                           */
@@ -481,7 +481,7 @@ export function MaharaniExperience() {
     setExpandedEvent((prev) => (prev === name ? null : name));
   }, []);
 
-  // ── ENVELOPE SCREEN — before invitation opens ──
+  // ── ENVELOPE SCREEN - before invitation opens ──
   if (!isEnvelopeOpen) {
     return (
       <>
@@ -521,7 +521,7 @@ export function MaharaniExperience() {
           <div className="absolute top-[15%] left-[25%] h-32 w-32 rounded-full bg-[#FF9BAA]/[0.06] blur-[40px]" />
           <div className="absolute top-[20%] right-[25%] h-32 w-32 rounded-full bg-[#FFB347]/[0.04] blur-[35px]" />
 
-          {/* Floating petals — fewer on envelope screen */}
+          {/* Floating petals - fewer on envelope screen */}
           {[
             { l: 12, d: 15, delay: 0, c: "#FF9BAA" }, { l: 55, d: 18, delay: 2, c: "#FFCCC0" },
             { l: 85, d: 14, delay: 4, c: "#FFB0A0" },
@@ -599,7 +599,7 @@ export function MaharaniExperience() {
     );
   }
 
-  // ── MAIN INVITATION — after envelope opens ──
+  // ── MAIN INVITATION - after envelope opens ──
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: INJECTED_CSS }} />
@@ -638,10 +638,10 @@ export function MaharaniExperience() {
 
           <SparkleField />
 
-          {/* Floral arch — rich with chandeliers */}
+          {/* Floral arch - rich with chandeliers */}
           <FloralArch className="absolute top-[3%] left-1/2 h-[82%] w-auto max-w-[520px] -translate-x-1/2 md:h-[88%]" />
 
-          {/* Extra floating floral clusters — foreground depth */}
+          {/* Extra floating floral clusters - foreground depth */}
           {/* Top-left cluster */}
           <div className="absolute top-[6%] left-[4%] z-[6]" style={{ animation: "maharani-float 8s ease-in-out 0.5s infinite" }}>
             <svg viewBox="0 0 60 70" className="h-14 w-auto opacity-40 blur-[0.5px]" fill="none">
@@ -685,7 +685,7 @@ export function MaharaniExperience() {
           </div>
 
           {/* Couple */}
-          {/* Animated couple — stylized silhouette, no photo */}
+          {/* Animated couple - stylized silhouette, no photo */}
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -787,7 +787,7 @@ export function MaharaniExperience() {
         </motion.section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  OUR STORY — tap to reveal                                 */}
+        {/*  OUR STORY - tap to reveal                                 */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <ParallaxSection className="relative px-6 py-24 md:py-32" speed={0.05}>
           <div className="mx-auto max-w-2xl text-center">
@@ -822,9 +822,9 @@ export function MaharaniExperience() {
                 >
                   {[
                     { year: "2022", title: "How We Met", desc: "A rainy afternoon, a coffee shop on the corner, and a conversation that never ended." },
-                    { year: "2023", title: "First Trip Together", desc: "We drove to the mountains with no plan — just two hearts and an open road." },
+                    { year: "2023", title: "First Trip Together", desc: "We drove to the mountains with no plan - just two hearts and an open road." },
                     { year: "2024", title: "The Proposal", desc: "Under a sky full of stars, he knelt down, and she said yes before he could finish." },
-                    { year: "2026", title: "Forever Begins", desc: "June 15th — the day two stories become one." },
+                    { year: "2026", title: "Forever Begins", desc: "June 15th - the day two stories become one." },
                   ].map((step, i) => (
                     <motion.div
                       key={step.year}
@@ -850,13 +850,13 @@ export function MaharaniExperience() {
         </ParallaxSection>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  EVENTS — full-width stacked, one per scroll view          */}
+        {/*  EVENTS - full-width stacked, one per scroll view          */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section className="relative px-6 py-16">
           <SectionHeading label="The Celebrations" title="Wedding Events" />
         </section>
 
-        {/* Event cards — compact, expandable on tap */}
+        {/* Event cards - compact, expandable on tap */}
         <div className="mx-auto max-w-2xl px-6 pb-16">
           <div className="space-y-4">
             {EVENTS.map((event, i) => {
@@ -873,7 +873,7 @@ export function MaharaniExperience() {
                     onClick={() => toggleEvent(event.name)}
                     className="group w-full overflow-hidden rounded-2xl border border-[#D4AF37]/10 bg-gradient-to-b from-[#FFFBF5] to-[#FFF5EA] text-left shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all duration-300 hover:border-[#D4AF37]/18 hover:shadow-[0_6px_24px_rgba(180,140,60,0.06)]"
                   >
-                    {/* Collapsed view — always visible */}
+                    {/* Collapsed view - always visible */}
                     <div className="flex items-center justify-between p-5">
                       <div className="flex items-center gap-4">
                         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border bg-gradient-to-b ${event.iconBg} transition-transform duration-300 group-hover:scale-105`} style={{ borderColor: `${event.accent}20` }}>
@@ -889,7 +889,7 @@ export function MaharaniExperience() {
                       <ChevronDown className={`h-4 w-4 shrink-0 text-[#B8960A]/40 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                     </div>
 
-                    {/* Expanded view — details */}
+                    {/* Expanded view - details */}
                     <AnimatePresence>
                       {isOpen && (
                         <motion.div
@@ -964,8 +964,8 @@ export function MaharaniExperience() {
             <SectionHeading label="Getting There" title="Travel & Stay" />
             <div className="space-y-4">
               {[
-                { title: "Nearest Airport", desc: "Jaipur International Airport (JAI) — 25 min drive", iconPath: "M2 16 L10 12 L10 6 Q10 2 12 2 Q14 2 14 6 L14 12 L22 16 L22 18 L14 15 L14 18 L16 20 L16 22 L12 20 L8 22 L8 20 L10 18 L10 15 L2 18Z" },
-                { title: "Recommended Stay", desc: "The Rosewater Suites — special rates for guests", iconPath: "M3 20 L3 10 L12 4 L21 10 L21 20 M8 20 L8 14 L16 14 L16 20 M3 10 L21 10" },
+                { title: "Nearest Airport", desc: "Jaipur International Airport (JAI) - 25 min drive", iconPath: "M2 16 L10 12 L10 6 Q10 2 12 2 Q14 2 14 6 L14 12 L22 16 L22 18 L14 15 L14 18 L16 20 L16 22 L12 20 L8 22 L8 20 L10 18 L10 15 L2 18Z" },
+                { title: "Recommended Stay", desc: "The Rosewater Suites - special rates for guests", iconPath: "M3 20 L3 10 L12 4 L21 10 L21 20 M8 20 L8 14 L16 14 L16 20 M3 10 L21 10" },
                 { title: "From Delhi", desc: "5 hours by road · Rajdhani Express available", iconPath: "M5 17 L5 11 Q5 8 8 8 L18 8 Q20 8 20 10 L21 14 L22 15 L22 17 M7 18 Q7 16 9 16 Q11 16 11 18 M15 18 Q15 16 17 16 Q19 16 19 18 M11 11 L11 8 M15 11 L15 8 M5 14 L22 14" },
               ].map((item, i) => (
                 <motion.div key={item.title} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.1 }}
@@ -986,7 +986,7 @@ export function MaharaniExperience() {
         </motion.section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  THE JOURNEY — decorative royal section                    */}
+        {/*  THE JOURNEY - decorative royal section                    */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <ParallaxSection className="relative overflow-hidden px-6 py-24" speed={0.08}>
           <div className="mx-auto max-w-2xl text-center">
@@ -1045,7 +1045,7 @@ export function MaharaniExperience() {
               style={{ fontFamily: "var(--font-cormorant)" }}
             >
               From the sound of shehnai to the shower of petals, from the warmth
-              of blessings to the promise of forever — every step of this journey
+              of blessings to the promise of forever - every step of this journey
               has led us to each other.
             </motion.p>
 
@@ -1118,7 +1118,7 @@ export function MaharaniExperience() {
         </motion.div>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  VENUE — tap to reveal                                     */}
+        {/*  VENUE - tap to reveal                                     */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <ParallaxSection className="relative px-6 py-24" speed={0.06}>
           <div className="mx-auto max-w-2xl text-center">
@@ -1152,7 +1152,7 @@ export function MaharaniExperience() {
                 >
                   <p className="text-base leading-relaxed text-[#3A2418]/60" style={{ fontFamily: "var(--font-cormorant)" }}>
                     Nestled in the heart of Jaipur, our celebration unfolds within the majestic walls
-                    of a heritage palace — where every arch tells a story.
+                    of a heritage palace - where every arch tells a story.
                   </p>
                   <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#D4AF37]/[0.08] px-6 py-2.5">
                     <MapPin className="h-4 w-4 text-[#D4AF37]/60" />
@@ -1165,7 +1165,7 @@ export function MaharaniExperience() {
         </ParallaxSection>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  GALLERY — clickable photos                                */}
+        {/*  GALLERY - clickable photos                                */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <motion.section className="relative px-6 py-20" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
           <div className="mx-auto max-w-3xl">

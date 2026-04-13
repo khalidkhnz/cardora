@@ -362,7 +362,7 @@ export default function CathedralGrandeurTemplate({ invite, isDemo }: TemplatePr
     const url = `${window.location.origin}/wedding/${invite.slug}`;
     if (navigator.share) {
       try {
-        await navigator.share({ title: `${invite.groomName} & ${invite.brideName} — Wedding`, url });
+        await navigator.share({ title: `${invite.groomName} & ${invite.brideName} - Wedding`, url });
         return;
       } catch {
         /* fall through */
@@ -1148,7 +1148,7 @@ export default function CathedralGrandeurTemplate({ invite, isDemo }: TemplatePr
             </p>
 
             <p className="mt-8 text-xs text-[#F5F0E8]/20 italic">
-              And the two shall become one flesh — Mark 10:8
+              And the two shall become one flesh - Mark 10:8
             </p>
 
             {/* Stained glass gradient bar at bottom */}

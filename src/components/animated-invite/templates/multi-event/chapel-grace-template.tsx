@@ -46,7 +46,7 @@ function formatWeddingDate(dateStr: string | null) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  CrossSymbol — Enhanced with glow capabilities                              */
+/*  CrossSymbol - Enhanced with glow capabilities                              */
 /* -------------------------------------------------------------------------- */
 
 function CrossSymbol({ className }: { className?: string }) {
@@ -83,9 +83,9 @@ function CrossSymbol({ className }: { className?: string }) {
           </g>
         );
       })}
-      {/* Cross — vertical beam */}
+      {/* Cross - vertical beam */}
       <rect x="94" y="55" width="12" height="130" rx="2" fill="currentColor" opacity="0.5" />
-      {/* Cross — horizontal beam */}
+      {/* Cross - horizontal beam */}
       <rect x="60" y="90" width="80" height="12" rx="2" fill="currentColor" opacity="0.5" />
       {/* Inner cross detail */}
       <rect x="97" y="62" width="6" height="116" rx="1" fill="currentColor" opacity="0.25" />
@@ -98,7 +98,7 @@ function CrossSymbol({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  ChurchWindow — Stained glass window accent                                 */
+/*  ChurchWindow - Stained glass window accent                                 */
 /* -------------------------------------------------------------------------- */
 
 function ChurchWindow({ className }: { className?: string }) {
@@ -145,7 +145,7 @@ function ChurchWindow({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  StainedGlassBorder — Horizontal border with color segments                 */
+/*  StainedGlassBorder - Horizontal border with color segments                 */
 /* -------------------------------------------------------------------------- */
 
 function StainedGlassBorder({ className }: { className?: string }) {
@@ -188,7 +188,7 @@ function StainedGlassBorder({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  DoveSVG — Enhanced dove with olive branch                                  */
+/*  DoveSVG - Enhanced dove with olive branch                                  */
 /* -------------------------------------------------------------------------- */
 
 function DoveSVG({ className }: { className?: string }) {
@@ -235,7 +235,7 @@ function DoveSVG({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  OliveBranchAccent — Small olive branch section divider                     */
+/*  OliveBranchAccent - Small olive branch section divider                     */
 /* -------------------------------------------------------------------------- */
 
 function OliveBranchAccent({ className }: { className?: string }) {
@@ -280,7 +280,7 @@ function OliveBranchAccent({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  LightRays — SVG radiating from behind the cross                            */
+/*  LightRays - SVG radiating from behind the cross                            */
 /* -------------------------------------------------------------------------- */
 
 function LightRays({ className }: { className?: string }) {
@@ -314,7 +314,7 @@ function LightRays({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Floating Dove — Individual dove for ambient animation (Framer Motion)      */
+/*  Floating Dove - Individual dove for ambient animation (Framer Motion)      */
 /* -------------------------------------------------------------------------- */
 
 function FloatingDove({
@@ -375,7 +375,7 @@ function FloatingDove({
 }
 
 /* -------------------------------------------------------------------------- */
-/*  FloatingDovesLayer — 7 doves on arc paths                                  */
+/*  FloatingDovesLayer - 7 doves on arc paths                                  */
 /* -------------------------------------------------------------------------- */
 
 function FloatingDovesLayer() {
@@ -399,7 +399,7 @@ function FloatingDovesLayer() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  ChapelEventCard — Timeline-aware event card with pew-rise animation        */
+/*  ChapelEventCard - Timeline-aware event card with pew-rise animation        */
 /* -------------------------------------------------------------------------- */
 
 function ChapelEventCard({
@@ -519,7 +519,7 @@ function CandleFlameStyles() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  CandleFlame — Small animated flame SVG                                     */
+/*  CandleFlame - Small animated flame SVG                                     */
 /* -------------------------------------------------------------------------- */
 
 function CandleFlame({ delayClass }: { delayClass?: string }) {
@@ -587,7 +587,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         },
       );
 
-      // 4. Pew rise event cards — sequential timeline
+      // 4. Pew rise event cards - sequential timeline
       const pewTl = gsap.timeline({
         scrollTrigger: {
           trigger: ".events-section",
@@ -604,7 +604,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         );
       });
 
-      // 5. Chapel reveals — soft light wipe with blur
+      // 5. Chapel reveals - soft light wipe with blur
       gsap.utils.toArray<HTMLElement>(".chapel-reveal").forEach((el) => {
         gsap.fromTo(
           el,
@@ -692,7 +692,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding Invitation`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding Invitation`,
           url,
         });
         return;
@@ -725,7 +725,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
       {/* Particle layer */}
       <ParticleLayer type="LIGHT" />
 
-      {/* Floating Doves Layer — Framer Motion ambient */}
+      {/* Floating Doves Layer - Framer Motion ambient */}
       <FloatingDovesLayer />
 
       {/* Subtle floral pattern overlay with parallax */}
@@ -764,7 +764,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
       <div className="relative z-10">
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 1 — HERO (Full viewport height)                         */}
+        {/*  SECTION 1 - HERO (Full viewport height)                         */}
         {/* ---------------------------------------------------------------- */}
         <motion.section
           className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16 text-center"
@@ -782,7 +782,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
             <DoveSVG className="h-14 w-16 text-[#C5A55A]/60" />
           </div>
 
-          {/* Church windows flanking — decorative */}
+          {/* Church windows flanking - decorative */}
           <div className="pointer-events-none absolute top-[15%] left-4 hidden opacity-20 lg:block">
             <ChurchWindow className="h-40 w-24" />
           </div>
@@ -790,7 +790,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
             <ChurchWindow className="h-40 w-24" />
           </div>
 
-          {/* Cross with Wreath — with glow class */}
+          {/* Cross with Wreath - with glow class */}
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -984,7 +984,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 2 — EVENTS with Vertical Timeline                       */}
+        {/*  SECTION 2 - EVENTS with Vertical Timeline                       */}
         {/* ---------------------------------------------------------------- */}
         <section className="events-section mx-auto max-w-3xl px-4 py-16">
           <div className="chapel-reveal mb-10 text-center">
@@ -1044,7 +1044,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 3 — COUPLE PHOTO                                        */}
+        {/*  SECTION 3 - COUPLE PHOTO                                        */}
         {/* ---------------------------------------------------------------- */}
         {invite.couplePhoto && (
           <section className="chapel-reveal mx-auto max-w-3xl px-4 py-16">
@@ -1069,7 +1069,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         )}
 
         {/* ---------------------------------------------------------------- */}
-        {/*  GALLERY — 3-column asymmetric grid                              */}
+        {/*  GALLERY - 3-column asymmetric grid                              */}
         {/* ---------------------------------------------------------------- */}
         {invite.galleryImages.length > 0 && (
           <section className="mx-auto max-w-3xl px-4 py-16">
@@ -1113,7 +1113,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 4 — THINGS TO KNOW                                      */}
+        {/*  SECTION 4 - THINGS TO KNOW                                      */}
         {/* ---------------------------------------------------------------- */}
         {thingsToKnow.length > 0 && (
           <section className="mx-auto max-w-3xl px-4 py-16">
@@ -1176,7 +1176,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 5 — COUNTDOWN TIMER with Candle Reveal                  */}
+        {/*  SECTION 5 - COUNTDOWN TIMER with Candle Reveal                  */}
         {/* ---------------------------------------------------------------- */}
         {invite.weddingDate && (
           <section className="mx-auto max-w-3xl px-4 py-16">
@@ -1249,7 +1249,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 6 — COUPLE MESSAGE                                      */}
+        {/*  SECTION 6 - COUPLE MESSAGE                                      */}
         {/* ---------------------------------------------------------------- */}
         {invite.coupleMessage && (
           <section className="mx-auto max-w-3xl px-4 py-16">
@@ -1279,7 +1279,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 7 — RSVP + SHARE BUTTONS                               */}
+        {/*  SECTION 7 - RSVP + SHARE BUTTONS                               */}
         {/* ---------------------------------------------------------------- */}
         <section className="mx-auto max-w-3xl px-4 py-16 text-center">
           <div className="chapel-reveal">
@@ -1349,7 +1349,7 @@ export default function ChapelGraceTemplate({ invite, isDemo }: TemplateProps) {
         </section>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 8 — FOOTER / WATERMARK                                  */}
+        {/*  SECTION 8 - FOOTER / WATERMARK                                  */}
         {/* ---------------------------------------------------------------- */}
         <footer className="mx-auto max-w-3xl px-4 pb-8 text-center">
           <StainedGlassBorder className="mx-auto mb-4 h-8 w-full" />

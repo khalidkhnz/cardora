@@ -131,7 +131,7 @@ function TemplatePreviewOverlay({
         </div>
       </div>
 
-      {/* Template content — iframe preview */}
+      {/* Template content - iframe preview */}
       <div className="relative min-h-0 flex-1">
         <AnimatePresence mode="wait">
           <motion.div
@@ -169,7 +169,7 @@ function TemplatePreviewOverlay({
         )}
       </div>
 
-      {/* Bottom bar — template strip */}
+      {/* Bottom bar - template strip */}
       <div className="relative z-10 shrink-0 border-t border-white/10 bg-black/80 backdrop-blur-sm">
         <div className="flex gap-1 overflow-x-auto px-3 py-2">
           {filtered.map((t) => (
@@ -560,7 +560,7 @@ export function AnimatedInviteEditor({ inviteId, onSaved }: AnimatedInviteEditor
         </CardContent>
       </Card>
 
-      {/* Parent Names — shown for multi-event & cinematic */}
+      {/* Parent Names - shown for multi-event & cinematic */}
       {(showMultiEventFields || showCinematicFields) && (
         <Card>
           <CardHeader>
@@ -619,7 +619,7 @@ export function AnimatedInviteEditor({ inviteId, onSaved }: AnimatedInviteEditor
         </Card>
       )}
 
-      {/* Events Editor — shown for multi-event templates */}
+      {/* Events Editor - shown for multi-event templates */}
       {showMultiEventFields && (
         <Card>
           <CardHeader>
@@ -696,7 +696,7 @@ export function AnimatedInviteEditor({ inviteId, onSaved }: AnimatedInviteEditor
         </Card>
       )}
 
-      {/* Extra Data — shown for multi-event templates */}
+      {/* Extra Data - shown for multi-event templates */}
       {showExtraDataFields && (
         <Card>
           <CardHeader>

@@ -130,7 +130,7 @@ function GoldenDome({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Animated Khanda Symbol SVG — separate pieces for GSAP assembly             */
+/*  Animated Khanda Symbol SVG - separate pieces for GSAP assembly             */
 /* -------------------------------------------------------------------------- */
 
 function AnimatedKhanda({ className }: { className?: string }) {
@@ -142,7 +142,7 @@ function AnimatedKhanda({ className }: { className?: string }) {
         xmlns="http://www.w3.org/2000/svg"
         className="h-full w-full text-[#FFD700]"
       >
-        {/* Central double-edged sword (Khanda) — draws via strokeDashoffset */}
+        {/* Central double-edged sword (Khanda) - draws via strokeDashoffset */}
         <g className="khanda-sword">
           <path
             d="M100 20 L103 30 L103 180 L100 190 L97 180 L97 30 Z"
@@ -156,13 +156,13 @@ function AnimatedKhanda({ className }: { className?: string }) {
           <path d="M96 180 L92 195 L100 200 L108 195 L104 180" fill="currentColor" opacity="0.6" />
         </g>
 
-        {/* Chakra (circle) — spins in from rotation 360 */}
+        {/* Chakra (circle) - spins in from rotation 360 */}
         <g className="khanda-chakra">
           <circle cx="100" cy="105" r="40" stroke="currentColor" strokeWidth="4" fill="none" opacity="0.6" />
           <circle cx="100" cy="105" r="36" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.3" />
         </g>
 
-        {/* Left Kirpan (curved sword) — slides in from left */}
+        {/* Left Kirpan (curved sword) - slides in from left */}
         <g className="khanda-kirpan-left">
           <path
             d="M60 105 Q45 70 55 40 Q58 32 62 35 Q52 65 65 100"
@@ -174,7 +174,7 @@ function AnimatedKhanda({ className }: { className?: string }) {
           <path d="M55 40 Q52 35 48 38 Q44 42 50 44" fill="currentColor" opacity="0.5" />
         </g>
 
-        {/* Right Kirpan (curved sword) — slides in from right */}
+        {/* Right Kirpan (curved sword) - slides in from right */}
         <g className="khanda-kirpan-right">
           <path
             d="M140 105 Q155 70 145 40 Q142 32 138 35 Q148 65 135 100"
@@ -334,7 +334,7 @@ function SaffronGoldDivider({ className }: { className?: string }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Dome Rays — conic gradient light rays behind dome silhouette               */
+/*  Dome Rays - conic gradient light rays behind dome silhouette               */
 /* -------------------------------------------------------------------------- */
 
 function DomeRays() {
@@ -349,7 +349,7 @@ function DomeRays() {
           opacity: 0.15,
         }}
       />
-      {/* Dome silhouette overlay — clips the bottom of the rays */}
+      {/* Dome silhouette overlay - clips the bottom of the rays */}
       <div className="absolute top-[220px] sm:top-[300px]">
         <GoldenDome className="h-28 w-28 text-[#FFD700]/10 sm:h-36 sm:w-36" />
       </div>
@@ -696,7 +696,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${invite.groomName} & ${invite.brideName} — Wedding Invitation`,
+          title: `${invite.groomName} & ${invite.brideName} - Wedding Invitation`,
           url,
         });
         return;
@@ -720,7 +720,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
       {/* Gold shimmer particles */}
       <ParticleLayer type="LIGHT" />
 
-      {/* Dome rays ambient effect — fixed behind hero */}
+      {/* Dome rays ambient effect - fixed behind hero */}
       <DomeRays />
 
       {/* Subtle pattern overlay */}
@@ -755,7 +755,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
       {/* ================================================================== */}
 
       {/* ---------------------------------------------------------------- */}
-      {/*  SECTION 1 — HERO (full viewport)                                */}
+      {/*  SECTION 1 - HERO (full viewport)                                */}
       {/* ---------------------------------------------------------------- */}
       <div className="relative z-10">
         <motion.section
@@ -813,7 +813,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
             </p>
           </motion.div>
 
-          {/* Animated Khanda symbol — assembles piece by piece */}
+          {/* Animated Khanda symbol - assembles piece by piece */}
           <div className="mx-auto mb-6">
             <AnimatedKhanda className="relative mx-auto h-24 w-24 sm:h-28 sm:w-28" />
           </div>
@@ -966,7 +966,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
           <GurdwaraBorder />
 
           {/* ---------------------------------------------------------------- */}
-          {/*  SECTION 2 — EVENTS GRID (2-column)                             */}
+          {/*  SECTION 2 - EVENTS GRID (2-column)                             */}
           {/* ---------------------------------------------------------------- */}
           <section className="mb-16">
             <div className="gurdwara-reveal mb-10 text-center">
@@ -992,7 +992,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
         </div>
 
         {/* ---------------------------------------------------------------- */}
-        {/*  SECTION 2.5 — THE FOUR LAAVAAN (full-width golden band)         */}
+        {/*  SECTION 2.5 - THE FOUR LAAVAAN (full-width golden band)         */}
         {/* ---------------------------------------------------------------- */}
         <section className="relative mb-16 overflow-hidden">
           {/* Full-width golden gradient background band */}
@@ -1033,7 +1033,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
           <SaffronGoldDivider />
 
           {/* ---------------------------------------------------------------- */}
-          {/*  SECTION 3 — COUPLE PHOTO                                        */}
+          {/*  SECTION 3 - COUPLE PHOTO                                        */}
           {/* ---------------------------------------------------------------- */}
           {invite.couplePhoto && (
             <section className="mb-16">
@@ -1076,7 +1076,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
           <GurdwaraBorder />
 
           {/* ---------------------------------------------------------------- */}
-          {/*  SECTION 4 — THINGS TO KNOW                                      */}
+          {/*  SECTION 4 - THINGS TO KNOW                                      */}
           {/* ---------------------------------------------------------------- */}
           {thingsToKnow.length > 0 && (
             <section className="mb-16">
@@ -1121,7 +1121,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
           <SaffronGoldDivider />
 
           {/* ---------------------------------------------------------------- */}
-          {/*  SECTION 5 — COUNTDOWN TIMER (Sacred Light Reveal)               */}
+          {/*  SECTION 5 - COUNTDOWN TIMER (Sacred Light Reveal)               */}
           {/* ---------------------------------------------------------------- */}
           {invite.weddingDate && (
             <section className="mb-16">
@@ -1171,7 +1171,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
           <GurdwaraBorder />
 
           {/* ---------------------------------------------------------------- */}
-          {/*  SECTION 6 — COUPLE MESSAGE                                      */}
+          {/*  SECTION 6 - COUPLE MESSAGE                                      */}
           {/* ---------------------------------------------------------------- */}
           {invite.coupleMessage && (
             <section className="mb-16">
@@ -1190,7 +1190,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
           <SaffronGoldDivider />
 
           {/* ---------------------------------------------------------------- */}
-          {/*  SECTION 7 — RSVP + SHARE BUTTONS                               */}
+          {/*  SECTION 7 - RSVP + SHARE BUTTONS                               */}
           {/* ---------------------------------------------------------------- */}
           <section className="mb-16 text-center">
             <div className="gurdwara-reveal">
@@ -1247,7 +1247,7 @@ export default function GoldenGurdwaraTemplate({ invite, isDemo }: TemplateProps
           </section>
 
           {/* ---------------------------------------------------------------- */}
-          {/*  SECTION 8 — FOOTER / WATERMARK                                  */}
+          {/*  SECTION 8 - FOOTER / WATERMARK                                  */}
           {/* ---------------------------------------------------------------- */}
           <footer className="text-center">
             <GurdwaraBorder className="mx-auto mb-4 h-12 w-full text-[#DAA520]/25" />

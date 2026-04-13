@@ -4,7 +4,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 
 /**
  * Ambient music using Web Audio API.
- * Creates a lush, evolving pad with reverb — sounds like real ambient music.
+ * Creates a lush, evolving pad with reverb - sounds like real ambient music.
  *
  * To use real MP3s instead: place files in public/audio/ named:
  * maharani.mp3, azure-vows.mp3, whispered-vows.mp3, noir-atelier.mp3, maison-blanche.mp3
@@ -20,7 +20,7 @@ const FILE_MAP: Record<Mood, string> = {
   elegant: "maison-blanche",
 };
 
-// Musical notes — each mood gets a unique chord progression feel
+// Musical notes - each mood gets a unique chord progression feel
 const PADS: Record<Mood, { notes: number[]; bass: number; tempo: number }> = {
   warm:    { notes: [264, 330, 396, 528], bass: 132, tempo: 0.15 },
   ocean:   { notes: [296, 352, 444, 528], bass: 148, tempo: 0.12 },
@@ -77,7 +77,7 @@ export function useTemplateMusic(mood: Mood = "warm") {
 
     const allOscs: OscillatorNode[] = [];
 
-    // Pad notes — slow evolving with vibrato
+    // Pad notes - slow evolving with vibrato
     pad.notes.forEach((freq, i) => {
       // Main tone
       const osc = ctx.createOscillator();
@@ -115,7 +115,7 @@ export function useTemplateMusic(mood: Mood = "warm") {
       allOscs.push(harmonic);
     });
 
-    // Bass — warm sub tone
+    // Bass - warm sub tone
     const bass = ctx.createOscillator();
     bass.type = "triangle";
     bass.frequency.setValueAtTime(pad.bass, ctx.currentTime);
@@ -127,7 +127,7 @@ export function useTemplateMusic(mood: Mood = "warm") {
     bass.start();
     allOscs.push(bass);
 
-    // Sub bass — very deep
+    // Sub bass - very deep
     const sub = ctx.createOscillator();
     sub.type = "sine";
     sub.frequency.setValueAtTime(pad.bass / 2, ctx.currentTime);

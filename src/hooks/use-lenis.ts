@@ -10,7 +10,7 @@ export function useLenis() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // Skip Lenis inside the fullscreen dialog preview — it hijacks
+    // Skip Lenis inside the fullscreen dialog preview - it hijacks
     // window-level scroll and prevents the dialog container from scrolling.
     if (isPreview) return;
 

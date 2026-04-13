@@ -16,7 +16,7 @@ function WeddingPreview({ t }: { t: Template }) {
   const isBeach = t.id === "azure-vows";
   const isVintage = t.id === "whispered-vows";
 
-  // THE MAHARANI — warm peach, floral arch, chandeliers
+  // THE MAHARANI - warm peach, floral arch, chandeliers
   if (t.id === "the-maharani") {
     return (
       <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#F8EAD8] via-[#F2DCCA] to-[#EACEBC] p-4 text-center">
@@ -53,13 +53,13 @@ function WeddingPreview({ t }: { t: Template }) {
     );
   }
 
-  // AZURE VOWS — open beach landscape, no arch, couple off-center
+  // AZURE VOWS - open beach landscape, no arch, couple off-center
   if (isBeach) {
     return (
       <div className="relative flex h-full w-full flex-col justify-end overflow-hidden p-4">
         {/* Sky */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#B8D8F0] via-[#D0E8F8] to-[#E0EEF5]" />
-        {/* Sun glow — top right */}
+        {/* Sun glow - top right */}
         <div className="absolute top-[10%] right-[15%] h-14 w-14 rounded-full bg-[#FFF0D0]/40 blur-[18px]" />
         {/* Horizon ocean line */}
         <div className="absolute bottom-[28%] left-0 right-0 h-[8%] bg-gradient-to-b from-[#6AACCC]/15 to-transparent" />
@@ -70,7 +70,7 @@ function WeddingPreview({ t }: { t: Template }) {
           <path d="M0 5 Q15 2 30 5 Q45 8 60 5 Q75 2 90 5 Q105 8 120 5 Q135 2 140 5" stroke="#5A9CC0" strokeWidth="0.5" strokeOpacity="0.12" fill="none" />
         </svg>
 
-        {/* Couple — right side, standing on sand */}
+        {/* Couple - right side, standing on sand */}
         <svg viewBox="0 0 50 70" className="absolute bottom-[22%] right-[18%] h-[55px]" fill="none">
           {/* Groom */}
           <circle cx="18" cy="14" r="6" fill="#2A4050" fillOpacity="0.50" />
@@ -84,12 +84,12 @@ function WeddingPreview({ t }: { t: Template }) {
           <circle cx="28" cy="38" r="2" fill="#FFD0D0" fillOpacity="0.35" />
         </svg>
 
-        {/* Loose flowers — left side, scattered on sand */}
+        {/* Loose flowers - left side, scattered on sand */}
         <div className="absolute top-[72%] left-[12%] h-1 w-1 rounded-full bg-white/30" />
         <div className="absolute top-[78%] left-[20%] h-[3px] w-[3px] rounded-full bg-[#FFE0E0]/25" />
         <div className="absolute top-[80%] left-[8%] h-[3px] w-[3px] rounded-full bg-white/20" />
 
-        {/* Text — bottom left */}
+        {/* Text - bottom left */}
         <div className="relative z-10 mb-1">
           <h4 className="text-[14px] leading-tight text-[#1A3A4A]" style={{ fontFamily: "var(--font-great-vibes)" }}>
             James <span className="text-[#5B9EC4]">&</span> Rose
@@ -104,7 +104,7 @@ function WeddingPreview({ t }: { t: Template }) {
     );
   }
 
-  // WHISPERED VOWS — rich brown, invitation letter on table
+  // WHISPERED VOWS - rich brown, invitation letter on table
   if (isVintage) return (
     <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden p-3">
       {/* Rich brown */}
@@ -162,14 +162,14 @@ function WeddingPreview({ t }: { t: Template }) {
 }
 
 function BusinessPreview({ t }: { t: Template }) {
-  // NOIR ATELIER — dark luxury car brand card
+  // NOIR ATELIER - dark luxury car brand card
   if (t.id === "noir-atelier") {
     return (
       <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-gradient-to-b from-[#1E2028] via-[#1A1C24] to-[#14161C] p-4">
         <div className="absolute top-[35%] left-1/2 h-28 w-40 -translate-x-1/2 rounded-full bg-[#C6A85A]/[0.04] blur-[30px]" />
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "repeating-linear-gradient(135deg,transparent,transparent 3px,rgba(255,255,255,0.3) 3px,rgba(255,255,255,0.3) 4px)" }} />
 
-        {/* Top — brand */}
+        {/* Top - brand */}
         <div className="relative z-10 flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#C6A85A]/15 bg-[#C6A85A]/[0.06]">
             <span className="text-[8px] font-bold text-[#C6A85A]/55" style={{ fontFamily: "serif" }}>R</span>
@@ -177,7 +177,7 @@ function BusinessPreview({ t }: { t: Template }) {
           <span className="text-[6px] uppercase tracking-[0.18em] text-[#C6A85A]/45" style={{ fontFamily: "var(--font-cinzel)" }}>Regent Motors</span>
         </div>
 
-        {/* Center — vintage car silhouette */}
+        {/* Center - vintage car silhouette */}
         <svg viewBox="0 0 160 55" className="relative z-10 mx-auto w-[85%]" fill="none">
           <path d="M20 42 L20 30 Q20 22 35 20 L55 18 Q65 12 78 10 L120 10 Q135 12 140 18 L148 22 Q155 25 155 32 L155 42" fill="#C6A85A" fillOpacity="0.06" stroke="#C6A85A" strokeWidth="0.5" strokeOpacity="0.15" />
           {/* Windshield */}
@@ -196,7 +196,7 @@ function BusinessPreview({ t }: { t: Template }) {
           <line x1="30" y1="30" x2="150" y2="30" stroke="#C6A85A" strokeWidth="0.3" strokeOpacity="0.10" />
         </svg>
 
-        {/* Bottom — name + role */}
+        {/* Bottom - name + role */}
         <div className="relative z-10">
           <h4 className="text-[12px] font-bold text-[#E8E4DC]/70" style={{ fontFamily: "var(--font-playfair)" }}>Aman Gupta</h4>
           <p className="mt-0.5 text-[5px] uppercase tracking-[0.15em] text-[#C6A85A]/40" style={{ fontFamily: "var(--font-montserrat)" }}>Chief Executive</p>
@@ -207,15 +207,15 @@ function BusinessPreview({ t }: { t: Template }) {
     );
   }
 
-  // MAISON BLANCHE — photographer, camera-first layout (NOT floating cards like Noir)
+  // MAISON BLANCHE - photographer, camera-first layout (NOT floating cards like Noir)
   return (
     <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-gradient-to-b from-[#D8D5D0] via-[#D0CCC8] to-[#C8C4BE] p-4">
       {/* Studio light */}
       <div className="absolute top-[5%] right-[12%] h-16 w-16 rounded-full bg-white/30 blur-[18px]" />
 
-      {/* Top — brand + camera icon */}
+      {/* Top - brand + camera icon */}
       <div className="relative z-10 flex items-center gap-2">
-        {/* Camera icon — visible */}
+        {/* Camera icon - visible */}
         <svg viewBox="0 0 24 20" className="h-5 w-5" fill="none" stroke="#2A2828" strokeWidth="1.2" strokeOpacity="0.35" strokeLinecap="round">
           <rect x="2" y="6" width="20" height="13" rx="3" />
           <path d="M7 6 L9 3 L15 3 L17 6" />
@@ -225,7 +225,7 @@ function BusinessPreview({ t }: { t: Template }) {
         <span className="text-[7px] uppercase tracking-[0.15em] text-[#2A2828]/40" style={{ fontFamily: "var(--font-cinzel)" }}>Maison Blanche</span>
       </div>
 
-      {/* Center — large camera lens as hero visual */}
+      {/* Center - large camera lens as hero visual */}
       <div className="relative z-10 mx-auto my-2">
         <svg viewBox="0 0 80 80" className="h-[65px] w-[65px]" fill="none">
           {/* Outer ring */}
@@ -250,7 +250,7 @@ function BusinessPreview({ t }: { t: Template }) {
         </svg>
       </div>
 
-      {/* Bottom — name + role */}
+      {/* Bottom - name + role */}
       <div className="relative z-10">
         <h4 className="text-[13px] font-bold text-[#1A1818]/70" style={{ fontFamily: "var(--font-playfair)" }}>Elena Rossi</h4>
         <p className="mt-0.5 text-[5px] uppercase tracking-[0.15em] text-[#2A2828]/35" style={{ fontFamily: "var(--font-montserrat)" }}>Photographer</p>
@@ -281,27 +281,76 @@ function AnimatedPreview({ t }: { t: Template }) {
 
 function DashboardPreview({ t }: { t: Template }) {
   return (
-    <div className={`flex h-full w-full flex-col bg-gradient-to-b ${t.colors.bg} p-4`}>
-      <div className="flex items-center gap-1.5">
-        <div className="h-1.5 w-1.5 rounded-full" style={{ background: t.colors.accent }} />
-        <span className="text-[6px] font-semibold uppercase tracking-[0.12em]" style={{ color: `${t.colors.accent}70`, fontFamily: "var(--font-montserrat)" }}>Analytics</span>
+    <div className="flex h-full w-full flex-col bg-gradient-to-b from-white to-[#F5F2ED] p-4">
+      {/* Header bar */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <div className="flex h-4 w-4 items-center justify-center rounded bg-[#D4AF37]/15">
+            <div className="h-1.5 w-1.5 rounded-sm bg-[#D4AF37]" />
+          </div>
+          <span className="text-[6px] font-semibold uppercase tracking-[0.12em] text-[#8B7355]" style={{ fontFamily: "var(--font-montserrat)" }}>Lumière Insights</span>
+        </div>
+        <div className="flex gap-0.5">
+          <div className="h-1 w-1 rounded-full bg-[#D4AF37]/30" />
+          <div className="h-1 w-1 rounded-full bg-[#D4AF37]/20" />
+          <div className="h-1 w-1 rounded-full bg-[#D4AF37]/10" />
+        </div>
       </div>
-      <p className="mt-2 text-[18px] font-bold leading-none" style={{ color: `${t.colors.text}E0`, fontFamily: "var(--font-raleway)" }}>2,847</p>
-      <p className="mt-0.5 text-[6px]" style={{ color: `${t.colors.accent}80` }}>↑ 24%</p>
-      {/* Mini chart */}
-      <svg viewBox="0 0 100 25" className="mt-2 w-full" fill="none">
-        <defs>
-          <linearGradient id={`cg-${t.id}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={t.colors.accent} stopOpacity="0.3" />
-            <stop offset="100%" stopColor={t.colors.accent} stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path d="M0 20 Q15 18 25 15 Q40 10 55 12 Q70 8 85 5 Q95 3 100 4 L100 25 L0 25Z" fill={`url(#cg-${t.id})`} />
-        <path d="M0 20 Q15 18 25 15 Q40 10 55 12 Q70 8 85 5 Q95 3 100 4" stroke={t.colors.accent} strokeWidth="1" strokeOpacity="0.5" />
-      </svg>
-      <div className="mt-2 flex gap-1">
-        {["QR", "NFC", "Link"].map((s) => (
-          <span key={s} className="rounded px-1.5 py-0.5 text-[4.5px] font-medium" style={{ background: `${t.colors.accent}15`, color: `${t.colors.accent}80` }}>{s}</span>
+
+      {/* Stats row */}
+      <div className="mt-2.5 flex gap-2">
+        <div className="flex-1 rounded-md border border-[#E8E4DE] bg-white/80 p-1.5">
+          <p className="text-[4px] font-medium text-[#8B8580]">VIEWS</p>
+          <p className="text-[11px] font-bold leading-tight text-[#1A1A1A]" style={{ fontFamily: "var(--font-montserrat)" }}>2,847</p>
+          <p className="text-[4px] font-medium text-[#B8860B]">↑ 24%</p>
+        </div>
+        <div className="flex-1 rounded-md border border-[#E8E4DE] bg-white/80 p-1.5">
+          <p className="text-[4px] font-medium text-[#8B8580]">SCANS</p>
+          <p className="text-[11px] font-bold leading-tight text-[#1A1A1A]" style={{ fontFamily: "var(--font-montserrat)" }}>482</p>
+          <p className="text-[4px] font-medium text-[#B8860B]">↑ 18%</p>
+        </div>
+        <div className="flex-1 rounded-md border border-[#E8E4DE] bg-white/80 p-1.5">
+          <p className="text-[4px] font-medium text-[#8B8580]">TAPS</p>
+          <p className="text-[11px] font-bold leading-tight text-[#1A1A1A]" style={{ fontFamily: "var(--font-montserrat)" }}>156</p>
+          <p className="text-[4px] font-medium text-[#B8860B]">↑ 32%</p>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <div className="mt-2 flex-1 rounded-md border border-[#E8E4DE] bg-white/80 p-2">
+        <div className="flex items-center justify-between">
+          <span className="text-[4px] font-medium text-[#8B8580]">WEEKLY OVERVIEW</span>
+          <div className="flex gap-1.5 text-[3.5px] text-[#8B8580]">
+            <span className="flex items-center gap-0.5"><span className="h-1 w-1 rounded-full bg-[#D4AF37]" />Views</span>
+            <span className="flex items-center gap-0.5"><span className="h-1 w-1 rounded-full bg-[#8B7355]" />Scans</span>
+          </div>
+        </div>
+        <div className="mt-1.5 flex items-end gap-[3px]">
+          {[
+            { v: 34, s: 12 }, { v: 42, s: 18 }, { v: 38, s: 14 },
+            { v: 51, s: 22 }, { v: 46, s: 20 }, { v: 29, s: 10 }, { v: 35, s: 15 },
+          ].map((d, i) => (
+            <div key={i} className="flex flex-1 items-end justify-center gap-[1px]" style={{ height: 45 }}>
+              <div className="w-[3px] rounded-t-sm bg-gradient-to-t from-[#D4AF37]/40 to-[#D4AF37]/80" style={{ height: (d.v / 51) * 45 }} />
+              <div className="w-[3px] rounded-t-sm bg-gradient-to-t from-[#8B7355]/30 to-[#8B7355]/60" style={{ height: (d.s / 51) * 45 }} />
+            </div>
+          ))}
+        </div>
+        <div className="mt-1 flex justify-between text-[3.5px] text-[#8B8580]">
+          {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => <span key={i}>{d}</span>)}
+        </div>
+      </div>
+
+      {/* Bottom row */}
+      <div className="mt-1.5 flex gap-1.5">
+        {[
+          { label: "Top Source", value: "Direct Link" },
+          { label: "Peak Day", value: "Thursday" },
+        ].map((item) => (
+          <div key={item.label} className="flex-1 rounded-md border border-[#E8E4DE] bg-white/80 px-1.5 py-1">
+            <p className="text-[3.5px] text-[#8B8580]">{item.label}</p>
+            <p className="text-[5px] font-semibold text-[#1A1A1A]">{item.value}</p>
+          </div>
         ))}
       </div>
     </div>
@@ -427,7 +476,7 @@ export function TemplateBrowseSection() {
   const [visibleRows, setVisibleRows] = useState(1);
 
   const filtered = activeCategory === "All"
-    ? TEMPLATES
+    ? TEMPLATES.filter((t) => t.style !== "animated")
     : TEMPLATES.filter((t) => t.category === activeCategory);
 
   const visibleCount = visibleRows * CARDS_PER_ROW;
@@ -470,7 +519,7 @@ export function TemplateBrowseSection() {
             className="mx-auto mt-4 max-w-xl text-muted-foreground"
           >
             Browse our collection of professionally crafted templates.
-            From wedding invitations to business cards — find the perfect design.
+            From wedding invitations to business cards - find the perfect design.
           </motion.p>
         </div>
 

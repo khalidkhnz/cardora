@@ -65,7 +65,7 @@ export async function createCard(
     cardType?: "business" | "wedding" | "engagement" | "anniversary";
   } & Partial<UpdateCardSettingsInput>,
 ) {
-  // Check if user has any cards yet — if not, make this the default
+  // Check if user has any cards yet - if not, make this the default
   const existing = await db
     .select({ id: cardSettings.id })
     .from(cardSettings)
